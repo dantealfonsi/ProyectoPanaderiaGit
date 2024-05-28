@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Frequently Asked Questions</title>
+    <link rel="stylesheet" href="faq.css" />
+    <link rel="stylesheet" href="./checkout/icons.css" />
+    
+  </head>
+  <body>
+    <div class="faqWrapper">
+      <h1>Preguntas Frecuentes</h1>
+
+      <div class="faqB">
+        <button class="accordion">
+          What is Krushi?
+          <i class="ei--chevron-down"></i>
+        </button>
+        <div class="faqPannel">
+          <p>
+            Krushi is a Public Charitable Trust designed to carry out farming on
+            extensive scale Natural & Sustainable methods.
+          </p>
+        </div>
+      </div>
+
+      <div class="faqB">
+        <button class="accordion">
+          How does it work?
+          <i class="ei--chevron-down"></i>
+        </button>
+        <div class="faqPannel">
+          <p>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Facilis
+            saepe molestiae distinctio asperiores cupiditate consequuntur dolor
+            ullam, iure eligendi harum eaque hic corporis debitis porro
+            consectetur voluptate rem officiis architecto.
+          </p>
+        </div>
+      </div>
+
+      <div class="faqB">
+        <button class="accordion">
+          What are the major challanges of current agriculture?
+          <i class="ei--chevron-down"></i>
+        </button>
+        <div class="faqPannel">
+          <p>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Facilis
+            saepe molestiae distinctio asperiores cupiditate consequuntur dolor
+            ullam, iure eligendi harum eaque hic corporis debitis porro
+            consectetur voluptate rem officiis architecto.
+          </p>
+        </div>
+      </div>
+
+      <div class="faqB">
+        <button class="accordion">
+          How does the Krushi address the above challanges?
+          <i class="ei--chevron-down"></i>
+        </button>
+        <div class="faqPannel">
+          <p>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Facilis
+            saepe molestiae distinctio asperiores cupiditate consequuntur dolor
+            ullam, iure eligendi harum eaque hic corporis debitis porro
+            consectetur voluptate rem officiis architecto.
+          </p>
+        </div>
+      </div>
+
+      <div class="faqB">
+        <button class="accordion">
+          How can I be a part of Krushi?
+          <i class="ei--chevron-down"></i>
+        </button>
+        <div class="faqPannel">
+          <p>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Facilis
+            saepe molestiae distinctio asperiores cupiditate consequuntur dolor
+            ullam, iure eligendi harum eaque hic corporis debitis porro
+            consectetur voluptate rem officiis architecto.
+          </p>
+        </div>
+      </div>
+
+      <div class="faqB">
+        <button class="accordion">
+          How does it work?
+          <i class="ei--chevron-down"></i>
+        </button>
+        <div class="faqPannel">
+          <p>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Facilis
+            saepe molestiae distinctio asperiores cupiditate consequuntur dolor
+            ullam, iure eligendi harum eaque hic corporis debitis porro
+            consectetur voluptate rem officiis architecto.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      var acc = document.getElementsByClassName("accordion");
+      var i;
+
+      for (i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function () {
+          this.classList.toggle("active");
+          this.parentElement.classList.toggle("active");
+
+          var pannel = this.nextElementSibling;
+
+          if (pannel.style.display === "block") {
+            pannel.style.display = "none";
+          } else {
+            pannel.style.display = "block";
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
