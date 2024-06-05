@@ -33,7 +33,11 @@ notifications.style.display = 'none';
 
 // Muestra las notificaciones al hacer clic en la campana o al pasar el mouse sobre ella
 notificationBell.addEventListener('click', () => {
+    if ($.isEmptyObject(mockNotifications)) {
+        notifications.innerHTML = `<div style='display: flex;flex-direction: column;align-items: center;justify-content: center;height: 14rem;font-size: 1.4rem;'><li>No tienes notificaciones nuevas</li></div>`
+    } else{
     notifications.innerHTML = mockNotifications.map(notification => `<li>${notification}</li>`).join('');
+    }
     notifications.style.display = 'block';
 });
 

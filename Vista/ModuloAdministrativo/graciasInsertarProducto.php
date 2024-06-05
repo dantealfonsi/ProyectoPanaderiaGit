@@ -1,13 +1,6 @@
 <?php
      include_once "../Includes/paths.php";
      include "../../Modelo/iniciarSesion.php";
-    
-    if(isset($_COOKIE['graciasCookie'])){
-        define('Acceso', TRUE);
-    }
-    else {
-        echo 'Acceso Denied!';
-    }
 ?>
 
 <!DOCTYPE html>
@@ -29,16 +22,6 @@
 
     <body>
         <?php $page = 'GraciasRegistro';?>
-
-        <!--Start Navigation Bar-->
-        <?php include '../Includes/BarraNavegacionMovil.php';;?>
-        <!--End Navigation Bar-->
-
-
-        <!--Start Navigation Bar @media 1200px-->
-        <?php include '../Includes/BarraNavegacionPC.php';?>
-        <!--End Navigation Bar @media 1200px-->
-
 
         <div class="mail-sent-group">
             <div class="mail-sent-container">

@@ -277,6 +277,43 @@ function productos(){
 */
 }
 
+function recetas(){
+  /*
+  producto=1;
+  cat=0;
+  ent=0;
+  sal=0;
+  rep=0;
+  per=0;
+  pro=0;
+  tab=0;
+  UsuarioPerfil=0;
+*/
+  document.getElementById("iframe").src="../ModuloAdministrativo/recetas.php";
+/*
+  document.getElementsByClassName('main-nav')[0].style.background = "transparent";
+  document.getElementsByClassName('categoria-nav')[0].style.background = "transparent";
+  document.getElementsByClassName('producto-nav')[0].style.background = "#28a4fb";
+  document.getElementsByClassName('entrada-nav')[0].style.background = "transparent";
+  document.getElementsByClassName('salida-nav')[0].style.background = "transparent";
+  document.getElementsByClassName('proveedores-nav')[0].style.background = "transparent";
+  document.getElementsByClassName('reporte-nav')[0].style.background = "transparent";
+  document.getElementsByClassName('persona-nav')[0].style.background = "transparent";
+  document.getElementsByClassName('perfil-nav')[0].style.background = "transparent";
+  
+  //////////FONT COLOR//////////////
+  document.getElementsByClassName('main-nav')[0].style.color = "#8f94a1";
+  document.getElementsByClassName('producto-nav')[0].style.color = "#ffff";
+  document.getElementsByClassName('entrada-nav')[0].style.color = "#8f94a1";
+  document.getElementsByClassName('salida-nav')[0].style.color = "#8f94a1";
+  document.getElementsByClassName('proveedores-nav')[0].style.color = "#8f94a1";
+  document.getElementsByClassName('reporte-nav')[0].style.color = "#8f94a1";
+  document.getElementsByClassName('persona-nav')[0].style.color = "#8f94a1";
+  document.getElementsByClassName('perfil-a')[0].style.color = "#8f94a1";
+  document.getElementsByClassName('categoria-nav')[0].style.color = "#8f94a1";
+*/
+}
+
 function insumos(){
   /*
   producto=1;
@@ -432,7 +469,7 @@ function perfil(){
 
 
 
-function crearusuario(){
+function usuario(){
 /*
   producto=0;
   cat=0;
@@ -444,7 +481,7 @@ function crearusuario(){
   tab=0;
   UsuarioPerfil=0;
 */
-  document.getElementById("iframe").src="crearusuario.php";
+  document.getElementById("iframe").src="../ModuloAdministrativo/usuario.php";
 /*
   document.getElementsByClassName('main-nav')[0].style.background = "transparent";
   document.getElementsByClassName('categoria-nav')[0].style.background = "transparent";
@@ -481,7 +518,7 @@ function persona(){
   tab=0;
   UsuarioPerfil=0;
 */
-  document.getElementById("iframe").src="persona.php";
+  document.getElementById("iframe").src="../ModuloAdministrativo/persona.php";
 /*
   document.getElementsByClassName('main-nav')[0].style.background = "transparent";
   document.getElementsByClassName('categoria-nav')[0].style.background = "transparent";

@@ -103,6 +103,15 @@
 
 
 </div>
+
+
+
+        <!-- FAQ -->
+        <?php include './envioComponent/envio.html';?>
+        <!-- FAQ-->
+        
+
+
         <!--FIN DE QUE QUIERES HACER-->
        
         
@@ -171,14 +180,6 @@ Finalizar Imagen de Ola-->
 Fin Imagen de Ola Invertida-->
 
 
-
-
-
-
-        <!-- FAQ -->
-        <?php include './envioComponent/envio.html';?>
-        <!-- FAQ-->
-        
 
 
 

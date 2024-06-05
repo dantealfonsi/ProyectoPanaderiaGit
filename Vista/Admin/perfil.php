@@ -3,6 +3,10 @@ include "../../Modelo/iniciarSesion.php";
 include "../../Modelo/verificarAcceso.php";
 include_once "../Includes/paths.php";
 
+if(!isset($_SESSION['nombreUsuario'])){
+    header("location:../LoginComponent/login.php");
+}
+
 $nombreUsuario = $_SESSION['nombreUsuario'];
 
 include "../../Modelo/conexion.php";
@@ -97,20 +101,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <body>
         <?php $page = 'verificarCuenta';?>
 
-
-        <!--Inicio de Barra de Navegación-->
-        <?php include '../Includes/BarraNavegacionMovil.php';?>
-        <!--Fin de Barra de Navegación-->
-
-
-        <!--Inicio de Barra de Navegación @media 1200px-->
-        <?php include '../Includes/BarraNavegacionPC.php';?>
-        <!--Fin de Barra de Navegación 1200px-->
-
-
-        <!--Inicio de Barra de Navegación-->
-        <?php include '../Includes/NavBarResponsive/ResponsiveNavBar.php';?>
-        <!--Fin de Barra de Navegación-->
         <!-- Inicio del Header-->
     <section style='width: calc(100% - 78px); margin-left: 78px;'>
         <div id="screenRes" class="col-md-15" >
@@ -130,7 +120,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <ul class="nav nav-tabs">
                 <li class="active"><a data-toggle="pill" href="#home">Editar mi perfil</a></li>
                 <li><a data-toggle="pill" href="#sendMail">Enviar Email</a></li>
-                <li><a data-toggle="pill" href="#administracion">Administracion</a></li>
             </ul>
             
             <div class="tab-content">
@@ -143,14 +132,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <!-- Final del PErfil -->
                 </div>
                 
-                <div id="administracion" class="tab-pane fade in active">
-                    <div class="tab-title">
-                        <h3>Administracion</h3>
-                    </div>
-                    <!--Inicio del Perfil -->
-                    <?php include '../Includes/menuAdministracion.php'; ?>
-                    <!-- Final del PErfil -->
-                </div>
+
                         
                 <div id="sendMail" class="tab-pane fade">
                     <div class="tab-title">

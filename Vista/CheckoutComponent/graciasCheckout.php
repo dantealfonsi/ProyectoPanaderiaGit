@@ -1,7 +1,7 @@
 <?php 
     define('Acceso', TRUE);
 
-    //INICIAR SESIÓN
+    //INICIAR SESIÓN 
     include_once "../Includes/paths.php";
     include "../../Modelo/iniciarSesion.php"; 
 
@@ -53,7 +53,7 @@
     }
     
 
-    //INSERTAR EN transaccion
+    //INSERTAR EN transaccion 
     $Q_insertar_en_transaccion = 'INSERT INTO transaccion (IDusuario, IDpedido, metodoPago, estado)
     VALUES ( '.$_SESSION['IDusuario'].', '.$_SESSION['IDpedido'].',"'.$_POST['metodoPago'] .'","EN PROCESO" )';
     $ejecutar_insertar_en_transaccion = mysqli_query($conn, $Q_insertar_en_transaccion);
@@ -79,21 +79,14 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         
-        
         <title>PANADERIA | ¡Gracias!</title>
-
-
         <!-- BOOTSTRAP CORE CSS -->
         <link rel="stylesheet" type="text/css" href="<?php echo $GLOBALS['ROOT_PATH'] ?>/css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="<?php echo $GLOBALS['ROOT_PATH'] ?>/css/form-validation.css">
 
         <!-- ANIMATE.CSS  -->
         <link rel="stylesheet" type="text/css" href="<?php echo $GLOBALS['ROOT_PATH'] ?>/css/animate.min.css">
-
-      
-
     </head>
-
 
     <body >
 
@@ -104,8 +97,8 @@
             <img class="thankYouImageHead my-5" src="../../Assets/images/cart/circleHead.png" />
             <img class="thankYouImage  my-5 rotate" src="../../Assets/images/cart/sun.png" />
         
-            <h1 style="font-size:3vw;">¡Gracias por comprar con nosotros!</h1>
-            <a href="../index.php" class=" btn btn-primary btn-lg button" style="font-size:1.5vw;">Inicio</a>
+            <h1 style="font-size:3vw;">¡Gracias por comprar con nosotros! Comunicate en el Chat para completar tu pedido...</h1>
+            <a href="../Admin/chat.php?idpedido=<?php echo $_SESSION['IDpedido'] ?>" class=" btn btn-primary btn-lg button" style="font-size:1.5vw;">Ir al Chat</a>
         </div>
     
          <!-- PIE DE PÁGINA  -->

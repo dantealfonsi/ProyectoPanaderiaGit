@@ -245,6 +245,7 @@ function pre_r($array){
         $descripcion_producto = $row_producto['descripcion_producto'];
         $imagen_producto = $row_producto['imagen_producto'];
         $precio_producto = $row_producto['precio_producto'];
+        $existencia= $row_producto['existencia'];
         //$idTipo = $row_id_tipo['IDtipo'];
         //$idCategoria = $row_id_cat['IDcategoria'];             
     }
@@ -272,7 +273,7 @@ function pre_r($array){
                 <div class="box my-4">
                     <label class="subtitle" style="margin-left: 2.7rem; 
                     margin-bottom: .8rem; font-weight: 700; color: black; ">Cantidad</label><br>
-                    <input type="number" style='color:black; display:inline;width: 5rem !important;' value="1" min="1" max="100" name= "cantidad_entrada" id= "input-quantity" class="input-quantity mx-2 p-3 px-4">
+                    <input type="number" style='color:black; display:inline;width: 5rem !important;' value="1" min="1" max="<?php echo $existencia; ?>" name= "cantidad_entrada" id= "input-quantity" class="input-quantity mx-2 p-3 px-4">
                     <input type="hidden" name="nombre" value="<?php echo $nombre_producto;?>" />
                     <input type="hidden" class="show_id" name="id_producto" value="<?php echo $id_producto;?>" />
                     <input type="hidden" name="precio" value="<?php echo $precio_producto;?>" /> <br>

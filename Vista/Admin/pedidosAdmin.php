@@ -182,7 +182,7 @@ function checkColor($estado){
     <script>
         // Funciones para manejar los eventos de los botones
 
-        function verDetalles(id) {
+        function verDetalles(id) { 
             // Aquí iría el código para cargar los datos del pedido en el diálogo de edición
             $.get("../../Modelo/server.php?tiketPedido=&idpedido="+id,
                     function(data){                        

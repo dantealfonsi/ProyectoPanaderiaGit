@@ -124,7 +124,7 @@ if(isset($_GET['borrar'])){
           <form class='categoria_form' action='categoriaInsumos.php' method='post'><br>
               <h3 style="text-align: left;font-size: 2rem;font-family: 'roboto'; color: #6d6d6d;">Nueva Categoría</h3><hr style="background: #313131;margin: 0.5rem 0rem 2rem 0rem;">
               <input class='categoria_input' placeholder='Nombre de la Categoria' title='No se permiten caracteres especiales' type='text' id='nombreCrear' pattern='(\w|\s)*'> <br>
-              <button type='button' class='submitBtn' onclick="agregarCategoria()"  id='agregar' value='Agregar' style='width:auto; padding: 1rem;'>Agregar</button>
+              <button type='button' class='submitBtn' onclick="agregarCategoria()"  id='agregar' value='Agregar' style='width:auto; padding: 1rem;border-radius: 1.2rem;'>Agregar</button>
   
           </form>
 

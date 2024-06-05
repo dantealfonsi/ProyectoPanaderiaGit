@@ -9,8 +9,8 @@
     include_once '../CarritoComponent/numElementosEnCarrito.php';
 
         // CONSULTAS:
-        $Q_ordenar_por_precio_asc = "SELECT * FROM productos ORDER BY precio_producto ASC; "; // ordenar todos los productos por precio de menor a mayor
-        $Q_ordenar_por_precio_desc = "SELECT * FROM productos ORDER BY precio_producto DESC; "; // ordenar todos los productos por precio de mayor a menor
+        $Q_ordenar_por_precio_asc = "SELECT * FROM productos WHERE habilitado=1 ORDER BY precio_producto ASC "; // ordenar todos los productos por precio de menor a mayor
+        $Q_ordenar_por_precio_desc = "SELECT * FROM productos WHERE habilitado=1 ORDER BY precio_producto DESC "; // ordenar todos los productos por precio de mayor a menor
         
 
         // ORDENAR POR TIPO DE PRECIO:

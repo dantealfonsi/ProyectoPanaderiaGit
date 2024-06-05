@@ -3,7 +3,7 @@
 
     //Inicio de Sesión
     include_once "../Includes/paths.php";
-    include "../../Modelo/iniciarSesion.php";
+    include "../../Modelo/iniciarSesion.php";    
 ?>
 
 <?php
@@ -14,11 +14,12 @@ include "../../Modelo/conexion.php";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $bytes = random_bytes(5);
     $codigorifa = bin2hex($bytes);
+    $IDproducto = $_POST['IDproducto'];
     $nombre_producto = $_POST['nombre_producto'];
     $descripcion_producto = $_POST['descripcion_producto'];
     $precio_producto = $_POST['precio_producto'];
     $categoria_producto = $_POST['categoria_producto'];
-    $directorio = $GLOBALS['ROOT_PATH']."/Assets/productoimagenes\\";
+    $directorio = $GLOBALS['ROOT_PATH']."/Assets/productoimagenes/";
     $ext="";
     //$tipoArchivo = strtolower(pathinfo($archivo, PATHINFO_EXTENSION));
 
@@ -52,14 +53,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // insertar los datos en la base de datos
     // ...
-    $archivo = $directorio.$codigorifa.$ext;
-    $archivoSubido = addslashes($archivo);
+    if(isset($_FILES['imagen_producto']['name'])){
+        $archivo = $_FILES['imagen_producto']['name'];
+        if (isset($archivo) && $archivo != "") {
+            $archivo = $directorio.$codigorifa.$ext;
+            $archivoSubido = addslashes($archivo);
+            $sql = "UPDATE productos SET nombre_producto='$nombre_producto' ,descripcion_producto='$descripcion_producto', 
+            imagen_producto='$archivoSubido' , precio_producto=$precio_producto ,categoria_producto=$categoria_producto  WHERE IDproducto=".$IDproducto;
+        }
+        else{
+            $sql = "UPDATE productos SET nombre_producto='$nombre_producto' ,descripcion_producto='$descripcion_producto', 
+            precio_producto=$precio_producto ,categoria_producto=$categoria_producto WHERE IDproducto=".$IDproducto;    
+        }        
+    }
 
-    $sql = "INSERT INTO productos (nombre_producto,descripcion_producto, imagen_producto, precio_producto,categoria_producto)
-    VALUES ('$nombre_producto', '$descripcion_producto', '$archivoSubido', $precio_producto,$categoria_producto)";
     mysqli_query($conn, $sql);
-    header('location: graciasInsertarProducto.php');
+    header('location: productos.php');
 }
+
+$IDproducto= $nombre_producto= $descripcion_producto= $imagen_producto= $precio_producto= $categoria_producto = "";
+
+    //******* inicio obtener detalles del producto *******
+        //consulta
+        $Q_obtener_producto = "SELECT * FROM productos WHERE IDproducto = {$_GET['id']}";
+        //ejecutar consulta
+        $ejecutar_obtener_producto = mysqli_query($conn, $Q_obtener_producto);
+        //almacenar detalles en array
+        $row_producto = mysqli_fetch_array($ejecutar_obtener_producto);
+        //******* fin obtener detalles del producto *******
+
+$IDproducto= $row_producto['IDproducto'];
+$nombre_producto= $row_producto['nombre_producto'];
+$descripcion_producto= $row_producto['descripcion_producto'];
+$imagen_producto= $row_producto['imagen_producto'];
+$precio_producto= $row_producto['precio_producto'];
+$categoria_producto =$row_producto['categoria_producto'];
+
 ?>
 
 <!-- Formulario HTML para la inserción de datos -->
@@ -131,7 +160,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <!--Login -->
         <section style='display: flex; justify-content: space-between;'>
 
-          <h1 class='Fieldset-title'> AGREGAR NUEVO PRODUCTO</h1>
+          <h1 class='Fieldset-title'> EDITAR PRODUCTO</h1>
           
             <a href='productos.php' class='close-btn close-btnTitleOnly'> ⌦ </a> 
           
@@ -141,12 +170,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="form">    
 
             <form actions="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
-                <section class='form-section'>
+            <input type=hidden name=IDproducto value="<?php echo $IDproducto?>">
+            <section class='form-section'>
 
-              <div class='first-line'> 
+              <div class='first-line'>
                 <div class='flex-inside'>  
                     Nombre del producto<br>
-                <input type="text" id="nombre_producto" name="nombre_producto" required>
+                <input type="text" id="nombre_producto" name="nombre_producto"  value="<?php echo $nombre_producto ?>" required>
                 </div>
             </div>
 
@@ -154,21 +184,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class='second-line'>
              <div class='flex-inside'>
                 Descripción del producto:<br>
-                <textarea style='color:black;' id="descripcion_producto" name="descripcion_producto" required></textarea>
+                <textarea style='color:black;' id="descripcion_producto" name="descripcion_producto"  required><?php echo $descripcion_producto ?></textarea>
              </div>
             </div>
 
             <div class='third-line'>
              <div class='flex-inside'>
             Precio del producto:<br>
-                <input style='color:black;' type="number" step="0.01" id="precio_producto" name="precio_producto" required>
-                </div>
-            <div class='flex-inside'>
-                Imagen del producto:<br>
-                <input type="file" id="imagen_producto" name="imagen_producto" required>
+                <input style='color:black;' type="number" step="0.01" id="precio_producto" name="precio_producto" value=<?php echo $precio_producto ?> required>
                 </div>
             </div>
-            
+<br>
+            <div class='third-line'>
+            <div class='flex-inside'>
+                Cambiar Imagen del producto:<br>
+                <input type="file" id="imagen_producto" name="imagen_producto">
+                </div>
+            </div>
+            </div>
+
+            <div class='third-line'>
+            <div class='flex-inside' style='padding: 0 1.5rem;'>
+                <br>
+                <img src="<?php echo $imagen_producto;?>" style='width: 40%;border: dotted pink;' class="product-image" />
+                </div>
+            </div>
+            </div>
+
+    
               
             <br>
                 <div class='flex-inside' style='width: 22%;margin: 1rem;'>
@@ -180,18 +223,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   $consulta  = "SELECT * from categorias";
                   $resultado_cat = mysqli_query($conn, $consulta);
                   while($row = mysqli_fetch_array($resultado_cat)) {
-                    echo "<option value='".$row['IDcategoria']."'>" . $row['nombre_categoria'] . "</option>";
+                    $selected  = "";
+                    if($categoria_producto == $row['IDcategoria']) $selected = "selected";
+                    echo "<option {$selected} value='".$row['IDcategoria']."'>" . $row['nombre_categoria'] . "</option> ";
                   }
 
               ?>
-
               </select><br><br>
-
-      
-          
             </div>
         </div>
-        <button class='submitBtn'>Insertar Producto</button>
+        <button class='submitBtn'>Guardar Datos</button>
         </form>
     </body>
 </html>

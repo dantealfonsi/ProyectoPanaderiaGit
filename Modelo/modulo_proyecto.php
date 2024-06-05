@@ -179,7 +179,7 @@ if (isset($_GET['infoCliente'])){
 /*OBTENER INFORMACION DE TABLA DE SALIDAS TEMPORAL*/
 
 if (isset($_POST['infoTemp'])){
-  $conexion = mysqli_connect('localhost','root','','tiendapanaderia') or die ("Error de Conaxion: ". mysqli_connect_error());
+    $conexion = mysqli_connect('localhost','root','','tiendapanaderia');
     $subtotal= 0;
     $iva=0;           /*Variables de Total, subtotal.*/
     $total=0;
@@ -200,7 +200,7 @@ if (isset($_POST['infoTemp'])){
   
   $consulta3 = "SELECT * from {$_POST['tabla']}";
     
-  $resultado3 = mysqli_query( $conexion, $consulta3 ) or die("Error en la Consulta a Usuarios");
+  $resultado3 = mysqli_query( $conexion, $consulta3 );
   $cedula = '';
 
   while($row = mysqli_fetch_array($resultado3)){
@@ -215,9 +215,25 @@ if (isset($_POST['infoTemp'])){
       <td>{$row['PRECIO']}</td>
    </tr>   
   ";
-  $subtotal = $subtotal + ($row['PRECIO'] * $row['CANTIDAD']);
+  //calcula el subtotal de los insumos utilizados al costo
+      //consulta todos los item de insumos utilizados de la receta a cocinar
+      $Q_insumos = "select * from itemrecetas where IDproducto=".$row['CODIGO_PRODUCTO']."";
+      $query = mysqli_query($conexion, $Q_insumos );
+      while($item = mysqli_fetch_array($query)){
+        $cantidad = $row['CANTIDAD'] * $item['cantidad'];
+
+        //consulto el precio del insumo
+        $Q_info_insumo="select PRECIO FROM INSUMOS WHERE CODIGO='".$item['codigoInsumo']."'";
+        $query_info = mysqli_query($conexion, $Q_info_insumo );
+        $item_info_insumo = mysqli_fetch_array($query_info);
+
+        $subtotal = $subtotal + ($item_info_insumo['PRECIO'] * $cantidad);
+      }
+  
+
   $cedula = $row['CEDULA_CLIENTE'];
   }
+
   $tabla_temp = $tabla_temp. "</tbody></table>";
   $iva= $subtotal * 16/100;
   $total= $subtotal + $iva;
@@ -226,6 +242,7 @@ if (isset($_POST['infoTemp'])){
 
   $consulta = "SELECT * FROM usuario WHERE IDusuario='{$cedula}'";
   $resultado = mysqli_query( $conexion, $consulta ) or die("Error en la Consulta a Usuarios");
+
   if ($row = mysqli_fetch_array($resultado))
   {
     $nombre=$row['nombre'];
@@ -234,10 +251,9 @@ if (isset($_POST['infoTemp'])){
     $telefono=$row['telefono'];
   }
 
-
   mysqli_close($conexion);
 
-            /*ENVIAR INFORMACION DE SALIDA MEIDANTE ARRAY  */
+  /*ENVIAR INFORMACION DE SALIDA MEIDANTE ARRAY  */
 
   $obj = array('tabla' => $tabla_temp, 'subtotal' => $subtotal, 'iva' => $iva,'total' => $total,'cedula' => $cedula,'nombre' => $nombre,'apellido' => $apellido,'direccion' => $direccion,'telefono' => $telefono);
   echo json_encode($obj);    
@@ -247,13 +263,13 @@ if (isset($_POST['infoTemp'])){
 
 /*INSERTAR EN TABLA DE SALIDA TEMPORAL */
 
-if (isset($_POST['addTemp'])){
-  $conexion = mysqli_connect('localhost','root','','tiendapanaderia') or die ("Error de Conaxion: ". mysqli_connect_error());
-  $consulta = "SELECT * FROM INSUMOS WHERE CODIGO='".$_POST['codigo']."'";
-  $resultado = mysqli_query( $conexion, $consulta ) or die("Error en la Consulta a Usuarios");
+if (isset($_POST['addTemp'])){ 
+  $conexion = mysqli_connect('localhost','root','','tiendapanaderia');
+  $consulta = "SELECT * FROM productos WHERE IDproducto=".$_POST['codigo']."";
+  $resultado = mysqli_query( $conexion, $consulta );
   if ($row = mysqli_fetch_array($resultado))
   {
-    $consulta2 = "INSERT INTO {$_POST['tabla']} (CODIGO_PRODUCTO, NOMBRE_PRODUCTO, CANTIDAD,PRECIO,CEDULA_CLIENTE) VALUES ('{$row['CODIGO']}','{$row['NOMBRE']}',{$_POST['cantidad']},{$row['PRECIO']},{$_POST['cedula']})";
+    $consulta2 = "INSERT INTO {$_POST['tabla']} (CODIGO_PRODUCTO, NOMBRE_PRODUCTO, CANTIDAD,PRECIO,CEDULA_CLIENTE) VALUES ('{$row['IDproducto']}','{$row['nombre_producto']}',{$_POST['cantidad']},{$row['precio_producto']},{$_POST['cedula']})";
     $resultado2 = mysqli_query( $conexion, $consulta2 ) or die("Error en la Consulta a Usuarios");
   }
   mysqli_close($conexion);

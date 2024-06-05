@@ -288,10 +288,6 @@ Metodo de Pago: <b><span id=metodoPago></span></b><br>
 </div>
 </section>
 
-
-
-
-
     <section class='chatSec'>
       <div class='chatData'>
         <h3 ><?php if($_SESSION['esAdmin']==1) echo "Cliente: "; else echo "Usuario: ";?> <span id=usuario></span></h3>

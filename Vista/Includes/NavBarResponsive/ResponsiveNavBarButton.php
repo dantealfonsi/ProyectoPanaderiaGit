@@ -9,6 +9,7 @@
 
     <!--font awesome-->
     <link href='<?php echo $GLOBALS['ROOT_PATH'] ?>/css/all.min.css' rel='stylesheet'>
+    <link href='<?php echo $GLOBALS['ROOT_PATH'] ?>/css/icons.css' rel='stylesheet'>
 
 
     <!--css file-->
@@ -45,9 +46,6 @@
   width: 78px;
 }
 
-.sidebar.close:hover {
-  width: 260px;
-}
 
 .sidebar .logo {
   height: 60px;
@@ -210,8 +208,8 @@
 
 .sidebar .nav-list li .sub-menu a {
   color: #fff;
-  font-size: 18px;
-  padding: 10px 20px;
+  font-size: 15px;
+  padding: 5px 0;
   white-space: nowrap;
   opacity: 0.6;
   transition: all 0.3s ease;
@@ -358,12 +356,14 @@
   }
 
 }
+
     </style>
 
-    <div class="sidebar close" id="navbar" onmouseover="MostrarElementosPorClase()" onmouseout="OcultarElementosPorClase()" style="opacity: 1; display: grid; ">
+    <div class="sidebar close" id="navbar" onclick="MostrarElementosPorClase()" onmouseout="OcultarElementosPorClase()" style="opacity: 1; display: grid; ">
       
     <div class="logo">
-        <!--<i class="fab fa-trade-federation"></i>-->
+        <i style='font-size:3rem;'>≡</i>
+        <input type="checkbox" style='display:none;' id="myCheck">
         <span class="logo-name">PANADERIA</span>
       </div>
 
@@ -382,18 +382,16 @@
         </li>-->
 
         <li>
-          <a href="#">
           <div class="icon-link">
-          <img src="../../Assets/images/inventory/productos.png">
-            <span class="link-name" id="link-name">Productos</span>
-          </a>
+            <a onclick="productos()">
+            <img src="../../Assets/images/inventory/productos.png">
+              <span class="link-name" id="link-name">Productos</span>
+            </a>
+            <i class="fas fa-caret-down arrow"></i>
           </div>
 
-          <ul class="sub-menu blank">
-            <li><a onclick="productos()" id="link-name">Productos a la Venta</a></li>
-            <li><a onclick="recetas()"  id="link-name">Recetas</a></li>
-          </ul>
         </li>
+
         <li>
           <div class="icon-link">
             <a onclick="insumos()">
@@ -421,7 +419,7 @@
 
           <ul class="sub-menu blank">
             <li><a onclick="categoriaInsumo()" id="link-name">De Insumos</a></li>
-            <li><a onclick="categoriaProducto()"  id="link-name">Productos en la Venta</a></li>
+            <li><a onclick="categoriaProducto()"  id="link-name">De Productos</a></li>
           </ul>
         </li>
 
@@ -435,13 +433,13 @@
 
 
           <ul class="sub-menu blank">
-            <li><a onclick="entrada()" >Entrada Insumos</a></li>
-            <li><a onclick="salida()">Cocinar Receta</a></li>
+            <li><a onclick="entrada()" >Entrada</a></li>
+            <li><a onclick="salida()">Salida</a></li>
 
           </ul>
         </li>
 
-      <!--  <li>
+        <li>
           <div class="icon-link">
             <a href="#">
               <img src="../../Assets/images/inventory/devolucion.svg">
@@ -451,11 +449,11 @@
           </div>
 
           <ul class="sub-menu">
-            <li><a onclick="devolucion_entrada()">Devolver Insumos</a></li>
-            <li><a onclick="devolucion_salida()">Devolver Receta</a></li>
+            <li><a onclick="devolucion_entrada()">De Entrada</a></li>
+            <li><a onclick="devolucion_salida()">De Salida</a></li>
 
           </ul>
-        </li> -->
+        </li>
 
         <li>
         <div class="icon-link">
@@ -467,9 +465,6 @@
           
           <ul class="sub-menu blank">
             <li><a onclick="proveedores()">Proveedores</a></li>
-            <li><a onclick="persona()">Personas</a></li>
-            <li><a >Empleados</a></li>
-            <li><a onclick="usuario()">Usuarios</a></li>
           </ul>
         </li>
 
@@ -484,7 +479,7 @@
 
         <li>
         <div class="icon-link">
-          <a onclick="perfil()">
+          <a href="../Admin/perfil.php">
           <img src="../../Assets/images/inventory/personas.svg">
             <span class="link-name" id="link-name">Perfil</span>
           </a>
@@ -533,36 +528,42 @@
 
 let docVar = document.getElementsByClassName("link-name");
 
+function check() {
+    document.getElementById("myCheck").checked = true;
+}
+
+function deCheck() {
+    document.getElementById("myCheck").checked = false;
+}
+
+
 function MostrarElementosPorClase() {
-    const elementos = document.querySelectorAll('.link-name');
+    if (myCheck.checked == true){
+      
+        deCheck();
+        document.querySelector('.sidebar.close').style.width = "78px";
+        const elementos = document.querySelectorAll('.link-name');
 
         elementos.forEach((elemento) => {
+        elemento.style.display = 'none';
+
+      });
+
+        
+    } else{
+      
+          check();
+    
+          document.querySelector('.sidebar.close').style.width = "300px";
+          const elementos = document.querySelectorAll('.link-name');
+
+            elementos.forEach((elemento) => {
             elemento.style.display = 'contents';
         });
-}
 
-function OcultarElementosPorClase() {
-    const elementos = document.querySelectorAll('.link-name');
+  }
 
-        elementos.forEach((elemento) => {
-            elemento.style.display = 'none';
-        });
-}
 
-let btn = document.querySelector(".fa-bars");
-let sidebar = document.querySelector(".sidebar");
-
-btn.addEventListener("click", () => {
-  sidebar.classList.toggle("close");
-});
-
-let arrows = document.querySelectorAll(".arrow");
-for (var i = 0; i < arrows.length; i++) {
-  arrows[i].addEventListener("click", (e) => {
-    let arrowParent = e.target.parentElement.parentElement;
-
-    arrowParent.classList.toggle("show");
-  });
 }
 
     </script>

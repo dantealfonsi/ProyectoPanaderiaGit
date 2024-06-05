@@ -73,13 +73,13 @@ class salida{
 
       /*LISTAR INSUMOS*/
 
-      public function list_productos(){
+      public function list_productos(){ 
         $tmodulo = new Modulo;
         $cadena = "";
-        $consulta = "SELECT * from INSUMOS";
+        $consulta = "SELECT * from productos where habilitado=1";
         $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta );
             while($row = mysqli_fetch_array($resultado)){
-              $cadena=$cadena."<option value='{$row['CODIGO']}' label='{$row['NOMBRE']}'>";
+              $cadena=$cadena."<option value='{$row['IDproducto']}' label='{$row['nombre_producto']}'>";
             }
         $cadena=$cadena."";
         echo $cadena;
@@ -153,6 +153,13 @@ class salida{
         return $row;  
       }
 
+      public function readProductoReceta($codigo){
+        $tmodulo=new Modulo;
+        $consulta = "SELECT * FROM productos WHERE IDproducto=".$codigo;
+        $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta );        
+        if($row = mysqli_fetch_array($resultado))
+        return $row;  
+      }      
 
       /*OBTENER EL USUARIO POR CEDULA*/
 

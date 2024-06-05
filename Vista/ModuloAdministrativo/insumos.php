@@ -72,7 +72,7 @@
 
     if(isset($_POST['agregar_inv'])){    /* POST AGREGAR INVENTARIO   */
       
-      $pepe=$producto->crearProductos($_POST['codigo'],$_POST['nombre'],$_POST['precio'],$_POST['almacen'],$_POST['categoria'],$_POST['c_min'],$_POST['c_max']);
+      $pepe=$producto->crearProductos($_POST['codigo'],$_POST['nombre'],$_POST['precio'],$_POST['almacen'],$_POST['categoria'],$_POST['c_min'],$_POST['c_max'],$_POST['uni']);
       $tmodulo->historial($_SESSION['nombreUsuario'],$_SESSION['IDusuario'],'AGREGO UN Insumo');
 
       if ($_POST['trigger']==1){                                                       /*TRIGGER PARA CUANDO*/
@@ -85,7 +85,7 @@
 
     if(isset($_POST['save_inv'])){
    
-      $producto->editarProductos($_POST['id'],$_POST['codigo'],$_POST['nombre'],$_POST['precio'],$_POST['almacen'],$_POST['existencia'],$_POST['categoria'],$_POST['c_min'],$_POST['c_max']);  /*POST DE GUARDAR AL EDITAR*/
+      $producto->editarProductos($_POST['id'],$_POST['codigo'],$_POST['nombre'],$_POST['precio'],$_POST['almacen'],$_POST['existencia'],$_POST['categoria'],$_POST['c_min'],$_POST['c_max'],$_POST['uni']);  /*POST DE GUARDAR AL EDITAR*/
       $tmodulo->historial($_SESSION['nombreUsuario'],$_SESSION['IDusuario'],'EDITO UN Insumo');
       
     }
@@ -144,7 +144,7 @@
                 <td>".$row['NOMBRE']."</td>
                 <td>".$row['PRECIO'].".BS</td>
                 <td>".$row['CATEGORIA']."</td>
-                <td style='color:#fff;background:". $producto->returnColor($row['C_MIN'],$row['C_MAX'],$row['EXISTENCIA'])."'>".$row['EXISTENCIA']."</td>
+                <td style='color:#fff;background:". $producto->returnColor($row['C_MIN'],$row['C_MAX'],$row['EXISTENCIA'])."'>".$row['EXISTENCIA']." ".$row['UNI']."</td>
                 <td>
                 <a title='Editar Producto' href='?inv=&edit=0&id=".$row['CODIGO'].
                 "&codigo=".$row['CODIGO']."&nombre=".$row['NOMBRE'].
@@ -153,6 +153,7 @@
                 "&existencia=".$row['EXISTENCIA'].
                 "&c_min=".$row['C_MIN'].
                 "&c_max=".$row['C_MAX'].
+                "&uni=".$row['UNI'].
                 "'><img id='icon-bt' src='../../Assets/images/inventory/edit.png'></a>
                 <a title='Historial' href='?hist={$row['CODIGO']}&Ent=1&Sal=0'><img id='icon-bt' src='../../Assets/images/inventory/book.png'></a>
                 <a onclick='eliminar()' title='Entrada Rapida' href='?entSal={$row['CODIGO']}'><img id='icon-bt' src='../../Assets/images/inventory/up.png'></a>
@@ -222,6 +223,10 @@
         </div>
 
         <div class='third-line'>
+        <div class='flex-inside'>
+        Unidad en: <br> <select id='uni' name='uni'><option selected>Gramos</option><option>Unidades</option></select><br>
+        </div>
+
           <div class='flex-inside'>
             Precio: <br> <input type='number' placeholder='0.00' id='precio' min='0' value='0.00' step='0.01' title='Currency' pattern='^\d+(?:\.\d{1,2})?$' onblur='this.parentNode.parentNode.style.backgroundColor=/^\d+(?:\.\d{1,2})?$/.test(this.value)?'inherit':'red' oninput='this.value = !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value): null'><br>
           </div>
@@ -288,6 +293,17 @@
       </div>
 
       <div class='third-line'>
+    
+      <div class='flex-inside'>
+      Unidad en: <br> <select id='uni' name='uni'>
+      ";
+      if(isset($_GET['uni'])){
+        if($_GET['uni']=="Gramos") echo "<option selected>Gramos</option><option>Unidades</option>";
+        else echo "<option>Gramos</option><option selected>Unidades</option>";
+      }
+      echo "</select><br>
+      </div>      
+
         <div class='flex-inside'>
           Precio: <br> <input type='number' placeholder='0.00' id='precio' min='0' step='0.01' title='Currency' pattern='^\d+(?:\.\d{1,2})?$' onblur='this.parentNode.parentNode.style.backgroundColor=/^\d+(?:\.\d{1,2})?$/.test(this.value)?'inherit':'red' value='".$_GET['precio']."'><br>
         </div>";
@@ -1024,6 +1040,7 @@ categoria: document.getElementById('categoria').value,
 codigo: document.getElementById('codigo').value,
 nombre: document.getElementById('nombre').value,
 precio: document.getElementById('precio').value,
+uni: document.getElementById('uni').value,
 almacen: document.getElementById('almacen').value,
 c_min: document.getElementById('c_min').value,
 c_max: document.getElementById('c_max').value
@@ -1066,6 +1083,7 @@ existencia: document.getElementById('existencia').value,
 codigo: document.getElementById('codigo').value,
 nombre: document.getElementById('nombre').value,
 precio: document.getElementById('precio').value,
+uni: document.getElementById('uni').value,
 almacen: document.getElementById('almacen').value,
 c_min: document.getElementById('c_min').value,
 c_max: document.getElementById('c_max').value

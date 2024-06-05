@@ -22,9 +22,9 @@
         
         $tipo_producto= $_REQUEST['tipo_p'];
         //$Q_buscar_por_tipo= "SELECT * FROM productos INNER JOIN tipo_producto ON productos.IDproducto = tipo_producto.IDproducto WHERE tipo_producto.IDtipo = '$tipo_producto' "; //selecciona un producto por tipo
-        $Q_buscar_por_tipo= "SELECT * FROM productos"; //selecciona un producto por tipo
+        $Q_buscar_por_tipo= "SELECT * FROM productos WHERE habilitado=1"; //selecciona un producto por tipo
 
-        $Q_buscar_nuevos = "SELECT * FROM productos INNER JOIN tipo_producto ON productos.IDproducto = tipo_producto.IDproducto WHERE tipo_producto.IDtipo = 1"; //Selecciona un producto nuevo
+        $Q_buscar_nuevos = "SELECT * FROM productos INNER JOIN tipo_producto ON productos.IDproducto = tipo_producto.IDproducto WHERE tipo_producto.IDtipo = 1 AND productos.habilitado=1"; //Selecciona un producto nuevo
 
 
 

@@ -4,6 +4,9 @@ include "../../Modelo/modulo_proyecto.php";
 
 $tmodulo = new Modulo; 
 
+if (isset($_GET['chat'])) {
+  header("location:chat.php?idpedido=".$_GET['idpedido']."&notif=".$_GET['notif']);
+}
 ?>
 
 <!DOCTYPE html>
@@ -331,7 +334,7 @@ table{
           </p>
       </div>
       <div class="date-box">
-          <span class="date"><img id='icon' style='opacity:0.1;' src='../fonts/entrada_1.svg'></span>
+          <span class="date"><img id='icon' style='opacity:0.1;' src='../../Assets/images/inventory/entrada_1.svg'></span>
       </div>
   </div>
 </div>
@@ -347,7 +350,7 @@ table{
           </p>
       </div>
       <div class="date-box">
-          <span class="date"><img id='icon' style='opacity:0.1;' src='../fonts/entrada_2.svg'></span>
+          <span class="date"><img id='icon' style='opacity:0.1;' src='../../Assets/images/inventory/entrada_2.svg'></span>
       </div>
   </div>
 </div>
@@ -363,7 +366,7 @@ table{
           </p>
       </div>
       <div class="date-box">
-          <span class="date"><img id='icon' style='opacity:0.1;' src='../fonts/entrada_3.svg'></span>
+          <span class="date"><img id='icon' style='opacity:0.1;' src='../../Assets/images/inventory/entrada_3.svg'></span>
       </div>
   </div>
 </div>
@@ -379,7 +382,7 @@ table{
           </p>
       </div>
       <div class="date-box">
-          <span class="date"><img id='icon' style='opacity:0.1;' src='../fonts/entrada_4.svg'></span>
+          <span class="date"><img id='icon' style='opacity:0.1;' src='../../Assets/images/inventory/entrada_4.svg'></span>
       </div>
   </div>
 </div>

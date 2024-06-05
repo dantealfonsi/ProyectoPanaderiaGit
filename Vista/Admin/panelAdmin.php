@@ -7,6 +7,11 @@ $nombreUsuario = $_SESSION['nombreUsuario'];
 
 include "../../Modelo/conexion.php";
 
+$src= "../Admin/frame.php";
+
+if (isset($_GET['chat'])) {
+    $src= "../Admin/frame.php?chat=&idpedido=".$_GET['idpedido']."&notif=".$_GET['notif'];
+}
 
 ?>
 
@@ -69,7 +74,7 @@ include "../../Modelo/conexion.php";
         <!--Fin de Barra de Navegación-->
         <!-- Inicio del Header-->
    
-        <iframe id='iframe' src="../Admin/frame.php" frameborder="0">
+        <iframe id='iframe' src=<?php echo $src; ?> frameborder="0">
 
 
         </iframe>

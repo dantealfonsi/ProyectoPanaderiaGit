@@ -3,15 +3,26 @@
     include "../../Modelo/iniciarSesion.php";
     include "../../Modelo/conexion.php";
 
+
+    if(isset($_GET['deshabilitar'])){
+      $sql="UPDATE productos set habilitado=0 where IDproducto={$_GET['id']}";
+      mysqli_query($conn, $sql);
+    }
+
+    if(isset($_GET['habilitar'])){
+      $sql="UPDATE productos set habilitado=1 where IDproducto={$_GET['id']}";
+      mysqli_query($conn, $sql);
+    }    
+
     // insertar_producto.php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {  
     $bytes = random_bytes(5);
     $codigorifa = bin2hex($bytes);
     $nombre_producto = $_POST['nombre_producto'];
     $descripcion_producto = $_POST['descripcion_producto'];
     $precio_producto = $_POST['precio_producto'];
     $categoria_producto = $_POST['categoria_producto'];
-    $directorio = $GLOBALS['ROOT_PATH']."/Assets/productoimagenes\\";
+    $directorio = $GLOBALS['ROOT_PATH']."/Assets/productoimagenes/";
     $ext="";
     //$tipoArchivo = strtolower(pathinfo($archivo, PATHINFO_EXTENSION));
 
@@ -53,6 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     mysqli_query($conn, $sql);
     header('location: graciasInsertarProducto.php');
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -64,7 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" type="text/css" href="../../css/SweetAlert/sweetalert2.min.css" />
 
     <script src="../Javascript/DataTables/jQuery/jquery.min.js"></script>
-    <title>insumos</title>
+    <title>productos a la venta</title>
 
         <!--CSS File-->
         <link rel="stylesheet" type="text/css" href="<?php echo $GLOBALS['ROOT_PATH'] ?>/css/Common.css">
@@ -119,7 +131,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     echo "
 
 
-    <h1 class='titulo_caja'> Productos </h1>
+    <h1 class='titulo_caja'> Productos a la Venta </h1>
 
     <div class='outerTable'>
 
@@ -133,6 +145,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <th>NOMBRE</th>
             <th>PRECIO</th>
             <th>CATEGORÍA</th>
+            <th>ESTADO</th>
+            <th>EXISTENCIA</th>
             <th>ACCIONES</th>
           </tr>
           </thead> <tbody>";
@@ -149,17 +163,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <td>".$row['nombre_producto']."</td>
                 <td>".$row['precio_producto'].".BS</td>
                 <td>".$row['categoria_producto']."</td>
+                <td>";
+                if ($row['habilitado']==0) echo "DESABILITADO"; else echo "EN VENTA";                
+                echo "</td>
+                <td>".$row['existencia']."</td>
                 <td>
-                <a title='Editar Producto' href='?inv=&edit=0&id=".$row['IDproducto'].
-                "&codigo=".$row['IDproducto']."&nombre=".$row['nombre_producto'].
-                "&precio=".$row['precio_producto'].
-                "'><img id='icon-bt' src='../../Assets/images/inventory/edit.png'></a>
-                <a title='Historial' href='?hist={$row['IDproducto']}&Ent=1&Sal=0'><img id='icon-bt' src='../../Assets/images/inventory/book.png'></a>
+                <a title='Editar Producto' href='editarProducto.php?id=".$row['IDproducto']."'><img id='icon-bt' src='../../Assets/images/inventory/edit.png'></a>
+                <!--<a title='Historial' href='?hist={$row['IDproducto']}&Ent=1&Sal=0'><img id='icon-bt' src='../../Assets/images/inventory/book.png'></a>-->
                 ";
                 if ($_SESSION['esAdmin']==1){
+                  if ($row['habilitado']==1){    
                   echo "
-                  <a onclick=\"borrar('{$row['IDproducto']}')\" title='Desabilitar Producto'> <img id='icon-bt' src='../../Assets/images/inventory/erase.png'> </a>
-                  ";
+                  <a onclick=\"borrar('{$row['IDproducto']}')\" title='Desabilitar Producto'> <img id='icon-bt' src='../../Assets/images/inventory/erase.png'> </a>";} else{
+                    echo"
+                  <a onclick=\"habilitar('{$row['IDproducto']}')\" title='Poner a la venta'> <img id='icon-bt' src='../../Assets/images/inventory/habilitar.png'> </a>
+                  ";}
                 }
           echo "
           </td>
@@ -666,8 +684,8 @@ function valCodigo(){
 function borrar(id) {
 
 Swal.fire({
-title: 'Estas seguro que desea Eliminar',
-text: "Seguro que quieres eliminar esta categoria",
+title: 'deshabilitar el Producto',
+text: "Seguro que quieres desabilitar este Producto",
 icon: 'warning',
 showCancelButton: true,
 confirmButtonColor: '#3085d6',
@@ -677,17 +695,46 @@ cancelButtonText: "Cancelar"
 }).then((result) => {
 if (result.isConfirmed) {
   Swal.fire(
-    'Borrada!',
-    'El Insumo ha sido borrado.',
+    'Deshabilitado!',
+    'El Producto se ha deshabilitado.',
     'success'
   ).then(function(){ 
-    window.location.href="insumos.php?user=&borrar_inv=0&id="+ id;
+    window.location.href="productos.php?user=&deshabilitar=0&id="+ id;
  }
   );
 }
 })
 
 }
+
+
+
+function habilitar(id) {
+
+Swal.fire({
+title: 'Habilitar el Producto',
+text: "Seguro que quieres Habilitar este Producto",
+icon: 'warning',
+showCancelButton: true,
+confirmButtonColor: '#3085d6',
+cancelButtonColor: '#d33',
+confirmButtonText: 'Si!',
+cancelButtonText: "Cancelar"
+}).then((result) => {
+if (result.isConfirmed) {
+  Swal.fire(
+    'Deshabilitado!',
+    'El Producto se ha Habilitado.',
+    'success'
+  ).then(function(){ 
+    window.location.href="productos.php?user=&habilitar=0&id="+ id;
+ }
+  );
+}
+})
+
+}
+
 
 function agregar() {
 

@@ -46,7 +46,7 @@ $conexion = $conn;
 		if (Strlen($_POST['mensaje'])>0){
 			//($amo,$ticked,$envia,$recibe,$mensaje)
 			insertChat($_SESSION['IDusuario'],$_POST['tickedchat'],$_POST['envia'],$recibe,$_POST['mensaje']);
-			insertNotif($recibe,"Pedido #".$_POST['pedido']." Tiene un Nuevo Mensaje ",$GLOBALS['ROOT_PATH']."/Vista/Admin/chat.php?idpedido=".$_POST['pedido']);
+			insertNotif($recibe,"Pedido #".$_POST['pedido']." Tiene un Nuevo Mensaje ",$GLOBALS['ROOT_PATH']."/Vista/Admin/panelAdmin.php?chat=&idpedido=".$_POST['pedido']);
 		}
 
 		//if (($_SESSION['esAdmin']) > 0) updateColor($_POST['tickedchat'],readVendedor($_SESSION['user'])['CORREO'],"#BABAEE","#000000");

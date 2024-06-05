@@ -11,12 +11,17 @@
     $validado = false; // validado
 
     // definir variables y asignar valores vacíos
+    $municipio= $localidad= "Seleccione un:";
     $nombre = $apellido = $email = $direccion = $pais = $ciudad = $metodoPago = $nombreTarjeta = $numeroTarjeta = $expiracionMesTarjeta = $expiracionAnioTarjeta = $cvvTarjeta = "";
     $errorNombre = $errorApellido = $erroremail = $errorDireccion = $errorPais = $errorCiudad  = $errormetodoPago = $errorNombreTarjeta = $errorNumeroTarjeta = $errorExpiracionTarjeta = $errorCvvTarjeta = "";
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
+
         // VALIDACIÓN DEL NOMBRE
+        $municipio = validar_entrada($_POST["municipio"]);
+        $localidad = validar_entrada($_POST["localidad"]);
+
         $nombre = validar_entrada($_POST["nombre"]);
         // verificar si el nombre solo contiene letras y espacios
         if (!preg_match("/^[a-zA-Z-' ]*$/",$nombre)) {
@@ -257,7 +262,7 @@ else {
         echo 'graciasCheckout.php';
         $validado = false;
       }
-      else {
+      else {        
         echo htmlspecialchars($_SERVER["PHP_SELF"]);
       }
     
@@ -308,8 +313,8 @@ else {
       <!-- ELEGIR PAÍS  -->
       <div class="col-md-5">
       <label for="municipios"  class="form-label">Selecciona un municipio:</label>
-    <select class="form-select" id="select1">
-        <option>Selecciona un :</option>
+    <select class="form-select" name="municipio" id="select1" >
+        <option><?php echo $municipio?></option>
     </select>
         <!-- <div class="invalid-feedback">
           Por favor, selecciona un país válido.
@@ -320,7 +325,9 @@ else {
       <!-- ELEGIR Localidad  -->
       <div class="col-md-4">
         <label for="localidad" class="form-label">Localidad</label>
-        <select class="form-select" name="localidad" id="select2" required>  </select>
+        <select class="form-select" name="localidad" id="select2">  
+        <option><?php echo $localidad?></option>
+        </select> 
 
 
                 <div class="invalid-feedback">
@@ -367,7 +374,7 @@ else {
 
   <!-- MCB JUICE -->
   <div class="form-check">
-    <input id="transferencia" name="metodoPago" type="radio" class="form-check-input" value="transferencia" <?php if ($metodoPago == "Transferencia"){ echo "checked";} ?> >
+    <input id="transferencia" name="metodoPago" type="radio" class="form-check-input" value="transferencia" <?php if ($metodoPago == "transferencia"){ echo "checked";} ?> >
     <label class="form-check-label" for="transferencia">Transferencia</label>
   </div>
 
@@ -379,8 +386,6 @@ else {
 
   <span class="error"><?php echo $errormetodoPago;?></span>
 </div>
-
-
 
 <!-- BOTÓN CONTINUAR AL PAGO -->
 <hr class="my-4 pinkLine" >

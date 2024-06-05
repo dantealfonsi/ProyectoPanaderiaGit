@@ -18,7 +18,7 @@
         
         $idCategoria= $_REQUEST['id_cat']; 
         
-        $Q_buscar_productos_por_categoria_id = "SELECT * FROM productos  WHERE categoria_producto = $idCategoria";
+        $Q_buscar_productos_por_categoria_id = "SELECT * FROM productos  WHERE categoria_producto = {$idCategoria} AND habilitado=1";
 
 
 

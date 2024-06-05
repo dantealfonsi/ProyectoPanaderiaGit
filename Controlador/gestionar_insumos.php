@@ -1,6 +1,6 @@
 <?php 
 
-/*CREACION DE CLASE PRODUCTO*/
+/*CREACION DE CLASE PRODUCTO*/ 
 
 class Producto{
 
@@ -35,13 +35,13 @@ class Producto{
 
     /*FUNCION PARA CREAR UN PRODUCTO*/
 
-    public function crearProductos($codigo,$nombre,$precio,$almacen,$categoria,$c_min,$c_max){
+    public function crearProductos($codigo,$nombre,$precio,$almacen,$categoria,$c_min,$c_max,$uni){
       $tmodulo=new Modulo;
       if($this->ifCodigoExist($codigo)){                          /*VER SI EL CODIGO EXISTE*/
         echo "<script>alert('Este Producto ya existe')</script>";
       }else{
         if($this->ifCategoriaExist($categoria)){                /*VER SI LA CATEGORIA EXISTE*/
-          $consulta = "INSERT INTO insumos(CODIGO,NOMBRE,PRECIO,ALMACEN,CATEGORIA,C_MIN,C_MAX) VALUES('".$codigo."','".$nombre."',".$precio.",".$almacen.",'{$categoria}','{$c_min}','{$c_max}')";
+          $consulta = "INSERT INTO insumos(CODIGO,NOMBRE,PRECIO,ALMACEN,CATEGORIA,C_MIN,C_MAX,UNI) VALUES('".$codigo."','".$nombre."',".$precio.",".$almacen.",'{$categoria}','{$c_min}','{$c_max}','{$uni}')";
           $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta ) or die ( "Algo ha ido mal en insertar el Producto");
           echo "<script>alert('Producto Agregado con Exito!');</script>";
         }
@@ -71,10 +71,10 @@ class Producto{
       
       /*FUNCION PARA EDITAR UN PRODUCTO*/
       
-      public function editarProductos($id,$codigo,$nombre,$precio,$almacen,$existencia,$categoria,$c_min,$c_max){
+      public function editarProductos($id,$codigo,$nombre,$precio,$almacen,$existencia,$categoria,$c_min,$c_max,$uni){
         $tmodulo=new Modulo;
         if($this->ifCategoriaExist($categoria)){ /*Ver si categoria existe en la edicion*/
-          $consulta = "UPDATE insumos SET CATEGORIA='{$categoria}',CODIGO='".$codigo."',NOMBRE='".$nombre."',PRECIO=".$precio.",ALMACEN=".$almacen.",EXISTENCIA=".$existencia.",C_MIN=".$c_min.",C_MAX=".$c_max." WHERE CODIGO='{$id}'";
+          $consulta = "UPDATE insumos SET CATEGORIA='{$categoria}',CODIGO='".$codigo."',NOMBRE='".$nombre."',PRECIO=".$precio.",ALMACEN=".$almacen.",EXISTENCIA=".$existencia.",C_MIN=".$c_min.",C_MAX=".$c_max.", UNI='{$uni}' WHERE CODIGO='{$id}'";
           $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta ) or die ( "Algo ha ido mal en ACTUALIZAR el Producto");
         }
         else{

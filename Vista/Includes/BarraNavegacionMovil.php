@@ -23,7 +23,7 @@ $page="";
         <ul>
             <li><a href="<?php echo $GLOBALS['ROOT_PATH'] ?>/Vista/index.php" class="<?php if($page == 'index'){echo 'active';}?>" >INICIO</a></li>
             <li><a href="<?php echo $GLOBALS['ROOT_PATH']?>/Vista/ProductoComponent/productos.php" class="<?php if($page == 'productos'){echo 'active';}?>" >PRODUCTOS</a></li>
-            <li><a href="<?php echo $GLOBALS['ROOT_PATH'] ?>/Vista/CreaTuPastelComponent/hastuvaina.php" class="<?php if($page == 'hastuvaina'){echo 'active';}?>" >HAZ TU RECETA</a></li>
+            <li><a href="<?php echo $GLOBALS['ROOT_PATH'] ?>/Vista/CreaTuPastelComponent/hasTuPastel.php" class="<?php if($page == 'hastuvaina'){echo 'active';}?>" >HAZ TU RECETA</a></li>
     
         </ul>
     </nav>

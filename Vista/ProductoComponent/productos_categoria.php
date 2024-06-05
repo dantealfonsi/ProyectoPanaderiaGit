@@ -42,17 +42,14 @@
         <?php 
             
  
-            $Q_obtener_destacados = "SELECT * FROM productos WHERE IDtipo = 2 ; ";//selecciona productos destacados
-            $Q_obtener_nuevos =  "SELECT * FROM productos WHERE IDtipo = 1 ; ";//selecciona nuevos productos
-            $Q_obtener_detalles_producto =  "SELECT * FROM productos WHERE IDproducto = 1 ; ";//selecciona producto con id =1
+            $Q_obtener_destacados = "SELECT * FROM productos WHERE IDtipo = 2";//selecciona productos destacados
+            $Q_obtener_nuevos =  "SELECT * FROM productos WHERE IDtipo = 1 ";//selecciona nuevos productos
+            $Q_obtener_detalles_producto =  "SELECT * FROM productos WHERE IDproducto = 1 ; AND habilitado=1";//selecciona producto con id =1
             $Q_obtener_categorias = "SELECT * FROM categoria_producto;"; //selecciona todas las categorías
-            $Q_ordenar_precio_asc = "SELECT * FROM productos ORDER BY precio_producto ASC; "; //ordena todos los productos por precio de bajo a alto
-            $Q_ordenar_precio_desc = "SELECT * FROM productos ORDER BY precio_producto DESC; "; //ordena todos los productos por precio de alto a bajo
+            $Q_ordenar_precio_asc = "SELECT * FROM productos  WHERE habilitado=1 ORDER BY precio_producto ASC; "; //ordena todos los productos por precio de bajo a alto
+            $Q_ordenar_precio_desc = "SELECT * FROM productos  WHERE habilitado=1  ORDER BY precio_producto DESC; "; //ordena todos los productos por precio de alto a bajo
             
-            
-        
         ?>
-
 
         <!--========== ENCABEZADO ==========-->
         <?php $pagina = 'productos_categoria'?>
@@ -64,21 +61,13 @@
         <!--Iniciar Barra de Navegación @media 1200px-->
         <?php include '../Includes/BarraNavegacionPc.php';?>
         <!--Finalizar Barra de Navegación @media 1200px-->
-      
-
-
-
-
-
-
-
 
 <!--========== PHP OBTENER DETALLES DEL PRODUCTO ==========-->
 
 <?php
     if(isset($_GET['IDcategoria'])){
         $id_cat = $_GET['IDcategoria'];
-        $Q_obtener_producto_por_id_cat = "SELECT * FROM productos WHERE IDcategoria = '$id_cat' ; ";
+        $Q_obtener_producto_por_id_cat = "SELECT * FROM productos WHERE categoria_producto = {$id_cat} AND habilitado=1 ";
         $Q_obtener_nombre_cat_por_id_cat = "SELECT * FROM categorias_productos WHERE IDcategoria = '$id_cat' ; ";
 
         $ejecutar_cat = mysqli_query($conn, $Q_obtener_nombre_cat_por_id_cat );
