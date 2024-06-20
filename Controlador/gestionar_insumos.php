@@ -17,7 +17,7 @@ class Producto{
 
     public function ifCategoriaExist($categoria) {
       $tmodulo=new Modulo;
-      if($tmodulo->row_sqlconector("select COUNT(*) AS TOTAL from CATEGORIA_INSUMOS where NOMBRE='{$categoria}'")['TOTAL']==1 )
+      if($tmodulo->row_sqlconector("select COUNT(*) AS TOTAL from categoria_insumos where nombre='{$categoria}'")['TOTAL']==1 )
       return TRUE;
       return FALSE;
     }
@@ -27,7 +27,7 @@ class Producto{
 
     public function ifCodigoExist($codigo) {
       $tmodulo=new Modulo;
-      if($tmodulo->row_sqlconector("select COUNT(*) AS TOTAL from insumos where CODIGO='{$codigo}'")['TOTAL']==1 )
+      if($tmodulo->row_sqlconector("select COUNT(*) AS TOTAL from insumos where codigo='{$codigo}'")['TOTAL']==1 )
       return TRUE;
       return FALSE;
     }    
@@ -41,7 +41,7 @@ class Producto{
         echo "<script>alert('Este Producto ya existe')</script>";
       }else{
         if($this->ifCategoriaExist($categoria)){                /*VER SI LA CATEGORIA EXISTE*/
-          $consulta = "INSERT INTO insumos(CODIGO,NOMBRE,PRECIO,ALMACEN,CATEGORIA,C_MIN,C_MAX,UNI) VALUES('".$codigo."','".$nombre."',".$precio.",".$almacen.",'{$categoria}','{$c_min}','{$c_max}','{$uni}')";
+          $consulta = "INSERT INTO insumos(codigo,nombre,precio,almacen,categoria,c_min,c_max,uni) VALUES('".$codigo."','".$nombre."',".$precio.",".$almacen.",'{$categoria}','{$c_min}','{$c_max}','{$uni}')";
           $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta ) or die ( "Algo ha ido mal en insertar el Producto");
           echo "<script>alert('Producto Agregado con Exito!');</script>";
         }
@@ -56,7 +56,7 @@ class Producto{
 
       public function borrarProductos($codigo){
         $tmodulo=new Modulo;
-        $consulta = "UPDATE insumos SET DELETED=1  WHERE CODIGO='{$codigo}'";
+        $consulta = "UPDATE insumos SET deleted=1  WHERE codigo='{$codigo}'";
         $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta ) or die ( "Algo ha ido mal en Borrarn el Producto");
       }
 
@@ -65,7 +65,7 @@ class Producto{
 
       public function RehabilitarProductos($codigo){
         $tmodulo=new Modulo;
-        $consulta = "UPDATE insumos SET DELETED=0  WHERE CODIGO='{$codigo}'";
+        $consulta = "UPDATE insumos SET deleted=0  WHERE codigo='{$codigo}'";
         $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta ) or die ( "Algo ha ido mal en Borrarn el Producto");
       }
       
@@ -74,7 +74,7 @@ class Producto{
       public function editarProductos($id,$codigo,$nombre,$precio,$almacen,$existencia,$categoria,$c_min,$c_max,$uni){
         $tmodulo=new Modulo;
         if($this->ifCategoriaExist($categoria)){ /*Ver si categoria existe en la edicion*/
-          $consulta = "UPDATE insumos SET CATEGORIA='{$categoria}',CODIGO='".$codigo."',NOMBRE='".$nombre."',PRECIO=".$precio.",ALMACEN=".$almacen.",EXISTENCIA=".$existencia.",C_MIN=".$c_min.",C_MAX=".$c_max.", UNI='{$uni}' WHERE CODIGO='{$id}'";
+          $consulta = "UPDATE insumos SET categoria='{$categoria}',codigo='".$codigo."',nombre='".$nombre."',precio=".$precio.",almacen=".$almacen.",existencia=".$existencia.",c_min=".$c_min.",c_max=".$c_max.", uni='{$uni}' WHERE codigo='{$id}'";
           $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta ) or die ( "Algo ha ido mal en ACTUALIZAR el Producto");
         }
         else{
@@ -87,7 +87,7 @@ class Producto{
 
       public function readProducto($codigo){
         $tmodulo=new Modulo;
-        $consulta = "SELECT * FROM insumos WHERE CODIGO='".$codigo."'";
+        $consulta = "SELECT * FROM insumos WHERE codigo='".$codigo."'";
         $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta );
         
         if($row = mysqli_fetch_array($resultado))
@@ -99,9 +99,9 @@ class Producto{
 
       public function returnSumEntrada($codigo,$desde,$hasta){
         $tmodulo=new Modulo;
-        $consulta = "SELECT SUM(CANTIDAD) AS TOTAL, CODIGO_PRODUCTO FROM CARAC_ENTRADA WHERE CODIGO_PRODUCTO = '{$codigo}'";
+        $consulta = "SELECT SUM(cantidad) AS total, codigo_producto FROM carac_entrada WHERE codigo_producto = '{$codigo}'";
       if(strlen($desde)>0){
-        $consulta = "SELECT SUM(CANTIDAD) AS TOTAL, CODIGO_PRODUCTO FROM CARAC_ENTRADA WHERE FECHA BETWEEN '{$desde} 00:00' AND '{$hasta} 23:59' AND CODIGO_PRODUCTO = '{$codigo}'";
+        $consulta = "SELECT SUM(cantidad) AS total, codigo_producto FROM carac_entrada WHERE fecha BETWEEN '{$desde} 00:00' AND '{$hasta} 23:59' AND codigo_producto = '{$codigo}'";
       }
         $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta );
         
@@ -114,14 +114,14 @@ class Producto{
 
       public function returnSumSalida($codigo,$desde,$hasta){
         $tmodulo=new Modulo;
-        $consulta = "SELECT SUM(CANTIDAD) AS TOTAL, CODIGO_PRODUCTO FROM CARAC_SALIDA WHERE CODIGO_PRODUCTO = '{$codigo}'";
+        $consulta = "SELECT SUM(cantidad) AS total, codigo_producto FROM carac_salida WHERE codigo_producto = '{$codigo}'";
         if(strlen($desde)>0){
-          $consulta = "SELECT SUM(CANTIDAD) AS TOTAL, CODIGO_PRODUCTO FROM CARAC_SALIDA WHERE FECHA BETWEEN '{$desde} 00:00' AND '{$hasta} 23:59' AND CODIGO_PRODUCTO = '{$codigo}'";
+          $consulta = "SELECT SUM(cantidad) AS total, codigo_producto FROM carac_salida WHERE fecha BETWEEN '{$desde} 00:00' AND '{$hasta} 23:59' AND codigo_producto = '{$codigo}'";
         }
         $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta );
         
         if($row = mysqli_fetch_array($resultado))
-        return $row['TOTAL'];  
+        return $row['total'];  
       }
 
 
@@ -130,7 +130,7 @@ class Producto{
       public function list_productos(){
         $tmodulo = new Modulo;
         $cadena = "";
-        $consulta = "SELECT * from PRODUCTOS WHERE DELETED=0";
+        $consulta = "SELECT * from insumos WHERE deleted=0";
         $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta );
             while($row = mysqli_fetch_array($resultado)){
               $cadena=$cadena."<option value='{$row['CODIGO']}' label='{$row['NOMBRE']}'>";
@@ -145,7 +145,7 @@ class Producto{
       public function readEntrada($num_entrada){
         $row;
         $tmodulo=new Modulo;
-        $consulta = "SELECT * FROM ENTRADA WHERE NUM_ENTRADA=".$num_entrada;
+        $consulta = "SELECT * FROM entrada WHERE num_entrada=".$num_entrada;
         $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta );
         
         if($row = mysqli_fetch_array($resultado))
@@ -158,7 +158,7 @@ class Producto{
       public function readSalida($num_salida){
         $row;
         $tmodulo=new Modulo;
-        $consulta = "SELECT * FROM SALIDA WHERE NUM_SALIDA=".$num_salida;
+        $consulta = "SELECT * FROM salida WHERE num_salida=".$num_salida;
         $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta );
         
         if($row = mysqli_fetch_array($resultado))
@@ -170,7 +170,7 @@ class Producto{
 
       public function readUsuario($cedula){
         $tmodulo=new Modulo;
-        $consulta = "SELECT * FROM USUARIOS WHERE CEDULA='".$cedula."'";
+        $consulta = "SELECT * FROM usuarios WHERE cedula='".$cedula."'";
         $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta );
         $row = mysqli_fetch_array($resultado);
         return $row;
@@ -182,10 +182,10 @@ class Producto{
       public function list_proveedores(){
         $tmodulo = new Modulo;
         $cadena = "";
-        $consulta = "SELECT * from PROVEEDOR";
+        $consulta = "SELECT * from proveedor";
         $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta );
             while($row = mysqli_fetch_array($resultado)){
-              $cadena=$cadena."<option value='{$row['NOMBRE']}' label='{$row['RIF']}'>";
+              $cadena=$cadena."<option value='{$row['nombre']}' label='{$row['rif']}'>";
             }
         $cadena=$cadena."";
         echo $cadena;
@@ -197,12 +197,12 @@ class Producto{
       public function insert_entrada($codigo_producto,$cantidad,$precio,$responsable,$num_entrada,$proveedor)
       {
           $tmodulo=new Modulo;
-          $consulta = "INSERT INTO ENTRADA (RESPONSABLE,NUM_ENTRADA,PROVEEDOR) VALUES ('{$responsable}',{$num_entrada},'{$proveedor}')";
+          $consulta = "INSERT INTO entrada (responsable,num_entrada,proveedor) VALUES ('{$responsable}',{$num_entrada},'{$proveedor}')";
           $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta ) or die ( "Algo ha ido mal en Borrar la compra");      
-          $consulta = "INSERT INTO CARAC_ENTRADA (CODIGO_PRODUCTO,NOMBRE_PRODUCTO,CANTIDAD,PRECIO,NUM_ENTRADA) VALUES ('{$codigo_producto}','".$this->readProducto($codigo_producto)['NOMBRE']."',{$cantidad},{$precio},{$num_entrada})";
+          $consulta = "INSERT INTO carac_entrada (codigo_producto,nombre_producto,cantidad,precio,num_entrada) VALUES ('{$codigo_producto}','".$this->readProducto($codigo_producto)['nombre']."',{$cantidad},{$precio},{$num_entrada})";
           $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta ) or die ( "Algo ha ido mal en Borrar la compra");      
-          $existencia=$this->readProducto($codigo_producto)['EXISTENCIA'];
-          $consulta = "UPDATE PRODUCTOS SET EXISTENCIA=".strval($existencia + $cantidad)." WHERE CODIGO='".$codigo_producto."'";
+          $existencia=$this->readProducto($codigo_producto)['existencia'];
+          $consulta = "UPDATE insumos SET existencia=".strval($existencia + $cantidad)." WHERE codigo='".$codigo_producto."'";
           $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta ) or die ( "Algo ha ido mal en sumarInventario");
         }
 
@@ -214,7 +214,7 @@ class Producto{
           $consulta = "SELECT * from categoria_insumos";
           $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta );
               while($row = mysqli_fetch_array($resultado)){
-                $cadena=$cadena."<option value='{$row['NOMBRE']}'>";
+                $cadena=$cadena."<option value='{$row['nombre']}'>";
               }
           $cadena=$cadena."";
           echo $cadena;
@@ -245,11 +245,11 @@ class Producto{
 
         public function readCategoria($nombre){
           $tmodulo=new Modulo;
-          $consulta = "SELECT * FROM CATEGORIA_INSUMOS WHERE NOMBRE='".$nombre."'";
+          $consulta = "SELECT * FROM categoria_insumos WHERE nombre='".$nombre."'";
           $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta );
           
           if($row = mysqli_fetch_array($resultado)){
-            return $row['NOMBRE'];
+            return $row['nombre'];
           }
           return 'NULL';
             

@@ -45,7 +45,7 @@ class categoriaProductos{
      
       public function borrarCategoria($idCategoria){
         $tmodulo=new Modulo;
-        $consulta = "DELETE FROM categorias WHERE ID='{$idCategoria}'";
+        $consulta = "DELETE FROM categorias WHERE id='{$idCategoria}'";
         $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta ) or die ( "Algo ha ido mal en Borrarn el Producto");
       }
 
@@ -55,7 +55,7 @@ class categoriaProductos{
       public function editarCategoria($idCategoria, $nombre){
         $tmodulo=new Modulo;
         if (empty($this->readCategoria($nombre)['nombre_categoria'])){          /*POR SI ES EL MISMO NOMBRE O ESTA VACIO*/
-          $consulta = "UPDATE categorias SET NOMBRE='".$nombre."' WHERE ID='{$idCategoria}'";
+          $consulta = "UPDATE categorias SET nombre='".$nombre."' WHERE id='{$idCategoria}'";
           $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta ) or die ( "Algo ha ido mal en ACTUALIZAR el Producto");          
 
         }
@@ -81,7 +81,7 @@ class categoriaProductos{
 
       public function readCategoriaId($idCategoria){
         $tmodulo=new Modulo;
-        $consulta = "SELECT * FROM categorias WHERE IDcategoria='".$idCategoria."'";
+        $consulta = "SELECT * FROM categorias WHERE idcategoria='".$idCategoria."'";
         $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta );
         
         if($row = mysqli_fetch_array($resultado))

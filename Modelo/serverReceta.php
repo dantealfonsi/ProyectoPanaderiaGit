@@ -8,17 +8,17 @@
     include "conexion.php"; 
     
     function readCodeInsumo($nombre){
-        $sql ="select CODIGO from INSUMOS where NOMBRE='{$nombre}'";
+        $sql ="select codigo from insumos where nombre='{$nombre}'";
         $resultado= mysqli_query($GLOBALS['conn'], $sql);
         $row = mysqli_fetch_array($resultado);
-        return $row['CODIGO'];
+        return $row['codigo'];
     }
 
     function readNombreInsumo($codigoInsumo){
-        $sql ="select NOMBRE from INSUMOS where CODIGO='{$codigoInsumo}'";
+        $sql ="select nombre from insumos where codigo='{$codigoInsumo}'";
         $resultado= mysqli_query($GLOBALS['conn'], $sql);
         $row = mysqli_fetch_array($resultado);
-        return $row['NOMBRE'];
+        return $row['nombre'];
     }    
 ?>
 
@@ -36,15 +36,15 @@ $codigo = bin2hex($bytes);
 if(isset($data["nombre_receta"])){
     
     if(isset($data['update']) && $data['update']=="yes"){
-        $Q_borra_receta = "DELETE FROM recetas where IDreceta='".$data['codigo']."'";
-        $Q_borra_item = "DELETE FROM itemrecetas where IDreceta='".$data['codigo']."'";
+        $Q_borra_receta = "DELETE FROM recetas where idreceta='".$data['codigo']."'";
+        $Q_borra_item = "DELETE FROM itemrecetas where idreceta='".$data['codigo']."'";
         $resultado= mysqli_query($GLOBALS['conn'], $Q_borra_receta);    
         $resultado2= mysqli_query($GLOBALS['conn'], $Q_borra_item);    
     }
 
 // ... (código para insertar en la base de datos)
 
-    $sql = "insert into recetas (IDreceta,nombre,IDproducto,notas) values ('$codigo','".$data["nombre_receta"]."',".$data["nombre_producto"].",'".$data["nota"]."')";
+    $sql = "insert into recetas (idreceta,nombre,idproducto,notas) values ('$codigo','".$data["nombre_receta"]."',".$data["nombre_producto"].",'".$data["nota"]."')";
     $resultado= mysqli_query($GLOBALS['conn'], $sql);
 
     if (isset($data["productos"]) && is_array($data["productos"])) {
@@ -54,7 +54,7 @@ if(isset($data["nombre_receta"])){
             $nombreProducto = $producto["producto"];
             $codigoInsumo = readCodeInsumo($nombreProducto);
             
-            $sql = "insert into itemrecetas (IDreceta,IDproducto,codigoInsumo,cantidad,uni) values ('$codigo',".$data["nombre_producto"].",'".$codigoInsumo."',".$cantidad.",'$gramos')";
+            $sql = "insert into itemrecetas (idreceta,idproducto,codigoinsumo,cantidad,uni) values ('$codigo',".$data["nombre_producto"].",'".$codigoInsumo."',".$cantidad.",'$gramos')";
             $resultado= mysqli_query($GLOBALS['conn'], $sql);
         }
     }
@@ -68,11 +68,11 @@ if(isset($data["nombre_receta"])){
 
 if(isset($_GET['receta'])){
     
-    $consulta = "select * from itemrecetas where IDreceta='".$_GET['receta']."'";
+    $consulta = "select * from itemrecetas where idreceta='".$_GET['receta']."'";
     $resultado = mysqli_query($GLOBALS['conn'], $consulta);
     $obj = array();
     while($row = mysqli_fetch_assoc($resultado)) {      
-        $obj[]=array('cantidad'=>$row['cantidad'], 'gramos'=>$row['uni'], 'producto'=>readNombreInsumo($row['codigoInsumo']));
+        $obj[]=array('cantidad'=>$row['cantidad'], 'gramos'=>$row['uni'], 'producto'=>readNombreInsumo($row['codigoinsumo']));
     }   
     echo json_encode($obj); 
 }

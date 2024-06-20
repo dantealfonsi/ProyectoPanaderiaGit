@@ -25,7 +25,7 @@
 
         // MOSTRAR RESULTADOS ORDENADOS
         while($row_product = mysqli_fetch_assoc($result_ordenar)){
-            $id_producto = $row_product['IDproducto'];
+            $id_producto = $row_product['idproducto'];
            
 
         echo '   <div class="featured__products" id="product__card">
@@ -44,7 +44,7 @@
                    <div class="featured__data">
                     
                        <a href="producto.php?id_producto='.$id_producto.'" class="nombre_producto" id="nombre_producto"style="text-decoration: none;">'.$row_product['nombre_producto'].'</a></br>
-                       <span class="featured__price">Rs '.$row_product['precio_producto'].'</span>
+                       <span class="featured__price">Bs '.$row_product['precio_producto'].'</span>
                       
                    </div>
                </div> ';

@@ -321,7 +321,7 @@ Total <br>
     $cadena= $cadena . "
                    <tr>
                     <td>".$row['FECHA']."</td>
-                    <td>".$row['RESPONSABLE']."</td>
+                    <td>".$salida->getUsuario($row['RESPONSABLE'])['nombre']."</td>
                     <td>".$row['NUM_SALIDA']."</td>
                     <td><a href='?detalle=&detalleinv=0&numsalida={$row['NUM_SALIDA']}&idproducto={$row['NUM_SALIDA']}'> <img id='icon-bt' src='../../Assets/images/inventory/eye.png' title='Ver Detalles de Salida'></a></td>   
                   </tr>";

@@ -103,12 +103,12 @@
                 <td>".$row['nombre']."</td>
                 <td>".$row['notas']."</td>
                 <td>
-                <a title='Editar Receta' href='editarRecetas.php?id=".$row['IDreceta']."'><img id='icon-bt' src='../../Assets/images/inventory/edit.png'></a>
-                <!--<a title='Historial' href='?hist={$row['IDproducto']}&Ent=1&Sal=0'><img id='icon-bt' src='../../Assets/images/inventory/book.png'></a>-->
+                <a title='Editar Receta' href='editarRecetas.php?id=".$row['idreceta']."'><img id='icon-bt' src='../../Assets/images/inventory/edit.png'></a>
+                <!--<a title='Historial' href='?hist={$row['idproducto']}&Ent=1&Sal=0'><img id='icon-bt' src='../../Assets/images/inventory/book.png'></a>-->
                 ";
                 if ($_SESSION['esAdmin']==1){
                   echo "
-                  <a onclick=\"borrar('{$row['IDreceta']}')\" title='Borrar Receta'> <img id='icon-bt' src='../../Assets/images/inventory/erase.png'> </a>
+                  <a onclick=\"borrar('{$row['idreceta']}')\" title='Borrar Receta'> <img id='icon-bt' src='../../Assets/images/inventory/erase.png'> </a>
                   ";
                 }
           echo "

@@ -38,71 +38,147 @@ public function mysqlconnect(){
 }
 
 
-/*Creacion de Tablas*/
+/*Creacion de Base de Datos y Tablas primarias en caso de emergencia o fallos en MariaDB*/
 
 public function crear(){
   date_default_timezone_set('America/Caracas');
-  $conexion = mysqli_connect($this->servidor,$this->user,$this->password,$this->database) or die ("Error de Conexion: ". mysqli_connect_error());
-  //$consulta = "CREATE DATABASE IF NOT EXISTS tiendapanaderia";
- // $resultado = mysqli_query( $conexion, $consulta ) or die ( "Algo ha ido mal en la creacion de la base de Datos");
-  $consulta = "CREATE TABLE IF NOT EXISTS INSUMOS (CODIGO VARCHAR(15) NOT NULL PRIMARY KEY, NOMBRE VARCHAR(34), ALMACEN INT NOT NULL DEFAULT 0,PRECIO DECIMAL(10,2) NOT NULL DEFAULT 0.00,EXISTENCIA INT NOT NULL DEFAULT 0, CATEGORIA VARCHAR(34), C_MIN INT NOT NULL DEFAULT 0,C_MAX INT NOT NULL DEFAULT 0,DELETED INT NOT NULL DEFAULT 0)";
-  $resultado = mysqli_query( $conexion, $consulta ) or die ( "Algo ha ido mal en la creacion a la Tabla de datos: inventario");
-/*  $consulta = "CREATE TABLE IF NOT EXISTS USUARIOS (PASSWORD VARCHAR(50),NOMBRE VARCHAR(34),NIVEL INT NOT NULL DEFAULT 0, CEDULA INT(9) NOT NULL PRIMARY KEY, DELETED INT NOT NULL DEFAULT 0)";
-  $resultado = mysqli_query( $conexion, $consulta ) or die ( "Algo ha ido mal en la creacion a la Tabla de datos: usuarios");*/
-  $consulta = "CREATE TABLE IF NOT EXISTS PROVEEDOR (RIF VARCHAR(50) NOT NULL PRIMARY KEY,NOMBRE VARCHAR(34) NOT NULL,TELEFONO VARCHAR(15),DIRECCION VARCHAR(50), DELETED INT NOT NULL DEFAULT 0)";
-  $resultado = mysqli_query( $conexion, $consulta ) or die ( "Algo ha ido mal en la creacion a la Tabla de datos: usuarios");
-  $consulta = "CREATE TABLE IF NOT EXISTS ENTRADA (FECHA TIMESTAMP DEFAULT CURRENT_TIMESTAMP, RESPONSABLE INT(9), NUM_ENTRADA INT NOT NULL DEFAULT 0 PRIMARY KEY,PROVEEDOR VARCHAR(34), DEVUELTO TINYINT DEFAULT 0)";
-  $resultado = mysqli_query( $conexion, $consulta ) or die ( "Algo ha ido mal en la creacion a la Tabla de datos: inventario");
-  $consulta = "CREATE TABLE IF NOT EXISTS SALIDA (FECHA TIMESTAMP DEFAULT CURRENT_TIMESTAMP, RESPONSABLE INT(9), NUM_SALIDA INT NOT NULL DEFAULT 0 PRIMARY KEY,MOTIVO TEXT, CEDULA_CLIENTE INT(9),SUBTOTAL DECIMAL(13,2) DEFAULT 0.00, IVA DECIMAL(13,2) DEFAULT 0.00, TOTAL DECIMAL(13,2) DEFAULT 0.00, DEVUELTO TINYINT DEFAULT 0)";
-  $resultado = mysqli_query( $conexion, $consulta ) or die ( "Algo ha ido mal en la creacion a la Tabla de datos: inventario");
-  $consulta = "CREATE TABLE IF NOT EXISTS CATEGORIA_INSUMOS (ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,NOMBRE VARCHAR(34))";
-  $resultado = mysqli_query( $conexion, $consulta ) or die ( "Algo ha ido mal en la creacion a la Tabla de datos: usuarios");
+  $conexion = mysqli_connect($this->servidor,$this->user,$this->password,$this->database);
+  
+  $consulta = "CREATE DATABASE IF NOT EXISTS tiendapanaderia";
+  $resultado = mysqli_query( $conexion, $consulta );
+
+  $consulta = "CREATE TABLE IF NOT EXISTS insumos (
+    codigo VARCHAR(15) NOT NULL PRIMARY KEY, 
+    nombre VARCHAR(34), almacen INT NOT NULL DEFAULT 0,
+    precio DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+    existencia INT NOT NULL DEFAULT 0, 
+    categoria VARCHAR(34), 
+    c_min INT NOT NULL DEFAULT 0,
+    c_max INT NOT NULL DEFAULT 0,
+    deleted INT NOT NULL DEFAULT 0)";
+  $resultado = mysqli_query( $conexion, $consulta );
+
+  $consulta = "CREATE TABLE IF NOT EXISTS proveedor (
+    rif VARCHAR(50) NOT NULL PRIMARY KEY,
+    nombre VARCHAR(34) NOT NULL,
+    telefono VARCHAR(15),
+    direccion VARCHAR(50), 
+    deleted INT NOT NULL DEFAULT 0)";
+  $resultado = mysqli_query( $conexion, $consulta );
+
+  $consulta = "CREATE TABLE IF NOT EXISTS entrada (
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
+    responsable INT(9), 
+    num_entrada INT NOT NULL DEFAULT 0 PRIMARY KEY,
+    proveedor VARCHAR(34), 
+    devuelto TINYINT DEFAULT 0)";
+  $resultado = mysqli_query( $conexion, $consulta );
+
+  $consulta = "CREATE TABLE IF NOT EXISTS salida (
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
+    responsable INT(9), 
+    num_salida INT NOT NULL DEFAULT 0 PRIMARY KEY,
+    motivo TEXT, 
+    cedula_cliente INT(9),
+    subtotal DECIMAL(13,2) DEFAULT 0.00, 
+    iva DECIMAL(13,2) DEFAULT 0.00, 
+    total DECIMAL(13,2) DEFAULT 0.00, 
+    devuelto TINYINT DEFAULT 0)";
+  $resultado = mysqli_query( $conexion, $consulta );
+
+  $consulta = "CREATE TABLE IF NOT EXISTS categoria_insumos (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(34))";
+  $resultado = mysqli_query( $conexion, $consulta );
 
 
-  $consulta = "CREATE TABLE IF NOT EXISTS DEVOLUCION_ENTRADA (FECHA TIMESTAMP DEFAULT CURRENT_TIMESTAMP, RESPONSABLE INT(9), REFERENCIA INT NOT NULL DEFAULT 0 PRIMARY KEY ,MOTIVO TEXT,PROVEEDOR VARCHAR(34))";
-  $resultado = mysqli_query( $conexion, $consulta ) or die ( "Algo ha ido mal en la creacion a la Tabla de datos: inventario");
-  $consulta = "CREATE TABLE IF NOT EXISTS DEVOLUCION_SALIDA (FECHA TIMESTAMP DEFAULT CURRENT_TIMESTAMP, RESPONSABLE INT(9), REFERENCIA INT NOT NULL DEFAULT 0 PRIMARY KEY,MOTIVO TEXT, CEDULA_CLIENTE INT(9),SUBTOTAL DECIMAL(13,2) DEFAULT 0.00, IVA DECIMAL(13,2) DEFAULT 0.00, TOTAL DECIMAL(13,2) DEFAULT 0.00)";
-  $resultado = mysqli_query( $conexion, $consulta ) or die ( "Algo ha ido mal en la creacion a la Tabla de datos: inventario");
+  $consulta = "CREATE TABLE IF NOT EXISTS devolucion_entrada (
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
+    responsable INT(9), 
+    referencia INT NOT NULL DEFAULT 0 PRIMARY KEY,
+    motivo TEXT,
+    proveedor VARCHAR(34))";
+  $resultado = mysqli_query( $conexion, $consulta );
+
+  $consulta = "CREATE TABLE IF NOT EXISTS devolucion_salida (
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
+    responsable INT(9), 
+    referencia INT NOT NULL DEFAULT 0 PRIMARY KEY,
+    motivo TEXT, cedula_cliente INT(9),
+    subtotal DECIMAL(13,2) DEFAULT 0.00, 
+    iva DECIMAL(13,2) DEFAULT 0.00, 
+    total DECIMAL(13,2) DEFAULT 0.00)";
+  $resultado = mysqli_query( $conexion, $consulta );
 
 
-  $consulta = "CREATE TABLE IF NOT EXISTS CARAC_DEVOLUCION_ENTRADA (ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, FECHA TIMESTAMP DEFAULT CURRENT_TIMESTAMP,CODIGO_PRODUCTO VARCHAR(15),NOMBRE_PRODUCTO VARCHAR(34),CANTIDAD INT NOT NULL DEFAULT 0, REFERENCIA INT NOT NULL DEFAULT 0, PRECIO DECIMAL(10,2))";
-  $resultado = mysqli_query( $conexion, $consulta ) or die ( "Algo ha ido mal en la creacion a la Tabla de datos: inventario");
-  $consulta = "CREATE TABLE IF NOT EXISTS CARAC_DEVOLUCION_SALIDA (ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, FECHA TIMESTAMP DEFAULT CURRENT_TIMESTAMP,CODIGO_PRODUCTO VARCHAR(15),NOMBRE_PRODUCTO VARCHAR(34),CANTIDAD INT NOT NULL DEFAULT 0, REFERENCIA INT NOT NULL DEFAULT 0, CEDULA_CLIENTE INT(9) ,PRECIO DECIMAL(10,2))";
-  $resultado = mysqli_query( $conexion, $consulta ) or die ( "Algo ha ido mal en la creacion a la Tabla de datos: inventario");
-
-
-
-  /*$consulta = "CREATE TABLE IF NOT EXISTS PERSONA (CEDULA VARCHAR(15) NOT NULL PRIMARY KEY, NOMBRE VARCHAR(34), APELLIDO VARCHAR(34), TELEFONO VARCHAR(15),DIRECCION VARCHAR(50),CARGO VARCHAR(34), TIPO VARCHAR(34) DEFAULT 'CLIENTE', DELETED INT NOT NULL DEFAULT 0)";
-  $resultado = mysqli_query( $conexion, $consulta ) or die ( "Algo ha ido mal en la creacion a la Tabla de datos: usuarios");
-*/
-
-  $consulta = "CREATE TABLE IF NOT EXISTS CARAC_ENTRADA (ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, FECHA TIMESTAMP DEFAULT CURRENT_TIMESTAMP,CODIGO_PRODUCTO VARCHAR(15),NOMBRE_PRODUCTO VARCHAR(34),CANTIDAD INT NOT NULL DEFAULT 0, NUM_ENTRADA INT NOT NULL DEFAULT 0, PRECIO DECIMAL(10,2))";
-  $resultado = mysqli_query( $conexion, $consulta ) or die ( "Algo ha ido mal en la creacion a la Tabla de datos: inventario");
-  $consulta = "CREATE TABLE IF NOT EXISTS CARAC_SALIDA (ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, FECHA TIMESTAMP DEFAULT CURRENT_TIMESTAMP,CODIGO_PRODUCTO VARCHAR(15),NOMBRE_PRODUCTO VARCHAR(34),CANTIDAD INT NOT NULL DEFAULT 0, NUM_SALIDA INT NOT NULL DEFAULT 0, CEDULA_CLIENTE INT(9))";
-  $resultado = mysqli_query( $conexion, $consulta ) or die ( "Algo ha ido mal en la creacion a la Tabla de datos: inventario");
-  $consulta = "CREATE TABLE IF NOT EXISTS HISTORIAL (ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, FECHA TIMESTAMP DEFAULT CURRENT_TIMESTAMP, NOMBRE_USUARIO VARCHAR(34),CEDULA INT(9) NOT NULL, UBICACION VARCHAR(255) )";
-  $resultado = mysqli_query( $conexion, $consulta ) or die ( "Algo ha ido mal en la creacion a la Tabla de datos: inventario");
-
-/*Creacion de SuperUsuario Predeterminado
-
-  if (!$this->siUsuarioExiste('ADMINISTRADOR')){
-    $password = $this->encrypt('123456',$this->llave);
-    $this->init_usuario('ADMINISTRADOR',$password,0,0,'ADMINISTRADOR');  
-  }*/
+  $consulta = "CREATE TABLE IF NOT EXISTS carac_devolucion_entrada (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    codigo_producto VARCHAR(15),
+    nombre_producto VARCHAR(34),
+    cantidad INT NOT NULL DEFAULT 0,
+    referencia INT NOT NULL DEFAULT 0,
+    precio DECIMAL(10,2)
+  )";
+  $resultado = mysqli_query($conexion, $consulta);
+  
+  $consulta = "CREATE TABLE IF NOT EXISTS carac_devolucion_salida (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    codigo_producto VARCHAR(15),
+    nombre_producto VARCHAR(34),
+    cantidad INT NOT NULL DEFAULT 0,
+    referencia INT NOT NULL DEFAULT 0,
+    cedula_cliente INT(9),
+    precio DECIMAL(10,2)
+  )";
+  $resultado = mysqli_query($conexion, $consulta);
+  
+  $consulta = "CREATE TABLE IF NOT EXISTS carac_entrada (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    codigo_producto VARCHAR(15),
+    nombre_producto VARCHAR(34),
+    cantidad INT NOT NULL DEFAULT 0,
+    num_entrada INT NOT NULL DEFAULT 0,
+    precio DECIMAL(10,2)
+  )";
+  $resultado = mysqli_query($conexion, $consulta);
+  
+  $consulta = "CREATE TABLE IF NOT EXISTS carac_salida (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    codigo_producto VARCHAR(15),
+    nombre_producto VARCHAR(34),
+    cantidad INT NOT NULL DEFAULT 0,
+    num_salida INT NOT NULL DEFAULT 0,
+    cedula_cliente INT(9)
+  )";
+  $resultado = mysqli_query($conexion, $consulta);
+  
+  $consulta = "CREATE TABLE IF NOT EXISTS historial (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    nombre_usuario VARCHAR(34),
+    cedula INT(9) NOT NULL,
+    ubicacion VARCHAR(255)
+  )";
+  $resultado = mysqli_query($conexion, $consulta);
+  
   mysqli_close($conexion);
 }
 
 /*init_Usuario*/
 
-public function init_usuario($nombre,$password,$nivel,$cedula){ 
+/*public function init_usuario($nombre,$password,$nivel,$cedula){ 
   $consulta = "INSERT INTO USUARIOS(NOMBRE,PASSWORD,NIVEL,CEDULA) VALUES('".$nombre."','".$password."',".$nivel.",'{$cedula}')";
   $resultado = mysqli_query( $this->mysqlconnect(), $consulta ) or die ( "Algo ha ido mal en insertar el usuario");
-}
+}*/
 
 /*CREACION DE FUNCION PARA INSERTAR EN TABLA HISTORIAL*/
 
 public function historial($nombre,$cedula,$ubicacion){ 
-  $this->sql_consulta("INSERT INTO HISTORIAL(NOMBRE_USUARIO,CEDULA,UBICACION) VALUES ('{$nombre}',{$cedula},'{$ubicacion}')");
+  $this->sql_consulta("INSERT INTO historial(nombre_usuario,cedula,ubicacion) VALUES ('{$nombre}',{$cedula},'{$ubicacion}')");
 }
 
 /*FUNCIONES PARA VOLVER DINAMICO CON JQUERY ENTRADAS Y SALIDAS*/
@@ -111,44 +187,49 @@ public function historial($nombre,$cedula,$ubicacion){
 /*CONEXION A LA BASE DE DATOS*/
 
 public function sql_consulta($consulta){
-  $conexion = mysqli_connect($this->servidor,$this->user,$this->password,$this->database) or die ("Error de Conaxion: ". mysqli_connect_error());
+  $conexion = mysqli_connect($this->servidor,$this->user,$this->password,$this->database);
   $resultado = mysqli_query( $conexion, $consulta );
 }
 
 /*CONEXION A LA BASE DE DATOS*/
 
 public function row_sqlconector($consulta) {
-	$row=0;
-	$conexion = @mysqli_connect($this->servidor,$this->user,$this->password,$this->database);
+  $row = array();
+  $conexion = @mysqli_connect($this->servidor, $this->user, $this->password, $this->database);
   if (!$conexion) {
-    echo "Refresh page, Failed to connect to Data: " . mysqli_connect_error();
-    exit();
-  }else{
-    if($resultado = mysqli_query( $conexion, $consulta )){
-  		$row = mysqli_fetch_array($resultado);
-  	}
-  	mysqli_close($conexion);
+      echo "Refresh page, Failed to connect to Data: " . mysqli_connect_error();
+      exit();
+  } else {
+      $resultado = mysqli_query($conexion, $consulta);
+      if ($resultado) {
+          $row = mysqli_fetch_array($resultado, MYSQLI_ASSOC);
+      }
+      mysqli_close($conexion);
   }
-	return $row;
+  return $row;
 }
+
 
 /*VERIFICACION SI EL USUARIO EXISTE*/
 
-public function siUsuarioExiste($nombre){
-  $conexion = mysqli_connect($this->servidor,$this->user,$this->password,$this->database) or die ("Error de Conaxion: ". mysqli_connect_error());
-  $consulta = "SELECT * FROM USUARIOS WHERE NOMBRE='".$nombre."'";
-  $resultado = mysqli_query( $conexion, $consulta ) or die("Error en la Consulta a Usuarios");
-  if ($row = mysqli_fetch_array($resultado))
-    if(strlen($row['NOMBRE'])>0) 
-      return TRUE;
-  return FALSE;
+public function siUsuarioExiste($idusuario) {
+  $conexion = mysqli_connect($this->servidor, $this->user, $this->password, $this->database);
+  if (!$conexion) {
+      echo "Error: No se pudo conectar a MySQL." . PHP_EOL;
+      exit;
+  }
+
+  $resultado = mysqli_query($conexion, "SELECT 1 FROM usuario WHERE idusuario = " . intval($idusuario));
+  $existe = mysqli_num_rows($resultado) > 0;
   mysqli_close($conexion);
-}
 
+  return $existe;
 }
-
 
 /*********************FIN DE LA CLASE MODUL0**************************/
+}
+/********************* */
+
 
 /*FUNCION QUE GENERA NUMERO SALIDA*/
 
@@ -160,19 +241,17 @@ if (isset($_GET['num_salida'])){
 /*FUNCION DE PARA OBTENER LA INFORMACION DEL CLIENTE*/
 
 if (isset($_GET['infoCliente'])){
-  $conexion = mysqli_connect('localhost','root','','tiendapanaderia') or die ("Error de Conaxion: ". mysqli_connect_error());
-  $consulta = "SELECT * FROM usuario WHERE IDusuario='".$_GET['cedula']."'";
-  $resultado = mysqli_query( $conexion, $consulta ) or die("Error en la Consulta a Usuarios");
+  $conexion = mysqli_connect('localhost','root','','tiendapanaderia');
+  $consulta = "SELECT * FROM usuario WHERE idusuario='".$_GET['cedula']."'";
+  $resultado = mysqli_query( $conexion, $consulta );
   if ($row = mysqli_fetch_array($resultado))
   {
-              /*Creacion de un array con la informacion del cliente para pasarla a un Json encode 
-              y luego obtenerla del modulo en Salida*/
-
- $obj = array('IDusuario' => $row['IDusuario'], 'nombre' => $row['nombre'], 'apellido' => $row['apellido'],'direccion' => $row['direccion'], 'telefono' => $row['telefono'] );
-  echo json_encode($obj);  
-    }
- 
-  mysqli_close($conexion);
+    /*Creacion de un array con la informacion del cliente para pasarla a un Json encode 
+    y luego obtenerla del modulo en Salida*/
+    $obj = array('IDusuario' => $row['idusuario'], 'nombre' => $row['nombre'], 'apellido' => $row['apellido'],'direccion' => $row['direccion'], 'telefono' => $row['telefono'] );
+    mysqli_close($conexion);
+    echo json_encode($obj);  
+  }  
 }
 
 
@@ -208,30 +287,30 @@ if (isset($_POST['infoTemp'])){
     $tabla_temp = $tabla_temp."
 
     <tr>
-      <td><a onclick=borrar_producto({$row['ID']})><img id=icon-bt src='../../Assets/images/inventory/erase.png'></a></td>
-      <td>{$row['CODIGO_PRODUCTO'] }</td> 
-      <td>{$row['NOMBRE_PRODUCTO']}</td>
-      <td>{$row['CANTIDAD']}</td>
-      <td>{$row['PRECIO']}</td>
+      <td><a onclick=borrar_producto({$row['id']})><img id=icon-bt src='../../Assets/images/inventory/erase.png'></a></td>
+      <td>{$row['codigo_producto'] }</td> 
+      <td>{$row['nombre_producto']}</td>
+      <td>{$row['cantidad']}</td>
+      <td>{$row['precio']}</td>
    </tr>   
   ";
   //calcula el subtotal de los insumos utilizados al costo
       //consulta todos los item de insumos utilizados de la receta a cocinar
-      $Q_insumos = "select * from itemrecetas where IDproducto=".$row['CODIGO_PRODUCTO']."";
+      $Q_insumos = "select * from itemrecetas where idproducto=".$row['codigo_producto']."";
       $query = mysqli_query($conexion, $Q_insumos );
       while($item = mysqli_fetch_array($query)){
-        $cantidad = $row['CANTIDAD'] * $item['cantidad'];
+        $cantidad = $row['cantidad'] * $item['cantidad'];
 
         //consulto el precio del insumo
-        $Q_info_insumo="select PRECIO FROM INSUMOS WHERE CODIGO='".$item['codigoInsumo']."'";
+        $Q_info_insumo="select precio FROM insumos WHERE codigo='".$item['codigoinsumo']."'";
         $query_info = mysqli_query($conexion, $Q_info_insumo );
         $item_info_insumo = mysqli_fetch_array($query_info);
 
-        $subtotal = $subtotal + ($item_info_insumo['PRECIO'] * $cantidad);
+        $subtotal = $subtotal + ($item_info_insumo['precio'] * $cantidad);
       }
   
 
-  $cedula = $row['CEDULA_CLIENTE'];
+  $cedula = $row['cedula_cliente'];
   }
 
   $tabla_temp = $tabla_temp. "</tbody></table>";
@@ -240,8 +319,8 @@ if (isset($_POST['infoTemp'])){
   
   $nombre=''; $apellido='';$direccion='';$telefono='';
 
-  $consulta = "SELECT * FROM usuario WHERE IDusuario='{$cedula}'";
-  $resultado = mysqli_query( $conexion, $consulta ) or die("Error en la Consulta a Usuarios");
+  $consulta = "SELECT * FROM usuario WHERE idusuario='{$cedula}'";
+  $resultado = mysqli_query( $conexion, $consulta );
 
   if ($row = mysqli_fetch_array($resultado))
   {
@@ -265,12 +344,13 @@ if (isset($_POST['infoTemp'])){
 
 if (isset($_POST['addTemp'])){ 
   $conexion = mysqli_connect('localhost','root','','tiendapanaderia');
-  $consulta = "SELECT * FROM productos WHERE IDproducto=".$_POST['codigo']."";
+  $consulta = "SELECT * FROM productos WHERE idproducto=".$_POST['codigo']."";
   $resultado = mysqli_query( $conexion, $consulta );
   if ($row = mysqli_fetch_array($resultado))
   {
-    $consulta2 = "INSERT INTO {$_POST['tabla']} (CODIGO_PRODUCTO, NOMBRE_PRODUCTO, CANTIDAD,PRECIO,CEDULA_CLIENTE) VALUES ('{$row['IDproducto']}','{$row['nombre_producto']}',{$_POST['cantidad']},{$row['precio_producto']},{$_POST['cedula']})";
-    $resultado2 = mysqli_query( $conexion, $consulta2 ) or die("Error en la Consulta a Usuarios");
+    $consulta2 = "INSERT INTO {$_POST['tabla']} (codigo_producto, nombre_producto, cantidad,precio,cedula_cliente)
+     VALUES ('{$row['idproducto']}','{$row['nombre_producto']}',{$_POST['cantidad']},{$row['precio_producto']},{$_POST['cedula']})";
+    $resultado2 = mysqli_query( $conexion, $consulta2 );
   }
   mysqli_close($conexion);
 }
@@ -278,12 +358,12 @@ if (isset($_POST['addTemp'])){
 /*OBTENER EXISTENCIA */
 
 if (isset($_POST['getExistencia'])){
-  $conexion = mysqli_connect('localhost','root','','tiendapanaderia') or die ("Error de Conaxion: ". mysqli_connect_error());
-  $consulta = "SELECT * FROM INSUMOS WHERE CODIGO='".$_POST['codigo']."'";
-  $resultado = mysqli_query( $conexion, $consulta ) or die("Error en la Consulta a Usuarios");
+  $conexion = mysqli_connect('localhost','root','','tiendapanaderia');
+  $consulta = "SELECT * FROM insumos WHERE codigo='".$_POST['codigo']."'";
+  $resultado = mysqli_query( $conexion, $consulta );
   if ($row = mysqli_fetch_array($resultado))
   {
-    $obj = array('nombre' => $row['NOMBRE'], 'existencia' => $row['EXISTENCIA']);
+    $obj = array('nombre' => $row['nombre'], 'existencia' => $row['existencia']);
     echo json_encode($obj);  
   }
  
@@ -296,7 +376,7 @@ if (isset($_POST['getExistencia'])){
 /*OBTENER INFORMACION DE TABLA DE ENTRADA TEMPORAL*/
 
 if (isset($_POST['infoTempE'])){
-  $conexion = mysqli_connect('localhost','root','','tiendapanaderia') or die ("Error de Conaxion: ". mysqli_connect_error());
+  $conexion = mysqli_connect('localhost','root','','tiendapanaderia');
     $subtotal= 0;
     $iva=0;
     $total=0;
@@ -316,7 +396,7 @@ if (isset($_POST['infoTempE'])){
   
   $consulta3 = "SELECT * from {$_POST['tabla']}";
     
-  $resultado3 = mysqli_query( $conexion, $consulta3 ) or die("Error en la Consulta a Usuarios");
+  $resultado3 = mysqli_query( $conexion, $consulta3 );
   $cedula = '';
   $proveedor = '';
 
@@ -325,22 +405,22 @@ if (isset($_POST['infoTempE'])){
     $tabla_temp = $tabla_temp."
 
     <tr>
-      <td><a onclick=borrar_producto({$row['ID']})><img id=icon-bt src='../../Assets/images/inventory/erase.png'></a></td>
-      <td>{$row['CODIGO_PRODUCTO'] }</td> 
-      <td>{$row['NOMBRE_PRODUCTO']}</td>
-      <td>{$row['CANTIDAD']}</td>
+      <td><a onclick=borrar_producto({$row['id']})><img id=icon-bt src='../../Assets/images/inventory/erase.png'></a></td>
+      <td>{$row['codigo_producto'] }</td> 
+      <td>{$row['nombre_producto']}</td>
+      <td>{$row['cantidad']}</td>
    </tr>   
   ";
-  $subtotal = $subtotal + $row['PRECIO'];
-  $proveedor = $row['PROVEEDOR'];
+  $subtotal = $subtotal + $row['precio'];
+  $proveedor = $row['proveedor'];
   }
   $tabla_temp = $tabla_temp. "</tbody></table>";
   $iva= $subtotal * 16/100;
   $total= $subtotal + $iva;
   
-    mysqli_close($conexion);
+  mysqli_close($conexion);
 
-                        /*ENVIAR INFORMACION DE ENTRADA MEIDANTE ARRAY  */
+  /*ENVIAR INFORMACION DE ENTRADA MEIDANTE ARRAY  */
 
   $obj = array('tabla' => $tabla_temp, 'subtotal' => $subtotal, 'iva' => $iva,'total' => $total,'proveedor' => $proveedor);
   echo json_encode($obj);    
@@ -350,11 +430,12 @@ if (isset($_POST['infoTempE'])){
 
 if (isset($_POST['addTempE'])){
   $conexion = mysqli_connect('localhost','root','','tiendapanaderia') or die ("Error de Conaxion: ". mysqli_connect_error());
-  $consulta = "SELECT * FROM INSUMOS WHERE CODIGO='".$_POST['codigo']."'";
-  $resultado = mysqli_query( $conexion, $consulta ) or die("Error en la Consulta a Usuarios");
+  $consulta = "SELECT * FROM insumos WHERE codigo='".$_POST['codigo']."'";
+  $resultado = mysqli_query( $conexion, $consulta );
   if ($row = mysqli_fetch_array($resultado))
   {
-    $consulta2 = "INSERT INTO {$_POST['tabla']} (CODIGO_PRODUCTO, NOMBRE_PRODUCTO, CANTIDAD,PRECIO,PROVEEDOR) VALUES ('{$row['CODIGO']}','{$row['NOMBRE']}',{$_POST['cantidad']},{$row['PRECIO']},'{$_POST['proveedor']}')";
+    $consulta2 = "INSERT INTO {$_POST['tabla']} (codigo_producto, nombre_producto, cantidad,precio,proveedor)
+     VALUES ('{$row['codigo']}','{$row['nombre']}',{$_POST['cantidad']},{$row['precio']},'{$_POST['proveedor']}')";
     $resultado2 = mysqli_query( $conexion, $consulta2 ) or die("Error en la Consulta a Usuarios");
   }
  
@@ -365,18 +446,18 @@ if (isset($_POST['addTempE'])){
 /*LISTAR INSUMOS EN ENTRADA  */
 
 if (isset($_POST['list_productos'])){
-  $conexion = mysqli_connect('localhost','root','','tiendapanaderia') or die ("Error de Conaxion: ". mysqli_connect_error());  
-  $consulta = "SELECT * from CARAC_ENTRADA WHERE NUM_ENTRADA=".$_POST['num_entrada'];
+  $conexion = mysqli_connect('localhost','root','','tiendapanaderia');
+  $consulta = "SELECT * from carac_entrada WHERE num_entrada=".$_POST['num_entrada'];
   $cadena = "";
-  $resultado = mysqli_query( $conexion, $consulta ) or die("Error en la Consulta a Usuarios");  
+  $resultado = mysqli_query( $conexion, $consulta );
   while($row = mysqli_fetch_array($resultado)){
-    $cadena=$cadena."<option value='{$row['CODIGO_PRODUCTO']}' label='{$row['NOMBRE_PRODUCTO']}'>";
+    $cadena=$cadena."<option value='{$row['codigo_producto']}' label='{$row['nombre_producto']}'>";
   }
 
-                /*RELLENAR INSUMOS Y PROVEEDOR*/
+  /*RELLENAR INSUMOS Y PROVEEDOR*/
 
-  $consulta2 = "SELECT PROVEEDOR from ENTRADA WHERE NUM_ENTRADA=".$_POST['num_entrada'];
-  $resultado2 = mysqli_query( $conexion, $consulta2 ) or die("Error en la Consulta a Usuarios");  
+  $consulta2 = "SELECT proveedor from entrada WHERE num_entrada=".$_POST['num_entrada'];
+  $resultado2 = mysqli_query( $conexion, $consulta2 );
 
   if ($row = mysqli_fetch_array($resultado2))
   {
@@ -390,13 +471,14 @@ if (isset($_POST['list_productos'])){
 /*INSERTAR EN TABLA TEMPORAL DE DEVOLUCION DE ENTRADA */
 
 if (isset($_POST['addTempDE'])){
-  $conexion = mysqli_connect('localhost','root','','tiendapanaderia') or die ("Error de Conaxion: ". mysqli_connect_error());
-  $consulta = "SELECT * FROM INSUMOS WHERE CODIGO='".$_POST['codigo']."'";
-  $resultado = mysqli_query( $conexion, $consulta ) or die("Error en la Consulta a Usuarios");
+  $conexion = mysqli_connect('localhost','root','','tiendapanaderia');
+  $consulta = "SELECT * FROM insumos WHERE codigo='".$_POST['codigo']."'";
+  $resultado = mysqli_query( $conexion, $consulta );
   if ($row = mysqli_fetch_array($resultado))
   {
-    $consulta2 = "INSERT INTO {$_POST['tabla']} (CODIGO_PRODUCTO, NOMBRE_PRODUCTO, CANTIDAD,PRECIO,PROVEEDOR) VALUES ('{$row['CODIGO']}','{$row['NOMBRE']}',{$_POST['cantidad']},{$row['PRECIO']},'{$_POST['proveedor']}')";
-    $resultado2 = mysqli_query( $conexion, $consulta2 ) or die("Error en la Consulta a Usuarios");
+    $consulta2 = "INSERT INTO {$_POST['tabla']} (codigo_producto, nombre_producto, cantidad,precio,proveedor) 
+    VALUES ('{$row['codigo']}','{$row['nombre']}',{$_POST['cantidad']},{$row['precio']},'{$_POST['proveedor']}')";
+    $resultado2 = mysqli_query( $conexion, $consulta2 );
   }
  
   mysqli_close($conexion);
@@ -406,19 +488,18 @@ if (isset($_POST['addTempDE'])){
  /*BORRAR TABLA TEMPORAL DE DEVOLUCION DE ENTRADA  */
 
 if (isset($_POST['delete_tempDE'])){
-  $conexion = mysqli_connect('localhost','root','','tiendapanaderia') or die ("Error de Conaxion: ". mysqli_connect_error());
+  $conexion = mysqli_connect('localhost','root','','tiendapanaderia');
   $consulta = "DELETE FROM {$_POST['tabla']}";
-  $resultado = mysqli_query( $conexion, $consulta ) or die("Error en la Consulta a Usuarios");
+  $resultado = mysqli_query( $conexion, $consulta );
  
   mysqli_close($conexion);
-
 }
 
 
- /*ALMACENAR INFORMACION DE TABLA TEMPORAL DE ENTRADA  */
+ /*MOSTRAR INFORMACION DE TABLA TEMPORAL DE ENTRADA  */
 
 if (isset($_POST['infoTempDE'])){
-  $conexion = mysqli_connect('localhost','root','','tiendapanaderia') or die ("Error de Conaxion: ". mysqli_connect_error());
+  $conexion = mysqli_connect('localhost','root','','tiendapanaderia');
     $subtotal= 0;
     $iva=0;
     $total=0;
@@ -438,7 +519,7 @@ if (isset($_POST['infoTempDE'])){
   
   $consulta3 = "SELECT * from {$_POST['tabla']}";
     
-  $resultado3 = mysqli_query( $conexion, $consulta3 ) or die("Error en la Consulta a Usuarios");
+  $resultado3 = mysqli_query( $conexion, $consulta3 );
   $cedula = '';
   $proveedor = '';
 
@@ -447,14 +528,14 @@ if (isset($_POST['infoTempDE'])){
     $tabla_temp = $tabla_temp."
 
     <tr>
-      <td><a onclick=borrar_producto({$row['ID']})><img id=icon-bt src='../../Assets/images/inventory/erase.png'></a></td>
-      <td>{$row['CODIGO_PRODUCTO'] }</td> 
-      <td>{$row['NOMBRE_PRODUCTO']}</td>
-      <td>{$row['CANTIDAD']}</td>
+      <td><a onclick=borrar_producto({$row['id']})><img id=icon-bt src='../../Assets/images/inventory/erase.png'></a></td>
+      <td>{$row['codigo_producto'] }</td> 
+      <td>{$row['nombre_producto']}</td>
+      <td>{$row['cantidad']}</td>
    </tr>   
   ";
-  $subtotal = $subtotal + $row['PRECIO'];
-  $proveedor = $row['PROVEEDOR'];
+  $subtotal = $subtotal + $row['precio'];
+  $proveedor = $row['proveedor'];
   }
   $tabla_temp = $tabla_temp. "</tbody></table>";
   $iva= $subtotal * 16/100;
@@ -472,23 +553,22 @@ if (isset($_POST['infoTempDE'])){
  /*OBTENER EXISTENCIA DE UNA ENTRADA MAXIMA*/
 
 if (isset($_POST['getExistenciaEntrada'])){
-  $conexion = mysqli_connect('localhost','root','','tiendapanaderia') or die ("Error de Conaxion: ". mysqli_connect_error());
-  $consulta = "SELECT * FROM CARAC_ENTRADA WHERE NUM_ENTRADA=".$_POST['referencia']." AND CODIGO_PRODUCTO = '".$_POST['codigo']."'";
-  $resultado = mysqli_query( $conexion, $consulta ) or die("Error en la Consulta a Usuarios");
+  $conexion = mysqli_connect('localhost','root','','tiendapanaderia');
+  $consulta = "SELECT * FROM carac_entrada WHERE num_entrada=".$_POST['referencia']." AND codigo_producto = '".$_POST['codigo']."'";
+  $resultado = mysqli_query( $conexion, $consulta );
   if ($row = mysqli_fetch_array($resultado))
   {
-    $obj = array('nombre' => $row['NOMBRE_PRODUCTO'], 'existencia' => $row['CANTIDAD']);
+    $obj = array('nombre' => $row['nombre_producto'], 'existencia' => $row['cantidad']);
     echo json_encode($obj);  
   }
  
   mysqli_close($conexion);
-
 }
 
 /*Record Count de Tabla*/
 
 if (isset($_GET['recordCountTemp'])){
-  $conexion = mysqli_connect('localhost','root','','tiendapanaderia') or die ("Error de Conaxion: ". mysqli_connect_error());
+  $conexion = mysqli_connect('localhost','root','','tiendapanaderia');
   $consulta = "SELECT * FROM {$_GET['temp']}";
   
   
@@ -500,14 +580,12 @@ if (isset($_GET['recordCountTemp'])){
     // Display result
     echo $rowcount ;
  }
- 
   mysqli_close($conexion);
-
 }
 
 if (isset($_GET['recordCountTempProducto'])){
-  $conexion = mysqli_connect('localhost','root','','tiendapanaderia') or die ("Error de Conaxion: ". mysqli_connect_error());
-  $consulta = "SELECT * FROM {$_GET['temp']} WHERE DELETED=0";
+  $conexion = mysqli_connect('localhost','root','','tiendapanaderia');
+  $consulta = "SELECT * FROM {$_GET['temp']} WHERE deleted=0";
   
   if ($resultado = mysqli_query($conexion, $consulta)) {
 
@@ -524,36 +602,32 @@ if (isset($_GET['recordCountTempProducto'])){
 
 
 if (isset($_GET['recordCountEntSal'])){
-  $conexion = mysqli_connect('localhost','root','','tiendapanaderia') or die ("Error de Conaxion: ". mysqli_connect_error());
-  $consulta = "SELECT * FROM {$_GET['temp']} WHERE WHERE FECHA BETWEEN '2023-08-10 00:00:00' AND '2023-08-10 23:59:59'";
+  $conexion = mysqli_connect('localhost','root','','tiendapanaderia');
+  $consulta = "SELECT * FROM {$_GET['temp']} WHERE WHERE fecha BETWEEN '2023-08-10 00:00:00' AND '2023-08-10 23:59:59'";
   
   if ($resultado = mysqli_query($conexion, $consulta)) {
-
     // Return the number of rows in result set
-    $rowcount = mysqli_num_rows( $resultado );
-    
+    $rowcount = mysqli_num_rows( $resultado );    
     // Display result
     echo $rowcount ;
  }
- 
   mysqli_close($conexion);
-
 }
 
 
 /*INSERTAR EN TABLA TEMPORAL DE DEVOLUCION DE SALIDA */
 
 if (isset($_POST['addTempDS'])){
-  $conexion = mysqli_connect('localhost','root','','tiendapanaderia') or die ("Error de Conaxion: ". mysqli_connect_error());
-  $consulta = "SELECT * FROM INSUMOS WHERE CODIGO='".$_POST['codigo']."'";
-  $resultado = mysqli_query( $conexion, $consulta ) or die("Error en la Consulta a Usuarios");
+  $conexion = mysqli_connect('localhost','root','','tiendapanaderia');
+  $consulta = "SELECT * FROM insumos WHERE codigo='".$_POST['codigo']."'";
+  $resultado = mysqli_query( $conexion, $consulta );
   
   if ($row = mysqli_fetch_array($resultado))
   {
-    $consulta2 = "INSERT INTO {$_POST['tabla']} (CODIGO_PRODUCTO, NOMBRE_PRODUCTO, CANTIDAD,PRECIO,CEDULA_CLIENTE) VALUES ('{$row['CODIGO']}','{$row['NOMBRE']}',{$_POST['cantidad']},{$row['PRECIO']},'{$_POST['cedula_cliente']}')";    
-    $resultado2 = mysqli_query( $conexion, $consulta2 ) or die("Error en la Consulta a Usuarios");
-  }
- 
+    $consulta2 = "INSERT INTO {$_POST['tabla']} (codigo_producto, nombre_producto, cantidad,precio,cedula_cliente) 
+    VALUES ('{$row['codigo']}','{$row['nombre']}',{$_POST['cantidad']},{$row['precio']},'{$_POST['cedula_cliente']}')";
+    $resultado2 = mysqli_query( $conexion, $consulta2 );
+  } 
   mysqli_close($conexion);
 
 }
@@ -562,10 +636,9 @@ if (isset($_POST['addTempDS'])){
 /*BORRAR TABLA TEMPORAL DE DEVOLUCION DE SALIDA */
 
 if (isset($_POST['delete_tempDS'])){
-  $conexion = mysqli_connect('localhost','root','','tiendapanaderia') or die ("Error de Conaxion: ". mysqli_connect_error());
+  $conexion = mysqli_connect('localhost','root','','tiendapanaderia');
   $consulta = "DELETE FROM {$_POST['tabla']}";
-  $resultado = mysqli_query( $conexion, $consulta ) or die("Error en la Consulta a Usuarios");
- 
+  $resultado = mysqli_query( $conexion, $consulta );
   mysqli_close($conexion);
 
 }
@@ -574,7 +647,7 @@ if (isset($_POST['delete_tempDS'])){
 /*INFORMACION DE TABLA TEMPORAL DE DEVOLUCION DE SALIDA (CREACION DE TABLA)*/
 
 if (isset($_POST['infoTempDS'])){
-  $conexion = mysqli_connect('localhost','root','','tiendapanaderia') or die ("Error de Conaxion: ". mysqli_connect_error());
+  $conexion = mysqli_connect('localhost','root','','tiendapanaderia');
     $subtotal= 0;
     $iva=0;
     $total=0;
@@ -595,7 +668,7 @@ if (isset($_POST['infoTempDS'])){
   
   $consulta3 = "SELECT * from {$_POST['tabla']}";
     
-  $resultado3 = mysqli_query( $conexion, $consulta3 ) or die("Error en la Consulta a Usuarios");
+  $resultado3 = mysqli_query( $conexion, $consulta3 );
   $cedula = '';
   $proveedor = '';
 
@@ -605,14 +678,14 @@ if (isset($_POST['infoTempDS'])){
 
     <tr>
       <td><a onclick=borrar_producto({$row['ID']})><img id=icon-bt src='../../Assets/images/inventory/erase.png'></a></td>
-      <td>{$row['CODIGO_PRODUCTO'] }</td> 
-      <td>{$row['NOMBRE_PRODUCTO']}</td>
-      <td>{$row['CANTIDAD']}</td>
-      <td>{$row['PRECIO']}</td>
+      <td>{$row['codigo_producto'] }</td> 
+      <td>{$row['nombre_producto']}</td>
+      <td>{$row['cantidad']}</td>
+      <td>{$row['precio']}</td>
    </tr>   
   ";
-  $subtotal = $subtotal + $row['PRECIO'];
-  $proveedor = $row['CEDULA_CLIENTE'];
+  $subtotal = $subtotal + $row['precio'];
+  $proveedor = $row['cedula_cliente'];
   }
   $tabla_temp = $tabla_temp. "</tbody></table>";
   $iva= $subtotal * 16/100;
@@ -626,11 +699,11 @@ if (isset($_POST['infoTempDS'])){
 
 if (isset($_POST['getExistenciaSalida'])){
   $conexion = mysqli_connect('localhost','root','','tiendapanaderia') or die ("Error de Conaxion: ". mysqli_connect_error());
-  $consulta = "SELECT * FROM CARAC_SALIDA WHERE NUM_SALIDA=".$_POST['referencia']." AND CODIGO_PRODUCTO = '".$_POST['codigo']."'";
-  $resultado = mysqli_query( $conexion, $consulta ) or die("Error en la Consulta a Usuarios");
+  $consulta = "SELECT * FROM carac_salida WHERE num_salida=".$_POST['referencia']." AND codigo_producto = '".$_POST['codigo']."'";
+  $resultado = mysqli_query( $conexion, $consulta );
   if ($row = mysqli_fetch_array($resultado))
   {
-    $obj = array('nombre' => $row['NOMBRE_PRODUCTO'], 'existencia' => $row['CANTIDAD']);
+    $obj = array('nombre' => $row['nombre_producto'], 'existencia' => $row['cantidad']);
     echo json_encode($obj);  
   }
  
@@ -642,24 +715,22 @@ if (isset($_POST['getExistenciaSalida'])){
 /*OBTENER QUE INSUMOS SE HICIERON EN UNA SALIDA*/
 
 if (isset($_POST['list_productos_salida'])){
-  $conexion = mysqli_connect('localhost','root','','tiendapanaderia') or die ("Error de Conaxion: ". mysqli_connect_error());  
-  $consulta = "SELECT * from CARAC_SALIDA WHERE NUM_SALIDA=".$_POST['num_salida'];
+  $conexion = mysqli_connect('localhost','root','','tiendapanaderia');  
+  $consulta = "SELECT * from carac_salida WHERE num_salida=".$_POST['num_salida'];
   $cadena = "";
-  $resultado = mysqli_query( $conexion, $consulta ) or die("Error en la Consulta a Usuarios");  
+  $resultado = mysqli_query($conexion, $consulta);  
   while($row = mysqli_fetch_array($resultado)){
-    $cadena=$cadena."<option value='{$row['CODIGO_PRODUCTO']}' label='{$row['NOMBRE_PRODUCTO']}'>";
+    $cadena .= "<option value='{$row['codigo_producto']}' label='{$row['nombre_producto']}'>";
   }
   
-  $consulta2 = "SELECT CEDULA_CLIENTE from SALIDA WHERE NUM_SALIDA=".$_POST['num_salida'];
-  $resultado2 = mysqli_query( $conexion, $consulta2 ) or die("Error en la Consulta a Usuarios");  
+  $consulta2 = "SELECT cedula_cliente from salida WHERE num_salida=".$_POST['num_salida'];
+  $resultado2 = mysqli_query($conexion, $consulta2);  
 
-  if ($row = mysqli_fetch_array($resultado2))
-  {
-    $obj = array('productos' => $cadena, 'cliente' => $row['CEDULA_CLIENTE']);
+  if ($row = mysqli_fetch_array($resultado2)){
+    $obj = array('productos' => $cadena, 'cliente' => $row['cedula_cliente']);
     echo json_encode($obj);  
   }
   mysqli_close($conexion);
-
 }
 
 if (isset($_POST['validar_entrada'])){
@@ -667,34 +738,34 @@ if (isset($_POST['validar_entrada'])){
   $producto = FALSE;
   $paso = FALSE;
 
-  $conexion = mysqli_connect('localhost','root','','tiendapanaderia') or die ("Error de Conaxion: ". mysqli_connect_error());
-  $consulta = "SELECT * FROM PROVEEDOR WHERE NOMBRE='".$_POST['proveedor']."'";
-  $resultado = mysqli_query( $conexion, $consulta ) or die("Error en la Consulta a Usuarios");
+  $conexion = mysqli_connect('localhost','root','','tiendapanaderia');
+  $consulta = "SELECT * FROM proveedor WHERE nombre='".$_POST['proveedor']."'";
+  $resultado = mysqli_query($conexion, $consulta);
   if ($row = mysqli_fetch_array($resultado))
-    if(strlen($row['NOMBRE'])>0) 
+    if(strlen($row['nombre'])>0) 
       $proveedor = TRUE;
 
-  $consulta = "SELECT * FROM INSUMOS WHERE CODIGO='".$_POST['codigo']."'";
-  $resultado = mysqli_query( $conexion, $consulta ) or die("Error en la Consulta a Usuarios");
+  $consulta = "SELECT * FROM insumos WHERE codigo='".$_POST['codigo']."'";
+  $resultado = mysqli_query($conexion, $consulta);
   if ($row = mysqli_fetch_array($resultado))
-    if(strlen($row['CODIGO'])>0) 
+    if(strlen($row['codigo'])>0) 
       $producto = TRUE;      
   
-  if ($proveedor && $producto ) $paso = TRUE;
+  if ($proveedor && $producto) $paso = TRUE;
     
-    $obj = array('proveedor' => $proveedor, 'producto' => $producto,'paso' => $paso);
-    echo json_encode($obj);  
+  $obj = array('proveedor' => $proveedor, 'producto' => $producto, 'paso' => $paso);
+  echo json_encode($obj);  
  
   mysqli_close($conexion);
-
 }
+
 
 /*******************VER SI LA CATEGORIA EXISTE******************************/
 
 if (isset($_POST['siCampoExiste'])){
-  $conexion = mysqli_connect('localhost','root','','tiendapanaderia') or die ("Error de Conaxion: ". mysqli_connect_error());
+  $conexion = mysqli_connect('localhost','root','','tiendapanaderia');
   $consulta = "SELECT * FROM {$_POST['tabla']} WHERE {$_POST['campo']}='".$_POST['dato']."'";
-  $resultado = mysqli_query( $conexion, $consulta ) or die("Error en la Consulta a Usuarios");
+  $resultado = mysqli_query( $conexion, $consulta );
   if ($row = mysqli_fetch_array($resultado)){
         if(strlen($row[$_POST['campo']])>0){
       $obj = array('campo' => $row[$_POST['campo']], 'existe' => '1');
@@ -712,10 +783,10 @@ if (isset($_POST['siCampoExiste'])){
 
 /////////////////VER SI CEDULA EXISTE//////////////////////////////
 
-if (isset($_POST['siCedulaExiste'])){
-  $conexion = mysqli_connect('localhost','root','','tiendapanaderia') or die ("Error de Conaxion: ". mysqli_connect_error());
-  $consulta = "SELECT CEDULA FROM {$_POST['tabla']} WHERE {$_POST['campo']}='".$_POST['dato']."' AND TIPO='EMPLEADO'";
-  $resultado = mysqli_query( $conexion, $consulta ) or die("Error en la Consulta a Usuarios");
+if (isset($_POST['siDatoExiste'])){
+  $conexion = mysqli_connect('localhost','root','','tiendapanaderia');
+  $consulta = "SELECT * FROM {$_POST['tabla']} WHERE {$_POST['campo']}='".$_POST['dato']."'";
+  $resultado = mysqli_query( $conexion, $consulta );
   if ($row = mysqli_fetch_array($resultado)){
         if(strlen($row[$_POST['campo']])>0){
       $obj = array('campo' => $row[$_POST['campo']], 'existe' => '1');
@@ -731,6 +802,24 @@ if (isset($_POST['siCedulaExiste'])){
 
 }
 
+if (isset($_POST['readDatoString'])){
+  $conexion = mysqli_connect('localhost','root','','tiendapanaderia');
+  $consulta = "SELECT * FROM {$_POST['tabla']} WHERE {$_POST['campo']}='".$_POST['dato']."'";
+  $resultado = mysqli_query( $conexion, $consulta );
+  if ($row = mysqli_fetch_array($resultado)){
+        if(strlen($row[$_POST['campo']])>0){
+      $obj = array('campo' => $row[$_POST['busqueda']], 'existe' => '1');
+      echo json_encode($obj);  
+    }
+  }
+  else{
+      $obj = array('campo' => "0", 'existe' => '0');
+      echo json_encode($obj);  
+    }
+
+  mysqli_close($conexion);
+
+}
 
  ?>
  

@@ -14,7 +14,7 @@
 $conexion = $conn;
 
 	function insertNotif($IDusuario,$noticia,$ubicacion){
-		$Q_consulta = "INSERT INTO notificaciones (IDusuario,NOTICIA,UBICACION) VALUES(".$IDusuario.",'".$noticia."','{$ubicacion}')";
+		$Q_consulta = "INSERT INTO notificaciones (idusuario,noticia,ubicacion) VALUES(".$IDusuario.",'".$noticia."','{$ubicacion}')";
 		$resultado= mysqli_query($GLOBALS['conn'], $Q_consulta);
 	}
 
@@ -26,8 +26,8 @@ $conexion = $conn;
 
 	if(isset($_POST['cambiarEstado'])){
 		if(strlen($_POST['estado']) !="null"){
-			$consulta = "UPDATE transaccion SET estado='{$_POST['estado']}' WHERE IDpedido=".$_POST['tickedchat']."";
-			$consulta2 = "UPDATE pedido_usuario SET estado='{$_POST['estado']}' WHERE IDpedido=".$_POST['tickedchat']."";
+			$consulta = "UPDATE transaccion SET estado='{$_POST['estado']}' WHERE idpedido=".$_POST['tickedchat']."";
+			$consulta2 = "UPDATE pedido_usuario SET estado='{$_POST['estado']}' WHERE idpedido=".$_POST['tickedchat']."";
 			$row = mysqli_query( $GLOBALS['conexion'], $consulta );
 			$row2 = mysqli_query( $GLOBALS['conexion'], $consulta2 );
 			echo $_POST['estado'];
@@ -45,7 +45,7 @@ $conexion = $conn;
 
 		if (Strlen($_POST['mensaje'])>0){
 			//($amo,$ticked,$envia,$recibe,$mensaje)
-			insertChat($_SESSION['IDusuario'],$_POST['tickedchat'],$_POST['envia'],$recibe,$_POST['mensaje']);
+			insertChat($_SESSION['idusuario'],$_POST['tickedchat'],$_POST['envia'],$recibe,$_POST['mensaje']);
 			insertNotif($recibe,"Pedido #".$_POST['pedido']." Tiene un Nuevo Mensaje ",$GLOBALS['ROOT_PATH']."/Vista/Admin/panelAdmin.php?chat=&idpedido=".$_POST['pedido']);
 		}
 
@@ -55,46 +55,53 @@ $conexion = $conn;
 	}
 
   function makeChat($ticked){
-	  $consulta = "select * from CHAT where IDpedido='".$ticked."' order by fecha asc";
+	  $consulta = "select * from chat where idpedido='".$ticked."' order by fecha asc";
 	  $resultado = mysqli_query( $GLOBALS['conexion'], $consulta ) or die("No se pudo Consultar el Chat");
 	  $cadena="<table style='width: 100%; padding: 13px 0;'>";
 	  while($row = mysqli_fetch_array($resultado)){
-			$cadena=$cadena . "<tr><td style='font-size:11px;'>".$row['FECHA']." - ".$row['ENVIA']."</td></tr>
-				<tr><td style='background-color:".$row['BG']."; color=".$row['FG'].";'>".$row['MENSAJE']."</td></tr>";
+			$cadena=$cadena . "<tr><td style='font-size:11px;'>".$row['fecha']." - ".$row['envia']."</td></tr>
+				<tr><td style='background-color:".$row['bg']."; color=".$row['fg'].";'>".$row['mensaje']."</td></tr>";
 	  }
 	  $cadena = $cadena."</table>";
 	  //mysqli_close($conexion);
 	  return $cadena;
   }
 
-  function ifChatActivo($correo){
+  function ifChatActivo($correo) {
+    $consulta = "SELECT activo FROM chat WHERE amo = '".$correo."'";
+    $resultado = mysqli_query($GLOBALS['conexion'], $consulta) or die("No se pudo Consultar el Chat");
+    $row = mysqli_fetch_array($resultado);
+    return isset($row['activo']) && $row['activo'] == 1;
+}
+ 
+ 
+  /*function ifChatActivo($correo){
 	$p=0;
-	$consulta = "select ACTIVO from CHAT where AMO='".$correo."'";
+	$consulta = "select activo from chat where amo='".$correo."'";
 	$resultado = mysqli_query( $GLOBALS['conexion'], $consulta ) or die("No se pudo Consultar el Chat");
 	$row = mysqli_fetch_array($resultado);
-	if(!empty($row['ACTIVO']))$p=$row['ACTIVO'];
+	if(!empty($row['activo']))$p=$row['activo'];
 	if($p==0) return FALSE;
 	else return TRUE;
-  }
+  }*/
 
   function ifAmoExist($correo){
-	$consulta = "select * from CHAT where AMO='".$correo."'";
+	$consulta = "select * from chat where amo='".$correo."'";
 	$resultado = mysqli_query( $GLOBALS['conexion'], $consulta ) or die("No se pudo Consultar el Chat");
 	$row = mysqli_fetch_array($resultado);
-	if($row['AMO']=="$correo") return TRUE;
+	if($row['amo']=="$correo") return TRUE;
 	return FALSE;
   }
 
   function ifChatCerrado($ticked){
-	$consulta = "select * from CHAT where IDpedido='".$ticked."'";
-	$resultado = mysqli_query( $GLOBALS['conexion'], $consulta ) or die("No se pudo Consultar el Chat");	
-	$row = mysqli_fetch_array($resultado);
-	if($row['CERRADO']==1) return TRUE;
-	return FALSE;
+	$consulta = "select * from chat where idpedido='".$ticked."'";
+    $resultado = mysqli_query($GLOBALS['conexion'], $consulta) or die("No se pudo Consultar el Chat");
+    $row = mysqli_fetch_array($resultado);
+    return isset($row['cerrado']) && $row['cerrado'] == 1;
   }
 
   function chatSinLeer($ticked,$recibe){
-	$consulta = "select LEIDO, COUNT(*) AS TOTAL from CHAT where IDpedido='".$ticked."' AND LEIDO=0 AND RECIBE='".$recibe."'";
+	$consulta = "select leido, COUNT(*) AS TOTAL from chat where idpedido='".$ticked."' AND leido=0 AND recibe='".$recibe."'";
 	$resultado = mysqli_query( $GLOBALS['conexion'], $consulta ) or die("No se pudo Consultar el Chat");
 	$row = mysqli_fetch_array($resultado);
 	if($row['TOTAL']>0) return $row['TOTAL'];
@@ -110,29 +117,29 @@ $conexion = $conn;
   }
 
   function cerrarChat($ticked){
-	$consulta = "UPDATE CHAT SET CERRADO=1 WHERE IDpedido='".$ticked."'";
+	$consulta = "UPDATE chat SET cerrado=1 WHERE idpedido='".$ticked."'";
 	$row = mysqli_query( $GLOBALS['conexion'], $consulta ) or die("No se pudo Consultar el Chat");
   }
 
   function activarChat($correo,$estatus){
-	$consulta = "UPDATE CHAT SET ACTIVO=".$estatus." WHERE AMO='".$correo."'";
+	$consulta = "UPDATE chat SET activo=".$estatus." WHERE amo='".$correo."'";
 	$row = mysqli_query( $GLOBALS['conexion'], $consulta ) or die("No se pudo Consultar el Chat");	
   }
 
 
   function chatLeido($ticked,$IDusuario){
-	$consulta = "UPDATE CHAT SET LEIDO=1 WHERE IDpedido='".$ticked."' AND RECIBE=".$IDusuario;
+	$consulta = "UPDATE chat SET leido=1 WHERE idpedido='".$ticked."' AND recibe=".$IDusuario;
 	$row = mysqli_query( $GLOBALS['conexion'], $consulta ) or die("No se pudo Consultar el Chat");
   }
 
   function insertChat($amo,$ticked,$envia,$recibe,$mensaje){
-	$consulta = "INSERT INTO CHAT(AMO,IDpedido,ENVIA,RECIBE,MENSAJE,BG) VALUES('".$amo."','".$ticked."','".$envia."','".$recibe."','".$mensaje."','".bgChatColor()."')";
+	$consulta = "INSERT INTO chat(amo,idpedido,envia,recibe,mensaje,bg) VALUES('".$amo."','".$ticked."','".$envia."','".$recibe."','".$mensaje."','".bgChatColor()."')";
 	$row = mysqli_query( $GLOBALS['conexion'], $consulta ) or die("No se pudo Consultar el Chat");
   }
 
   function createAmo($correo,$tk){
 	  if(ifAmoExist($correo)==FALSE){
-		$consulta = "INSERT INTO CHAT(AMO,IDpedido) VALUES('".$correo."','".$tk."')";
+		$consulta = "INSERT INTO chat(amo,idpedido) VALUES('".$correo."','".$tk."')";
 		$row = mysqli_query( $GLOBALS['conexion'], $consulta ) or die("No se pudo Consultar el Chat");
 			return 1;
 	  }
@@ -142,7 +149,7 @@ $conexion = $conn;
   }
 
  function updateColor($ticked,$envia,$bg,$fg){
-	$consulta = "UPDATE CHAT SET BG='".$bg."',FG='".$fg."' WHERE IDpedido='".$ticked."' AND ENVIA='".$envia."'";
+	$consulta = "UPDATE chat SET bg='".$bg."',fg='".$fg."' WHERE idpedido='".$ticked."' AND envia='".$envia."'";
 	$row = mysqli_query($GLOBALS['conexion'], $consulta ) or die("No se pudo Consultar el Chat");	
   }
 
@@ -152,25 +159,25 @@ $conexion = $conn;
 }
 
 function readCliente($IDusuario){
-	$consulta = "select * from usuario where IDusuario='".$IDusuario."'";
+	$consulta = "select * from usuario where idusuario='".$IDusuario."'";
 	$resultado = mysqli_query( $GLOBALS['conexion'], $consulta ) or die("No se pudo Consultar el Chat");	
 	$row = mysqli_fetch_array($resultado);
 	return $row;
 } 
   function dibujaChatApp($ticket) {
-	  $consulta = "select * from CHAT where IDpedido='".$ticket."' order by FECHA asc";
+	  $consulta = "select * from chat where idpedido='".$ticket."' order by fecha asc";
 	  $resultado = mysqli_query( $GLOBALS['conexion'], $consulta ) or die("No se pudo Consultar el Chat");
 	  $activo="";
 	  $recibe="";
 	  $amo="";
 	  while($row = mysqli_fetch_array($resultado)){
 	  		$icono="";
-			$recibe=$row['RECIBE'];
-			$amo=$row['AMO'];
-			if($row['ENVIA']==$row['AMO']){
-				$activo=$row['ENVIA'];
+			$recibe=$row['recibe'];
+			$amo=$row['amo'];
+			if($row['envia']==$row['amo']){
+				$activo=$row['envia'];
 			}
-			else $activo=$row['RECIBE'];
+			else $activo=$row['recibe'];
 
 			if(ifChatActivo($activo)){
 				$icono= "<span style='font-weight: lighter; font-size:11px;' title='Conectado'>&#9742;</span>";
@@ -180,9 +187,9 @@ function readCliente($IDusuario){
 			}
 
 			echo "
-			<div style='width: fit-content; padding:10px; border-radius:8px;margin:13px; background-color:".$row['BG']."; color=".$row['FG'].";'>
-			<span style='margin-top:5px;font-size:12px;'><b>".latinFecha($row['FECHA'])."</b>  ".readCliente($row['ENVIA'])['nombre']." ".$icono."</span>
-			<br><span style='font-weight: bolder;font-size:1em;'>".$row['MENSAJE']."</div>
+			<div style='width: fit-content; padding:10px; border-radius:8px;margin:13px; background-color:".$row['bg']."; color=".$row['FG'].";'>
+			<span style='margin-top:5px;font-size:12px;'><b>".latinFecha($row['fecha'])."</b>  ".readCliente($row['envia'])['nombre']." ".$icono."</span>
+			<br><span style='font-weight: bolder;font-size:1em;'>".$row['mensaje']."</div>
 			";
 	  }
 

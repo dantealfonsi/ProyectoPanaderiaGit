@@ -100,19 +100,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               <div class='first-line' style='padding: 2rem;gap: 2rem;'> 
                 <div class='flex-inside'>  
                     Nombre de la Receta:<br>
-                <input type="text" id="nombre_receta" name="nombre_receta" required>
+                <input type="text" id="nombre_receta" onfocusout="valNombreReceta()" name="nombre_receta" required>
                 </div>
 
             <div class='flex-inside'>
                 A que producto Pertenece?:<br>
-              <select name="nombre_producto" id="nombre_producto">
+              <select name="nombre_producto" id="nombre_producto" onchange="valPerteneceProducto()">
               <option value="">Seleccione</option>
               <?php 
               
                   $consulta  = "SELECT * from productos";
                   $resultado_cat = mysqli_query($conn, $consulta);
                   while($row = mysqli_fetch_array($resultado_cat)) {
-                    echo "<option value='".$row['IDproducto']."'>" . $row['nombre_producto'] . "</option>";
+                    echo "<option value='".$row['idproducto']."'>" . $row['nombre_producto'] . "</option>";
                   }
 
               ?>
@@ -132,21 +132,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>                
                     <div class='flex-inside' style='display: flex;flex-direction: column;' >
                     Unidad en:
-                    <select id="uni" name="uni">
+                    <select disabled id="uni" name="uni">
                         <option selected>Gramos</option>
                         <option>Unidades</option>
                     </select>
                     </div>
                 <div class='flex-inside'>
                     Insumo:<br>
-                    <select name="nombre_insumo" id="nombre_insumo">  
+                    <select name="nombre_insumo" id="nombre_insumo" onchange="copyUnidad()">  
                         <option value="">Seleccione</option>
                 <?php 
                 
-                    $consulta  = "SELECT * from INSUMOS";
+                    $consulta  = "SELECT * from insumos";
                     $resultado_cat = mysqli_query($conn, $consulta);
                     while($row = mysqli_fetch_array($resultado_cat)) {
-                        echo "<option value='".$row['NOMBRE']."'>" . $row['NOMBRE'] . "</option>";
+                        echo "<option value='".$row['nombre']."'>" . $row['nombre'] . "</option>";
                     }
 
                 ?>
@@ -192,10 +192,96 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <script src="../Javascript/Tooltip/tippy.min.js"></script>
   <script src="../Javascript/SweetAlert/sweetalert2.all.min.js"></script>
   <script src="../Javascript/DataTables/jQuery/jquery.min.js"></script>
+
 <script>
     
 // Array para almacenar los productos
 const productos = [];
+
+function copyUnidad(){
+    $.post("../../Modelo/modulo_proyecto.php",{
+          readDatoString: '',
+          tabla: 'insumos',
+          campo: 'nombre',
+          busqueda: 'uni',
+          dato: document.getElementById('nombre_insumo').value
+
+        },function(data){
+
+          datos= JSON.parse(data);
+
+            if(datos.existe==='1'){
+
+                    const selectElement = document.getElementById('uni');
+                    selectElement.value = datos.campo;
+
+          } 
+          else {
+        //si
+        }
+      });
+}
+
+
+function valNombreReceta(){
+          $.post("../../Modelo/modulo_proyecto.php",{
+          siDatoExiste: '',
+          tabla: 'recetas',
+          campo: 'nombre',
+          dato: document.getElementById('nombre_receta').value
+
+        },function(data){
+
+          datos= JSON.parse(data);
+
+            if(datos.existe==='1'){
+              restrictUsuario = false;
+              $("#nombre_receta").css("border-bottom","2px solid #f27474");
+            
+              Swal.fire(
+                    'Advertencia',
+                    'El Nombre de  la Receta ya existe',
+                    'warning'
+                  ).then(function(){
+                    document.getElementById('nombre_receta').value='';
+                    //document.getElementById('nombreUsuario').focus();
+                  });
+
+          } 
+          else {
+          restrictUsuario = true;
+          $("#nombre_receta").css("border-bottom","2px solid #6acfff");
+        }
+      });
+}
+
+function valPerteneceProducto(){
+          $.post("../../Modelo/modulo_proyecto.php",{
+          siDatoExiste: '',
+          tabla: 'recetas',
+          campo: 'idproducto',
+          dato: document.getElementById('nombre_producto').value
+
+        },function(data){
+
+          datos= JSON.parse(data);
+
+            if(datos.existe==='1'){ 
+              Swal.fire(
+                    'Advertencia',
+                    'Este producto ya tiene una  Receta Asignada',
+                    'warning'
+                  ).then(function(){
+                    const selectElement = document.getElementById('nombre_producto');
+                    selectElement.value = '';
+                  });
+
+          } 
+          else {
+        //si
+        }
+      });
+}
 
 function agregarProducto() {
     const cantidad = document.getElementById("cantidad").value;
@@ -208,7 +294,11 @@ function agregarProducto() {
         productos.push(nuevoProducto);
         mostrarTabla();
     } else {
-        alert("Por favor, completa todos los campos.");
+        Swal.fire(
+            'Advertencia!',
+            'Complete todos los campos para continuar...',
+            'warning'
+        );
     }
 }
 
@@ -268,7 +358,7 @@ function enviarReceta() {
     const nombreProducto = document.getElementById("nombre_producto").value;
     const preparacion = document.getElementById("nota").value;
 
-    if (nombreReceta && nombreProducto) {
+    if (nombreReceta && nombreProducto && preparacion) {
         const receta = {
             nombre_receta: nombreReceta,
             nombre_producto: nombreProducto,
@@ -297,7 +387,11 @@ function enviarReceta() {
             console.error("Error al enviar la receta:", error);
         });
     } else {
-        alert("Por favor, completa todos los campos.");
+        Swal.fire(
+            'Advertencia!',
+            'Complete todos los campos para continuar...',
+            'warning'
+        );
     }
 }
 </script>

@@ -33,7 +33,7 @@
             // verificar solo caracteres alfanuméricos
             // y alfanuméricos y de al menos 5 caracteres
             if(!preg_match('/^[a-zA-Z0-9]{5,}$/', $nombreUsuario)) { 
-                $criterioNombreUsuario = "El nombre de usuario debe tener solo caracteres alfanuméricos y debe tener al menos 5 caracteres.";
+                $criterioNombreUsuario = "El nombre de usuario debe tener solo caracteres alfanuméricos sin espacios y debe tener al menos 5 caracteres.";
             }
             else {
                 // verificar si el nombre de usuario ya está en la base de datos
@@ -144,10 +144,14 @@
                 //Generar VKey
                 $vkey = md5(time().$nombreUsuario);
 
+                //genera un IDpersona
+                $bytes = random_bytes(5);
+                $IDpersona = bin2hex($bytes);
+
                 $hashContrasena = password_hash($contrasena, PASSWORD_BCRYPT);
 
-                $sql = "INSERT INTO usuario (nombreUsuario,contrasena, nombre, apellido,correo, claveVerificacion)
-                VALUES ('$nombreUsuario', '$hashContrasena', '$nombre', '$apellido', '$correo', '$vkey')";
+                $sql = "INSERT INTO usuario (idpersona,nombreusuario,contrasena, nombre, apellido,correo, claveverificacion)
+                VALUES ('$IDpersona','$nombreUsuario', '$hashContrasena', '$nombre', '$apellido', '$correo', '$vkey')";
 
                 if(mysqli_query($conn, $sql)){
                     //enviar correo
@@ -164,7 +168,7 @@
 
                     $ultimoIDusuario = mysqli_insert_id($conn);
 
-                    $sql = "INSERT INTO cart (userID) VALUES ($ultimoIDusuario);";
+                    $sql = "INSERT INTO cart (userid) VALUES ($ultimoIDusuario);";
 
                     mysqli_query($conn, $sql);
                 }
@@ -235,9 +239,9 @@
             <span class="Error-Correo"><?php echo $criterioCorreo;?></span>
             <input type="text" name="correo" placeholder="Correo" value="<?php echo $correo;?>"/>
             <span class="Error-Contrasena"><?php echo $criterioContrasena;?></span>
-            <input type="password" name="contrasena" placeholder="Contrasena"/>
+            <input type="password" name="contrasena" placeholder="Contraseña"/>
             <span class="Error-Contrasena"><?php echo $criterioConfirmarContrasena;?></span>
-            <input type="password" name="confirmarContrasena" placeholder="Confirmar contrasena"/>
+            <input type="password" name="confirmarContrasena" placeholder="Confirmar contraseña"/>
             <span class=Error-recaptcha"><?php echo $criterioRecaptcha;?></span>
             <div name="g-recaptcha-response" class="g-recaptcha" data-sitekey="6Ld1nA0aAAAAAA7F7eJOY7CMwg7aaQAfg3WZy6P0"></div>
             <button>Unirse</button>

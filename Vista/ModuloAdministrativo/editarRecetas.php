@@ -11,7 +11,7 @@
 include "../../Modelo/conexion.php"; 
 
 function readNombreProducto($IDproducto){
-    $sql ="select IDproducto, nombre_producto from productos  where IDproducto={$IDproducto}";
+    $sql ="select idproducto, nombre_producto from productos  where idproducto={$IDproducto}";
     $resultado= mysqli_query($GLOBALS['conn'], $sql);
     $row = mysqli_fetch_array($resultado);
     return $row['nombre_producto'];
@@ -23,12 +23,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 if(isset($_GET['id'])){
     //obtengo la informacion de las recetas
-    $consulta = "select * from recetas where IDreceta='".$_GET['id']."'";
+    $consulta = "select * from recetas where idreceta='".$_GET['id']."'";
     $resultado = mysqli_query($conn, $consulta);
     $receta = mysqli_fetch_array($resultado);
 
     $nombre_receta= $receta['nombre'];
-    $nombre_producto = readNombreProducto($receta['IDproducto']);
+    $nombre_producto = readNombreProducto($receta['idproducto']);
     $nota = $receta['notas'];
 
 }else{
@@ -122,13 +122,13 @@ if(isset($_GET['id'])){
             <div class='first-line' style='padding: 2rem;gap: 2rem;'> 
                 <div class='flex-inside'>  
                     Nombre de la Receta:<br>
-                <input type="text" id="nombre_receta" name="nombre_receta" value="<?php echo $nombre_receta; ?>">
+                <input type="text" readonly id="nombre_receta" name="nombre_receta" value="<?php echo $nombre_receta; ?>">
                 </div>
          
 
                 <div class='flex-inside'>
                 A que producto Pertenece?:<br>
-                    <select name="nombre_producto" id="nombre_producto">
+                    <select disabled name="nombre_producto" id="nombre_producto" >
                     <option value="">Seleccione</option>
                         <?php 
                         
@@ -139,7 +139,7 @@ if(isset($_GET['id'])){
                                 if($nombre_producto == $row['nombre_producto']) {
                                     $select = "selected";
                                 }
-                                echo "<option {$select} value='".$row['IDproducto']."'>" . $row['nombre_producto'] . "</option>";
+                                echo "<option {$select} value='".$row['idproducto']."'>" . $row['nombre_producto'] . "</option>";
                             }
 
                         ?>
@@ -156,7 +156,7 @@ if(isset($_GET['id'])){
                 </div>                
                 <div class='flex-inside'>
                     Unidad en:<br>
-                    <select id="uni" name="uni">
+                    <select disabled id="uni" name="uni">
                         <option selected>Gramos</option>
                         <option>Unidades</option>
                     </select>
@@ -164,14 +164,14 @@ if(isset($_GET['id'])){
                 
                 <div class='flex-inside'>
                     Insumo:<br>
-                    <select name="nombre_insumo" id="nombre_insumo">  
+                    <select name="nombre_insumo" id="nombre_insumo"  onchange="copyUnidad()">  
                         <option value="">Seleccione</option>
                             <?php 
                             
-                                $consulta  = "SELECT * from INSUMOS";
+                                $consulta  = "SELECT * from insumos";
                                 $resultado_cat = mysqli_query($conn, $consulta);
                                 while($row = mysqli_fetch_array($resultado_cat)) {
-                                    echo "<option value='".$row['NOMBRE']."'>" . $row['NOMBRE'] . "</option>";
+                                    echo "<option value='".$row['nombre']."'>" . $row['nombre'] . "</option>";
                                 }
 
                             ?>
@@ -210,9 +210,38 @@ if(isset($_GET['id'])){
     </body>
 </html>
 
+<script src="../Javascript/Tooltip/tooltip.min.js"></script>
+  <script src="../Javascript/Tooltip/tippy.min.js"></script>
+  <script src="../Javascript/SweetAlert/sweetalert2.all.min.js"></script>
+  <script src="../Javascript/DataTables/jQuery/jquery.min.js"></script>
+
 <script>
 // Array para almacenar los productos
 let productos = [];
+
+function copyUnidad(){
+    $.post("../../Modelo/modulo_proyecto.php",{
+          readDatoString: '',
+          tabla: 'insumos',
+          campo: 'nombre',
+          busqueda: 'uni',
+          dato: document.getElementById('nombre_insumo').value
+
+        },function(data){
+
+          datos= JSON.parse(data);
+
+            if(datos.existe==='1'){
+
+                    const selectElement = document.getElementById('uni');
+                    selectElement.value = datos.campo;
+
+          } 
+          else {
+        //si
+        }
+      });
+}
 
 function agregarProducto() {
     const cantidad = document.getElementById("cantidad").value;
@@ -225,7 +254,11 @@ function agregarProducto() {
         productos.push(nuevoProducto);
         mostrarTabla();
     } else {
-        alert("Por favor, completa todos los campos.");
+        Swal.fire(
+            'Advertencia!',
+            'Complete todos los campos para continuar...',
+            'warning'
+        );
     }
 }
 
@@ -294,7 +327,11 @@ function enviarReceta() {
             console.error("Error al enviar la receta:", error);
         });
     } else {
-        alert("Por favor, completa todos los campos.");
+        Swal.fire(
+            'Advertencia!',
+            'Complete todos los campos para continuar...',
+            'warning'
+        );
     }
 }
 

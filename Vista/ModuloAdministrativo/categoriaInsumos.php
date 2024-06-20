@@ -143,11 +143,11 @@ if(isset($_GET['borrar'])){
   $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta );
   while($row = mysqli_fetch_array($resultado)){
       $cadena= $cadena . "<tr>
-                            <td style='width:25%'>".$row['NOMBRE']."</td>
+                            <td style='width:25%'>".$row['nombre']."</td>
                             <td>
-                            <a title='Editar Categoria' href='?categoriaInsumos=&edit=0&id={$row['ID']}'><img id='icon-bt' src='../../Assets/images/inventory/edit.png'></a>
-                            <a href='?user=&hist=0&categoria=".$row['NOMBRE']."'><img id='icon-bt' src='../../Assets/images/inventory/book.png'></a>
-                            <!--<a title='Eliminar Categoria' onclick=\"borrar({$row['ID']})\"><img id='icon-bt' src='../fonts/erase.svg'> </a> -->
+                            <a title='Editar Categoria' href='?categoriaInsumos=&edit=0&id={$row['id']}'><img id='icon-bt' src='../../Assets/images/inventory/edit.png'></a>
+                            <a href='?user=&hist=0&categoria=".$row['nombre']."'><img id='icon-bt' src='../../Assets/images/inventory/book.png'></a>
+                            <!--<a title='Eliminar Categoria' onclick=\"borrar({$row['id']})\"><img id='icon-bt' src='../fonts/erase.svg'> </a> -->
                           </td>
                             </tr>";
   }
@@ -170,7 +170,7 @@ if (isset($_GET['edit'])){
   <h2 class='header-screen'> EDITAR CATEGORÍA </h2> <br><br>
 
   <input type='hidden' id='id' value='".$_GET['id']."'>
-  <h1 style='color:black;'>Nombre:</h1><br><input style='margin: auto;' title='No se permiten caracteres especiales' class='input-form' type='text' id='nombre' value='".$categoria->readCategoriaId($_GET['id'])['NOMBRE']."'><br><br>
+  <h1 style='color:black;'>Nombre:</h1><br><input style='margin: auto;' title='No se permiten caracteres especiales' class='input-form' type='text' id='nombre' value='".$categoria->readCategoriaId($_GET['id'])['nombre']."'><br><br>
   <br><button type='button' class='submitBtn' onclick=\"editar()\" id='guardar' value='Guardar'>Guardar</button>   <br><br><br>
   </form>
   </fieldset>
@@ -198,7 +198,7 @@ if (isset($_GET['hist'])){
   </section>
     ";
     
-   $consulta = "SELECT * from INSUMOS WHERE CATEGORIA='".$_GET['categoria']."' AND DELETED=0";   /*Buscar Producto*/
+   $consulta = "SELECT * from insumos WHERE categoria='".$_GET['categoria']."' AND deleted=0";   /*Buscar Producto*/
 
    $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta );
      
@@ -216,9 +216,9 @@ if (isset($_GET['hist'])){
    while($row = mysqli_fetch_array($resultado)){    /*Te muestra el resultado de busqueda*/ 
      echo "            
      <tr>
-         <td>".$row['CODIGO']."</td>
-         <td>".$row['NOMBRE']."</td>
-         <td>".$row['EXISTENCIA']."</td>
+         <td>".$row['codigo']."</td>
+         <td>".$row['nombre']."</td>
+         <td>".$row['existencia']."</td>
     </tr>           
     ";}
    }
@@ -435,8 +435,8 @@ function agregarCategoria() {
 
   $.post("../../Modelo/modulo_proyecto.php",{
     siCampoExiste: '',
-    tabla: 'CATEGORIA_INSUMOS',
-    campo: 'NOMBRE',
+    tabla: 'categoria_insumos',
+    campo: 'nombre',
     dato: document.getElementById('nombreCrear').value
 
   },function(data){
@@ -473,8 +473,8 @@ function editar(id) {
 
   $.post("../../Modelo/modulo_proyecto.php",{
     siCampoExiste: '',
-    tabla: 'CATEGORIA_INSUMOS',
-    campo: 'NOMBRE',
+    tabla: 'categoria_insumos',
+    campo: 'nombre',
     dato: document.getElementById('nombre').value
 
   },function(data){

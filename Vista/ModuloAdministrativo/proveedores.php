@@ -245,9 +245,9 @@ echo "
    if(trim($proveedor->readNombreProveedor($row['NUM_ENTRADA'])['PROVEEDOR']) == trim($_GET['nombre']) ){
        echo "            
        <tr>
-           <td>".$row['FECHA']."</td>
-           <td>".$row['NOMBRE_PRODUCTO']."</td>
-           <td>".$row['CANTIDAD']."</td>
+           <td>".$row['fecha']."</td>
+           <td>".$row['nombre_producto']."</td>
+           <td>".$row['cantidad']."</td>
 
       </tr>           
       ";}
@@ -283,14 +283,14 @@ echo "
   $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta );
   while($row = mysqli_fetch_array($resultado)){
       $cadena= $cadena . "<tr>
-                            <td>".$row['NOMBRE']."</td>
-                            <td>".$row['RIF']."</td>
-                            <td>".$row['TELEFONO']."</td>
-                            <td>".$row['DIRECCION']."</td>
+                            <td>".$row['nombre']."</td>
+                            <td>".$row['rif']."</td>
+                            <td>".$row['telefono']."</td>
+                            <td>".$row['direccion']."</td>
                             <td>
-                            <a href='?user=&hist=0&nombre=".$row['NOMBRE']."'><img id='icon-bt' src='../../Assets/images/inventory/book.png'></a>
-                            <a href='?user=&edit=0&id={$row['NOMBRE']}&rif={$row['RIF']}&nombre={$row['NOMBRE']}&telefono={$row['TELEFONO']}&direccion={$row['DIRECCION']}'><img id='icon-bt' src='../../Assets/images/inventory/edit.png'></a>
-                            <a title='Borrar' onclick=\"borrar('{$row['RIF']}')\"><img id='icon-bt' src='../../Assets/images/inventory/erase.png'> </a>
+                            <a href='?user=&hist=0&nombre=".$row['nombre']."'><img id='icon-bt' src='../../Assets/images/inventory/book.png'></a>
+                            <a href='?user=&edit=0&id={$row['nombre']}&rif={$row['rif']}&nombre={$row['nombre']}&telefono={$row['telefono']}&direccion={$row['direccion']}'><img id='icon-bt' src='../../Assets/images/inventory/edit.png'></a>
+                            <a title='Borrar' onclick=\"borrar('{$row['rif']}')\"><img id='icon-bt' src='../../Assets/images/inventory/erase.png'> </a>
                           </td>
                             </tr>";
   }

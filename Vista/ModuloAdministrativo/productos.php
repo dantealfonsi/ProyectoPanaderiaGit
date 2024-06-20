@@ -5,12 +5,12 @@
 
 
     if(isset($_GET['deshabilitar'])){
-      $sql="UPDATE productos set habilitado=0 where IDproducto={$_GET['id']}";
+      $sql="UPDATE productos set habilitado=0 where idproducto={$_GET['id']}";
       mysqli_query($conn, $sql);
     }
 
     if(isset($_GET['habilitar'])){
-      $sql="UPDATE productos set habilitado=1 where IDproducto={$_GET['id']}";
+      $sql="UPDATE productos set habilitado=1 where idproducto={$_GET['id']}";
       mysqli_query($conn, $sql);
     }    
 
@@ -159,7 +159,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           
             echo "            
             <tr>
-                <td>".$row['IDproducto']."</td>
+                <td>".$row['idproducto']."</td>
                 <td>".$row['nombre_producto']."</td>
                 <td>".$row['precio_producto'].".BS</td>
                 <td>".$row['categoria_producto']."</td>
@@ -168,15 +168,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo "</td>
                 <td>".$row['existencia']."</td>
                 <td>
-                <a title='Editar Producto' href='editarProducto.php?id=".$row['IDproducto']."'><img id='icon-bt' src='../../Assets/images/inventory/edit.png'></a>
-                <!--<a title='Historial' href='?hist={$row['IDproducto']}&Ent=1&Sal=0'><img id='icon-bt' src='../../Assets/images/inventory/book.png'></a>-->
+                <a title='Editar Producto' href='editarProducto.php?id=".$row['idproducto']."'><img id='icon-bt' src='../../Assets/images/inventory/edit.png'></a>
+                <!--<a title='Historial' href='?hist={$row['idproducto']}&Ent=1&Sal=0'><img id='icon-bt' src='../../Assets/images/inventory/book.png'></a>-->
                 ";
                 if ($_SESSION['esAdmin']==1){
                   if ($row['habilitado']==1){    
                   echo "
-                  <a onclick=\"borrar('{$row['IDproducto']}')\" title='Desabilitar Producto'> <img id='icon-bt' src='../../Assets/images/inventory/erase.png'> </a>";} else{
+                  <a onclick=\"borrar('{$row['idproducto']}')\" title='Desabilitar Producto'> <img id='icon-bt' src='../../Assets/images/inventory/erase.png'> </a>";} else{
                     echo"
-                  <a onclick=\"habilitar('{$row['IDproducto']}')\" title='Poner a la venta'> <img id='icon-bt' src='../../Assets/images/inventory/habilitar.png'> </a>
+                  <a onclick=\"habilitar('{$row['idproducto']}')\" title='Poner a la venta'> <img id='icon-bt' src='../../Assets/images/inventory/habilitar.png'> </a>
                   ";}
                 }
           echo "

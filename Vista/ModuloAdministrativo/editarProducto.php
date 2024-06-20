@@ -14,7 +14,7 @@ include "../../Modelo/conexion.php";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $bytes = random_bytes(5);
     $codigorifa = bin2hex($bytes);
-    $IDproducto = $_POST['IDproducto'];
+    $IDproducto = $_POST['idproducto'];
     $nombre_producto = $_POST['nombre_producto'];
     $descripcion_producto = $_POST['descripcion_producto'];
     $precio_producto = $_POST['precio_producto'];
@@ -22,7 +22,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $directorio = $GLOBALS['ROOT_PATH']."/Assets/productoimagenes/";
     $ext="";
     //$tipoArchivo = strtolower(pathinfo($archivo, PATHINFO_EXTENSION));
-
 
     // Verificar que el archivo es una imagen
     if(isset($_FILES['imagen_producto']['name'])){
@@ -59,11 +58,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $archivo = $directorio.$codigorifa.$ext;
             $archivoSubido = addslashes($archivo);
             $sql = "UPDATE productos SET nombre_producto='$nombre_producto' ,descripcion_producto='$descripcion_producto', 
-            imagen_producto='$archivoSubido' , precio_producto=$precio_producto ,categoria_producto=$categoria_producto  WHERE IDproducto=".$IDproducto;
+            imagen_producto='$archivoSubido' , precio_producto=$precio_producto ,categoria_producto=$categoria_producto  WHERE idproducto=".$IDproducto;
         }
         else{
             $sql = "UPDATE productos SET nombre_producto='$nombre_producto' ,descripcion_producto='$descripcion_producto', 
-            precio_producto=$precio_producto ,categoria_producto=$categoria_producto WHERE IDproducto=".$IDproducto;    
+            precio_producto=$precio_producto ,categoria_producto=$categoria_producto WHERE idproducto=".$IDproducto;    
         }        
     }
 
@@ -75,14 +74,14 @@ $IDproducto= $nombre_producto= $descripcion_producto= $imagen_producto= $precio_
 
     //******* inicio obtener detalles del producto *******
         //consulta
-        $Q_obtener_producto = "SELECT * FROM productos WHERE IDproducto = {$_GET['id']}";
+        $Q_obtener_producto = "SELECT * FROM productos WHERE idproducto = {$_GET['id']}";
         //ejecutar consulta
         $ejecutar_obtener_producto = mysqli_query($conn, $Q_obtener_producto);
         //almacenar detalles en array
         $row_producto = mysqli_fetch_array($ejecutar_obtener_producto);
         //******* fin obtener detalles del producto *******
 
-$IDproducto= $row_producto['IDproducto'];
+$IDproducto= $row_producto['idproducto'];
 $nombre_producto= $row_producto['nombre_producto'];
 $descripcion_producto= $row_producto['descripcion_producto'];
 $imagen_producto= $row_producto['imagen_producto'];
@@ -224,8 +223,8 @@ $categoria_producto =$row_producto['categoria_producto'];
                   $resultado_cat = mysqli_query($conn, $consulta);
                   while($row = mysqli_fetch_array($resultado_cat)) {
                     $selected  = "";
-                    if($categoria_producto == $row['IDcategoria']) $selected = "selected";
-                    echo "<option {$selected} value='".$row['IDcategoria']."'>" . $row['nombre_categoria'] . "</option> ";
+                    if($categoria_producto == $row['idcategoria']) $selected = "selected";
+                    echo "<option {$selected} value='".$row['idcategoria']."'>" . $row['nombre_categoria'] . "</option> ";
                   }
 
               ?>

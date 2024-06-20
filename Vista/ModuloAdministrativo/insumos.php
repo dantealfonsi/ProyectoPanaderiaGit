@@ -140,27 +140,27 @@
           
             echo "            
             <tr>
-                <td>".$row['CODIGO']."</td>
-                <td>".$row['NOMBRE']."</td>
-                <td>".$row['PRECIO'].".BS</td>
-                <td>".$row['CATEGORIA']."</td>
-                <td style='color:#fff;background:". $producto->returnColor($row['C_MIN'],$row['C_MAX'],$row['EXISTENCIA'])."'>".$row['EXISTENCIA']." ".$row['UNI']."</td>
+                <td>".$row['codigo']."</td>
+                <td>".$row['nombre']."</td>
+                <td>".$row['precio'].".BS</td>
+                <td>".$row['categoria']."</td>
+                <td style='color:#fff;background:". $producto->returnColor($row['c_min'],$row['c_max'],$row['existencia'])."'>".$row['existencia']." ".$row['uni']."</td>
                 <td>
-                <a title='Editar Producto' href='?inv=&edit=0&id=".$row['CODIGO'].
-                "&codigo=".$row['CODIGO']."&nombre=".$row['NOMBRE'].
-                "&almacen=".$row['ALMACEN'].
-                "&precio=".$row['PRECIO'].
-                "&existencia=".$row['EXISTENCIA'].
-                "&c_min=".$row['C_MIN'].
-                "&c_max=".$row['C_MAX'].
-                "&uni=".$row['UNI'].
+                <a title='Editar Producto' href='?inv=&edit=0&id=".$row['codigo'].
+                "&codigo=".$row['codigo']."&nombre=".$row['nombre'].
+                "&almacen=".$row['almacen'].
+                "&precio=".$row['precio'].
+                "&existencia=".$row['existencia'].
+                "&c_min=".$row['c_min'].
+                "&c_max=".$row['c_max'].
+                "&uni=".$row['uni'].
                 "'><img id='icon-bt' src='../../Assets/images/inventory/edit.png'></a>
-                <a title='Historial' href='?hist={$row['CODIGO']}&Ent=1&Sal=0'><img id='icon-bt' src='../../Assets/images/inventory/book.png'></a>
-                <a onclick='eliminar()' title='Entrada Rapida' href='?entSal={$row['CODIGO']}'><img id='icon-bt' src='../../Assets/images/inventory/up.png'></a>
+                <a title='Historial' href='?hist={$row['codigo']}&Ent=1&Sal=0'><img id='icon-bt' src='../../Assets/images/inventory/book.png'></a>
+                <a onclick='eliminar()' title='Entrada Rapida' href='?entSal={$row['codigo']}'><img id='icon-bt' src='../../Assets/images/inventory/up.png'></a>
                 ";
                 if ($_SESSION['esAdmin']==1){
                   echo "
-                  <a onclick=\"borrar('{$row['CODIGO']}')\" title='Desabilitar Producto'> <img id='icon-bt' src='../../Assets/images/inventory/erase.png'> </a>
+                  <a onclick=\"borrar('{$row['codigo']}')\" title='Desabilitar Producto'> <img id='icon-bt' src='../../Assets/images/inventory/erase.png'> </a>
                   ";
                 }
           echo "
@@ -273,7 +273,7 @@
       <div class='first-line'>
         <div class='flex-inside'>
           Categoría: <br>
-          <input onfocusout=\"valCategoria()\" title='Seleccione la categoria' autocomplete='off'  list='list_categoria' value='".$producto->readProducto($_GET['codigo'])['CATEGORIA']."'  type='text' name='categoria' id='categoria' style='text-align:center' placeholder='Categoria' >
+          <input onfocusout=\"valCategoria()\" title='Seleccione la categoria' autocomplete='off'  list='list_categoria' value='".$producto->readProducto($_GET['codigo'])['categoria']."'  type='text' name='categoria' id='categoria' style='text-align:center' placeholder='Categoria' >
           <datalist id='list_categoria'>
           ";
                   $producto->list_categoria();
@@ -352,7 +352,7 @@
 
   if (isset($_GET['hist'])){
     
-    $titulo = $producto->readProducto($_GET['hist'])['NOMBRE'];
+    $titulo = $producto->readProducto($_GET['hist'])['nombre'];
 
       echo "
 
@@ -381,7 +381,7 @@
       
 
        if (isset($_GET['Ent'])&& $_GET['Ent']==1){
-       $consulta = "SELECT * from CARAC_ENTRADA WHERE CODIGO_PRODUCTO='{$_GET['hist']}'";   /*Buscar Producto*/
+       $consulta = "SELECT * from carac_entrada WHERE codigo_producto='{$_GET['hist']}'";   /*Buscar Producto*/
 
        $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta );
          
@@ -400,10 +400,10 @@
        
          echo "            
          <tr>
-             <td>".$row['FECHA']."</td>
-             <td>".$row['CANTIDAD']."</td>
-             <td>".$producto->readEntrada($row['NUM_ENTRADA'])['PROVEEDOR']."</td>
-             <td>".$producto->readUsuario($producto->readEntrada($row['NUM_ENTRADA'])['RESPONSABLE'])['NOMBRE']."</td>
+             <td>".$row['fecha']."</td>
+             <td>".$row['cantidad']."</td>
+             <td>".$producto->readEntrada($row['num_entrada'])['proveedor']."</td>
+             <td>".$producto->readUsuario($producto->readEntrada($row['num_entrada'])['responsable'])['nombre']."</td>
         </tr>           
         ";
        }
@@ -414,7 +414,7 @@
        }
 
        if (isset($_GET['Sal'])&& $_GET['Sal']==1){
-        $consulta = "SELECT * from CARAC_SALIDA WHERE CODIGO_PRODUCTO='{$_GET['hist']}'";   /*Buscar Producto*/
+        $consulta = "SELECT * from carac_salida WHERE codigo_producto='{$_GET['hist']}'";   /*Buscar Producto*/
 
         $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta );
           
@@ -432,9 +432,9 @@
         
           echo "            
           <tr>
-              <td>".$row['FECHA']."</td>
-              <td>".$row['CANTIDAD']."</td>
-              <td>".$producto->readUsuario($producto->readSalida($row['NUM_SALIDA'])['RESPONSABLE'])['NOMBRE']."</td>
+              <td>".$row['fecha']."</td>
+              <td>".$row['cantidad']."</td>
+              <td>".$producto->readUsuario($producto->readSalida($row['num_salida'])['responsable'])['nombre']."</td>
          </tr>           
          ";
         }
@@ -459,7 +459,7 @@
 
     if (isset($_GET['entSal'])){
      
-      $titulo = $producto->readProducto($_GET['entSal'])['NOMBRE'];
+      $titulo = $producto->readProducto($_GET['entSal'])['nombre'];
 
       echo "
       <div class='EditBox'> 
@@ -849,15 +849,14 @@ function valCodigo(){
               });
       }
       else{
-        /*$("#codigo").css("border-bottom","2px solid #6acfff");*/
-           /* $("#cedula").css("border-bottom","2px solid #6acfff");*/
-           $.post("../modelo/modulo_proyecto.php",{
+          $("#codigo").css("border-bottom","2px solid #6acfff");
+          $.post("../../Modelo/modulo_proyecto.php",{
             siCampoExiste: '',
-            tabla: 'insumos',
+            tabla: 'INSUMOS',
             campo: 'CODIGO',
             dato: campo.value
           },function(data){
-            datos= JSON.parse(data);
+            datos= JSON.parse(data); 
 
               if(datos.existe==='1'){
 
@@ -898,10 +897,39 @@ function valCodigo(){
           animation: 'fade',
         });
 
-    } else {
-      $("#nombre").css("border-bottom","2px solid #6acfff");
-    }
-  
+    }else{
+          $("#nombre").css("border-bottom","2px solid #6acfff");
+          $.post("../../Modelo/modulo_proyecto.php",{
+            siCampoExiste: '',
+            tabla: 'insumos',
+            campo: 'nombre',
+            dato: document.getElementById("nombre").value.toLowerCase()
+          },function(data){
+            datos= JSON.parse(data); 
+
+              if(datos.existe==='1'){
+
+                restrictCodigo = false;
+                restrictEditCodigo= false;
+
+                $("#nombre").css("border-bottom","2px solid #f27474");
+              
+                Swal.fire(
+                'Advertencia',
+                'El Nombre ya esta asignado a otro Insumo.',
+                'warning'
+              ).then(function(){
+                document.getElementById("nombre").value='';
+              });
+            }
+            else {
+            $("#nombre").css("border-bottom","2px solid #6acfff");
+            restrictCodigo = true;
+            restrictEditCodigo= true;
+
+          }
+      });
+      }
   }
 
 
@@ -927,9 +955,9 @@ function valCodigo(){
       else{
       $("#categoria").css("border-bottom","2px solid #6acfff");
       $.post("../../Modelo/modulo_proyecto.php",{
-      siCampoExiste: '',
-      tabla: 'CATEGORIA',
-      campo: 'NOMBRE',
+      siDatoExiste: '',
+      tabla: 'categoria',
+      campo: 'nombre',
       dato: document.getElementById('categoria').value
 
     },function(data){
@@ -968,8 +996,8 @@ function valCodigo(){
   function valProveedor(){
       $.post("../../Modelo/modulo_proyecto.php",{
       siCampoExiste: '',
-      tabla: 'PROVEEDOR',
-      campo: 'NOMBRE',
+      tabla: 'proveedor',
+      campo: 'nombre',
       dato: document.getElementById('proveedor').value
     },function(data){
 
@@ -1002,8 +1030,8 @@ function valCodigo(){
 function borrar(id) {
 
 Swal.fire({
-title: 'Estas seguro que desea Eliminar',
-text: "Seguro que quieres eliminar esta categoria",
+title: 'Desabilitar un Insumo',
+text: "Estas Seguro que quieres desabilitar este Insumo",
 icon: 'warning',
 showCancelButton: true,
 confirmButtonColor: '#3085d6',
@@ -1013,11 +1041,11 @@ cancelButtonText: "Cancelar"
 }).then((result) => {
 if (result.isConfirmed) {
   Swal.fire(
-    'Borrada!',
-    'El Insumo ha sido borrado.',
+    'Desabilitado!',
+    'El Insumo ha sido Desabilitado.',
     'success'
   ).then(function(){ 
-    window.location.href="productos.php?user=&borrar_inv=0&id="+ id;
+    window.location.href="insumos.php?user=&borrar_inv=0&id="+ id;
  }
   );
 }

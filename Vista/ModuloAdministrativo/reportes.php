@@ -95,7 +95,7 @@ label{
      function readCaracEntrada($num_entrada){
       $row;
       $tmodulo=new Modulo;
-      $consulta = "SELECT * FROM CARAC_ENTRADA WHERE NUM_ENTRADA=".$num_entrada;
+      $consulta = "SELECT * FROM carac_entrada WHERE num_entrada=".$num_entrada;
       $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta );
       
       if($row = mysqli_fetch_array($resultado))
@@ -105,7 +105,7 @@ label{
     function readCaracSalida($num_salida){
       $row;
       $tmodulo=new Modulo;
-      $consulta = "SELECT * FROM CARAC_SALIDA WHERE NUM_SALIDA=".$num_salida;
+      $consulta = "SELECT * FROM carac_salida WHERE num_salida=".$num_salida;
       $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta );
       
       if($row = mysqli_fetch_array($resultado))
@@ -206,17 +206,17 @@ label{
           </thead> 
           <tbody>";
 
-        $consulta = "SELECT * from INSUMOS ";   /*Buscar Producto*/        
+        $consulta = "SELECT * from insumos ";   /*Buscar Producto*/        
         $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta );
         
         while($row = mysqli_fetch_array($resultado)){    /*Te muestra el resultado de busqueda*/
         
          echo "
           <tr>
-              <td>".$row['CODIGO']."</td>
-              <td>".$row['NOMBRE']."</td>
-              <td>".$producto->returnSumEntrada($row['CODIGO'],$desde_1, $hasta_1)."</td>
-              <td>".$producto->returnSumSalida($row['CODIGO'],$desde_1, $hasta_1)."</td>
+              <td>".$row['codigo']."</td>
+              <td>".$row['nombre']."</td>
+              <td>".$producto->returnSumEntrada($row['codigo'],$desde_1, $hasta_1)."</td>
+              <td>".$producto->returnSumSalida($row['codigo'],$desde_1, $hasta_1)."</td>
          </tr>";
         }
         echo 
@@ -260,11 +260,11 @@ if (isset($_GET['mas'])){
         <tbody>
         ";
 
-        $consulta = "SELECT CODIGO_PRODUCTO, NOMBRE_PRODUCTO, SUM(CANTIDAD) AS CANTIDAD from CARAC_SALIDA GROUP BY CODIGO_PRODUCTO ORDER BY CANTIDAD DESC;";   /*Buscar Producto*/
+        $consulta = "SELECT codigo_producto, nombre_producto, SUM(cantidad) AS cantidad from carac_salida GROUP BY codigo_producto ORDER BY cantidad DESC;";   /*Buscar Producto*/
         
         if (isset($_GET['desde'])){
 
-          $consulta = "SELECT FECHA, CODIGO_PRODUCTO, NOMBRE_PRODUCTO, SUM(CANTIDAD) AS CANTIDAD from CARAC_SALIDA WHERE FECHA BETWEEN '{$_GET['desde']} 00:00' AND '{$_GET['hasta']} 23:59' GROUP BY CODIGO_PRODUCTO ORDER BY CANTIDAD DESC;";   /*Buscar Producto*/
+          $consulta = "SELECT fecha, codigo_producto, nombre_producto, SUM(cantidad) AS cantidad from carac_salida WHERE fecha BETWEEN '{$_GET['desde']} 00:00' AND '{$_GET['hasta']} 23:59' GROUP BY codigo_producto ORDER BY cantidad DESC;";   /*Buscar Producto*/
 
         }
 
@@ -274,9 +274,9 @@ if (isset($_GET['mas'])){
         
           echo "
           <tr>
-              <td>".$row['CODIGO_PRODUCTO']."</td>
-              <td>".$row['NOMBRE_PRODUCTO']."</td>
-              <td>".$row['CANTIDAD']."</td>
+              <td>".$row['codigo_producto']."</td>
+              <td>".$row['nombre_producto']."</td>
+              <td>".$row['cantidad']."</td>
          </tr>";
         }
         echo 
@@ -321,11 +321,11 @@ if (isset($_GET['masentradas'])){
       <tbody>
       ";
 
-      $consulta = "SELECT CODIGO_PRODUCTO, NOMBRE_PRODUCTO, SUM(CANTIDAD) AS CANTIDAD from CARAC_ENTRADA GROUP BY CODIGO_PRODUCTO ORDER BY CANTIDAD DESC;";   /*Buscar Producto*/
+      $consulta = "SELECT codigo_producto, nombre_producto, SUM(cantidad) AS cantidad from carac_entrada GROUP BY codigo_producto ORDER BY cantidad DESC;";   /*Buscar Producto*/
       
       if (isset($_GET['desde'])){
 
-        $consulta = "SELECT FECHA, CODIGO_PRODUCTO, NOMBRE_PRODUCTO, SUM(CANTIDAD) AS CANTIDAD from CARAC_ENTRADA WHERE FECHA BETWEEN '{$_GET['desde']} 00:00' AND '{$_GET['hasta']} 23:59' GROUP BY CODIGO_PRODUCTO ORDER BY CANTIDAD DESC;";   /*Buscar Producto*/
+        $consulta = "SELECT fecha, codigo_producto, nombre_producto, SUM(cantidad) AS cantidad from carac_entrada WHERE fecha BETWEEN '{$_GET['desde']} 00:00' AND '{$_GET['hasta']} 23:59' GROUP BY codigo_producto ORDER BY cantidad DESC;";   /*Buscar Producto*/
 
       }
 
@@ -335,9 +335,9 @@ if (isset($_GET['masentradas'])){
       
         echo "
         <tr>
-            <td>".$row['CODIGO_PRODUCTO']."</td>
-            <td>".$row['NOMBRE_PRODUCTO']."</td>
-            <td>".$row['CANTIDAD']."</td>
+            <td>".$row['codigo_producto']."</td>
+            <td>".$row['nombre_producto']."</td>
+            <td>".$row['cantidad']."</td>
        </tr>";
       }
       echo 
@@ -383,11 +383,11 @@ if (isset($_GET['massalidas'])){
       <tbody>
       ";
 
-      $consulta = "SELECT CODIGO_PRODUCTO, NOMBRE_PRODUCTO, SUM(CANTIDAD) AS CANTIDAD from CARAC_SALIDA GROUP BY CODIGO_PRODUCTO ORDER BY CANTIDAD ASC;";   /*Buscar Producto*/
+      $consulta = "SELECT codigo_producto, nombre_producto, SUM(cantidad) AS cantidad from carac_salida GROUP BY codigo_producto ORDER BY cantidad ASC;";   /*Buscar Producto*/
       
       if (isset($_GET['desde'])){
 
-        $consulta = "SELECT FECHA, CODIGO_PRODUCTO, NOMBRE_PRODUCTO, SUM(CANTIDAD) AS CANTIDAD from CARAC_SALIDA WHERE FECHA BETWEEN '{$_GET['desde']} 00:00' AND '{$_GET['hasta']} 23:59' GROUP BY CODIGO_PRODUCTO ORDER BY CANTIDAD ASC;";   /*Buscar Producto*/
+        $consulta = "SELECT fecha, codigo_producto, nombre_producto, SUM(cantidad) AS cantidad from carac_salida WHERE fecha BETWEEN '{$_GET['desde']} 00:00' AND '{$_GET['hasta']} 23:59' GROUP BY codigo_producto ORDER BY cantidad ASC;";   /*Buscar Producto*/
 
       }
 
@@ -397,9 +397,9 @@ if (isset($_GET['massalidas'])){
       
         echo "
         <tr>
-            <td>".$row['CODIGO_PRODUCTO']."</td>
-            <td>".$row['NOMBRE_PRODUCTO']."</td>
-            <td>".$row['CANTIDAD']."</td>
+            <td>".$row['codigo_producto']."</td>
+            <td>".$row['nombre_producto']."</td>
+            <td>".$row['cantidad']."</td>
        </tr>";
       }
       echo 
@@ -438,10 +438,10 @@ if (isset($_GET['gananciasTotales'])){
       ";
     
 
-      $consulta = "SELECT SUM(TOTAL) AS TOTAL FROM SALIDA WHERE DAY(FECHA) BETWEEN DAY('2023-08-09 23:22:07') AND DAY(NOW());";   /*Buscar Producto*/
+      $consulta = "SELECT SUM(total) AS total FROM salida WHERE DAY(fecha) BETWEEN DAY('2023-08-09 23:22:07') AND DAY(NOW());";   /*Buscar Producto*/
       
       if (isset($_GET['desde'])){
-        $consulta = "SELECT SUM(TOTAL) AS TOTAL FROM SALIDA WHERE DAY(FECHA) BETWEEN DAY('{$_GET['desde']} 00:00') AND DAY('{$_GET['hasta']}');";   /*Buscar Producto*/
+        $consulta = "SELECT SUM(total) AS total FROM salida WHERE DAY(fecha) BETWEEN DAY('{$_GET['desde']} 00:00') AND DAY('{$_GET['hasta']}');";   /*Buscar Producto*/
       }
 
       $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta );
@@ -455,7 +455,7 @@ if (isset($_GET['gananciasTotales'])){
         }else{
           echo "<td>Inicio-Ahora</td> ";
         }echo"
-            <td>".$row['TOTAL']."</td>
+            <td>".$row['total']."</td>
        </tr>";
       }
       echo 
@@ -496,10 +496,10 @@ if (isset($_GET['gananciasTotalesPorDia'])){
       ";
     
 
-      $consulta = "SELECT DATE(FECHA) as FECHA,SUM(TOTAL) AS TOTAL FROM SALIDA WHERE FECHA BETWEEN DAY('2023-08-09 23:22:07') AND NOW() GROUP BY DATE(FECHA);";   /*Buscar Producto*/
+      $consulta = "SELECT DATE(fecha) as fecha,SUM(total) AS total FROM salida WHERE fecha BETWEEN DAY('2023-08-09 23:22:07') AND NOW() GROUP BY DATE(fecha);";   /*Buscar Producto*/
       
       if (isset($_GET['desde'])){
-        $consulta = "SELECT DATE(FECHA) as FECHA,SUM(TOTAL) AS TOTAL FROM SALIDA WHERE FECHA BETWEEN '{$_GET['desde']} 00:00' AND '{$_GET['hasta']}' GROUP BY DATE(FECHA);";   /*Buscar Producto*/
+        $consulta = "SELECT DATE(fecha) as fecha,SUM(total) AS total FROM salida WHERE fecha BETWEEN '{$_GET['desde']} 00:00' AND '{$_GET['hasta']}' GROUP BY DATE(fecha);";   /*Buscar Producto*/
       }
 
       $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta );
@@ -508,8 +508,8 @@ if (isset($_GET['gananciasTotalesPorDia'])){
       
         echo "
         <tr>
-          <td>".$row['FECHA']."</td>
-          <td>".$row['TOTAL']."</td>
+          <td>".$row['fecha']."</td>
+          <td>".$row['total']."</td>
        </tr>";
       }
       echo 
@@ -550,10 +550,10 @@ if (isset($_GET['GastoEntradaPorDia'])){
       ";
     
 
-      $consulta = "SELECT DATE(FECHA) as FECHA,SUM(PRECIO) AS TOTAL FROM CARAC_ENTRADA WHERE FECHA BETWEEN '2023-08-09 23:22:07' AND NOW() GROUP BY DATE(FECHA);";   /*Buscar Producto*/
+      $consulta = "SELECT DATE(fecha) as fecha,SUM(precio) AS total FROM carac_entrada WHERE fecha BETWEEN '2023-08-09 23:22:07' AND NOW() GROUP BY DATE(fecha);";   /*Buscar Producto*/
       
       if (isset($_GET['desde'])){
-        $consulta = "SELECT DATE(FECHA) as FECHA,SUM(PRECIO) AS TOTAL FROM CARAC_ENTRADA WHERE FECHA BETWEEN '{$_GET['desde']} 00:00' AND '{$_GET['hasta']}' GROUP BY DATE(FECHA);";   /*Buscar Producto*/
+        $consulta = "SELECT DATE(fecha) as fecha,SUM(precio) AS total FROM carac_entrada WHERE fecha BETWEEN '{$_GET['desde']} 00:00' AND '{$_GET['hasta']}' GROUP BY DATE(fecha);";   /*Buscar Producto*/
       }
 
       $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta );
@@ -604,10 +604,10 @@ if (isset($_GET['GastoEntrada'])){
       ";
     
 
-      $consulta = "  SELECT SUM(PRECIO) AS TOTAL FROM CARAC_ENTRADA WHERE FECHA BETWEEN '2023-08-09 23:22:07' AND NOW();";   /*Buscar Producto*/
+      $consulta = "  SELECT SUM(precio) AS total FROM carac_entrada WHERE fecha BETWEEN '2023-08-09 23:22:07' AND NOW();";   /*Buscar Producto*/
       
       if (isset($_GET['desde'])){
-        $consulta = "SELECT SUM(PRECIO) AS TOTAL FROM CARAC_ENTRADA WHERE FECHA BETWEEN '{$_GET['desde']} 00:00' AND '{$_GET['hasta']}';";   /*Buscar Producto*/
+        $consulta = "SELECT SUM(precio) AS total FROM carac_entrada WHERE fecha BETWEEN '{$_GET['desde']} 00:00' AND '{$_GET['hasta']}';";   /*Buscar Producto*/
       }
 
       $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta );
@@ -621,7 +621,7 @@ if (isset($_GET['GastoEntrada'])){
         }else{
           echo "<td>Inicio-Ahora</td> ";
         }echo"
-            <td>".$row['TOTAL']."</td>
+            <td>".$row['total']."</td>
        </tr>";
       }
       echo 
@@ -658,10 +658,10 @@ if (isset($_GET['productosPorDia'])){
       </thead>
       <tbody>
       ";
-      $consulta = "SELECT DATE(FECHA) as FECHA, SUM(TOTAL) AS TOTAL FROM SALIDA WHERE FECHA BETWEEN '2023-08-09 23:22:07' AND NOW() GROUP BY DATE(FECHA);";   /*Buscar Producto*/
+      $consulta = "SELECT DATE(fecha) as fecha, SUM(total) AS total FROM salida WHERE fecha BETWEEN '2023-08-09 23:22:07' AND NOW() GROUP BY DATE(fecha);";   /*Buscar Producto*/
       
       if (isset($_GET['desde'])){
-        $consulta = "SELECT DATE(FECHA) as FECHA, SUM(TOTAL) AS TOTAL FROM SALIDA WHERE FECHA BETWEEN '{$_GET['desde']} 00:00' AND '{$_GET['hasta']}' GROUP BY DATE(FECHA);";   /*Buscar Producto*/
+        $consulta = "SELECT DATE(fecha) as fecha, SUM(total) AS total FROM salida WHERE fecha BETWEEN '{$_GET['desde']} 00:00' AND '{$_GET['hasta']}' GROUP BY DATE(fecha);";   /*Buscar Producto*/
       }
 
       $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta );
@@ -670,8 +670,8 @@ if (isset($_GET['productosPorDia'])){
       
         echo "
         <tr>
-         <td>".$row['FECHA']."</td> 
-          <td>".$row['TOTAL']."</td>
+         <td>".$row['fecha']."</td> 
+          <td>".$row['total']."</td>
        </tr>";
       }
       echo 
@@ -708,10 +708,10 @@ if (isset($_GET['GananciaNeta'])){
       <tbody>
       ";
     
-      $ganancia=($tmodulo->row_sqlconector("SELECT SUM(TOTAL) AS TOTAL FROM SALIDA WHERE  FECHA BETWEEN '2023-08-09 23:22:07' AND NOW();")['TOTAL'] - $tmodulo->row_sqlconector("SELECT SUM(PRECIO) AS TOTAL FROM CARAC_ENTRADA WHERE  FECHA BETWEEN '2023-08-09 23:22:07' AND NOW();")['TOTAL']);     
+      $ganancia=($tmodulo->row_sqlconector("SELECT SUM(total) AS total FROM salida WHERE  fecha BETWEEN '2023-08-09 23:22:07' AND NOW();")['TOTAL'] - $tmodulo->row_sqlconector("SELECT SUM(precio) AS total FROM carac_entrada WHERE  fecha BETWEEN '2023-08-09 23:22:07' AND NOW();")['total']);     
       
       if (isset($_GET['desde'])){
-      $ganancia=($tmodulo->row_sqlconector("SELECT SUM(TOTAL) AS TOTAL FROM SALIDA WHERE  FECHA BETWEEN '{$_GET['desde']} 00:00' AND '{$_GET['hasta']}';")['TOTAL'] - $tmodulo->row_sqlconector("SELECT SUM(PRECIO) AS TOTAL FROM CARAC_ENTRADA WHERE  FECHA BETWEEN '{$_GET['desde']} 00:00' AND '{$_GET['hasta']}';")['TOTAL']);     
+      $ganancia=($tmodulo->row_sqlconector("SELECT SUM(total) AS total FROM salida WHERE  fecha BETWEEN '{$_GET['desde']} 00:00' AND '{$_GET['hasta']}';")['TOTAL'] - $tmodulo->row_sqlconector("SELECT SUM(precio) AS total FROM carac_entrada WHERE  fecha BETWEEN '{$_GET['desde']} 00:00' AND '{$_GET['hasta']}';")['total']);     
       }
 
      /*Te muestra el resultado de busqueda*/
@@ -761,27 +761,27 @@ if (isset($_GET['gananciaNetaPorDia'])){
       ";
     
 
-      $consulta = "SELECT DATE(FECHA) as FECHA,SUM(TOTAL) AS TOTAL FROM SALIDA WHERE FECHA BETWEEN '2023-08-09 23:22:07' AND NOW() GROUP BY DATE(FECHA);";   /*Buscar Producto*/
+      $consulta = "SELECT DATE(fecha) as fecha,SUM(total) AS total FROM salida WHERE fecha BETWEEN '2023-08-09 23:22:07' AND NOW() GROUP BY DATE(FECHA);";   /*Buscar Producto*/
       $entrada=0;
 
 
 
       if (isset($_GET['desde'])){
-        $consulta = "SELECT DATE(FECHA) as FECHA,SUM(TOTAL) AS TOTAL FROM SALIDA WHERE FECHA BETWEEN '{$_GET['desde']} 00:00' AND '{$_GET['hasta']}' GROUP BY DATE(FECHA);";   /*Buscar Producto*/
+        $consulta = "SELECT DATE(fecha) as fecha,SUM(total) AS total FROM salida WHERE fecha BETWEEN '{$_GET['desde']} 00:00' AND '{$_GET['hasta']}' GROUP BY DATE(fecha);";   /*Buscar Producto*/
       }
 
       $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta );
       
       while($row = mysqli_fetch_array($resultado)){  
-        if(isset($tmodulo->row_sqlconector("SELECT DATE(FECHA) as FECHA,SUM(PRECIO) AS TOTAL FROM CARAC_ENTRADA WHERE FECHA = '{$row['FECHA']}';")['TOTAL'])){
-          $entrada=$tmodulo->row_sqlconector("SELECT DATE(FECHA) as FECHA,SUM(PRECIO) AS TOTAL FROM CARAC_ENTRADA WHERE FECHA = '{$row['FECHA']}';")['TOTAL'];
+        if(isset($tmodulo->row_sqlconector("SELECT DATE(fecha) as fecha,SUM(precio) AS total FROM carac_entrada WHERE fecha = '{$row['fecha']}';")['total'])){
+          $entrada=$tmodulo->row_sqlconector("SELECT DATE(fecha) as fecha,SUM(precio) AS total FROM carac_entrada WHERE fecha = '{$row['fecha']}';")['total'];
         }else{
           $entrada=0;
         }        
         echo "
         <tr>
-          <td>".$row['FECHA']."</td>
-          <td>".$row['TOTAL']-$entrada."</td>
+          <td>".$row['fecha']."</td>
+          <td>".$row['total']-$entrada."</td>
        </tr>";
       }
       echo 
@@ -808,11 +808,11 @@ if (isset($_GET['nulo'])){
       <tbody>
       ";
 
-      $consulta = "SELECT CODIGO, NOMBRE, EXISTENCIA from INSUMOS WHERE EXISTENCIA <= '0' GROUP BY CODIGO ORDER BY EXISTENCIA ASC;";   /*Buscar Producto*/
+      $consulta = "SELECT codigo, nombre, existencia from insumos WHERE existencia <= '0' GROUP BY codigo ORDER BY existencia ASC;";   /*Buscar Producto*/
     
       if (isset($_GET['desde'])){
 
-        $consulta = "SELECT CODIGO, NOMBRE, EXISTENCIA from INSUMOS WHERE EXISTENCIA <= '0' WHERE FECHA BETWEEN '{$_GET['desde']} 00:00' AND '{$_GET['hasta']} 23:59' GROUP BY CODIGO ORDER BY EXISTENCIA ASC;";   /*Buscar Producto*/
+        $consulta = "SELECT codigo, nombre, existencia from insumos WHERE existencia <= '0' WHERE fecha BETWEEN '{$_GET['desde']} 00:00' AND '{$_GET['hasta']} 23:59' GROUP BY codigo ORDER BY existencia ASC;";   /*Buscar Producto*/
 
       }
 
@@ -822,9 +822,9 @@ if (isset($_GET['nulo'])){
       
         echo "
         <tr>
-            <td>".$row['CODIGO']."</td>
-            <td>".$row['NOMBRE']."</td>
-            <td>".$row['EXISTENCIA']."</td>
+            <td>".$row['codigo']."</td>
+            <td>".$row['nombre']."</td>
+            <td>".$row['existencia']."</td>
        </tr>";
       }
       echo 
@@ -851,11 +851,11 @@ if (isset($_GET['pocaExistencia'])){
       <tbody>
       ";
 
-      $consulta = "SELECT * FROM `productos` WHERE EXISTENCIA < C_MIN AND DELETED=0 GROUP BY CODIGO ORDER BY EXISTENCIA ASC;";   /*Buscar Producto*/
+      $consulta = "SELECT * FROM `productos` WHERE existencia < c_min AND deleted=0 GROUP BY codigo ORDER BY existencia ASC;";   /*Buscar Producto*/
     
       if (isset($_GET['desde'])){
 
-        $consulta = "SELECT CODIGO, NOMBRE, EXISTENCIA from INSUMOS WHERE EXISTENCIA <= '0' WHERE FECHA BETWEEN '{$_GET['desde']} 00:00' AND '{$_GET['hasta']} 23:59' GROUP BY CODIGO ORDER BY EXISTENCIA ASC;";   /*Buscar Producto*/
+        $consulta = "SELECT codigo, nombre, existencia from insumos WHERE existencia <= '0' WHERE fecha BETWEEN '{$_GET['desde']} 00:00' AND '{$_GET['hasta']} 23:59' GROUP BY codigo ORDER BY existencia ASC;";   /*Buscar Producto*/
 
       }
 
@@ -865,9 +865,9 @@ if (isset($_GET['pocaExistencia'])){
       
         echo "
         <tr>
-            <td>".$row['CODIGO']."</td>
-            <td>".$row['NOMBRE']."</td>
-            <td>".$row['EXISTENCIA']."</td>
+            <td>".$row['codigo']."</td>
+            <td>".$row['nombre']."</td>
+            <td>".$row['existencia']."</td>
        </tr>";
       }
       echo 
@@ -1149,11 +1149,11 @@ if (isset($_GET['hist'])){
       </thead>
       </tbody>";
 
-      $consulta = "SELECT * from HISTORIAL ORDER BY HISTORIAL.FECHA DESC"; 
+      $consulta = "SELECT * from historial ORDER BY historial.fecha DESC"; 
 
       if (isset($_GET['desde'])){
 
-        $consulta = "SELECT * from HISTORIAL WHERE FECHA BETWEEN '{$_GET['desde']} 00:00' AND '{$_GET['hasta']} 23:59' ORDER BY `HISTORIAL`.`FECHA` DESC";   /*Buscar Producto*/
+        $consulta = "SELECT * from historial WHERE fecha BETWEEN '{$_GET['desde']} 00:00' AND '{$_GET['hasta']} 23:59' ORDER BY `historial`.`fecha` DESC";   /*Buscar Producto*/
 
       }
 
@@ -1163,7 +1163,7 @@ if (isset($_GET['hist'])){
       
         echo "
         <tr>
-            <td>".$row['FECHA']." - ".$row['NOMBRE_USUARIO']."  ".$row['UBICACION']."</td>
+            <td>".$row['fecha']." - ".$row['nombre_usuario']."  ".$row['ubicacion']."</td>
        </tr>";
       }
       echo 

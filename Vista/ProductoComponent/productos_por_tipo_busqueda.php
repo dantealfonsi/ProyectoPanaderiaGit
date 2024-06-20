@@ -24,7 +24,7 @@
         //$Q_buscar_por_tipo= "SELECT * FROM productos INNER JOIN tipo_producto ON productos.IDproducto = tipo_producto.IDproducto WHERE tipo_producto.IDtipo = '$tipo_producto' "; //selecciona un producto por tipo
         $Q_buscar_por_tipo= "SELECT * FROM productos WHERE habilitado=1"; //selecciona un producto por tipo
 
-        $Q_buscar_nuevos = "SELECT * FROM productos INNER JOIN tipo_producto ON productos.IDproducto = tipo_producto.IDproducto WHERE tipo_producto.IDtipo = 1 AND productos.habilitado=1"; //Selecciona un producto nuevo
+        $Q_buscar_nuevos = "SELECT * FROM productos INNER JOIN tipos ON productos.idproducto = productos.idtipo WHERE tipos.idtipo = 1 AND productos.habilitado=1"; //Selecciona un producto nuevo
 
 
 
@@ -36,7 +36,7 @@
         if($check>0 && $tipo_producto!=1){ 
            
            while($row = mysqli_fetch_assoc($resultado)){
-               $producto_id = $row['IDproducto'];
+               $producto_id = $row['idproducto'];
 
                
                
@@ -57,7 +57,7 @@
                        </div>';
 
                        echo ' <div class="featured__data"> ';
-                           $product_id = $row['IDproducto'];
+                           $product_id = $row['idproducto'];
                           
                         echo'<a href="producto.php?id_producto='.$producto_id.'" style="text-decoration: none;">
                            <h4 class="product__name" id="product__name">'.$row['nombre_producto'].'</h4>
@@ -83,7 +83,7 @@
                         <img src=" '.$row_nuevo['imagen_producto'] .' " class="new__img" />
 
                         <div class="new__link">
-                            <a href="producto.php?id_producto='.$row_nuevo['IDproducto'] .'" class="button"> Ver Producto</a>
+                            <a href="producto.php?id_producto='.$row_nuevo['idproducto'] .'" class="button"> Ver Producto</a>
                         </div>
                     </div> ';
                 }

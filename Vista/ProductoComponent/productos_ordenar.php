@@ -42,10 +42,10 @@
 <!--========== CONSULTAS PHP ==========-->
 <?php 
     
-    $Q_obtener_destacados = "SELECT * FROM productos WHERE IDtipo = 2 ";//selecciona productos destacados
-    $Q_obtener_nuevos =  "SELECT * FROM productos WHERE IDtipo = 1 ";//selecciona nuevos productos
-    $Q_obtener_detalles_producto =  "SELECT * FROM productos WHERE IDproducto = 1 ";//selecciona producto con id =1
-    $Q_obtener_categorias = "SELECT * FROM categoria_producto;"; //selecciona todas las categorías
+    $Q_obtener_destacados = "SELECT * FROM productos";//selecciona productos destacados
+    $Q_obtener_nuevos =  "SELECT * FROM productos";//selecciona nuevos productos
+    $Q_obtener_detalles_producto =  "SELECT * FROM productos WHERE idproducto = 1 ";//selecciona producto con id =1
+    $Q_obtener_categorias = "SELECT * FROM categorias;"; //selecciona todas las categorías
     $Q_ordenar_precio_asc = "SELECT * FROM productos  WHERE habilitado=1 ORDER BY precio_producto ASC"; //ordena todos los productos por precio de bajo a alto
     $Q_ordenar_precio_desc = "SELECT * FROM productos  WHERE habilitado=1 ORDER BY precio_producto DESC"; //ordena todos los productos por precio de alto a bajo
     
@@ -77,7 +77,7 @@
         <div class="dropdown-content">
             <?php
             while($row_categorias = mysqli_fetch_assoc($resultado_cat)){
-                $IDcategoria = $row_categorias['IDcategoria'];
+                $IDcategoria = $row_categorias['idcategoria'];
                 ?>
                 <a href="productos_categoria.php?IDcategoria=<?php echo $IDcategoria; ?>"><?php echo $row_categorias['nombre_categoria']; ?></a>
                 <?php
@@ -95,7 +95,7 @@
     if(isset($_GET['IDcategoria'])){
         $id_cat = $_GET['IDcategoria'];
         $Q_obtener_producto_por_id_cat = "SELECT * FROM productos WHERE categoria_producto = {$id_cat} AND habilitado=1";
-        $Q_obtener_nombre_cat_por_id_cat = "SELECT * FROM categoria_producto WHERE IDcategoria = {$id_cat} ";
+        $Q_obtener_nombre_cat_por_id_cat = "SELECT * FROM categoria_producto WHERE idcategoria = {$id_cat} ";
 
         $ejecutar_cat = mysqli_query($conn, $Q_obtener_nombre_cat_por_id_cat );
         $row_cat = mysqli_fetch_array($ejecutar_cat);
@@ -156,7 +156,7 @@
             <div class="dropdown-content">
                 <?php
                 while($row_categorias = mysqli_fetch_assoc($resultado_cat)){
-                    $IDcategoria = $row_categorias['IDcategoria'];
+                    $IDcategoria = $row_categorias['idcategoria'];
                     ?>
                     <a href="productos_categoria.php?IDcategoria=<?php echo $IDcategoria; ?>"><?php echo $row_categorias['nombre_categoria']; ?></a>
                     <?php
@@ -174,7 +174,7 @@
         <?php
                  
                 while($row_producto = mysqli_fetch_assoc($resultado_ordenar)){
-                     $id_producto = $row_producto['IDproducto'];
+                     $id_producto = $row_producto['idproducto'];
                     ?>
 
                         <div class="featured__products" id="product__card">
@@ -191,7 +191,7 @@
                             </div>
 
                             <div class="featured__data">
-                                <?php $id_producto = $row_producto['IDproducto']; ?>
+                                <?php $id_producto = $row_producto['idproducto']; ?>
                                 <a href="producto.php?id_producto=<?php echo $id_producto; ?>" class="product__name" id="product__name"style="text-decoration: none;"><?php echo $row_producto['nombre_producto']; ?></a></br>
                                 <span class="featured__price">Bs <?php echo $row_producto['precio_producto']; ?></span>
                                
@@ -203,13 +203,7 @@
                         }
                 
                 ?>
-
             </div>
-
-            
-           
-            
-
         </section>
 
     </body>

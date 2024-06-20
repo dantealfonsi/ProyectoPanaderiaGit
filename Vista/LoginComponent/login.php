@@ -21,7 +21,7 @@
             $contrasena = test_input($_POST['contrasena']);
 
             // selecciona el row
-            $sql = "SELECT * FROM usuario WHERE nombreUsuario='$tuNombre'";
+            $sql = "SELECT * FROM usuario WHERE nombreusuario='$tuNombre'";
             $result= mysqli_query($conn, $sql);
 
             if(mysqli_num_rows($result) === 1){
@@ -39,9 +39,9 @@
                         include "../../Modelo/iniciarSesion.php";
 
                         // store the user data in this session
-                        $_SESSION['nombreUsuario'] = $row['nombreUsuario'];
-                        $_SESSION['esAdmin'] = $row['esAdmin'];
-                        $_SESSION['IDusuario'] = $row['IDusuario']; 
+                        $_SESSION['nombreUsuario'] = $row['nombreusuario'];
+                        $_SESSION['esAdmin'] = $row['esadmin'];
+                        $_SESSION['IDusuario'] = $row['idusuario']; 
 
                         header('location: verificarCuenta.php');
                     } else {
@@ -56,7 +56,7 @@
 
                         $claveVerificacion = md5(time().$tuNombre);
 
-                        $sql = "UPDATE usuario SET claveVerificacion = '$claveVerificacion' WHERE nombreUsuario = '$tuNombre'";
+                        $sql = "UPDATE usuario SET claveVerificacion = '$claveVerificacion' WHERE nombreusuario = '$tuNombre'";
 
                         if(mysqli_query($conn, $sql)){
 

@@ -180,7 +180,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   $consulta  = "SELECT * from categorias";
                   $resultado_cat = mysqli_query($conn, $consulta);
                   while($row = mysqli_fetch_array($resultado_cat)) {
-                    echo "<option value='".$row['IDcategoria']."'>" . $row['nombre_categoria'] . "</option>";
+                    echo "<option value='".$row['idcategoria']."'>" . $row['nombre_categoria'] . "</option>";
                   }
 
               ?>

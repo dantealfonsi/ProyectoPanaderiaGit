@@ -70,10 +70,10 @@
 
 
   if (isset($_GET['detalle'])){
-    $titulo=  $entrada->readEntrada($_GET['numentrada'])['NUM_ENTRADA'];
+    $titulo=  $entrada->readEntrada($_GET['numentrada'])['num_entrada'];
 
     $detalle='';
-    if(isset($entrada->readEntrada($_GET['numentrada'])['DETALLE']))$detalle=$entrada->readEntrada($_GET['numentrada'])['DETALLE'];
+    if(isset($entrada->readEntrada($_GET['numentrada'])['detalle']))$detalle=$entrada->readEntrada($_GET['numentrada'])['detalle'];
     echo "
 
       <div class='EditBox'>
@@ -100,7 +100,7 @@
   
           <div class='flex-inside'>
           Fecha: 	<br>
-            <input type='text' disabled value='".$entrada->readEntrada($_GET['numentrada'])['FECHA']."'>
+            <input type='text' disabled value='".$entrada->readEntrada($_GET['numentrada'])['fecha']."'>
           </div>
         </div>
 
@@ -112,7 +112,7 @@
 
       <div class='flex-inside'>
         Proveedor: <br> 
-        <input  title='Seleccione Proveedor' required minlength=2 autocomplete='off' onkeypress=\"this.value=''\" list='list_proveedores' type='text' name='proveedor' id='proveedor' readonly value='".$entrada->readEntrada($_GET['numentrada'])['PROVEEDOR']."'>
+        <input  title='Seleccione Proveedor' required minlength=2 autocomplete='off' onkeypress=\"this.value=''\" list='list_proveedores' type='text' name='proveedor' id='proveedor' readonly value='".$entrada->readEntrada($_GET['numentrada'])['proveedor']."'>
           </div>
         </div>
       </section>   
@@ -132,7 +132,7 @@
             <tr>
           </thead>";
   
-        $consulta = "SELECT * from CARAC_ENTRADA WHERE NUM_ENTRADA = {$_GET['numentrada']}";
+        $consulta = "SELECT * from carac_entrada WHERE num_entrada = {$_GET['numentrada']}";
         
         $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta );
         
@@ -140,10 +140,10 @@
           echo "
           <tbody>   
             <tr>
-              <td>{$row['CODIGO_PRODUCTO'] }</td> 
-              <td>{$row['NOMBRE_PRODUCTO']}</td>
-              <td>{$row['CANTIDAD']}</td>
-              <td>{$row['PRECIO']}</td>
+              <td>{$row['codigo_producto'] }</td> 
+              <td>{$row['nombre_producto']}</td>
+              <td>{$row['cantidad']}</td>
+              <td>{$row['precio']}</td>
            </tr>
           </tbody> 
           ";
@@ -165,7 +165,7 @@
       
     while($row = mysqli_fetch_array($resultado)){
         
-      $entrada->insert_detalle_entrada($row['CODIGO_PRODUCTO'],$row['CANTIDAD'],$row['PRECIO'],$_POST['num_entrada']);
+      $entrada->insert_detalle_entrada($row['codigo_producto'],$row['cantidad'],$row['precio'],$_POST['num_entrada']);
     
     }
     
@@ -237,10 +237,10 @@
                   
               echo "         
                               <tr>
-                              <td>".$row['FECHA']."</td>
-                              <td>".$row['RESPONSABLE']."</td>
-                              <td>".$row['PROVEEDOR']."</td>
-                              <td>".$row['NUM_ENTRADA']."</td>
+                              <td>".$row['fecha']."</td>
+                              <td>".$entrada->getUsuario($row['responsable'])['nombre']."</td> 
+                              <td>".$row['proveedor']."</td>
+                              <td>".$row['num_entrada']."</td>
                               <td><a  title='Ver detalle de la Entrada'  href='?detalle=&detalleinv=0&numentrada={$row['NUM_ENTRADA']}&idproducto={$row['NUM_ENTRADA']}'><img id='icon-bt' src='../../Assets/images/inventory/eye.png'></a></td> 
                             </tr>";
                   }
@@ -318,7 +318,7 @@
     </div>
    
     <div class='flex-inside'>
-      Cantidad: <br><input  title='Ingrese Cantidad'  type='number' min=0 value=0 name='cantidad' id='cantidad' oninput='this.value = !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value): null'>
+      Cantidad: <br><input  title='Ingrese Cantidad'  type='number' min=1 value=1 name='cantidad' id='cantidad' oninput='this.value = !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value): null'>
     </div>
 
     <div class='flex-inside'>
@@ -473,17 +473,16 @@ let restrict = false;
 var tablaTemporal = "v<?php echo $_SESSION['IDusuario'];?>";
 
 /*FUNCION BUSAR JAVASCRIPT */
-function add(nombreX){
+function add(nombreX){  
   $.post("../../Modelo/modulo_proyecto.php",{
      validar_entrada: "",
      codigo: document.getElementById('codigo').value,
      proveedor: document.getElementById('proveedor').value
-   },function(data){
+   },function(data){    
       datos= JSON.parse(data);
 
     if (datos.paso===false){
-      alert();
-      if (datos.proveedor===false){
+      if (datos.proveedor===false){        
         document.getElementById('proveedor').value ='';
         $("#proveedor").css("border-bottom","2px solid #f27474");
         tippy('#proveedor', {
@@ -491,6 +490,12 @@ function add(nombreX){
           trigger: 'focus',
           animation: 'fade',
         });
+        Swal.fire(
+    'Cuidado!',
+    'Tienes que ingresar los datos del proveedor.',
+    'warning'
+  );
+
       }
 
       if (datos.producto===false){
@@ -501,10 +506,16 @@ function add(nombreX){
           trigger: 'focus',
           animation: 'fade',
         });
+        Swal.fire(
+    'Cuidado!',
+    'Tienes que ingresar un Codigo de producto valido.',
+    'warning'
+  );
+
       }
 }
-else{
-  $("#proveedor").css("border-bottom","2px solid #ffd2d2");
+else{  
+  $("#proveedor").css("border-bottom","2px solid #f27474");
   if (document.getElementById('codigo').value.length>1 && document.getElementById('proveedor').value.length>3 && (document.getElementById('cantidad').value *1)>0.5){
 $.post("../../Modelo/modulo_proyecto.php",{
  addTempE: "",
@@ -530,7 +541,7 @@ else{
 }
 }
    });   
-  }
+}
 
 
   function leerDatos(){

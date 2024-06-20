@@ -35,24 +35,24 @@ else {
 if(isset($_SESSION['nombreUsuario'])){
 
     //establecer sesión para IDusuario
-    $Q_obtener_IDusuario = 'SELECT IDusuario FROM usuario WHERE nombreUsuario = "'. $_SESSION['nombreUsuario'].'"';
+    $Q_obtener_IDusuario = 'SELECT idusuario FROM usuario WHERE nombreusuario = "'. $_SESSION['nombreUsuario'].'"';
     $ejecutar_obtener_IDusuario = mysqli_query($conn, $Q_obtener_IDusuario);
     $resultado = mysqli_fetch_array($ejecutar_obtener_IDusuario);
     $_SESSION['IDusuario'] = $resultado[0];
 
     //dar IDcarrito al usuario
-    $Q_seleccionar_usuario_en_carrito = 'SELECT * FROM carrito WHERE IDusuario = '.$_SESSION['IDusuario'];
+    $Q_seleccionar_usuario_en_carrito = 'SELECT * FROM carrito WHERE idusuario = '.$_SESSION['IDusuario'];
     $ejecutar_seleccionar_usuario_en_carrito = mysqli_query($conn, $Q_seleccionar_usuario_en_carrito);
     $contar_usuario_en_carrito = mysqli_num_rows($ejecutar_seleccionar_usuario_en_carrito);
     
     //crear IDcarrito para el usuario solo una vez
     if( $contar_usuario_en_carrito==0){
-        $Q_insertar_en_carrito = 'INSERT INTO carrito (IDusuario) VALUES ('.$_SESSION['IDusuario'].')';
+        $Q_insertar_en_carrito = 'INSERT INTO carrito (idusuario) VALUES ('.$_SESSION['IDusuario'].')';
         $ejecutar_insertar_en_carrito = mysqli_query($conn, $Q_insertar_en_carrito);   
     }
 
     //establecer sesión para IDcarrito
-    $Q_obtener_IDcarrito = 'SELECT IDcarrito FROM carrito WHERE IDusuario ='.$_SESSION['IDusuario'];
+    $Q_obtener_IDcarrito = 'SELECT idcarrito FROM carrito WHERE idusuario ='.$_SESSION['IDusuario'];
     $ejecutar_obtener_IDcarrito = mysqli_query($conn, $Q_obtener_IDcarrito);
     $resultado2 = mysqli_fetch_array($ejecutar_obtener_IDcarrito);
     $_SESSION['IDcarrito'] = $resultado2[0];
@@ -83,7 +83,7 @@ if(filter_input(INPUT_POST, 'agregar-al-carrito')){
                     ); 
     
                     //INSERTAR DETALLES DEL ARTÍCULO DEL CARRITO EN LA TABLA cartitem
-                    $Q_insertar_en_cartitem = 'INSERT INTO itemcarrito (IDproducto, IDcarrito, precio, cantidad) 
+                    $Q_insertar_en_cartitem = 'INSERT INTO itemcarrito (idproducto, idcarrito, precio, cantidad) 
                     VALUES ('.$_SESSION['IDproducto'].','.$_SESSION['IDcarrito'].','.filter_input(INPUT_POST, 'precio').','.filter_input(INPUT_POST, 'cantidad_entrada').' )';
                     $ejecutar_insertar_en_cartitem = mysqli_query($conn, $Q_insertar_en_cartitem);
                 }
@@ -99,7 +99,7 @@ if(filter_input(INPUT_POST, 'agregar-al-carrito')){
     
                             //CONSULTA DE ACTUALIZACIÓN EN LA TABLA cartitem
                             $Q_actualizar_cartitem = 'UPDATE itemcarrito SET cantidad = '.$_SESSION['carrito_compras'][$i]['cantidad'].' 
-                            WHERE IDproducto = '.$_GET['id_producto'];
+                            WHERE idproducto = '.$_GET['id_producto'];
                             $ejecutar_actualizar_cartitem = mysqli_query($conn, $Q_actualizar_cartitem);
                         }
                     }
@@ -118,7 +118,7 @@ if(filter_input(INPUT_POST, 'agregar-al-carrito')){
     
     
             //INSERTAR DETALLES DEL ARTÍCULO DEL CARRITO EN LA TABLA itemcarrito
-            $Q_insertar_en_cartitem = 'INSERT INTO itemcarrito (IDproducto, IDcarrito, precio, cantidad) 
+            $Q_insertar_en_cartitem = 'INSERT INTO itemcarrito (idproducto, idcarrito, precio, cantidad) 
             VALUES ('.$_GET['id_producto'].','.$_SESSION['IDcarrito'].','.filter_input(INPUT_POST, 'precio').','.filter_input(INPUT_POST, 'cantidad_entrada').' )';
             $ejecutar_insertar_en_cartitem = mysqli_query($conn, $Q_insertar_en_cartitem);
         }
@@ -195,9 +195,9 @@ function pre_r($array){
           <!--========== PHP QUERIES ==========-->
         <?php 
                 
-                $Q_obtener_destacados = "SELECT * FROM productos INNER JOIN tipo_producto ON productos.IDproducto = tipo_producto.IDproducto WHERE tipo_producto.IDtipo = 2"; //selecciona un producto ya establecido
-                $Q_obtener_nuevos = "SELECT * FROM productos INNER JOIN tipo_producto ON productos.IDproducto = tipo_producto.IDproducto WHERE tipo_producto.IDtipo = 1"; //selecciona un producto nuevo
-                $Q_obtener_detalle_producto = "SELECT * FROM productos INNER JOIN tipo_producto ON productos.IDproducto = tipo_producto.IDproducto WHERE tipo_producto.IDtipo = 2"; //selecciona producto con id =1
+                $Q_obtener_destacados = "SELECT * FROM productos INNER JOIN tipo_producto ON productos.idproducto = tipo_producto.idproducto WHERE tipo_producto.idtipo = 2"; //selecciona un producto ya establecido
+                $Q_obtener_nuevos = "SELECT * FROM productos INNER JOIN tipo_producto ON productos.idproducto = tipo_producto.idproducto WHERE tipo_producto.idtipo = 1"; //selecciona un producto nuevo
+                $Q_obtener_detalle_producto = "SELECT * FROM productos INNER JOIN tipo_producto ON productos.idproducto = tipo_producto.idproducto WHERE tipo_producto.idtipo = 2"; //selecciona producto con id =1
                 $Q_obtener_categorias = "SELECT * FROM categorias"; //selecciona todas las categorías
         ?>
 
@@ -221,7 +221,7 @@ function pre_r($array){
         
         //******* inicio obtener detalles del producto *******
         //consulta
-        $Q_obtener_producto = "SELECT * FROM productos WHERE IDproducto = $id_producto";
+        $Q_obtener_producto = "SELECT * FROM productos WHERE idproducto = $id_producto";
         //ejecutar consulta
         $ejecutar_obtener_producto = mysqli_query($conn, $Q_obtener_producto);
         //almacenar detalles en array
@@ -229,7 +229,7 @@ function pre_r($array){
         //******* fin obtener detalles del producto *******
 
         //******* inicio obtener tipo de producto *******
-        $Q_obtener_id_tipo = "SELECT * FROM tipo_producto WHERE IDproducto = $id_producto";
+       /* $Q_obtener_id_tipo = "SELECT * FROM tipo_producto WHERE idproducto = $id_producto";
         $ejecutar_obtener_id_tipo = mysqli_query($conn, $Q_obtener_id_tipo);
         $row_id_tipo = mysqli_fetch_array($ejecutar_obtener_id_tipo);
         //******* fin obtener tipo de producto *******
@@ -238,7 +238,7 @@ function pre_r($array){
         $Q_obtener_id_cat = "SELECT * FROM categoria_producto WHERE IDproducto = $id_producto";
         $ejecutar_obtener_id_cat = mysqli_query($conn, $Q_obtener_id_cat);
         $row_id_cat = mysqli_fetch_array($ejecutar_obtener_id_cat);
-        //******* fin obtener categoría del producto *******
+        //******* fin obtener categoría del producto ********/
 
         //declarar variables para todos los encabezados de columna
         $nombre_producto = $row_producto['nombre_producto'];

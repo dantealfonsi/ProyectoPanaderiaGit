@@ -11,14 +11,14 @@ class Proveedor{
     /*Funcion Para insterta un nuevo PROVEEDOR*/
 
     public function crearProveedor($nombre,$rif,$telefono,$direccion){
-      if($rif==@$this->readProveedor($rif)['RIF']){  /*Por si el RIF EXISTE*/
+      if($rif==@$this->readProveedor($rif)['rif']){  /*Por si el RIF EXISTE*/
       
         echo "<script>alert('Este Proveedor ya existe')</script>";
 
       }else{
         
         $tmodulo=new Modulo;
-        $consulta = "INSERT INTO PROVEEDOR(NOMBRE,RIF,TELEFONO,DIRECCION) VALUES('{$nombre}','{$rif}','{$telefono}','{$direccion}')";
+        $consulta = "INSERT INTO proveedor(nombre,rif,telefono,direccion) VALUES('{$nombre}','{$rif}','{$telefono}','{$direccion}')";
         $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta ) or die ( "Algo ha ido mal en Borrarn el Proveedor");       
       }
       
@@ -29,7 +29,7 @@ class Proveedor{
     
       public function borrarProveedor($rif){
         $tmodulo=new Modulo;
-        $consulta = "UPDATE PROVEEDOR SET DELETED=1 WHERE RIF='{$rif}'";
+        $consulta = "UPDATE proveedor SET deleted=1 WHERE rif='{$rif}'";
         $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta ) or die ( "Algo ha ido mal en Borrarn el Proveedor");        
       }
       
@@ -43,7 +43,7 @@ class Proveedor{
           //die("<script>alert('Este Proveedor ya existe')</script>");
   
        // }else{     
-        $consulta = "UPDATE PROVEEDOR SET NOMBRE='{$nombre}',RIF='{$rif}',TELEFONO='{$telefono}',DIRECCION='{$direccion}' WHERE RIF='{$rif}'";
+        $consulta = "UPDATE proveedor SET nombre='{$nombre}',rif='{$rif}',telefono='{$telefono}',direccion='{$direccion}' WHERE rif='{$rif}'";
         $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta ) or die ( "Algo ha ido mal en Borrarn el Proveedor");        
       //}
     }
@@ -53,7 +53,7 @@ class Proveedor{
 
       public function readProveedor($rif){
         $tmodulo=new Modulo;
-        $consulta = "SELECT * FROM PROVEEDOR WHERE RIF='".$rif."'";
+        $consulta = "SELECT * FROM proveedor WHERE rif='".$rif."'";
         $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta);
         $row = mysqli_fetch_array($resultado);
         return $row;  
@@ -64,7 +64,7 @@ class Proveedor{
 
       public function readNombreProveedor($num_entrada){
         $tmodulo=new Modulo;
-        $consulta = "SELECT * FROM ENTRADA WHERE NUM_ENTRADA='".$num_entrada."'";
+        $consulta = "SELECT * FROM entrada WHERE num_entrada='".$num_entrada."'";
         $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta);
         $row = mysqli_fetch_array($resultado);
         return $row;  

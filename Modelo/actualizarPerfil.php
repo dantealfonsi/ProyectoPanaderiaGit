@@ -83,7 +83,7 @@
 
             if($fnameOK == true && $lnameOK == true && $addressOK == true && $phoneOK == true)
             {
-                $sql = "UPDATE usuario SET nombre='$fname', apellido='$lname', direccion='$address', telefono='$phone', descripcion='$description' WHERE nombreUsuario='$nombreUsuario'";
+                $sql = "UPDATE usuario SET nombre='$fname', apellido='$lname', direccion='$address', telefono='$phone', descripcion='$description' WHERE nombreusuario='$nombreUsuario'";
 
                 if(mysqli_query($conn, $sql))
                 {
@@ -115,7 +115,7 @@
                     } else {
                         $passHash = password_hash($newPassword, PASSWORD_BCRYPT);
 
-                        $sql = "UPDATE usuario SET contrasena='$passHash' WHERE nombreUsuario='$nombreUsuario'";
+                        $sql = "UPDATE usuario SET contrasena='$passHash' WHERE nombreusuario='$nombreUsuario'";
                         if(mysqli_query($conn, $sql)){
                             $passwordMessage = "Password Updated!";
                             include "cerrarSesion.php";
@@ -140,7 +140,7 @@
                 $delPassword = test_input($_POST["delPassword"]);
 
                 if(password_verify($delPassword, $contrasena)){
-                    $sql = "DELETE FROM usuario WHERE nombreUsuario='$nombreUsuario'";
+                    $sql = "DELETE FROM usuario WHERE nombreusuario='$nombreUsuario'";
 
                     if(mysqli_query($conn, $sql)){
                         include "cerrarSesion.php";

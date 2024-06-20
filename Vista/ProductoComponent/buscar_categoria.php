@@ -25,7 +25,7 @@
 
             $correr_obtener_producto_por_categoria_id = mysqli_query($conn, $Q_buscar_productos_por_categoria_id); 
             while($row_producto = mysqli_fetch_assoc($correr_obtener_producto_por_categoria_id)){
-                $idProducto = $row_producto['IDproducto'];
+                $idProducto = $row_producto['idproducto'];
                 
 
                     echo ' <div class="featured__products" id="product__card">
@@ -42,7 +42,7 @@
                                 </div>
 
                             <div class="featured__data">';
-                    $idProducto = $row_producto['IDproducto'];
+                    $idProducto = $row_producto['idproducto'];
                     echo '<a href="producto.php?id_producto='.$idProducto.' " class="product__name" id="product__name"style="text-decoration: none;">'. $row_producto['nombre_producto'].'</a></br>
                             <span class="featured__price">Bs '. $row_producto['precio_producto'].'</span>
                                 

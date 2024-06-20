@@ -26,10 +26,10 @@ class dev_salida{
   public function list_salida(){
     $tmodulo = new Modulo;
     $cadena = "";
-    $consulta = "SELECT * from SALIDA WHERE DEVUELTO=0";
+    $consulta = "SELECT * from salida WHERE devuelto=0";
     $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta );
         while($row = mysqli_fetch_array($resultado)){
-          $cadena=$cadena."<option value='{$row['NUM_SALIDA']}' label='{$row['NUM_SALIDA']}'>";
+          $cadena=$cadena."<option value='{$row['num_salida']}' label='{$row['num_salida']}'>";
         }
     $cadena=$cadena."";
     echo $cadena;
@@ -41,8 +41,8 @@ class dev_salida{
   public function sumar_inventario($codigo_producto,$cantidad){
     $producto = new producto; 
     $tmodulo=new Modulo;
-    $existencia=$producto->readProducto($codigo_producto)['EXISTENCIA'];
-    $consulta = "UPDATE INSUMOS SET EXISTENCIA=".strval($existencia + $cantidad)." WHERE CODIGO='".$codigo_producto."'";
+    $existencia=$producto->readProducto($codigo_producto)['existencia'];
+    $consulta = "UPDATE insumos SET existencia=".strval($existencia + $cantidad)." WHERE codigo='".$codigo_producto."'";
     $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta ) or die ( "Algo ha ido mal en sumarInventario");
   }
 
@@ -52,7 +52,7 @@ class dev_salida{
     public function setDevolucionSalida($referencia)
     {
         $tmodulo=new Modulo;
-        $consulta = "UPDATE SALIDA SET DEVUELTO=1 WHERE NUM_SALIDA={$referencia}";
+        $consulta = "UPDATE salida SET devuelto=1 WHERE num_salida={$referencia}";
         $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta ) or die ( "Algo ha ido mal en Borrarn la compra");      
         $this->setDevolucionEntrada($num_entrada);
   
@@ -64,10 +64,10 @@ class dev_salida{
     public function insert_devolucion_salida($responsable,$num_salida,$cedula_cliente,$motivo)
     {
         $tmodulo=new Modulo;
-        $consulta = "INSERT INTO DEVOLUCION_SALIDA (RESPONSABLE,REFERENCIA,CEDULA_CLIENTE,MOTIVO) VALUES ('{$responsable}',{$num_salida},'{$cedula_cliente}','{$motivo}')";
+        $consulta = "INSERT INTO devolucion_salida (responsable,referencia,cedula_cliente,motivo) VALUES ('{$responsable}',{$num_salida},'{$cedula_cliente}','{$motivo}')";
         $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta ) or die ( "Algo ha ido mal en Borrarn la compra");      
         $this->sumar_compra($codigo,$cantidad);
-        $consulta = "UPDATE SALIDA SET DEVUELTO=1 WHERE NUM_SALIDA={$num_salida}";
+        $consulta = "UPDATE salida SET devuelto=1 WHERE num_salida={$num_salida}";
         $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta );
     }
 
@@ -77,7 +77,7 @@ class dev_salida{
   public function insert_detalle_dev_salida($codigo_producto,$cantidad,$precio,$num_salida)
   {
       $tmodulo=new Modulo;
-      $consulta = "INSERT INTO CARAC_DEVOLUCION_SALIDA (CODIGO_PRODUCTO,NOMBRE_PRODUCTO,CANTIDAD,PRECIO,REFERENCIA) VALUES ('{$codigo_producto}','".$this->readProducto($codigo_producto)['NOMBRE']."',{$cantidad},{$precio},{$num_salida})";
+      $consulta = "INSERT INTO carac_devolucion_salida (codigo_producto,nombre_producto,cantidad,precio,referencia) VALUES ('{$codigo_producto}','".$this->readProducto($codigo_producto)['NOMBRE']."',{$cantidad},{$precio},{$num_salida})";
       $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta ) or die ( "Algo ha ido mal en Borrarn la compra");      
       $this->sumar_inventario($codigo_producto,$cantidad);
   }
@@ -88,7 +88,7 @@ class dev_salida{
   public function readDevSalida($num_salida){
     $row;
     $tmodulo=new Modulo;
-    $consulta = "SELECT * FROM DEVOLUCION_SALIDA WHERE REFERENCIA=".$num_salida;
+    $consulta = "SELECT * FROM devolucion_salida WHERE referencia=".$num_salida;
     $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta );
     
     if($row = mysqli_fetch_array($resultado))
@@ -103,8 +103,8 @@ class dev_salida{
     public function sumar_compra($codigo,$cantidad){
         $producto = new producto; 
         $tmodulo=new Modulo;
-        $existencia=$producto->readProducto($codigo)['EXISTENCIA'];
-        $consulta = "UPDATE INSUMOS SET EXISTENCIA=".strval($existencia + $cantidad)." WHERE CODIGO='".$codigo_producto."'";
+        $existencia=$producto->readProducto($codigo)['existencia'];
+        $consulta = "UPDATE insumos SET existencia=".strval($existencia + $cantidad)." WHERE codigo='".$codigo_producto."'";
         $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta ) or die ( "Algo ha ido mal en sumarInventario");
       }
       
@@ -113,7 +113,7 @@ class dev_salida{
 
       public function readProducto($codigo){
         $tmodulo=new Modulo;
-        $consulta = "SELECT * FROM INSUMOS WHERE CODIGO='".$codigo."'";
+        $consulta = "SELECT * FROM insumos WHERE codigo='".$codigo."'";
         $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta );
         
         if($row = mysqli_fetch_array($resultado))
@@ -126,10 +126,10 @@ class dev_salida{
       public function list_productos($num_entrada){
         $tmodulo = new Modulo;
         $cadena = "";
-        $consulta = "SELECT CODIGO_PRODUCTO,NOMBRE_PRODUCTO from CARAC_SALIDA WHERE NUM_SALIDA={$num_salida}";
+        $consulta = "SELECT codigo_producto,nombre_producto from carac_salida WHERE num_salida={$num_salida}";
         $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta );
             while($row = mysqli_fetch_array($resultado)){
-              $cadena=$cadena."<option value='{$row['CODIGO']}' label='{$row['NOMBRE_PRODUCTO']}'>";
+              $cadena=$cadena."<option value='{$row['codigo']}' label='{$row['nombre_producto']}'>";
             }
         $cadena=$cadena."";
         echo $cadena;
@@ -140,7 +140,7 @@ class dev_salida{
  
     public function getUsuario($cedula){
       $tmodulo=new Modulo;
-      $consulta = "SELECT * FROM usuario WHERE IDusuario=".$cedula."";
+      $consulta = "SELECT * FROM usuario WHERE idusuario=".$cedula."";
       $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta );
       $row = mysqli_fetch_array($resultado);
       return $row;

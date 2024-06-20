@@ -15,14 +15,14 @@ class categoria{
 
     public function crearCategoria($nombre){
     if(strlen($nombre)>0)
-      if($nombre==@$this->readCategoria($nombre)['NOMBRE']){  /*POR SI EL NOMBRE YA EXISTE*/
+      if($nombre==@$this->readCategoria($nombre)['nombre']){  /*POR SI EL NOMBRE YA EXISTE*/
       
         echo "<script>alert('Esta Categoria ya existe')</script>";
 
       }else{
 
         $tmodulo=new Modulo;
-        $consulta = "INSERT INTO CATEGORIA_INSUMOS(NOMBRE) VALUES('".$nombre."')";
+        $consulta = "INSERT INTO categoria_insumos(nombre) VALUES('".$nombre."')";
         $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta ) or die ( "Algo ha ido mal en insertar el Producto");
         echo '
 
@@ -45,7 +45,7 @@ class categoria{
      
       public function borrarCategoria($idCategoria){
         $tmodulo=new Modulo;
-        $consulta = "DELETE FROM CATEGORIA_INSUMOS WHERE ID='{$idCategoria}'";
+        $consulta = "DELETE FROM categoria_insumos WHERE id='{$idCategoria}'";
         $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta ) or die ( "Algo ha ido mal en Borrarn el Producto");
       }
 
@@ -54,8 +54,8 @@ class categoria{
     
       public function editarCategoria($idCategoria, $nombre){
         $tmodulo=new Modulo;
-        if (empty($this->readCategoria($nombre)['NOMBRE'])){          /*POR SI ES EL MISMO NOMBRE O ESTA VACIO*/
-          $consulta = "UPDATE CATEGORIA_INSUMOS SET NOMBRE='".$nombre."' WHERE ID='{$idCategoria}'";
+        if (empty($this->readCategoria($nombre)['nombre'])){          /*POR SI ES EL MISMO NOMBRE O ESTA VACIO*/
+          $consulta = "UPDATE categoria_insumos SET nombre='".$nombre."' WHERE id='{$idCategoria}'";
           $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta ) or die ( "Algo ha ido mal en ACTUALIZAR el Producto");          
 
         }
@@ -69,7 +69,7 @@ class categoria{
     
       public function readCategoria($nombre){
         $tmodulo=new Modulo;
-        $consulta = "SELECT * FROM CATEGORIA_INSUMOS WHERE NOMBRE='".$nombre."'";
+        $consulta = "SELECT * FROM categoria_insumos WHERE nombre='".$nombre."'";
         $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta );
         
         if($row = mysqli_fetch_array($resultado))
@@ -81,7 +81,7 @@ class categoria{
 
       public function readCategoriaId($idCategoria){
         $tmodulo=new Modulo;
-        $consulta = "SELECT * FROM CATEGORIA_INSUMOS WHERE ID='".$idCategoria."'";
+        $consulta = "SELECT * FROM categoria_insumos WHERE id='".$idCategoria."'";
         $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta );
         
         if($row = mysqli_fetch_array($resultado))

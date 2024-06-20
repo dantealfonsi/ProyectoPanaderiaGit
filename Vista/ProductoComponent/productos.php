@@ -48,8 +48,8 @@
         // $Q_fetch_categories = "SELECT * FROM categoria_producto"; //selecciona todas las categorías
 
           
-        $Q_obtener_destacados = "SELECT * FROM productos INNER JOIN tipo_producto ON productos.IDproducto = tipo_producto.IDproducto WHERE tipo_producto.IDtipo = 2 AND productos.habilitado=1"; //selecciona un producto ya establecido
-        $Q_obtener_nuevos = "SELECT * FROM productos INNER JOIN tipo_producto ON productos.IDproducto = tipo_producto.IDproducto WHERE tipo_producto.IDtipo = 1 AND productos.habilitado=1"; //selecciona un producto nuevo
+        $Q_obtener_destacados = "SELECT * FROM productos INNER JOIN tipo_producto ON productos.idproducto = tipo_producto.idproducto WHERE tipo_producto.idtipo = 2 AND productos.habilitado=1"; //selecciona un producto ya establecido
+        $Q_obtener_nuevos = "SELECT * FROM productos INNER JOIN tipo_producto ON productos.idproducto = tipo_producto.idproducto WHERE tipo_producto.idtipo = 1 AND productos.habilitado=1"; //selecciona un producto nuevo
         $Q_obtener_categorias = "SELECT * FROM categorias"; //selecciona todas las categorías
     
     
@@ -102,12 +102,6 @@
         </div> -->
         <!--Aqui se Acaba la imagen en forma de onda-->
 
-
-
-        
-
-
-
 <!--========== INTENTO DE CONSULTAR PRODUCTOS DESTACADOS ==========-->
 
 <section class="featured section" id="featured">
@@ -140,7 +134,7 @@
             <div class="dropdown-content">
                 <?php
                 while($row_categorias = mysqli_fetch_assoc($resultado_cat)){
-                    $IDcategoria = $row_categorias['IDcategoria'];
+                    $IDcategoria = $row_categorias['idcategoria'];
                     $nombreCategoria = $row_categorias['nombre_categoria'];
                     ?>
                     <a href="#" onclick="mostrar_productos_por_id_cat(<?php echo $IDcategoria; ?>, '<?php echo $nombreCategoria; ?>'); " ><?php echo $nombreCategoria; ?></a>

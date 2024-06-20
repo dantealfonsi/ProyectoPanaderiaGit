@@ -234,7 +234,7 @@ if (isset($_GET['edit'])){
 
 if (isset($_GET['detalle'])){
   
-  $titulo= $usuario->readPersona($_GET['cedula'])['NOMBRE'];
+  $titulo= $usuario->readPersona($_GET['cedula'])['nombre'];
   
   echo "
   <div class='EditBox'>
@@ -261,36 +261,36 @@ if (isset($_GET['detalle'])){
   <div class='first-line'>
     <div class='flex-inside'>
       Cargo: <br> 
-      <input type='text' value='".$usuario->readPersona($_GET['cedula'])['CARGO']."' readonly>
+      <input type='text' value='".$usuario->readPersona($_GET['cedula'])['cargo']."' readonly>
     </div>
   </div>
 
   <div class='second-line'>
     <div class='flex-inside'>
       Nombre: <br>  
-      <input pattern='^([A-Z]).*' type='text' name='nombre' required value='".$usuario->readPersona($_GET['cedula'])['NOMBRE']."' readonly>
+      <input pattern='^([A-Z]).*' type='text' name='nombre' required value='".$usuario->readPersona($_GET['cedula'])['nombre']."' readonly>
     </div>
     <div class='flex-inside'>
       Apellido: <br> 
-      <input pattern='^([A-Z]).*' type='text' name='apellido' required  value='".$usuario->readPersona($_GET['cedula'])['APELLIDO']."' readonly>
+      <input pattern='^([A-Z]).*' type='text' name='apellido' required  value='".$usuario->readPersona($_GET['cedula'])['apellido']."' readonly>
     </div>
   </div>
   
   <div class='third-line'>
     <div class='flex-inside'>
       Cédula:  <br>
-        <input pattern='^[0-9]{2}-?[.]?[0-9]{3}-?[.]?[0-9]{3}' type='text' name='cedula' placeholder='XX-XXX-XXX' required value='".$usuario->readPersona($_GET['cedula'])['CEDULA']."' readonly>
+        <input pattern='^[0-9]{2}-?[.]?[0-9]{3}-?[.]?[0-9]{3}' type='text' name='cedula' placeholder='XX-XXX-XXX' required value='".$usuario->readPersona($_GET['cedula'])['cedula']."' readonly>
     </div>
     <div class='flex-inside'>
       Teléfono: <br>
-      <input pattern='^(\+58)?-?([04]\d{3})?-?(\d{3})-?(\d{4})' title='EJ: Empieza por +58 o 04XX' type='text' name='telefono' required value='".$usuario->readPersona($_GET['cedula'])['TELEFONO']."' readonly>
+      <input pattern='^(\+58)?-?([04]\d{3})?-?(\d{3})-?(\d{4})' title='EJ: Empieza por +58 o 04XX' type='text' name='telefono' required value='".$usuario->readPersona($_GET['cedula'])['telefono']."' readonly>
     </div>
   </div>
 
   <div class='first-line'>
     <div class='flex-inside'>
       Dirección: <br> 
-        <input type='text' name='direccion' required style='width:24rem;' value='".$usuario->readPersona($_GET['cedula'])['DIRECCION']."' readonly>
+        <input type='text' name='direccion' required style='width:24rem;' value='".$usuario->readPersona($_GET['cedula'])['direccion']."' readonly>
     </div>
   </div>
   </section>
@@ -317,22 +317,22 @@ if (isset($_GET['detalle'])){
                             <td>".$row['nombre']."</td>
                             <td>".$row['correo']."</td>
                             <td>
-                           <!-- <a  title='Ver detalle del Usuario'  href='?detalle=&detalleuser=0&cedula={$row['IDusuario']}'><img id='icon-bt' src='../fonts/eye.svg'></a>
+                           <!-- <a  title='Ver detalle del Usuario'  href='?detalle=&detalleuser=0&cedula={$row['idusuario']}'><img id='icon-bt' src='../fonts/eye.svg'></a>
                             <a href='?user=&edit=0&id=". /*Query*/ 
-                            $row['IDusuario']."&nombre=".
+                            $row['idusuario']."&nombre=".
                             $row['nombre']."&nivel=".
-                            $row['esAdmin']."&cedula=".
-                            $row['IDusuario']."&password=null'><img id='icon-bt' src='../fonts/edit.png' title='Editar Usuario'></a>-->";
+                            $row['esadmin']."&cedula=".
+                            $row['idusuario']."&password=null'><img id='icon-bt' src='../fonts/edit.png' title='Editar Usuario'></a>-->";
                             
                             if ($_SESSION['esAdmin']!=1){
-                                if($row['nombreUsuario']==$_SESSION['nombreUsuario'] && $row['IDusuario']==$_SESSION['IDusuario'] || $row['esAdmin']==0){ // No eliminar tu propio Usuario//
+                                if($row['nombreusuario']==$_SESSION['nombreUsuario'] && $row['idusuario']==$_SESSION['IDusuario'] || $row['esadmin']==0){ // No eliminar tu propio Usuario//
                                  // $cadena=$cadena."<a onclick=\"alert('No puedes Eliminar a este usuario')\"><img id='icon-bt' src='../fonts/erase1.png'></a>";
                               }
                               /*else {
                                 $cadena=$cadena."<!--<a title='Borrar' onclick=\"borrar({$row['IDusuario']})\"> <img id='icon-bt' src='../fonts/erase.svg' title='Borrar Usuario'> </a>";
                               }*/
                             } else {
-                                if($row['nombreUsuario']==$_SESSION['nombreUsuario'] && $row['IDusuario']==$_SESSION['IDusuario']  ){ // No eliminar tu propio Usuario//
+                                if($row['nombreusuario']==$_SESSION['nombreUsuario'] && $row['idusuario']==$_SESSION['IDusuario']  ){ // No eliminar tu propio Usuario//
                                   //$cadena=$cadena."<a onclick=\"alert('No puedes Eliminar a este Usuario')\"><img id='icon-bt' src='../fonts/erase1.png'></a>";
                               } else {
                                 $cadena=$cadena."<a title='Borrar'> <img id='icon-bt' src='../../Assets/images/inventory/erase.png' title='Borrar Usuario'> </a>";

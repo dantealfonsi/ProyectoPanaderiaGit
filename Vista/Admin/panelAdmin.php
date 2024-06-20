@@ -69,10 +69,15 @@ if (isset($_GET['chat'])) {
         <!--Fin de Barra de Navegación 1200px-->
 
         
+        <?php if(isset($_SESSION['esAdmin']) && $_SESSION['esAdmin']=='1'){
+        ?>
         <!--Inicio de Barra de Navegación-->
         <?php include '../Includes/NavBarResponsive/ResponsiveNavBar.php';?>
         <!--Fin de Barra de Navegación-->
         <!-- Inicio del Header-->
+        <?php
+        }
+        ?>
    
         <iframe id='iframe' src=<?php echo $src; ?> frameborder="0">
 

@@ -25,7 +25,7 @@ class salida{
   public function insert_salida($responsable,$num_salida,$motivo,$cedula_cliente,$subtotal,$iva,$total)
   {
       $tmodulo=new Modulo;
-      $consulta = "INSERT INTO SALIDA (RESPONSABLE,NUM_SALIDA,MOTIVO,CEDULA_CLIENTE,SUBTOTAL,IVA,TOTAL) VALUES ({$responsable},{$num_salida},'{$motivo}',{$cedula_cliente},{$subtotal},{$iva},{$total})";
+      $consulta = "INSERT INTO salida (responsable,num_salida,motivo,cedula_cliente,subtotal,iva,total) VALUES ({$responsable},{$num_salida},'{$motivo}',{$cedula_cliente},{$subtotal},{$iva},{$total})";
       $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta ) or die ( "Algo ha ido mal en Borrarn la compra");      
   }
 
@@ -35,7 +35,7 @@ class salida{
   public function insert_cliente($cedula,$nombre,$apellido,$direccion,$telefono)
   {
       $tmodulo=new Modulo;
-      $consulta = "INSERT INTO PERSONA (CEDULA,NOMBRE,APELLIDO,DIRECCION,TELEFONO) VALUES ('{$cedula}','{$nombre}','{$apellido}','{$direccion}','{$telefono}')";
+      $consulta = "INSERT INTO persona (cedula,nombre,apellido,direccion,telefono) VALUES ('{$cedula}','{$nombre}','{$apellido}','{$direccion}','{$telefono}')";
       $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta ) or die ( "Algo ha ido mal en Borrarn la compra");      
   }
 
@@ -44,8 +44,8 @@ class salida{
     public function sumar_salida($codigo_producto,$cantidad){
         $producto = new producto; 
         $tmodulo=new Modulo;
-        $existencia=$producto->readProducto($codigo_producto)['EXISTENCIA'];
-        $consulta = "UPDATE INSUMOS SET EXISTENCIA=".strval($existencia + $cantidad)." WHERE CODIGO='".$codigo_producto."'";
+        $existencia=$producto->readProducto($codigo_producto)['existencia'];
+        $consulta = "UPDATE insumos SET existencia=".strval($existencia + $cantidad)." WHERE codigo='".$codigo_producto."'";
         $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta ) or die ( "Algo ha ido mal en sumarInventario");
       }
       
@@ -54,8 +54,8 @@ class salida{
       public function restar_salida($codigo_producto,$cantidad){
         $producto = new producto; 
         $tmodulo=new Modulo;
-        $existencia=$producto->readProducto($codigo_producto)['EXISTENCIA'];
-        $consulta = "UPDATE INSUMOS SET EXISTENCIA=".strval($existencia - $cantidad)." WHERE CODIGO='".$codigo_producto."'";
+        $existencia=$producto->readProducto($codigo_producto)['existencia'];
+        $consulta = "UPDATE insumos SET existencia=".strval($existencia - $cantidad)." WHERE codigo='".$codigo_producto."'";
         $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta ) or die ( "Algo ha ido mal en sumarInventario");
       }
 
@@ -64,7 +64,7 @@ class salida{
 
       public function read_salida($id_salida){
         $tmodulo=new Modulo;
-        $consulta = "SELECT * FROM CARAC_SALIDA WHERE ID='".$id_salida."'";
+        $consulta = "SELECT * FROM carac_salida WHERE id='".$id_salida."'";
         $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta );
         $row = mysqli_fetch_array($resultado);
         return $row;  
@@ -79,7 +79,7 @@ class salida{
         $consulta = "SELECT * from productos where habilitado=1";
         $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta );
             while($row = mysqli_fetch_array($resultado)){
-              $cadena=$cadena."<option value='{$row['IDproducto']}' label='{$row['nombre_producto']}'>";
+              $cadena=$cadena."<option value='{$row['idproducto']}' label='{$row['nombre_producto']}'>";
             }
         $cadena=$cadena."";
         echo $cadena;
@@ -94,7 +94,7 @@ class salida{
         $consulta = "SELECT * from usuario";
         $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta );
             while($row = mysqli_fetch_array($resultado)){
-              $cadena=$cadena."<option value='{$row['CEDULA']}'>";
+              $cadena=$cadena."<option value='{$row['cedula']}'>";
             }
         $cadena=$cadena."";
         echo $cadena;
@@ -105,11 +105,11 @@ class salida{
       public function if_cliente_exist($cedula){
 
         $tmodulo=new Modulo;
-        $consulta = "SELECT * FROM PERSONA WHERE CEDULA={$cedula}";  
+        $consulta = "SELECT * FROM persona WHERE cedula={$cedula}";  
         $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta ) or die ( "Algo ha ido mal en insertar el usuario");
         $row = mysqli_fetch_array($resultado);
-        if (isset($row['CEDULA']))
-        if ($row['CEDULA']==$cedula) return TRUE;
+        if (isset($row['cedula']))
+        if ($row['cedula']==$cedula) return TRUE;
         return FALSE;
       }
 
@@ -126,7 +126,7 @@ class salida{
       public function insert_tmp($codigo_producto,$cantidad)
       {
           $tmodulo=new Modulo;
-          $consulta = "INSERT INTO s{$_COOKIE['cedula']} (CODIGO_PRODUCTO,CANTIDAD) VALUES ('{$codigo_producto}',{$cantidad})";
+          $consulta = "INSERT INTO s{$_COOKIE['cedula']} (codigo_producto,cantidad) VALUES ('{$codigo_producto}',{$cantidad})";
           $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta ) or die ( "Algo ha ido mal en Borrarn la compra");      
       }
 
@@ -136,7 +136,7 @@ class salida{
       public function insert_detalle_salida($codigo_producto,$num_salida,$cantidad,$cedula_cliente)
       {
           $tmodulo=new Modulo;
-          $consulta = "INSERT INTO CARAC_SALIDA (CODIGO_PRODUCTO,NOMBRE_PRODUCTO,NUM_SALIDA,CANTIDAD,CEDULA_CLIENTE) VALUES ('{$codigo_producto}','".$this->readProducto($codigo_producto)['NOMBRE']."',{$num_salida},{$cantidad},{$cedula_cliente})";
+          $consulta = "INSERT INTO carac_salida (codigo_producto,nombre_producto,num_salida,cantidad,cedula_cliente) VALUES ('{$codigo_producto}','".$this->readProducto($codigo_producto)['nombre']."',{$num_salida},{$cantidad},{$cedula_cliente})";
           $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta ) or die ( "Algo ha ido mal en Borrarn la salida");      
           $this->restar_salida($codigo_producto,$cantidad);
       }     
@@ -146,7 +146,7 @@ class salida{
 
       public function readProducto($codigo){
         $tmodulo=new Modulo;
-        $consulta = "SELECT * FROM INSUMOS WHERE CODIGO='".$codigo."'";
+        $consulta = "SELECT * FROM insumos WHERE codigo='".$codigo."'";
         $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta );
         
         if($row = mysqli_fetch_array($resultado))
@@ -155,7 +155,7 @@ class salida{
 
       public function readProductoReceta($codigo){
         $tmodulo=new Modulo;
-        $consulta = "SELECT * FROM productos WHERE IDproducto=".$codigo;
+        $consulta = "SELECT * FROM productos WHERE idproducto=".$codigo;
         $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta );        
         if($row = mysqli_fetch_array($resultado))
         return $row;  
@@ -165,7 +165,7 @@ class salida{
 
       public function getUsuario($cedula){
         $tmodulo=new Modulo;
-        $consulta = "SELECT * FROM usuario WHERE IDusuario=".$cedula."";
+        $consulta = "SELECT * FROM usuario WHERE idusuario=".$cedula;
         $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta );
         $row = mysqli_fetch_array($resultado);
         return $row;
@@ -175,7 +175,7 @@ class salida{
 
       public function getPersona($cedula){
         $tmodulo=new Modulo;
-        $consulta = "SELECT * FROM usuario WHERE IDusuario=".$cedula."";
+        $consulta = "SELECT * FROM usuario WHERE idusuario=".$cedula."";
         $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta );
         $row = mysqli_fetch_array($resultado);
         return $row;
@@ -186,7 +186,7 @@ class salida{
 
       public function readSalida($num_salida){
         $tmodulo=new Modulo;
-        $consulta = "SELECT * FROM SALIDA WHERE NUM_SALIDA=".$num_salida;
+        $consulta = "SELECT * FROM salida WHERE num_salida=".$num_salida;
         $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta );
         
         if($row = mysqli_fetch_array($resultado))
@@ -196,7 +196,7 @@ class salida{
       public function getSalida($id){
         $row;
         $tmodulo=new Modulo;
-        $consulta = "SELECT * FROM SALIDA WHERE NUM_SALIDA='{$id}'";
+        $consulta = "SELECT * FROM salida WHERE num_salida='{$id}'";
         $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta );
         
         if($row = mysqli_fetch_array($resultado))
