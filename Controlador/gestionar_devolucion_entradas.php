@@ -21,7 +21,7 @@ class dev_entrada{
   public $motivo;
   public $id_compra;
 
-
+ 
   /*LISTAS DE ENTRADA DONDE NO ESTEN DEVUELTAS*/
 
   public function list_entrada(){
@@ -36,6 +36,12 @@ class dev_entrada{
     echo $cadena;
   }
 
+  public function row_entrada($num_entrada){
+    $tmodulo = new Modulo;
+    $consulta = "SELECT * from entrada WHERE num_entrada=$num_entrada";
+    $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta );
+    return $row = mysqli_fetch_array($resultado);
+  }
 
 
   /*HACER QUE ENTRADAS SE DEVUELVAN*/

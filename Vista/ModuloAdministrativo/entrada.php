@@ -107,7 +107,7 @@
         <div class='second-line'>
           <div class='flex-inside'>
             Responsable: <br> 
-            <input type='text' readonly value='".$entrada->getUsuario($entrada->readEntrada($_GET['numentrada'])['RESPONSABLE'])['NOMBRE']."'>
+            <input type='text' readonly value='".$entrada->getUsuario($entrada->readEntrada($_GET['numentrada'])['responsable'])['nombre']."'>
           </div>
 
       <div class='flex-inside'>
@@ -170,7 +170,7 @@
     }
     
     $tmodulo->sql_consulta("DROP TABLE v{$_SESSION['IDusuario']}");
-    $tmodulo->historial($_SESSION['nombreUsuario'],$_SESSION['IDusuario'],'AGREGO UNA ENTRADA');
+    $tmodulo->historial($_SESSION['nombreUsuario'],$_SESSION['IDusuario'],'AGREGO UNA ENTRADA DE INSUMO');
     $header = header("Location:entrada.php?msg");
   }
 
@@ -188,18 +188,9 @@
   
   }
 
- /* if (isset($_GET['addtemp'])){
-    
-    $entrada->insert_tmp($_GET['codigo'],$_GET['proveedor'],$_GET['cantidad'],$_GET['precio']);
-    
-    $header = header("Location:entrada.php?inv=&agg_entrada=0&id=");
-  
-  }
-*/
-
   if (isset($_POST['borrartmp'])){
     
-    $tmodulo->sql_consulta("DELETE FROM v{$_SESSION['IDusuario']} WHERE ID = {$_POST['perdida']}");
+    $tmodulo->sql_consulta("DELETE FROM v{$_SESSION['IDusuario']} WHERE id = {$_POST['perdida']}");
      
   }
 
@@ -210,7 +201,7 @@
 
   echo "
   
-  <h1 class='titulo_caja'> ENTRADAS </h1>
+  <h1 class='titulo_caja'> ENTRADA DE INSUMOS </h1>
   
   <div class='outerTable'>
       <div class='InventarioBox'>
@@ -241,7 +232,7 @@
                               <td>".$entrada->getUsuario($row['responsable'])['nombre']."</td> 
                               <td>".$row['proveedor']."</td>
                               <td>".$row['num_entrada']."</td>
-                              <td><a  title='Ver detalle de la Entrada'  href='?detalle=&detalleinv=0&numentrada={$row['NUM_ENTRADA']}&idproducto={$row['NUM_ENTRADA']}'><img id='icon-bt' src='../../Assets/images/inventory/eye.png'></a></td> 
+                              <td><a  title='Ver detalle de la Entrada'  href='?detalle=&detalleinv=0&numentrada={$row['num_entrada']}&idproducto={$row['num_entrada']}'><img id='icon-bt' src='../../Assets/images/inventory/eye.png'></a></td> 
                             </tr>";
                   }
           echo "
@@ -258,7 +249,7 @@
 
       if (isset($_GET['agg_entrada'])){
         
-        $tmodulo->sql_consulta("CREATE TABLE IF NOT EXISTS v{$_SESSION['IDusuario']} (ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, CODIGO_PRODUCTO VARCHAR(15),NOMBRE_PRODUCTO VARCHAR(34),PROVEEDOR VARCHAR(34), CANTIDAD INT NOT NULL DEFAULT 0,  PRECIO DECIMAL(10,2))");
+        $tmodulo->sql_consulta("CREATE TABLE IF NOT EXISTS v{$_SESSION['IDusuario']} (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, codigo_producto VARCHAR(15),nombre_producto VARCHAR(34),proveedor VARCHAR(34), cantidad INT NOT NULL DEFAULT 0,  precio DECIMAL(10,2))");
 
 
         echo "
@@ -267,7 +258,7 @@
           <fieldset>
             <section style='display: flex; justify-content: space-between;'>
              
-              <h1 class='Fieldset-title'> AGREGAR NUEVA ENTRADA</h1>
+              <h1 class='Fieldset-title'> NUEVA ENTRADA DE INSUMOS</h1>
               <a href='entrada.php' title='Cerrar' class='close-btn close-btnTitleOnly'> ⌦ </a> 
 
             </section>
@@ -291,7 +282,7 @@
         <div class='second-line'>
           <div class='flex-inside'>
             Responsable: <br> 
-            <input type='text' readonly value='".$entrada->getUsuario($_SESSION['IDusuario'])['nombreUsuario']."'>
+            <input type='text' readonly value='".$entrada->getUsuario($_SESSION['IDusuario'])['nombreusuario']."'>
           </div>
 
       <div class='flex-inside'>
@@ -388,7 +379,7 @@
           {
                 text:      '<img id="table_icon" src="../../Assets/images/inventory/plus.png"></a>',
                 className: 'square square-green',
-                titleAttr: 'Agregar nueva entrada',
+                titleAttr: 'Nueva entrada de insumos',
                 action: function ( e, dt, button, config ) {
                 window.location = '?inv=&agg_entrada=0&id=';
                 }        

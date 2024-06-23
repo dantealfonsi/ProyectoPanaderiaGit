@@ -70,10 +70,10 @@
  
 
   if (isset($_GET['detalle'])){
-    $titulo=  $dev_salida->readDevSalida($_GET['ref'])['REFERENCIA'];
+    $titulo=  $dev_salida->readDevSalida($_GET['ref'])['referencia'];
 
     $detalle='';
-    if(isset($dev_salida->readDevSalida($_GET['ref'])['DETALLE']))$detalle=$dev_salida->readDevSalida($_GET['numsalida'])['DETALLE'];
+    if(isset($dev_salida->readDevSalida($_GET['ref'])['detalle']))$detalle=$dev_salida->readDevSalida($_GET['numsalida'])['detalle'];
     echo "
 
       <div class='EditBox'>
@@ -84,7 +84,7 @@
        
                 <div>
                 <h1 class='titulo-Subtitulo'>DEVOLUCIÓN</h1>
-                <h1 class='subtitle_container'><span>Por Salida</span></h1>
+                <h1 class='subtitle_container'><span>Por Fabricacion</span></h1>
                 </div>
 
               <a href='devolucion_salida.php'  class='close-btn'> ⌦ </a> 
@@ -101,14 +101,14 @@
   
           <div class='flex-inside'>
           Fecha: 	<br>
-            <input type='text' disabled value='".$dev_salida->readDevSalida($_GET['ref'])['FECHA']."'>
+            <input type='text' disabled value='".$dev_salida->readDevSalida($_GET['ref'])['fecha']."'>
           </div>
         </div>
 
         <div class='second-line'>
           <div class='flex-inside'> 
             Responsable: <br> 
-            <input type='text' readonly value='".$dev_salida->getUsuario($dev_salida->readDevSalida($_GET['ref'])['RESPONSABLE'])['nombre']."'>
+            <input type='text' readonly value='".$dev_salida->getUsuario($dev_salida->readDevSalida($_GET['ref'])['responsable'])['nombre']."'>
           </div>
 
       <div class='flex-inside'>
@@ -133,7 +133,7 @@
             <tr>
           </thead>";
   
-        $consulta = "SELECT * from CARAC_DEVOLUCION_SALIDA WHERE REFERENCIA = {$_GET['ref']}";
+        $consulta = "SELECT * from carac_devolucion_salida WHERE referencia = {$_GET['ref']}";
         
         $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta );
         
@@ -141,10 +141,10 @@
           echo "
           <tbody>   
             <tr>
-              <td>{$row['CODIGO_PRODUCTO'] }</td> 
-              <td>{$row['NOMBRE_PRODUCTO']}</td>
-              <td>{$row['CANTIDAD']}</td>
-              <td>{$row['PRECIO']}</td>
+              <td>{$row['codigo_producto'] }</td> 
+              <td>{$row['nombre_producto']}</td>
+              <td>{$row['cantidad']}</td>
+              <td>{$row['precio']}</td>
            </tr>
           </tbody> 
           ";
@@ -160,12 +160,12 @@
 
   if(isset($_POST['agregar_dev_salida'])){    
     $dev_salida->insert_devolucion_salida($_SESSION['IDusuario'], $_POST['referencia'],$_POST['cedula_cliente'],$_POST['motivo'],);
-    $consulta = "SELECT * from DS{$_SESSION['IDusuario']}";      
+    $consulta = "SELECT * from ds{$_SESSION['IDusuario']}";      
     $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta );      
     while($row = mysqli_fetch_array($resultado)){        
-      $dev_salida->insert_detalle_dev_salida($row['CODIGO_PRODUCTO'],$row['CANTIDAD'],$row['PRECIO'],$_POST['referencia']);    
+      $dev_salida->insert_detalle_dev_salida($row['codigo_producto'],$row['cantidad'],$row['precio'],$_POST['referencia']);    
     }
-    $tmodulo->historial($_SESSION['nombreUsuario'],$_SESSION['IDusuario'],'AGREGO UNA DEVOLUCION DE SALIDA');
+    $tmodulo->historial($_SESSION['nombreUsuario'],$_SESSION['IDusuario'],'AGREGO UNA DEVOLUCION POR FABRICACION');
     $header = header("Location:devolucion_salida.php?msg");
   }
 
@@ -186,7 +186,7 @@
 
   if (isset($_POST['borrartmp'])){
     
-    $tmodulo->sql_consulta("DELETE FROM DS{$_SESSION['IDusuario']} WHERE ID = {$_POST['perdida']}");
+    $tmodulo->sql_consulta("DELETE FROM ds{$_SESSION['IDusuario']} WHERE id = {$_POST['perdida']}");
      
   }
 
@@ -194,7 +194,7 @@
   
     <div>
     <h1 class='titulo-Subtitulo'>DEVOLUCIÓN</h1>
-    <h1 class='subtitle_container'><span>Por Salidas</span></h1>
+    <h1 class='subtitle_container'><span>Por Fabricacion</span></h1>
     </div>
 
     <div class='outerTable'>
@@ -221,10 +221,10 @@
                   
               echo "         
                               <tr>
-                              <td>".$row['FECHA']."</td>
-                              <td>".$row['RESPONSABLE']."</td>
-                              <td>".$row['REFERENCIA']."</td>
-                              <td><a  title='Ver detalle de la devolucion'  href='?detalle=&detalleinv=0&ref={$row['REFERENCIA']}&idproducto={$row['REFERENCIA']}'><img id='icon-bt' src='../../Assets/images/inventory/eye.png'></a></td> 
+                              <td>".$row['fecha']."</td>
+                              <td>".$row['responsable']."</td>
+                              <td>".$row['referencia']."</td>
+                              <td><a  title='Ver detalle de la devolucion'  href='?detalle=&detalleinv=0&ref={$row['referencia']}&idproducto={$row['referencia']}'><img id='icon-bt' src='../../Assets/images/inventory/eye.png'></a></td> 
                             </tr>";
                   }
           echo "
@@ -241,9 +241,9 @@
 
       if (isset($_GET['agg_dev_salida'])){
 
-        $tmodulo->sql_consulta("DROP TABLE IF EXISTS DS{$_SESSION['IDusuario']}");
+        $tmodulo->sql_consulta("DROP TABLE IF EXISTS ds{$_SESSION['IDusuario']}");
 
-        $tmodulo->sql_consulta("CREATE TABLE IF NOT EXISTS DS{$_SESSION['IDusuario']} (ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, CODIGO_PRODUCTO VARCHAR(15),NOMBRE_PRODUCTO VARCHAR(34),CEDULA_CLIENTE VARCHAR(34), CANTIDAD INT NOT NULL DEFAULT 0,  PRECIO DECIMAL(10,2))");
+        $tmodulo->sql_consulta("CREATE TABLE IF NOT EXISTS ds{$_SESSION['IDusuario']} (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, codigo_producto VARCHAR(15),nombre_producto VARCHAR(34),cedula_cliente VARCHAR(34), cantidad INT NOT NULL DEFAULT 0,  precio DECIMAL(10,2))");
 
 
         echo "
@@ -252,15 +252,11 @@
           <fieldset>
             <section style='display: flex; justify-content: space-between;'>
              
-              <h1 class='Fieldset-title'>NUEVA DEVOLUCIÓN POR SALIDA</h1>
+              <h1 class='Fieldset-title'>NUEVA DEVOLUCIÓN POR FABRICACION</h1>
               <a href='devolucion_salida.php' title='Cerrar' class='close-btn close-btnTitleOnly'> ⌦ </a> 
-
-            </section>
-          
-          
+            </section>          
           <section class='form-section'>    
-          <!-- <a class='square square-blue' href='productos.php?inv=&agregar_inv=0&id=&trigger=1'>Crear Nuevo Producto</a>-->
-
+          <!-- <a class='square square-blue' href='productos.php?inv=&agregar_inv=0&id=&trigger=1'>Crear Nuevo Insumo</a>-->
           <div class='first-line'>
             <div class='flex-inside'>
             Referencia: <br> 
@@ -307,7 +303,7 @@
    
     <div class='flex-inside'>
       Cantidad: <br><input  title='Ingrese Cantidad'  type='number' min=0 value=0 name='cantidad' id='cantidad' oninput='this.value = !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value): null'>
-      <a class='btnBlue-small' style='cursor:pointer;' onclick=\"add()\">Añadir</a> <br>
+      <a class='btnBlue-small' style='cursor:pointer;' onclick=\"add('')\">Añadir</a> <br>
       </div>
 
     <div class='flex-inside'>

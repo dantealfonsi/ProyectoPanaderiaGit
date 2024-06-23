@@ -441,7 +441,7 @@
           </ul>
         </li>
 
-      <!--  <li>
+        <li>
           <div class="icon-link">
             <a href="#">
               <img src="../../Assets/images/inventory/devolucion.svg">
@@ -452,10 +452,10 @@
 
           <ul class="sub-menu">
             <li><a onclick="devolucion_entrada()">Devolver Insumos</a></li>
-            <li><a onclick="devolucion_salida()">Devolver Receta</a></li>
+            <li><a onclick="devolucion_salida()">Devolver Fabricacion</a></li>
 
           </ul>
-        </li> -->
+        </li>
 
         <li>
         <div class="icon-link">

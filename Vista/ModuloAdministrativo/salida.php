@@ -73,8 +73,8 @@
 
   if (isset($_GET['detalle'])){
     $detalle='';
-    $titulo= $salida->readSalida($_GET['numsalida'])['NUM_SALIDA'];
-    if(isset($salida->readSalida($_GET['numsalida'])['DETALLE']))$detalle=$salida->readSalida($_GET['numsalida'])['DETALLE'];
+    $titulo= $salida->readSalida($_GET['numsalida'])['num_salida'];
+    if(isset($salida->readSalida($_GET['numsalida'])['detalle']))$detalle=$salida->readSalida($_GET['numsalida'])['detalle'];
    
     echo "
 
@@ -86,7 +86,7 @@
 
     <div>
     <h1 class='titulo-Subtitulo'>DETALLES</h1>
-    <h1 class='subtitle_container'><span></span>Cocina N:$titulo</h1>
+    <h1 class='subtitle_container'><span></span>Fabricacion N:$titulo</h1>
     </div>
 
       <a href='salida.php'  class='close-btn'> ⌦ </a> 
@@ -96,12 +96,12 @@
         <div class='first-line'>
           <div class='flex-inside'>
             Motivo: <br>
-                <input type='text' name='motivo' id='motivo' readonly  value='".$salida->readSalida($_GET['numsalida'])['MOTIVO']."'> 
+                <input type='text' name='motivo' id='motivo' readonly  value='".$salida->readSalida($_GET['numsalida'])['motivo']."'> 
             </div>
   
   <div class='flex-inside'>
   Fecha: 	<br>
-    <input text' value='".$salida->readSalida($_GET['numsalida'])['FECHA']."' disabled>
+    <input text' value='".$salida->readSalida($_GET['numsalida'])['fecha']."' disabled>
 </div>
   
 </div>
@@ -109,12 +109,12 @@
 
 <div class='flex-inside'>
 Usuario que lo realizo:  <br>
-  <input type='text'readonly value='".$salida->getPersona($salida->readSalida($_GET['numsalida'])['CEDULA_CLIENTE'])['nombre']."'>
+  <input type='text'readonly value='".$salida->getPersona($salida->readSalida($_GET['numsalida'])['cedula_cliente'])['nombre']."'>
 </div>
 
 <div class='flex-inside'>
 Apellido:  <br>
-  <input type='text' id='apellido' name='apellido' value='".$salida->getPersona($salida->readSalida($_GET['numsalida'])['CEDULA_CLIENTE'])['apellido']."'>
+  <input type='text' id='apellido' name='apellido' value='".$salida->getPersona($salida->readSalida($_GET['numsalida'])['cedula_cliente'])['apellido']."'>
 </div>
 </div>
 
@@ -122,7 +122,7 @@ Apellido:  <br>
 
 <div class='flex-inside'>
 Responsable: <br> 
-<input type='text' readonly value='".$salida->getPersona($_SESSION['IDusuario'])['nombreUsuario']."'>
+<input type='text' readonly value='".$salida->getPersona($_SESSION['IDusuario'])['nombreusuario']."'>
 
 </div>
 
@@ -135,10 +135,10 @@ Responsable: <br>
 Cocinaste: <br>
 ";
 
-$Q_select_cocinaste = "SELECT * from itemcocina WHERE NUM_SALIDA = {$_GET['numsalida']}";
+$Q_select_cocinaste = "SELECT * from itemcocina WHERE num_salida = {$_GET['numsalida']}";
 $Q_result_cocinaste = mysqli_query($tmodulo->mysqlconnect(), $Q_select_cocinaste );
 while($Q_row_cocinaste = mysqli_fetch_array($Q_result_cocinaste)){
-  echo "<li>".$Q_row_cocinaste['cantidad']." ".$salida->readProductoReceta($Q_row_cocinaste['IDproducto'])['nombre_producto']."</li>";
+  echo "<li>".$Q_row_cocinaste['cantidad']." ".$salida->readProductoReceta($Q_row_cocinaste['idproducto'])['nombre_producto']."</li>";
 }
 
 echo "
@@ -159,7 +159,7 @@ echo "
     <tr>
   </thead>";
 
-$consulta = "SELECT * from CARAC_SALIDA WHERE NUM_SALIDA = {$_GET['numsalida']}";
+$consulta = "SELECT * from carac_salida WHERE num_salida = {$_GET['numsalida']}";
 
 $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta );
 
@@ -167,9 +167,9 @@ while($row = mysqli_fetch_array($resultado)){
   echo "
   <tbody>   
     <tr>
-      <td>{$row['CODIGO_PRODUCTO']}</td> 
-      <td>{$row['NOMBRE_PRODUCTO']}</td>
-      <td>{$row['CANTIDAD']}</td>
+      <td>{$row['codigo_producto']}</td> 
+      <td>{$row['nombre_producto']}</td>
+      <td>{$row['cantidad']}</td>
    </tr>
   </tbody> 
   ";
@@ -184,17 +184,17 @@ echo "
 
 <div class='flex-inside'>
 Subtotal <br>
-<input type='text'  id='subtotal' name='subtotal' value='".$salida->readSalida($_GET['numsalida'])['SUBTOTAL']."' readonly>
+<input type='text'  id='subtotal' name='subtotal' value='".$salida->readSalida($_GET['numsalida'])['subtotal']."' readonly>
 </div>
 
 <div class='flex-inside'>
 Iva <br>
-<input type='text'  id='iva' name='iva' value='".$salida->readSalida($_GET['numsalida'])['IVA']."' readonly>
+<input type='text'  id='iva' name='iva' value='".$salida->readSalida($_GET['numsalida'])['iva']."' readonly>
 </div>
 
 <div class='flex-inside'>
 Total <br>
-<input type='text'  id='total' name='total' value='".$salida->readSalida($_GET['numsalida'])['TOTAL']."' readonly>
+<input type='text'  id='total' name='total' value='".$salida->readSalida($_GET['numsalida'])['total']."' readonly>
 </div>
 
   </div>
@@ -221,41 +221,41 @@ Total <br>
     $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta );
     while($row = mysqli_fetch_array($resultado)){
       //CONSULTA EL IDreceta del producto cocinado
-      $Q_select_IDreceta="select IDreceta from recetas where IDproducto=".$row['CODIGO_PRODUCTO'];
+      $Q_select_IDreceta="select idreceta from recetas where idproducto=".$row['codigo_producto'];
       $Q_result_IDreceta = mysqli_query($tmodulo->mysqlconnect(), $Q_select_IDreceta );
       $Q_IDreceta = mysqli_fetch_array($Q_result_IDreceta);
 
       //inserta los productos cocinados en itemcocina para saber que se cocino con las recetas
-      $Q_insert_itemcocina = "insert into itemcocina(num_salida,IDreceta,IDproducto,cantidad) 
-      values(".$_POST['num_salida'].",'".$Q_IDreceta['IDreceta']."',".$row['CODIGO_PRODUCTO'].",".$row['CANTIDAD'].")";
+      $Q_insert_itemcocina = "insert into itemcocina(num_salida,idreceta,idproducto,cantidad) 
+      values(".$_POST['num_salida'].",'".$Q_IDreceta['idreceta']."',".$row['codigo_producto'].",".$row['cantidad'].")";
       $Q_insert = mysqli_query($tmodulo->mysqlconnect(), $Q_insert_itemcocina );
 
       //consulta todos los item de insumos utilizados de la receta a cocinar
-      $Q_insumos = "select * from itemrecetas where IDproducto=".$row['CODIGO_PRODUCTO']."";
+      $Q_insumos = "select * from itemrecetas where idproducto=".$row['codigo_producto']."";
       $query = mysqli_query($tmodulo->mysqlconnect(), $Q_insumos );
 
       while($item = mysqli_fetch_array($query)){
-        $cantidad = $row['CANTIDAD'] * $item['cantidad'];
+        $cantidad = $row['cantidad'] * $item['cantidad'];
 
         //consulto el precio del insumo
-        $Q_info_insumo="select PRECIO FROM INSUMOS WHERE CODIGO='".$item['codigoInsumo']."'";
+        $Q_info_insumo="select precio FROM insumos WHERE codigo='".$item['codigoinsumo']."'";
         $query_info = mysqli_query($tmodulo->mysqlconnect(), $Q_info_insumo );
         $item_info_insumo = mysqli_fetch_array($query_info);
 
-        $subtotal = $subtotal + ($item_info_insumo['PRECIO'] * $cantidad);
+        $subtotal = $subtotal + ($item_info_insumo['precio'] * $cantidad);
 
         //se descuenta insumo por insumo y se ajusta el inventario
-        $salida->insert_detalle_salida($item['codigoInsumo'],$_POST['num_salida'],$cantidad,$row['CEDULA_CLIENTE']);
+        $salida->insert_detalle_salida($item['codigoinsumo'],$_POST['num_salida'],$cantidad,$row['cedula_cliente']);
       }
       
       //calcula el total gastado y el precio de venta
       $iva= $subtotal * 16/100;
       $total= $subtotal + $iva;
-      $CostoVenta = $total / $row['CANTIDAD'];
+      $CostoVenta = $total / $row['cantidad'];
       $precioVenta = (($CostoVenta * 30) /100) + $CostoVenta;
 
       //actualiza el Precio de venta y la existencia del producto
-      $Q_update = "UPDATE productos set existencia={$row['CANTIDAD']}, precio_producto={$precioVenta} where IDproducto=".$row['CODIGO_PRODUCTO'];
+      $Q_update = "UPDATE productos set existencia={$row['cantidad']}, precio_producto={$precioVenta} where idproducto=".$row['codigo_producto'];
       $query = mysqli_query($tmodulo->mysqlconnect(), $Q_update );
 
     }
@@ -278,7 +278,7 @@ Total <br>
   }
 
   if (isset($_POST['borrartmp'])){
-    $tmodulo->sql_consulta("DELETE FROM s{$_SESSION['IDusuario']} WHERE ID = {$_POST['perdida']}");
+    $tmodulo->sql_consulta("DELETE FROM s{$_SESSION['IDusuario']} WHERE id = {$_POST['perdida']}");
     //$header = header("Location:salida.php?inv=&agg_salida=0&id=");
   } 
 
@@ -307,7 +307,7 @@ Total <br>
             <tr class='tr'>  
               <th>FECHA</th> 
               <th>RESPONSABLE</th>
-              <th>COCINA NUMERO</th>
+              <th>NUMERO</th>
               <th>DETALLE</th>
             </tr>
             </thead>
@@ -320,10 +320,10 @@ Total <br>
   while($row = mysqli_fetch_array($resultado)){
     $cadena= $cadena . "
                    <tr>
-                    <td>".$row['FECHA']."</td>
-                    <td>".$salida->getUsuario($row['RESPONSABLE'])['nombre']."</td>
-                    <td>".$row['NUM_SALIDA']."</td>
-                    <td><a href='?detalle=&detalleinv=0&numsalida={$row['NUM_SALIDA']}&idproducto={$row['NUM_SALIDA']}'> <img id='icon-bt' src='../../Assets/images/inventory/eye.png' title='Ver Detalles de Salida'></a></td>   
+                    <td>".$row['fecha']."</td>
+                    <td>".$salida->getUsuario($row['responsable'])['nombre']."</td>
+                    <td>".$row['num_salida']."</td>
+                    <td><a href='?detalle=&detalleinv=0&numsalida={$row['num_salida']}&idproducto={$row['num_salida']}'> <img id='icon-bt' src='../../Assets/images/inventory/eye.png' title='Ver Detalles de Salida'></a></td>   
                   </tr>";
   }
   
@@ -344,7 +344,7 @@ Total <br>
     
     $nombreX = "s{$_SESSION['IDusuario']}";
       
-    $tmodulo->sql_consulta("CREATE TABLE IF NOT EXISTS {$nombreX} (ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, CODIGO_PRODUCTO VARCHAR(15), NOMBRE_PRODUCTO VARCHAR(34),CANTIDAD INT NOT NULL DEFAULT 0,PRECIO DECIMAL(10,2) NOT NULL DEFAULT 0.00, CEDULA_CLIENTE INT(9) NOT NULL)");
+    $tmodulo->sql_consulta("CREATE TABLE IF NOT EXISTS {$nombreX} (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, codigo_producto VARCHAR(15), nombre_producto VARCHAR(34),cantidad INT NOT NULL DEFAULT 0,precio DECIMAL(10,2) NOT NULL DEFAULT 0.00, cedula_cliente INT(9) NOT NULL)");
     
     echo "      
 
@@ -383,7 +383,7 @@ Total <br>
 
       <div class='flex-inside'>
           Responsable: <br> 
-          <input type='text' readonly value='".$salida->getPersona($_SESSION['IDusuario'])['nombreUsuario']."'>
+          <input type='text' readonly value='".$salida->getPersona($_SESSION['IDusuario'])['nombreusuario']."'>
       </div>
 </div>
 <div class='second-line'>

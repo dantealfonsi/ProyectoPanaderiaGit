@@ -69,31 +69,24 @@
   $dev_entrada = new dev_entrada;
   $tmodulo = new Modulo; 
  
-
   if (isset($_GET['detalle'])){
-    $titulo=  $dev_entrada->readDevEntrada($_GET['ref'])['REFERENCIA'];
+    $titulo=  $dev_entrada->readDevEntrada($_GET['ref'])['referencia'];
 
     $detalle='';
-    if(isset($dev_entrada->readDevEntrada($_GET['ref'])['DETALLE']))$detalle=$dev_entrada->readEntrada($_GET['numentrada'])['DETALLE'];
+    if(isset($dev_entrada->readDevEntrada($_GET['ref'])['detalle']))$detalle=$dev_entrada->readEntrada($_GET['numentrada'])['detalle'];
     echo "
 
       <div class='EditBox'>
         <fieldset>
-
          <section style='display: flex; justify-content: space-between;'>
-       
-       
                 <div>
                 <h1 class='titulo-Subtitulo'>DEVOLUCIÓN</h1>
-                <h1 class='subtitle_container'><span>Por Entradas</span></h1>
+                <h1 class='subtitle_container'><span>de Insumos</span></h1>
                 </div>
 
               <a href='devolucion_entrada.php'  class='close-btn'> ⌦ </a> 
           </section>
-
-
           <section class='form-section'>    
-
           <div class='first-line'>
             <div class='flex-inside'>
             Número: <br> 
@@ -102,14 +95,14 @@
   
           <div class='flex-inside'>
           Fecha: 	<br>
-            <input type='text' disabled value='".$dev_entrada->readDevEntrada($_GET['ref'])['FECHA']."'>
+            <input type='text' disabled value='".$dev_entrada->readDevEntrada($_GET['ref'])['fecha']."'>
           </div>
         </div>
 
         <div class='second-line'>
           <div class='flex-inside'>
             Responsable: <br> 
-            <input type='text' readonly value='".$dev_entrada->getUsuario($dev_entrada->readDevEntrada($_GET['ref'])['RESPONSABLE'])['nombreUsuario']."'>
+            <input type='text' readonly value='".$dev_entrada->getUsuario($dev_entrada->readDevEntrada($_GET['ref'])['responsable'])['nombreUsuario']."'>
           </div>
 
       <div class='flex-inside'>
@@ -117,10 +110,7 @@
         <input  title='Seleccione Proveedor' required minlength=2 autocomplete='off' onkeypress=\"this.value=''\" list='list_proveedores' type='text' name='proveedor' id='proveedor' readonly value='".$dev_entrada->readDevEntrada($_GET['ref'])['PROVEEDOR']."'>
           </div>
         </div>
-      </section>   
-      
-      
-          
+      </section>             
         <section class='table-section'>  
         <div class='outerTable'> 
         <div class='InventarioBox' style='height: 27rem;     width: auto; overflow-y: scroll;'> 
@@ -134,7 +124,7 @@
             <tr>
           </thead>";
   
-        $consulta = "SELECT * from CARAC_DEVOLUCION_ENTRADA WHERE REFERENCIA = {$_GET['ref']}";
+        $consulta = "SELECT * from carac_devolucion_entrada WHERE referencia = {$_GET['ref']}";
         
         $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta );
         
@@ -142,10 +132,10 @@
           echo "
           <tbody>   
             <tr>
-              <td>{$row['CODIGO_PRODUCTO'] }</td> 
-              <td>{$row['NOMBRE_PRODUCTO']}</td>
-              <td>{$row['CANTIDAD']}</td>
-              <td>{$row['PRECIO']}</td>
+              <td>{$row['codigo_producto'] }</td> 
+              <td>{$row['nombre_producto']}</td>
+              <td>{$row['cantidad']}</td>
+              <td>{$row['precio']}</td>
            </tr>
           </tbody> 
           ";
@@ -164,9 +154,9 @@
     $consulta = "SELECT * from DE{$_SESSION['IDusuario']}";      
     $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta );      
     while($row = mysqli_fetch_array($resultado)){        
-      $dev_entrada->insert_detalle_dev_entrada($row['CODIGO_PRODUCTO'],$row['CANTIDAD'],$row['PRECIO'],$_POST['referencia']);    
+      $dev_entrada->insert_detalle_dev_entrada($row['codigo_producto'],$row['cantidad'],$row['precio'],$_POST['referencia']);    
     }
-    $tmodulo->historial($_SESSION['nombreUsuario'],$_SESSION['IDusuario'],'AGREGO UNA DEVOLUCION DE ENTRADA');
+    $tmodulo->historial($_SESSION['nombreUsuario'],$_SESSION['IDusuario'],'AGREGO UNA DEVOLUCION DE INSUMOS');
     $header = header("Location:devolucion_entrada.php?msg");
   }
 
@@ -184,18 +174,9 @@
   
   }
 
- /* if (isset($_GET['addtemp'])){
-    
-    $entrada->insert_tmp($_GET['codigo'],$_GET['proveedor'],$_GET['cantidad'],$_GET['precio']);
-    
-    $header = header("Location:entrada.php?inv=&agg_entrada=0&id=");
-  
-  }
-*/
-
   if (isset($_POST['borrartmp'])){
     
-    $tmodulo->sql_consulta("DELETE FROM DE{$_SESSION['IDusuario']} WHERE ID = {$_POST['perdida']}");
+    $tmodulo->sql_consulta("DELETE FROM de{$_SESSION['IDusuario']} WHERE id = {$_POST['perdida']}");
      
   }
 
@@ -203,7 +184,7 @@
   
     <div>
     <h1 class='titulo-Subtitulo'>DEVOLUCIÓN</h1>
-    <h1 class='subtitle_container'><span>Por Entradas</span></h1>
+    <h1 class='subtitle_container'><span>de Insumos</span></h1>
     </div>
 
     <div class='outerTable'>
@@ -222,7 +203,7 @@
             </thead>
             <tbody>";
               
-            $consulta = "SELECT * from DEVOLUCION_ENTRADA";
+            $consulta = "SELECT * from devolucion_entrada";
 
               $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta );
               
@@ -230,10 +211,10 @@
                   
               echo "         
                               <tr>
-                              <td>".$row['FECHA']."</td>
-                              <td>".$row['RESPONSABLE']."</td>
-                              <td>".$row['REFERENCIA']."</td>
-                              <td><a  title='Ver detalle de la devolucion'  href='?detalle=&detalleinv=0&ref={$row['REFERENCIA']}&idproducto={$row['REFERENCIA']}'><img id='icon-bt' src='../../Assets/images/inventory/eye.png'></a></td> 
+                              <td>".$row['fecha']."</td>
+                              <td>".$row['responsable']."</td>
+                              <td>".$row['referencia']."</td>
+                              <td><a  title='Ver detalle de la devolucion'  href='?detalle=&detalleinv=0&ref={$row['referencia']}&idproducto={$row['referencia']}'><img id='icon-bt' src='../../Assets/images/inventory/eye.png'></a></td> 
                             </tr>";
                   }
           echo "
@@ -250,9 +231,9 @@
 
       if (isset($_GET['agg_dev_entrada'])){
 
-        $tmodulo->sql_consulta("DROP TABLE IF EXISTS DE{$_SESSION['IDusuario']}");
+        $tmodulo->sql_consulta("DROP TABLE IF EXISTS de{$_SESSION['IDusuario']}");
 
-        $tmodulo->sql_consulta("CREATE TABLE IF NOT EXISTS DE{$_SESSION['IDusuario']} (ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY, CODIGO_PRODUCTO VARCHAR(15),NOMBRE_PRODUCTO VARCHAR(34),PROVEEDOR VARCHAR(34), CANTIDAD INT NOT NULL DEFAULT 0,  PRECIO DECIMAL(10,2))");
+        $tmodulo->sql_consulta("CREATE TABLE IF NOT EXISTS de{$_SESSION['IDusuario']} (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, codigo_producto VARCHAR(15),nombre_producto VARCHAR(34),proveedor VARCHAR(34), cantidad INT NOT NULL DEFAULT 0,  precio DECIMAL(10,2))");
 
 
         echo "
@@ -261,14 +242,14 @@
           <fieldset>
             <section style='display: flex; justify-content: space-between;'>
              
-              <h1 class='Fieldset-title'>NUEVA DEVOLUCIÓN POR ENTRADA</h1>
+              <h1 class='Fieldset-title'>NUEVA DEVOLUCIÓN DE INSUMOS</h1>
               <a href='devolucion_entrada.php' title='Cerrar' class='close-btn close-btnTitleOnly'> ⌦ </a> 
 
             </section>
           
           
           <section class='form-section'>    
-          <!-- <a class='square square-blue' href='productos.php?inv=&agregar_inv=0&id=&trigger=1'>Crear Nuevo Producto</a>-->
+          <!-- <a class='square square-blue' href='productos.php?inv=&agregar_inv=0&id=&trigger=1'>Crear Nuevo Insumo</a>-->
 
           <div class='first-line'>
             <div class='flex-inside'>
@@ -296,12 +277,12 @@
         <div class='second-line'>
           <div class='flex-inside'>
             Responsable: <br> 
-            <input type='text' readonly value='".$dev_entrada->getUsuario($_SESSION['IDusuario'])['nombreUsuario']."'>
+            <input type='text' readonly value='".$dev_entrada->getUsuario($_SESSION['IDusuario'])['nombreusuario']."'>
           </div>
 
       <div class='flex-inside'>
         Proveedor: <br> 
-        <input  title='Seleccione Proveedor' required minlength=2 autocomplete='off' onkeypress=\"this.value=''\"  type='text' name='proveedor' id='proveedor' readonly>
+        <input  title='Seleccione Proveedor' required minlength=2 autocomplete='off' onkeypress=\"this.value=''\"  type='text' name='proveedor' id='proveedor'  value= '' readonly>
           </div>
         </div>
 
@@ -310,6 +291,7 @@
             Código: <br> <input title='Seleccione el codigo de un producto' autocomplete='off' onkeypress=\"this.value=''\" pattern='^[0-9]{4}' list='list_productos' type='text' name='codigo' id='codigo' placeholder='XXXX' onchange=\"getExistencia()\">
           
             <datalist id='list_productos'>
+           
          </datalist> 
         
     </div>
@@ -385,7 +367,7 @@
           {
                 text:      '<img id="table_icon" src="../../Assets/images/inventory/plus.png"></a>',
                 className: 'square square-green',
-                titleAttr: 'Agregar nueva entrada',
+                titleAttr: 'Nueva Entrada de Insumos',
                 action: function ( e, dt, button, config ) {
                 window.location = '?inv=&agg_dev_entrada=0&id=';
                 }        

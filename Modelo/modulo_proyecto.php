@@ -461,7 +461,7 @@ if (isset($_POST['list_productos'])){
 
   if ($row = mysqli_fetch_array($resultado2))
   {
-    $obj = array('productos' => $cadena, 'proveedor' => $row['PROVEEDOR']);
+    $obj = array('productos' => $cadena, 'proveedor' => $row['proveedor']);
     echo json_encode($obj);  
   }
   mysqli_close($conexion);
@@ -677,7 +677,7 @@ if (isset($_POST['infoTempDS'])){
     $tabla_temp = $tabla_temp."
 
     <tr>
-      <td><a onclick=borrar_producto({$row['ID']})><img id=icon-bt src='../../Assets/images/inventory/erase.png'></a></td>
+      <td><a onclick=borrar_producto({$row['id']})><img id=icon-bt src='../../Assets/images/inventory/erase.png'></a></td>
       <td>{$row['codigo_producto'] }</td> 
       <td>{$row['nombre_producto']}</td>
       <td>{$row['cantidad']}</td>
