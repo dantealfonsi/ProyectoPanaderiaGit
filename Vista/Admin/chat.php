@@ -102,8 +102,52 @@
   	  });    
   }
 
+  function verDetalles(id) {
+            // Aquí iría el código para cargar los datos del pedido en el diálogo de edición
+            $.get("<?php echo $GLOBALS['ROOT_PATH'] ?>/Modelo/server.php?tiketPedido=&idpedido="+id,
+                    function(data){                        
+                        var datos= JSON.parse(data);
+                        $("#tiket").html(datos.tiket);
+                        //document.getElementById('numPedido').value=datos.numPedido;
+                    });
+
+            //var dialogo = document.getElementById('dialogoEditar');
+            //dialogo.showModal();
+            // ...
+    }
+    
+
+  verDetalles(<?php echo $_GET['idpedido']; ?>);
+
   </script>
   <style>
+.progress-container {
+    width: 100%;
+    background-color: #f1f1f1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .progress-bar {
+    width: 0;
+    height: 30px;
+    background-color: #4caf50;
+    line-height: 30px;
+    color: white;
+  }
+
+  .progress-label {
+    flex: 1;
+    text-align: center;
+    font-weight: bold;
+    color: white;
+  }
+
+  #label1 { background-color: #4caf50; }
+  #label2 { background-color: #2196f3; }
+  #label3 { background-color: #ff9800; }
+  #label4 { background-color: #f44336; }
 
   /* width */
   ::-webkit-scrollbar {
@@ -263,6 +307,14 @@ if(isset($_SESSION['esAdmin']) && $_SESSION['esAdmin']==0){
    ?>
 <!-- partial:index.partial.html -->
 
+<div class="progress-container">
+    <div class="progress-label" id="label1"></div>
+    <div class="progress-label" id="label2"></div>
+    <div class="progress-label" id="label3"></div>
+    <div class="progress-label" id="label4"></div>
+    <div class="progress-bar" id="my-progress"></div>
+</div>
+
 <div class='chatOuterContainer'> 
 <section class='dataSec'>
 <div class='data'>
@@ -277,8 +329,10 @@ if(isset($_SESSION['esAdmin']) && $_SESSION['esAdmin']==0){
 
  
 <div>
-Total a Pagar: <b><span class='pay' id=totalPagar></span></b> <span style='font-size:2rem;'>Bs</span><br>
-Metodo de Pago: <b><span id=metodoPago></span></b><br>
+  Productos:<br>
+  <div id=tiket></div>
+  Total a Pagar: <b><span class='pay' id=totalPagar></span></b> <span style='font-size:2rem;'>Bs</span><br>
+  Metodo de Pago: <b><span id=metodoPago></span></b><br>
 
 </div>
 
@@ -290,9 +344,11 @@ Metodo de Pago: <b><span id=metodoPago></span></b><br>
         if($_SESSION['esAdmin']==1){
           ?>
         <select id="cambioEstado" name="estado" onchange="cambiarEstado()">
-        <option value="null"></option>
-          <option value="EXITOSO">Exitoso</option>
-          <option value="EN PROCESO">En Proceso</option>
+          <option value="null">Selecciona una..</option>
+          <option value="EN PROCESO">En Proceso</option>  
+          <option value="EN CAMINO">En Camino A entregar</option>
+          <option value="EN ESPERA">En Espera a Ser Retirado</option>
+          <option value="EXITOSO">Entregado</option>                    
           <option value="FALLIDO">Fallido</option>
         </select>
           <?php
@@ -335,5 +391,58 @@ if(isset($_SESSION['esAdmin']) && $_SESSION['esAdmin']==0){
 <?php
 }
 ?>
+
+<script>
+const progressBar = document.getElementById("my-progress");
+
+let progressValue = 0; // Cambia este valor según el progreso real
+
+function updateProgressBar(label) {
+  switch (label) {
+    case "EN PROCESO":
+      document.getElementById("label1").innerText =  "EN PROCESO";
+      progressValue += 20;
+    break;
+    case "EN CAMINO":
+      document.getElementById("label1").innerText =  "EN PROCESO";
+      document.getElementById("label2").innerText =  "EN CAMINO";
+      progressValue += 40;
+    break;
+    case "EN ESPERA":
+      document.getElementById("label1").innerText =  "EN PROCESO";
+      document.getElementById("label2").innerText =  "EN CAMINO";
+      document.getElementById("label3").innerText =  "EN ESPERA";
+      progressValue += 60;
+    break;      
+    case "EXITOSO":
+      document.getElementById("label1").innerText =  "EN PROCESO";
+      document.getElementById("label2").innerText =  "EN CAMINO";
+      document.getElementById("label3").innerText =  "EN ESPERA";
+      document.getElementById("label4").innerText =  "ENTREGADO";
+      progressValue += 80;
+    break;     
+    case "FALLIDO":
+      document.getElementById("label1").innerText =  "";
+      document.getElementById("label2").innerText =  "";
+      document.getElementById("label3").innerText =  "";
+      document.getElementById("label4").innerText =  "FALLIDO"; 
+      progressValue += 100;
+    break;       
+  }
+  //progressBar.style.width = `${progressValue}%`;
+  
+  //progressBar.innerText = labels[Math.floor(progressValue / 20)];
+}
+
+setInterval(() => {
+  let id = document.getElementById('ticked').value;
+    $.get("../../Modelo/server.php?tiketPedido=&idpedido="+id,
+                    function(data){                        
+                        var datos= JSON.parse(data);
+                        updateProgressBar(datos.estado);
+                    });  
+  
+}, 3000);
+</script>
 </body>
 </html>

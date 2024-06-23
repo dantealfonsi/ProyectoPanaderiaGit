@@ -137,6 +137,7 @@ function checkColor($estado){
                 <button type="button" class="btn btn-secondary" onclick="cerrarDialogo()">Cerrar</button>
                 <button type="button" class="btn btn-primary" onclick="irChat(document.getElementById('numPedido').value)">Asistencia</button>
             </div>
+        </form>
     </dialog>
 
     <!-- Incluir Bootstrap JS y dependencias -->

@@ -29,7 +29,7 @@
            if($resultado = mysqli_query( $GLOBALS['conn'], $consulta )){
             $obj=array();
             while($row = mysqli_fetch_array($resultado)){
-                $obj[] = "<a href='{$row['ubicacion']}&notif={$row['id']}'\">".$row['noticia']."</a>";
+                $obj[] = "<a href='{$row['ubicacion']}&notif={$row['id']}'>".$row['noticia']."</a>";
             }
            }
        return $obj;

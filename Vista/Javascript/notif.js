@@ -15,7 +15,7 @@ const getCookie = (nombre) => {
 let mockNotifications;
 notifications.style.display = 'none';
 
-    fetch('http://localhost/ProyectoPanaderia/Modelo/server.php?vernotif=&IDusuario='+document.getElementById('sessionValue').value, {
+    fetch('http://localhost/ProyectoPanaderiaGit/Modelo/server.php?vernotif=&IDusuario='+document.getElementById('sessionValue').value, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -33,7 +33,7 @@ notifications.style.display = 'none';
 
 // Muestra las notificaciones al hacer clic en la campana o al pasar el mouse sobre ella
 notificationBell.addEventListener('click', () => {
-    if ($.isEmptyObject(mockNotifications)) {
+    if (Object.keys(mockNotifications).length === 0) {
         notifications.innerHTML = `<div style='display: flex;flex-direction: column;align-items: center;justify-content: center;height: 14rem;font-size: 1.4rem;'><li>No tienes notificaciones nuevas</li></div>`
     } else{
     notifications.innerHTML = mockNotifications.map(notification => `<li>${notification}</li>`).join('');

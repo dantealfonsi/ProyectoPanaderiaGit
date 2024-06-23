@@ -46,9 +46,10 @@ $conexion = $conn;
 		if (Strlen($_POST['mensaje'])>0){
 			//($amo,$ticked,$envia,$recibe,$mensaje)
 			insertChat($_SESSION['idusuario'],$_POST['tickedchat'],$_POST['envia'],$recibe,$_POST['mensaje']); 
-			$chat_path = $GLOBALS['ROOT_PATH']."/Vista/Admin/chat.php";
+
+			$chat_path = $GLOBALS['ROOT_PATH']."/Vista/Admin/panelAdmin.php";
 			if(isset($_SESSION['esAdmin']) && $_SESSION['esAdmin'] == 1){
-				$chat_path = $GLOBALS['ROOT_PATH']."/Vista/Admin/panelAdmin.php";
+				$chat_path = $GLOBALS['ROOT_PATH']."/Vista/Admin/chat.php";
 			}
 			insertNotif($recibe,"Pedido #".$_POST['pedido']." Tiene un Nuevo Mensaje ",$chat_path."?chat=&idpedido=".$_POST['pedido']);
 		}

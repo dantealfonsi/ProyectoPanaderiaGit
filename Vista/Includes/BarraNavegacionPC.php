@@ -105,7 +105,7 @@
                 <div style='position: absolute; display: inline-block;'><a class="cart-number" style='color:white;display: flex;align-items: center;'><?php if(isset($_SESSION['cantidad_articulos'])) {echo $_SESSION['cantidad_articulos'];} else {echo "0";} ?></a></div>
            </li>
 
-        <li><a class="notification-bell"><i class="oi--bell"></i></a>
+        <li><a class="notification-bell"><i class="oi--bell"></i></a> 
            <div  style='position: absolute; display: inline-block;'><a class="cart-number" style='color:white; display: flex;align-items: center;'><span id="numNotif"></span></a></div>
             <div class="notifications">
                         <!-- Aquí se mostrarán las notificaciones -->
