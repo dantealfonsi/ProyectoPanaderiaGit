@@ -62,7 +62,7 @@
         SELECT usuario.nombre, usuario.apellido,usuario.nombreUsuario, usuario.telefono,transaccion.IDusuario  FROM usuario INNER JOIN transaccion on transaccion.IDusuario = usuario.IDusuario WHERE transaccion.IDpedido=10;
     */
     $idPedido= $_GET['idpedido'];
-    $Q_selecciona_tiket = "SELECT productos.idproducto, productos.nombre_producto, itempedido.cantidad, productos.precio_producto FROM itempedido INNER JOIN productos on itempedido.idproducto = productos.idproducto where itempedido.idpedido =".$idPedido;
+    $Q_selecciona_tiket = "SELECT productos.idproducto, productos.nombre_producto, itempedido.iscustom,itempedido.motivo, itempedido.cantidad, productos.precio_producto FROM itempedido INNER JOIN productos on itempedido.idproducto = productos.idproducto where itempedido.idpedido =".$idPedido;
     $Q_selecciona_info_pedido =  "SELECT pedido_usuario.idusuario, pedido_usuario.fechacreacion, pedido_usuario.telefono,pedido_usuario.direccion,pedido_usuario.total,transaccion.metodopago, transaccion.estado FROM transaccion INNER JOIN pedido_usuario on pedido_usuario.idpedido = transaccion.idpedido where transaccion.idpedido =".$idPedido;    
     
     $resultado= mysqli_query($conn, $Q_selecciona_info_pedido);
@@ -102,7 +102,11 @@
     </thead>
     <tbody>";
     while($fila = mysqli_fetch_assoc($resultado3)):
-        $tiket = $tiket . "<tr><td>".$fila['nombre_producto']."</td><td>".$fila['cantidad']."</td><td>".$fila['precio_producto']."</td></tr>";
+        $motivo="";
+        if($fila['iscustom']==1){
+            $motivo=" /Motivo: <b>". $fila['motivo']."</b>";
+        }
+        $tiket = $tiket . "<tr><td>".$fila['nombre_producto']. $motivo."</td><td>".$fila['cantidad']."</td><td>".$fila['precio_producto']."</td></tr>";
     endwhile;
         $tiket = $tiket . "</tbody></table><br>Total a Pagar:".$total;
   

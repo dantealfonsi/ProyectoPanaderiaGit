@@ -30,7 +30,7 @@ if(filter_input(INPUT_GET, 'action') == 'borrar'){
     $_SESSION['carrito_compras'] = array_values($_SESSION['carrito_compras']);
 
     //borrar ROW DEL CARRITO
-    $Q_borrar_itemcarrito = 'DELETE FROM itemcarrito WHERE IDproducto = '.filter_input(INPUT_GET, 'id_producto');
+    $Q_borrar_itemcarrito = 'DELETE FROM itemcarrito WHERE idproducto = '.filter_input(INPUT_GET, 'id_producto');
     $run_borrar_itemcarrito = mysqli_query($conn, $Q_borrar_itemcarrito);
 
 }//end if
@@ -167,7 +167,7 @@ if(filter_input(INPUT_GET, 'action') == 'borrar'){
 
                               //compare if id in database in current loop is equal to  
                               //id in current session shopping cart foreach loop
-                            if($row_producto['IDproducto'] == $producto['id']){
+                            if($row_producto['idproducto'] == $producto['id']){
                                 ?>
                                 <!-- prints image from database of corresponding id -->
                                 <div class="cart_img">
@@ -190,6 +190,13 @@ if(filter_input(INPUT_GET, 'action') == 'borrar'){
                         <div class="product-name">
                             <div class="product-name-det">
                                 <h6><?php echo $producto['nombre'];?></h6>
+                                <?php
+                                    if(isset($producto['motivo']) && $producto['motivo'] != 'null'){
+                                ?>
+                                <h5>Motivo: <?php echo $producto['motivo'];?></h5>
+                                <?php
+                                    }
+                                ?>
                                 <h6>Bs <?php echo number_format($producto['precio'], 2);?> / unidad</h6>
                             </div>
                         </div>

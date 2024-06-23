@@ -48,8 +48,8 @@
         // $Q_fetch_categories = "SELECT * FROM categoria_producto"; //selecciona todas las categorías
 
           
-        $Q_obtener_destacados = "SELECT * FROM productos INNER JOIN tipo_producto ON productos.idproducto = tipo_producto.idproducto WHERE tipo_producto.idtipo = 2 AND productos.habilitado=1"; //selecciona un producto ya establecido
-        $Q_obtener_nuevos = "SELECT * FROM productos INNER JOIN tipo_producto ON productos.idproducto = tipo_producto.idproducto WHERE tipo_producto.idtipo = 1 AND productos.habilitado=1"; //selecciona un producto nuevo
+        $Q_obtener_destacados = "SELECT * FROM productos INNER JOIN tipos ON productos.idtipo = tipos.idtipo WHERE tipos.nombre_tipo = 'destacado' AND productos.habilitado=1;"; //selecciona un producto ya establecido
+        $Q_obtener_nuevos = "SELECT * FROM productos INNER JOIN tipos ON productos.idtipo = tipos.idtipo WHERE tipos.nombre_tipo = 'nuevo' AND productos.habilitado=1;"; //selecciona un producto nuevo
         $Q_obtener_categorias = "SELECT * FROM categorias"; //selecciona todas las categorías
     
     

@@ -11,18 +11,16 @@
     $validado = false; // validado
 
     // definir variables y asignar valores vacíos
-    $municipio= $localidad= "Seleccione un:";
-    $nombre = $apellido = $email = $direccion = $pais = $ciudad = $metodoPago = $nombreTarjeta = $numeroTarjeta = $expiracionMesTarjeta = $expiracionAnioTarjeta = $cvvTarjeta = "";
-    $errorNombre = $errorApellido = $erroremail = $errorDireccion = $errorPais = $errorCiudad  = $errormetodoPago = $errorNombreTarjeta = $errorNumeroTarjeta = $errorExpiracionTarjeta = $errorCvvTarjeta = "";
+    $municipio= $localidad= $nombre = $apellido = $email = $direccion = $metodoPago = "";
+    $errorNombre = $errorApellido = $erroremail = $errorDireccion = $errormetodoPago = $errorLocalidad= $errorMunicipio="";
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
 
         // VALIDACIÓN DEL NOMBRE
         $municipio = validar_entrada($_POST["municipio"]);
         $localidad = validar_entrada($_POST["localidad"]);
-
         $nombre = validar_entrada($_POST["nombre"]);
+        
         // verificar si el nombre solo contiene letras y espacios
         if (!preg_match("/^[a-zA-Z-' ]*$/",$nombre)) {
           $errorNombre = "Solo se permiten letras y espacios en blanco";
@@ -48,129 +46,44 @@
         if (!preg_match("/^[0-9a-zA-Z\s,-]+$/",$direccion)) {
           $errorDireccion = "Dirección inválida";
         }
-
-        // VALIDACIÓN DEL PAÍS
-        // $pais = validar_entrada($_POST["pais"]);
-        // verificar si el país == mauricio
-        // if ($pais != "Mauritius" || $pais != "mauritius" ) {
-        //   $errorDireccion = "Lo sentimos, actualmente solo entregamos en Mauricio.";
-        // }
-
-        // VALIDACIÓN DE LA CIUDAD
-    /*    $ciudad = validar_entrada($_POST["ciudad"]);
-        // verificar si la ciudad == opciones
-        if ($ciudad == "Port Louis" || $ciudad == "Curepipe" || $ciudad == "Vacoas" || $ciudad == "Quatre Bornes" || $ciudad == "Rose Hill" || $ciudad == "Flic En Flac" || $ciudad == "Phoenix") {
-          // válido
-        }
-        else{
-          $errorCiudad = "Ciudad inválida";
-        }*/
-/*
-        // VALIDACIÓN DEL CÓDIGO POSTAL
-        $codigoPostal = validar_entrada($_POST["codigoPostal"]);
-        // verificar si el código postal contiene exactamente 5 números
-        if (!preg_match("/^[0-9]{5}/",$codigoPostal)) {
-          $errorCodigoPostal = "Código postal inválido";
-        }*/
       
         // VALIDACIÓN DEL MÉTODO DE PAGO
+        if(isset($_POST['metodoPago']))
         $metodoPago = validar_entrada($_POST["metodoPago"]);
 
-        // REGEX POR TIPO DE TARJETA
-        $tipoTarjeta = array(
-          "visa"       => "/^4[0-9]{15}$/",
-          // "mastercard" => "/^5[1-5][0-9]{14}$/"
-         
-        );
-
-      /*  // VALIDACIÓN DEL NOMBRE DE LA TARJETA
-        $nombreTarjeta = validar_entrada($_POST["nombreTarjeta"]);
-        // verificar si el nombre de la tarjeta solo contiene letras y espacios
-        if (!preg_match("/^[a-zA-Z-' ]*$/",$nombreTarjeta)) {
-          $errorNombreTarjeta = "Solo se permiten letras y espacios en blanco";
+        if (empty($metodoPago)) {
+         $errormetodoPago="Debes seleccionar Un Metodo de pago";
         }
 
-        // VALIDACIÓN DEL NÚMERO DE LA TARJETA
-        $numeroTarjeta = validar_entrada($_POST["numeroTarjeta"]);
-        // verificar si el número de la tarjeta coincide con el regex por tipos de tarjetas admitidos
-        if (!preg_match($tipoTarjeta['visa'],$numeroTarjeta)) {
-          $errorNumeroTarjeta = "Número de tarjeta inválido
-          <br>
-          ¡Lo sentimos! Nuestro sistema actualmente solo admite tarjetas VISA.";
-        }*/
-/*********************************************************************************** */
-// VALIDACIÓN DE LA FECHA DE EXPIRACIÓN DE LA TARJETA DE CRÉDITO
-if (empty($_POST["ccexp_m"]) || empty($_POST["ccexp_y"])) {
-  $errorFechaExpiracion = "Por favor, introduzca la fecha de expiración";
-} 
-else {
-    $mesExpiracion = validar_entrada($_POST["ccexp_m"]);
-    $anioExpiracion = validar_entrada($_POST["ccexp_y"]);
+        $localidad = validar_entrada($_POST["localidad"]);
 
-    // VALIDA EL MES
-    if((int)$mesExpiracion > 0 && (int)$mesExpiracion < 13){
-      // VALIDA EL AÑO
-      if((int)$anioExpiracion > 1900 && (int)$anioExpiracion < 4000){
-        $verificacionExpiracion = \DateTime::createFromFormat('my', $mesExpiracion.$anioExpiracion);
-        $mesActual = date('m');
-        $anioActual = date('y');
-        $ahora = new \DateTime();
-        // VERIFICA SI HA EXPIRADO
+        if (empty($localidad)) {
+         $errorLocalidad="Debes seleccionar Una Localidad";
+        }        
 
-        if($anioActual < (int)$anioExpiracion){
-          // año válido
-          
-        }
-        else if($anioActual == (int)$anioExpiracion){
-          if($mesActual < (int)$mesExpiracion){
-            // número de expiración válido
-          }
-          // expirado
-          else{
-            $errorFechaExpiracion = "Su tarjeta de crédito ha expirado.";
-          }
-        }
-        // expirado
-        else {
-          $errorFechaExpiracion = "Su tarjeta de crédito ha expirado.";
-        }
+        $municipio = validar_entrada($_POST["municipio"]);
 
-        // if ($verificacionExpiracion > $ahora) {
-        //   $errorFechaExpiracion = "Su tarjeta de crédito ha expirado";
-        // }
-      }
-      else {
-        $errorFechaExpiracion = "Año inválido";
-      }
-    }
-    else {
-      $errorFechaExpiracion = "Fecha de expiración inválida";
-    }
- }
+        if (empty($municipio)) {
+         $errorMunicipio="Debes seleccionar Una Municipio";
+        }        
 
-  // VALIDACIÓN DEL CVV DE LA TARJETA DE CRÉDITO
-  //$cvvTarjeta = validar_entrada($_POST["cccvv"]);
-  // verifica si el CVV tiene 3 o 4 dígitos y está
-  // entre 0-9 y no tiene letras ni caracteres especiales.
-  if (preg_match("/^[0-9]{3,4}$/",$cvvTarjeta)) {
-    // válido
-  }
-  else{
-    $errorCvvTarjeta = "CVV inválido";
-  }
 
-  if($errorNombre == "" && $errorApellido == "" && $erroremail == "" && $errorDireccion == "" && $errorPais == ""  && $errormetodoPago == ""){
+  if($errorMunicipio == "" && $errorLocalidad == "" && $errorNombre == "" && $errorApellido == "" && $erroremail == "" && $errorDireccion == "" &&  $errormetodoPago == ""){
     $validado = true;
   }
       
     }
     
     function validar_entrada($datos) {
+      // Elimina espacios en blanco al principio y al final
       $datos = trim($datos);
+      // Elimina las barras invertidas (si es necesario)
       $datos = stripslashes($datos);
-      $datos = htmlspecialchars($datos);
+      // Escapa caracteres especiales para evitar problemas de seguridad
+      $datos = htmlspecialchars($datos, ENT_QUOTES, 'UTF-8');
+      // Puedes agregar más validaciones aquí según tus necesidades
       return $datos;
-    }
+  }
 ?>
 
 <!doctype html>
@@ -219,7 +132,7 @@ else {
               $resultado_producto = mysqli_query($conn, $Q_fetch__all_products);
 
               while($fila_producto = mysqli_fetch_assoc($resultado_producto)){
-                if($fila_producto['IDproducto'] == $producto['id']){
+                if($fila_producto['idproducto'] == $producto['id']){
                   ?>
 
                   <!-- PRODUCTO 1  -->
@@ -314,53 +227,21 @@ else {
       <div class="col-md-5">
       <label for="municipios"  class="form-label">Selecciona un municipio:</label>
     <select class="form-select" name="municipio" id="select1" >
-        <option><?php echo $municipio?></option>
+        <option value="<?php echo $municipio ?>"><?php if(strlen($municipio)==0)echo "Selecciona Una..";else echo $municipio;?></option>
     </select>
-        <!-- <div class="invalid-feedback">
-          Por favor, selecciona un país válido.
-        </div>
-        <span class="error"><?php //echo $errorPais;?></span> -->
+    <span class="error"><?php echo $errorMunicipio;?></span>
       </div>
 
       <!-- ELEGIR Localidad  -->
       <div class="col-md-4">
         <label for="localidad" class="form-label">Localidad</label>
         <select class="form-select" name="localidad" id="select2">  
-        <option><?php echo $localidad?></option>
+        <option value="<?php echo $localidad ?>"><?php if(strlen($localidad)==0)echo "Selecciona Una..";else echo $localidad;?></option>
         </select> 
-
-
-                <div class="invalid-feedback">
-                  Pon una ciudad valida
-                </div>
-                <span class="error"><?php echo $errorCiudad;?></span>
-              </div>
-
-
-<!-- INGRESAR CÓDIGO POSTAL 
-<div class="col-md-3">
-  <label for="codigoPostal" class="form-label">Código Postal</label>
-  <input type="text" class="form-control" name="codigoPostal" value="" id="codigoPostal" placeholder="" required>
-  <div class="invalid-feedback">
-    Se requiere el código postal.
-  </div>
-  <span class="error"></span>
-</div>
-</div>
--->
-
+          <span class="error"><?php echo $errorLocalidad;?></span>
+        </div>
 
 <hr class="my-4 pinkLine">
-
-<!-- CASILLA DE VERIFICACIÓN DE DIRECCIÓN
-<div class="form-check">
-  <input type="checkbox" class="form-check-input" name="address_check" id="same-address">
-  <label class="form-check-label" for="same-address">La dirección de envío es la misma que mi dirección de facturación</label>
-</div>
-
-<hr class="my-4 pinkLine">
- -->
-
 
 <!-- MÉTODO DE PAGO -->
 <h4 class="mb-3">Método de Pago</h4>
@@ -368,7 +249,7 @@ else {
 <!-- TARJETA DE CRÉDITO -->
 <div class="my-3">
   <div class="form-check">
-    <input id="pagoMovil" name="metodoPago" type="radio" class="form-check-input" value="pagoMovil" <?php if ($metodoPago == "pagoMovil"){ echo "checked";} ?> >
+    <input id="pagoMovil" name="metodoPago" type="radio" class="form-check-input" value="pagomovil" <?php if ($metodoPago == "pagomovil"){ echo "checked";} ?> >
     <label class="form-check-label" for="pagoMovil">Pago Movil</label>
   </div>
 
@@ -384,7 +265,7 @@ else {
     <label class="form-check-label" for="efectivo">Efectivo</label>
   </div>
 
-  <span class="error"><?php echo $errormetodoPago;?></span>
+  <span class="error" style="color:red;"><?php echo $errormetodoPago;?></span>
 </div>
 
 <!-- BOTÓN CONTINUAR AL PAGO -->

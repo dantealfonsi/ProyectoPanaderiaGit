@@ -82,7 +82,7 @@ if(isset($_GET['borrar'])){
 
  
 echo "    
-          <h1 class='titulo_caja'> EMPLEADOS </h1>
+          <h1 class='titulo_caja'> USUARIOS </h1>
           <div class='flexbuttons'>   
 
           <div class='left'> 
@@ -101,7 +101,7 @@ echo "
 
     <section style='display: flex; justify-content: space-between;'>
 
-      <h1 class='Fieldset-title'> AGREGAR NUEVA PERSONA</h1>
+      <h1 class='Fieldset-title'> AGREGAR NUEVO USUARIO</h1>
       
         <a href='persona.php' class='close-btn close-btnTitleOnly'> ⌦ </a> 
       
@@ -343,7 +343,7 @@ echo "
                 {
                       text:      '<img id="table_icon" src="../fonts/adds.svg"></a>',
                       className: 'square square-green',
-                      titleAttr: 'Agregar nueva persona',
+                      titleAttr: 'Agregar Nuevo Usuario',
                       action: function ( e, dt, button, config ) {
                       window.location = '?user=&agg=0&id';
                       }        

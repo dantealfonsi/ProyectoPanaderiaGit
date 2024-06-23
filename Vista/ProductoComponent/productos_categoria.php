@@ -67,8 +67,8 @@
 <?php
     if(isset($_GET['IDcategoria'])){
         $id_cat = $_GET['IDcategoria'];
-        $Q_obtener_producto_por_id_cat = "SELECT * FROM productos WHERE categoria_producto = {$id_cat} AND habilitado=1 ";
-        $Q_obtener_nombre_cat_por_id_cat = "SELECT * FROM categorias WHERE idcategoria = '$id_cat' ; ";
+        $Q_obtener_producto_por_id_cat = "SELECT * FROM productos WHERE categoria_producto = {$id_cat} AND habilitado=1 and existencia>0 and iscustom=0";
+        $Q_obtener_nombre_cat_por_id_cat = "SELECT * FROM categorias WHERE idcategoria = '$id_cat' ";
 
         $ejecutar_cat = mysqli_query($conn, $Q_obtener_nombre_cat_por_id_cat );
         $fila_cat = mysqli_fetch_array($ejecutar_cat);

@@ -12,12 +12,12 @@
 <?php
 // Suponiendo que ya tienes una conexión a la base de datos establecida y guardada en $conexion.
 //establecer sesión para IDusuario.
-$Q_obtener_IDusuario = 'SELECT IDusuario FROM usuario WHERE nombreUsuario = "'. $_SESSION['nombreUsuario'].'"';
+$Q_obtener_IDusuario = 'SELECT idusuario FROM usuario WHERE nombreusuario = "'. $_SESSION['nombreUsuario'].'"';
 $ejecutar_obtener_IDusuario = mysqli_query($conn, $Q_obtener_IDusuario);
 $resultado = mysqli_fetch_array($ejecutar_obtener_IDusuario);
 $_SESSION['IDusuario'] = $resultado[0];
 
-$query = "SELECT * FROM pedido_usuario where IDusuario=".$_SESSION['IDusuario'];
+$query = "SELECT * FROM pedido_usuario where idusuario=".$_SESSION['IDusuario'];
 $resultado = mysqli_query($conn, $query);
 
 function checkColor($estado){
@@ -101,14 +101,14 @@ function checkColor($estado){
             <tbody>
                 <?php while($fila = mysqli_fetch_assoc($resultado)): ?>
                 <tr>
-                    <td><?php echo $fila['IDpedido']; ?></td>
+                    <td><?php echo $fila['idpedido']; ?></td>
                     <td><?php echo $fila['telefono']; ?></td>
-                    <td><?php echo $fila['fechaCreacion']; ?></td>
+                    <td><?php echo $fila['fechacreacion']; ?></td>
                     <td style="background-color:<?php echo checkColor($fila['estado'])?>"><?php echo $fila['estado']; ?></td>
                     <td><?php echo $fila['direccion']; ?></td>
                     <td><?php echo $fila['total']; ?></td>
                     <td>
-                        <button class="btn btn-primary btn-sm" onclick="verDetalles(<?php echo $fila['IDpedido']; ?>)">Detalles</button>
+                        <button class="btn btn-primary btn-sm" onclick="verDetalles(<?php echo $fila['idpedido']; ?>)">Detalles</button>
                     </td>
                 </tr>
                 <?php endwhile; ?>
@@ -135,7 +135,12 @@ function checkColor($estado){
             </div>
         </form>
     </dialog>
+    <?php include '../Includes/Footer.php';?>
+<!--Final del Footer-->
 
+
+        <!-- Inicio del nav de abajo -->
+        <?php include '../Includes/NavDeAbajo.php';?>
     <!-- Incluir Bootstrap JS y dependencias -->
     <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>

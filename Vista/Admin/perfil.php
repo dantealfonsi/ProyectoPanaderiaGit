@@ -11,14 +11,14 @@ $nombreUsuario = $_SESSION['nombreUsuario'];
 
 include "../../Modelo/conexion.php";
 
-$sql = "SELECT * FROM usuario WHERE nombreUsuario='$nombreUsuario'";
+$sql = "SELECT * FROM usuario WHERE nombreusuario='$nombreUsuario'";
 $resultado= mysqli_query($conn, $sql);
 
 if(mysqli_num_rows($resultado) === 1){
     $fila = mysqli_fetch_assoc($resultado);
 }
 
-$nombreUsuario = $fila['nombreUsuario'];
+$nombreUsuario = $fila['nombreusuario'];
 $contrasena = $fila['contrasena'];
 $nombre = $fila['nombre'];
 $apellido = $fila['apellido'];
@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $mensaje = test_input($_POST['mensaje']);
             
-            $sql = "SELECT correo FROM usuario WHERE estaSuscrito = 1";
+            $sql = "SELECT correo FROM usuario WHERE estasuscrito = 1";
             $resultado = mysqli_query($conn, $sql);
 
             if(mysqli_num_rows($resultado) > 0)
@@ -70,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 <!DOCTYPE html>
-<html lang="en-MU">
+<html lang="es">
     <head>
         <meta charset="utf-8">
         <title>PANADERIA | PANEL DE ADMINISTRADOR</title>

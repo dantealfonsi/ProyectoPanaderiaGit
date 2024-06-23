@@ -105,14 +105,14 @@ function checkColor($estado){
             <tbody>
                 <?php while($fila = mysqli_fetch_assoc($resultado)): ?>
                 <tr>
-                    <td><?php echo $fila['IDpedido']; ?></td>
+                    <td><?php echo $fila['idpedido']; ?></td>
                     <td><?php echo $fila['telefono']; ?></td>
-                    <td><?php echo $fila['fechaCreacion']; ?></td>
+                    <td><?php echo $fila['fechacreacion']; ?></td>
                     <td style="background-color:<?php echo checkColor($fila['estado'])?>"><?php echo $fila['estado']; ?></td>
                     <td><?php echo $fila['direccion']; ?></td>
                     <td><?php echo $fila['total']; ?></td>
                     <td>
-                        <button class="btn btn-primary btn-sm" onclick="verDetalles(<?php echo $fila['IDpedido']; ?>)">Detalles</button>
+                        <button class="btn btn-primary btn-sm" onclick="verDetalles(<?php echo $fila['idpedido']; ?>)">Detalles</button>
                     </td>
                 </tr>
                 <?php endwhile; ?>

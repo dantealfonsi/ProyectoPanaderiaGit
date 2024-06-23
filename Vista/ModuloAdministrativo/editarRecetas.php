@@ -157,8 +157,8 @@ if(isset($_GET['id'])){
                 <div class='flex-inside'>
                     Unidad en:<br>
                     <select disabled id="uni" name="uni">
-                        <option selected>Gramos</option>
-                        <option>Unidades</option>
+                        <option selected>gramos</option>
+                        <option>unidades</option>
                     </select>
                 </div>
                 

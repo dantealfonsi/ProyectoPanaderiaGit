@@ -9,14 +9,14 @@ include "../../Modelo/conexion.php";
 
 $src= "../Admin/frame.php";
 
-if (isset($_GET['chat'])) {
+if (isset($_GET['chat'])) { 
     $src= "../Admin/frame.php?chat=&idpedido=".$_GET['idpedido']."&notif=".$_GET['notif'];
 }
 
 ?>
 
 <!DOCTYPE html>
-<html lang="en-MU">
+<html lang="es">
     <head>
         <meta charset="utf-8">
         <title>PANADERIA | PANEL DE ADMINISTRADOR</title>

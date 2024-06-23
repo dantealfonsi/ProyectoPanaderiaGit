@@ -109,7 +109,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               <option value="">Seleccione</option>
               <?php 
               
-                  $consulta  = "SELECT * from productos";
+                  $consulta  = "SELECT idproducto, nombre_producto from productos where CHAR_LENGTH(idreceta) =0;";
                   $resultado_cat = mysqli_query($conn, $consulta);
                   while($row = mysqli_fetch_array($resultado_cat)) {
                     echo "<option value='".$row['idproducto']."'>" . $row['nombre_producto'] . "</option>";
@@ -133,8 +133,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class='flex-inside' style='display: flex;flex-direction: column;' >
                     Unidad en:
                     <select disabled id="uni" name="uni">
-                        <option selected>Gramos</option>
-                        <option>Unidades</option>
+                        <option selected>gramos</option>
+                        <option>unidades</option>
                     </select>
                     </div>
                 <div class='flex-inside'>
@@ -321,8 +321,6 @@ function mostrarTabla() {
 }
 
 function eliminarProducto(button) {
-
-
     const fila = button.parentNode.parentNode;
     const index = fila.rowIndex - 1; // Restamos 1 para ajustar al índice del array
 
@@ -349,9 +347,6 @@ function eliminarProducto(button) {
         }
     })
 }
-
-
-
 
 function enviarReceta() {
     const nombreReceta = document.getElementById("nombre_receta").value;

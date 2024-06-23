@@ -213,7 +213,7 @@ Total <br>
     $CostoVenta=0;
     $precioVenta=0;
 
-    //inserta la salida de insumos a cocinar.
+    //inserta la salida de insumos para productos a fabricar.
     $salida->insert_salida($_SESSION['IDusuario'], $_POST['num_salida'],$_POST['motivo'],$_POST['cedula'],$_POST['subtotal'],$_POST['iva'],$_POST['total']);
 
     //consulta todos los productos cocinados de la tabla temporal
@@ -290,7 +290,7 @@ Total <br>
 
   $cadena="
       
-  <h1 class='titulo_caja'> COCINAR RECETA </h1>
+  <h1 class='titulo_caja'> FABRICAR PRODUCTOS </h1>
 
     <div class='flexbuttons'>
     
@@ -353,7 +353,7 @@ Total <br>
 
           <section style='display: flex; justify-content: space-between;'>
 
-          <h1 class='Fieldset-title'> COCINAR NUEVA RECETA</h1>
+          <h1 class='Fieldset-title'> NUEVA FABRICACION</h1>
               <a href='salida.php' title='Cerrar' class='close-btn close-btnTitleOnly'> ⌦ </a> 
           
            </section>
@@ -523,7 +523,7 @@ $(document).ready(function() {
           {
                 text:      '<img id="table_icon" src="../../Assets/images/inventory/plus.png"></a>',
                 className: 'square square-green',
-                titleAttr: 'Cocinar',
+                titleAttr: 'Fabricar',
                 action: function ( e, dt, button, config ) {                  
                 window.location = '?inv=&agg_salida=0&id=';
                 }        
@@ -730,7 +730,7 @@ function add(nombreX){
         else{
           Swal.fire(
           'Cuidado!',
-          'Tienes datos faltantes para cocinar.',
+          'Tienes datos faltantes para fabricar.',
           'warning'
           );
         }

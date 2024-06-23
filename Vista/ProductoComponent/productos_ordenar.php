@@ -42,12 +42,12 @@
 <!--========== CONSULTAS PHP ==========-->
 <?php 
     
-    $Q_obtener_destacados = "SELECT * FROM productos";//selecciona productos destacados
-    $Q_obtener_nuevos =  "SELECT * FROM productos";//selecciona nuevos productos
+    $Q_obtener_destacados = "SELECT * FROM productos INNER JOIN tipos ON productos.idtipo = tipos.idtipo WHERE tipos.nombre_tipo = 'destacado'  AND productos.habilitado=1 and productos.iscustom=0";//selecciona productos destacados
+    $Q_obtener_nuevos =  "SELECT * FROM productos INNER JOIN tipos ON productos.idtipo = tipos.idtipo WHERE tipos.nombre_tipo = 'nuevo' AND productos.habilitado=1 and productos.iscustom=0";//selecciona nuevos productos
     $Q_obtener_detalles_producto =  "SELECT * FROM productos WHERE idproducto = 1 ";//selecciona producto con id =1
     $Q_obtener_categorias = "SELECT * FROM categorias;"; //selecciona todas las categorías
-    $Q_ordenar_precio_asc = "SELECT * FROM productos  WHERE habilitado=1 ORDER BY precio_producto ASC"; //ordena todos los productos por precio de bajo a alto
-    $Q_ordenar_precio_desc = "SELECT * FROM productos  WHERE habilitado=1 ORDER BY precio_producto DESC"; //ordena todos los productos por precio de alto a bajo
+    $Q_ordenar_precio_asc = "SELECT * FROM productos  WHERE habilitado=1 and existencia > 0 and iscustom=0 ORDER BY precio_producto ASC"; //ordena todos los productos por precio de bajo a alto
+    $Q_ordenar_precio_desc = "SELECT * FROM productos  WHERE habilitado=1 and existencia > 0 and iscustom=0 ORDER BY precio_producto DESC"; //ordena todos los productos por precio de alto a bajo
     
 ?>
 

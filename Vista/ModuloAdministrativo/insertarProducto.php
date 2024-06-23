@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $descripcion_producto = $_POST['descripcion_producto'];
     $precio_producto = $_POST['precio_producto'];
     $categoria_producto = $_POST['categoria_producto'];
-    $directorio = $GLOBALS['ROOT_PATH']."/Assets/productoimagenes\\";
+    $directorio = $GLOBALS['ROOT_PATH']."/Assets/productoimagenes/";
     $ext="";
     //$tipoArchivo = strtolower(pathinfo($archivo, PATHINFO_EXTENSION));
 
@@ -55,12 +55,74 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $archivo = $directorio.$codigorifa.$ext;
     $archivoSubido = addslashes($archivo);
 
-    $sql = "INSERT INTO productos (nombre_producto,descripcion_producto, imagen_producto, precio_producto,categoria_producto)
-    VALUES ('$nombre_producto', '$descripcion_producto', '$archivoSubido', $precio_producto,$categoria_producto)";
-    mysqli_query($conn, $sql);
+    if($_POST['personalizable']=="1"){
+        $iscustom = $_POST['personalizable'];
+        $peso =$_POST['peso'];
+        $pisos =$_POST['pisos'];
+        $modelo =$_POST['modelo'];
+        if(isset($_POST['bizcocho'])){
+            $bizcocho =$_POST['bizcocho'];
+        }
+        else{
+            $bizcocho =0;
+        }
+        
+        $relleno =$_POST['relleno'];
+        $cubierta =$_POST['cubierta'];
+        $persona =$_POST['persona'];
+
+        $sql = "INSERT INTO productos (
+        nombre_producto,
+        descripcion_producto,
+        imagen_producto,
+        precio_producto,
+        categoria_producto,
+        peso,
+        pisos,
+        modelos,
+        bizcocho,
+        relleno,
+        cubierta,
+        persona,
+        iscustom
+        )
+        VALUES (
+        '$nombre_producto',
+        '$descripcion_producto',
+        '$archivoSubido',
+        $precio_producto,
+        $categoria_producto,
+        $peso,
+        $pisos,
+        '$modelo',
+        $bizcocho,
+        '$relleno',
+        '$cubierta',
+        '$persona',
+        $iscustom
+        )";
+        mysqli_query($conn, $sql) or die ("Error de Conaxion: ". mysqli_connect_error());
+    }else{
+        $sql = "INSERT INTO productos (
+        nombre_producto,
+        descripcion_producto,
+        imagen_producto,
+        precio_producto,
+        categoria_producto
+        )
+        VALUES (
+        '$nombre_producto',
+        '$descripcion_producto', 
+        '$archivoSubido',
+        $precio_producto,
+        $categoria_producto
+        )";
+        mysqli_query($conn, $sql);        
+    }
+
     header('location: graciasInsertarProducto.php');
 }
-?>
+?> 
 
 <!-- Formulario HTML para la inserción de datos -->
 
@@ -114,6 +176,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         font-size: 1.4rem;
         font-family: 'Roboto';
        }
+
+       .modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
         </style>
     </head>
 
@@ -161,7 +243,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class='third-line'>
              <div class='flex-inside'>
             Precio del producto:<br>
-                <input style='color:black;' type="number" step="0.01" id="precio_producto" name="precio_producto" required>
+                <input style='color:black;' type="number" step="0.01" id="precio_producto" value="0" name="precio_producto" required>
                 </div>
             <div class='flex-inside'>
                 Imagen del producto:<br>
@@ -186,17 +268,117 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               ?>
 
               </select><br><br>
+              Tipo de Producto:<br>
+                    <select name="tipo" id="tipo" ">  
+                        <option value="">Seleccione</option>
+                <?php 
+                
+                    $consulta  = "SELECT * from tipos";
+                    $resultado_cat = mysqli_query($conn, $consulta);
+                    while($row = mysqli_fetch_array($resultado_cat)) {
+                        echo "<option value='".$row['idtipo']."'>" . $row['nombre_tipo'] . "</option>";
+                    }
 
-      
-          
+                ?>
+                    </select>
+                    <br>
+                    <label>
+        <input type="checkbox" value="1" id="personalizable" name="personalizable"> Producto Personalizable
+    </label>
+
+    <div id="dialog" class="modal">
+        <div class="modal-content">
+            <h2>Opciones de Personalización</h2>
+            <!-- Aquí puedes agregar más inputs para personalización -->             
+            Peso Kg
+            <input type="number" name="peso" id="peso"  step="1" value="1" min=1 max=20> <br>
+            Pisos
+            <input type="number" name="pisos" id="pisos" step="1" value="1" min=1 max=3><br>
+            Modelo
+            <select id="modelo" name="modelo" >
+                <option value=''>Seleciione</option>
+                <option value='redonda'>Redonda</option>
+                <option value='cuadrada'>Cuadrada</option>
+            </select><br>
+            <input type="checkbox"  value="1" name="bizcocho" id="bizcocho"> Bizcocho<br>
+            Relleno
+            <select id="relleno" name="relleno" >
+                <option value=''>Seleciione</option>
+                <option value='vainilla'>Vainilla</option>
+                <option value='chocolate'>Chocolate</option>
+                <option value='fresa'>Fresa</option>
+            </select><br>
+            Cubierta
+            <select id="cubierta" name="cubierta" >
+                <option value=''>Seleciione</option>
+                <option value='blanco'>Blanco</option>
+                <option value='azul'>Azul</option>
+                <option value='chocolate'>Chocolate</option>
+                <option value='rosado'>Rosado</option>
+            </select><br>
+            <input type="radio" name="persona" id="persona" value="niño"> Niño            
+            <input type="radio" name="persona" id="persona" value="niña"> Niña <br>          
+            <input type="radio" name="persona" id="persona" value="hombre"> Hombre            
+            <input type="radio" name="persona" id="persona" value="mujer"> Mujer            
+            <!-- Botón para finalizar -->
+             <br><br>
+            <button type="button" onclick="cerrarDialog()">Aceptar</button> 
+            <button type="button" onclick="cancelDialog()">Cancelar</button>
+        </div>
+    </div>          
             </div>
         </div>
+        <br>
         <button class='submitBtn'>Insertar Producto</button>
         </form>
     </body>
 </html>
 
 <script>
+const checkbox = document.getElementById('personalizable');
+const dialog = document.getElementById('dialog');
+
+checkbox.addEventListener('change', () => {
+    if (checkbox.checked) {
+        dialog.style.display = 'block';
+    } else {
+        dialog.style.display = 'none';
+    }
+});
+
+function cerrarDialog() {
+
+    const modeloInput = document.getElementById('modelo');
+    const rellenoInput = document.getElementById('relleno'); 
+    const cubiertaInput = document.getElementById('cubierta');
+    const personaRadio = document.querySelectorAll('input[type="radio"][name="persona"]');
+    
+    const modeloValor = modeloInput.value.trim();
+    const rellenoValor = rellenoInput.value.trim();
+    const cubiertaValor = cubiertaInput.value.trim();
+
+    let seleccionado = false;
+    personaRadio.forEach((radio) => {
+    if (radio.checked) {
+        seleccionado = true;
+    }
+    });
+
+    if (modeloValor === '' && rellenoValor === '' && cubiertaValor === '' && !seleccionado) {
+        alert('Por favor, ingresa Datos válidos.'); 
+    }
+    else{
+        dialog.style.display = 'none';
+    }
+    
+    // Aquí puedes procesar los datos ingresados antes de finalizar
+} 
+
+function cancelDialog(){
+    checkbox.checked = false;
+    dialog.style.display = 'none';
+}
+
 document.querySelector('form').onsubmit = function(e) {
     var nombreProducto = document.getElementById('nombre_producto').value;
     var descripcionProducto = document.getElementById('descripcion_producto').value;

@@ -7,14 +7,14 @@
     
     include "../../Modelo/conexion.php";
 
-    $sql = "SELECT * FROM usuario WHERE nombreUsuario='$nombreUsuario'";
+    $sql = "SELECT * FROM usuario WHERE nombreusuario='$nombreUsuario'";
     $resultado= mysqli_query($conn, $sql);
 
     if(mysqli_num_rows($resultado) === 1){
         $row = mysqli_fetch_assoc($resultado);
     }
 
-    $nombreUsuario = $row['nombreUsuario'];
+    $nombreUsuario = $row['nombreusuario'];
     $contrasena = $row['contrasena'];
     $nombre = $row['nombre'];
     $apellido = $row['apellido'];

@@ -4,7 +4,7 @@ include "../../Modelo/modulo_proyecto.php";
 
 $tmodulo = new Modulo; 
 
-if (isset($_GET['chat'])) {
+if (isset($_GET['chat'])) { 
   header("location:chat.php?idpedido=".$_GET['idpedido']."&notif=".$_GET['notif']);
 }
 ?>

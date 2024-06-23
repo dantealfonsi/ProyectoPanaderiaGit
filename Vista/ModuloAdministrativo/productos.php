@@ -141,12 +141,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <table id='myTable' class='display'>
          <thead> 
           <tr class='tr'>
+            <th>PERSON</th>
             <th>CÓDIGO</th>
             <th>NOMBRE</th>
             <th>PRECIO</th>
             <th>CATEGORÍA</th>
             <th>ESTADO</th>
-            <th>EXISTENCIA</th>
+            <th>EXISTENCIA</th>            
             <th>ACCIONES</th>
           </tr>
           </thead> <tbody>";
@@ -156,9 +157,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           $resultado = mysqli_query($conn, $consulta );
           
           while($row = mysqli_fetch_array($resultado)){    /*Te muestra el resultado de busqueda*/ 
-          
+            $existenciaNula = "";
+            $title_existencia="";
+            if($row['existencia']<1){
+              $existenciaNula= "red";
+              $title_existencia = "Producto No a la Venta por Existencia, debe Fabricar";
+            }
+
+            $person = "";
+            $title_person="Producto Personalizable";
+            if($row['iscustom']==1){
+              $person= "<span>&#9977;</span>";
+            }
             echo "            
             <tr>
+                <td title='".$title_person."'>".$person."</td>
                 <td>".$row['idproducto']."</td>
                 <td>".$row['nombre_producto']."</td>
                 <td>".$row['precio_producto'].".BS</td>
@@ -166,7 +179,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <td>";
                 if ($row['habilitado']==0) echo "DESABILITADO"; else echo "EN VENTA";                
                 echo "</td>
-                <td>".$row['existencia']."</td>
+                <td title='".$title_existencia."' style='background:".$existenciaNula.";'>".$row['existencia']."</td>
                 <td>
                 <a title='Editar Producto' href='editarProducto.php?id=".$row['idproducto']."'><img id='icon-bt' src='../../Assets/images/inventory/edit.png'></a>
                 <!--<a title='Historial' href='?hist={$row['idproducto']}&Ent=1&Sal=0'><img id='icon-bt' src='../../Assets/images/inventory/book.png'></a>-->
@@ -174,9 +187,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if ($_SESSION['esAdmin']==1){
                   if ($row['habilitado']==1){    
                   echo "
-                  <a onclick=\"borrar('{$row['idproducto']}')\" title='Desabilitar Producto'> <img id='icon-bt' src='../../Assets/images/inventory/erase.png'> </a>";} else{
+                  <a onclick=\"borrar('".$row['idproducto']."','".$row['idreceta']."')\" title='Desabilitar Producto'> <img id='icon-bt' src='../../Assets/images/inventory/erase.png'> </a>";} else{
                     echo"
-                  <a onclick=\"habilitar('{$row['idproducto']}')\" title='Poner a la venta'> <img id='icon-bt' src='../../Assets/images/inventory/habilitar.png'> </a>
+                  <a onclick=\"habilitar('".$row['idproducto']."','".$row['idreceta']."')\" title='Poner a la venta'> <img id='icon-bt' src='../../Assets/images/inventory/habilitar.png'> </a>
                   ";}
                 }
           echo "
@@ -681,57 +694,90 @@ function valCodigo(){
 
 //////////FUNCIONES//////////
 
-function borrar(id) {
-
-Swal.fire({
-title: 'deshabilitar el Producto',
-text: "Seguro que quieres desabilitar este Producto",
-icon: 'warning',
-showCancelButton: true,
-confirmButtonColor: '#3085d6',
-cancelButtonColor: '#d33',
-confirmButtonText: 'Si!',
-cancelButtonText: "Cancelar"
-}).then((result) => {
-if (result.isConfirmed) {
-  Swal.fire(
-    'Deshabilitado!',
-    'El Producto se ha deshabilitado.',
-    'success'
-  ).then(function(){ 
-    window.location.href="productos.php?user=&deshabilitar=0&id="+ id;
- }
-  );
-}
-})
-
+function esCadena(variable) {
+    if(typeof variable === "string" &&  variable.length > 0){
+      return true;
+    }
+    else return false;
 }
 
+function borrar(id,idreceta) {
 
-
-function habilitar(id) {
-
-Swal.fire({
-title: 'Habilitar el Producto',
-text: "Seguro que quieres Habilitar este Producto",
-icon: 'warning',
-showCancelButton: true,
-confirmButtonColor: '#3085d6',
-cancelButtonColor: '#d33',
-confirmButtonText: 'Si!',
-cancelButtonText: "Cancelar"
-}).then((result) => {
-if (result.isConfirmed) {
-  Swal.fire(
-    'Deshabilitado!',
-    'El Producto se ha Habilitado.',
-    'success'
-  ).then(function(){ 
-    window.location.href="productos.php?user=&habilitar=0&id="+ id;
- }
-  );
+  if(esCadena(idreceta)){
+    Swal.fire({
+    title: 'Deshabilitar No Vender',
+    text: "Seguro que quieres desabilitar este Producto",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Si!',
+    cancelButtonText: "Cancelar"
+    }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire(
+        'Deshabilitado!',
+        'El Producto ya no esta a la venta.',
+        'success'
+      ).then(function(){
+          window.location.href="productos.php?user=&deshabilitar=0&id="+ id;    
+    }
+      );
+    }
+    })
+  }
+else{
+  Swal.fire({
+    title: 'Producto sin Receta',
+    text: "El producto debe tener una receta Asignada para salir a la venta",
+    icon: 'warning',
+    showConfirmButton: false,
+    showCancelButton: true,
+    cancelButtonColor: '#d33',
+    cancelButtonText: "Cancelar"
+    });
 }
-})
+
+}
+
+function habilitar(id,idreceta) {
+  if(esCadena(idreceta)){
+    Swal.fire({
+    title: 'Habilitar para la Venta',
+    text: "Seguro que quieres Habilitar este Producto",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Si!',
+    cancelButtonText: "Cancelar"
+    }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire(
+        'Excelente!',
+        'El Producto esta a la Venta al Publico.',
+        'success'
+      ).then(function(){ 
+        if(esCadena(idreceta)){
+          window.location.href="productos.php?user=&habilitar=0&id="+ id;
+        }
+        else alert("El producto debe tener una receta Asignada para salir a la venta");    
+    }
+      );
+    }
+    })
+  }
+    else{
+    Swal.fire({
+    title: 'Producto sin Receta',
+    text: "El producto debe tener una receta Asignada para salir a la venta",
+    icon: 'warning',
+    showConfirmButton: false,
+    showCancelButton: true,
+    cancelButtonColor: '#d33',
+    cancelButtonText: "Cancelar"
+    });
+}
 
 }
 

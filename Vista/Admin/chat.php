@@ -233,7 +233,22 @@
 </head>
 <body style="padding:15px;" onload="inicio()">
 
-<?php $page = 'Asistencia';?>
+<?php $page = 'Asistencia';
+if(isset($_SESSION['esAdmin']) && $_SESSION['esAdmin']==0){
+?>
+<!--Iniciar Barra de Navegación-->
+<?php include '../Includes/BarraNavegacionMovil.php';?>
+<!--FIN Barra de Navegación-->
+
+
+<!--Iniciar Barra de Navegación @media 1200px-->
+<?php include '../Includes/BarraNavegacionPC.php';?>
+<!--FIN Barra de Navegación @media 1200px-->
+
+
+<?php
+}
+?>
 
   <?php
   $notificaciones = "0";
@@ -260,7 +275,7 @@
 
 </div>
 
-
+ 
 <div>
 Total a Pagar: <b><span class='pay' id=totalPagar></span></b> <span style='font-size:2rem;'>Bs</span><br>
 Metodo de Pago: <b><span id=metodoPago></span></b><br>
@@ -307,5 +322,18 @@ Metodo de Pago: <b><span id=metodoPago></span></b><br>
 
     <br><br>
 </div>
+<br><br>
+<?php
+if(isset($_SESSION['esAdmin']) && $_SESSION['esAdmin']==0){
+?>
+<?php include '../Includes/Footer.php';?>
+<!--Final del Footer-->
+
+
+        <!-- Inicio del nav de abajo -->
+        <?php include '../Includes/NavDeAbajo.php';?>
+<?php
+}
+?>
 </body>
 </html>

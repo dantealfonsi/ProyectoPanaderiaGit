@@ -84,7 +84,7 @@ if(isset($_GET['borrar'])){                         /*borrar*/
 /*Empieza la caja grafica*/ 
 echo "
 
-<h1 class='titulo_caja'> USUARIOS </h1>
+<h1 class='titulo_caja'> CLIENTES </h1>
 
 <div class='flexbuttons'>      
 
@@ -104,7 +104,7 @@ if (isset($_GET['agregar_usuario'])){
 
   <section style='display: flex; justify-content: space-between;'>
 
-    <h1 class='Fieldset-title'> AGREGAR NUEVO USUARIO</h1>
+    <h1 class='Fieldset-title'> AGREGAR NUEVO CLIENTE</h1>
     
       <a href='usuario.php' class='close-btn close-btnTitleOnly'> ⌦ </a> 
     

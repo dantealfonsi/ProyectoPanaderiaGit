@@ -436,7 +436,7 @@
 
           <ul class="sub-menu blank">
             <li><a onclick="entrada()" >Entrada Insumos</a></li>
-            <li><a onclick="salida()">Cocinar Receta</a></li>
+            <li><a onclick="salida()">Fabricar Productos</a></li>
 
           </ul>
         </li>
@@ -466,10 +466,10 @@
           </div>
           
           <ul class="sub-menu blank">
-            <li><a onclick="proveedores()">Proveedores</a></li>
-            <li><a onclick="persona()">Empleados</a></li>
+            <li><a onclick="proveedores()">Proveedores</a></li> 
+            <li><a onclick="persona()">Usuarios</a></li>
             <!--<li><a >Empleados</a></li>-->
-            <li><a onclick="usuario()">Usuarios</a></li>
+            <li><a onclick="usuario()">Clientes</a></li>
           </ul>
         </li>
 

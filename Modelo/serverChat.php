@@ -45,8 +45,12 @@ $conexion = $conn;
 
 		if (Strlen($_POST['mensaje'])>0){
 			//($amo,$ticked,$envia,$recibe,$mensaje)
-			insertChat($_SESSION['idusuario'],$_POST['tickedchat'],$_POST['envia'],$recibe,$_POST['mensaje']);
-			insertNotif($recibe,"Pedido #".$_POST['pedido']." Tiene un Nuevo Mensaje ",$GLOBALS['ROOT_PATH']."/Vista/Admin/panelAdmin.php?chat=&idpedido=".$_POST['pedido']);
+			insertChat($_SESSION['idusuario'],$_POST['tickedchat'],$_POST['envia'],$recibe,$_POST['mensaje']); 
+			$chat_path = $GLOBALS['ROOT_PATH']."/Vista/Admin/chat.php";
+			if(isset($_SESSION['esAdmin']) && $_SESSION['esAdmin'] == 1){
+				$chat_path = $GLOBALS['ROOT_PATH']."/Vista/Admin/panelAdmin.php";
+			}
+			insertNotif($recibe,"Pedido #".$_POST['pedido']." Tiene un Nuevo Mensaje ",$chat_path."?chat=&idpedido=".$_POST['pedido']);
 		}
 
 		//if (($_SESSION['esAdmin']) > 0) updateColor($_POST['tickedchat'],readVendedor($_SESSION['user'])['CORREO'],"#BABAEE","#000000");
@@ -187,7 +191,7 @@ function readCliente($IDusuario){
 			}
 
 			echo "
-			<div style='width: fit-content; padding:10px; border-radius:8px;margin:13px; background-color:".$row['bg']."; color=".$row['FG'].";'>
+			<div style='width: fit-content; padding:10px; border-radius:8px;margin:13px; background-color:".$row['bg']."; color=".$row['fg'].";'>
 			<span style='margin-top:5px;font-size:12px;'><b>".latinFecha($row['fecha'])."</b>  ".readCliente($row['envia'])['nombre']." ".$icono."</span>
 			<br><span style='font-weight: bolder;font-size:1em;'>".$row['mensaje']."</div>
 			";

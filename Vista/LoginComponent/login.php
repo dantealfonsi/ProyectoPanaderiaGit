@@ -100,7 +100,7 @@
 
 
 <!DOCTYPE html> 
-<html lang="en-MU">
+<html lang="es">
     <head>
         <meta charset="utf-8">
         <title>Panaderia | Login</title>

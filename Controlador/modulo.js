@@ -470,7 +470,7 @@ function perfil(){
 
 
 function usuario(){
-/*
+/* 
   producto=0;
   cat=0;
   ent=0;

@@ -47,6 +47,9 @@ if(isset($data["nombre_receta"])){
     $sql = "insert into recetas (idreceta,nombre,idproducto,notas) values ('$codigo','".$data["nombre_receta"]."',".$data["nombre_producto"].",'".$data["nota"]."')";
     $resultado= mysqli_query($GLOBALS['conn'], $sql);
 
+    $Q_update_producto ="update productos set idreceta='$codigo', habilitado=1 where idproducto=".$data["nombre_producto"];
+    $resultado= mysqli_query($GLOBALS['conn'], $Q_update_producto);
+
     if (isset($data["productos"]) && is_array($data["productos"])) {
         foreach ($data["productos"] as $producto) {
             $cantidad = $producto["cantidad"];
@@ -61,8 +64,6 @@ if(isset($data["nombre_receta"])){
     $response = ["message" => "Receta guardada correctamente"];
     echo json_encode($response);    
 }
-
-
 
 // Enviar una respuesta (puedes devolver un mensaje de éxito o error)
 
