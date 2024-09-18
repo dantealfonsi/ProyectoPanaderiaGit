@@ -21,10 +21,14 @@ $resultado = mysqli_query($conn, $query);
 
 function checkColor($estado){
     switch ($estado) {
-        case 'EXITOSO':
+        case 'ACEPTADO':
             return "green";
-            break;
-        
+        case 'ABONADO':
+            return "yellow";            
+        case 'PAGADO':
+            return "orange";            
+        case 'RECHAZADO':
+            return "red";
         default:
             # code...
             break;
@@ -112,7 +116,20 @@ function checkColor($estado){
                     <td><?php echo $fila['direccion']; ?></td>
                     <td><?php echo $fila['total']; ?></td>
                     <td>
+                        <?php 
+                        if($fila['estado'] == "SOLICITUD"){
+                            ?>
+                                <button class="btn btn-primary btn-sm" style="background:green;" onclick="aceptarPedido(<?php echo $fila['idpedido']; ?>)">Aceptar</button>
+                                <button class="btn btn-primary btn-sm" style="background:red;" onclick="rechazarPedido(<?php echo $fila['idpedido']; ?>)">Rechazar</button>
+                            <?php
+                        }
+                        if($fila['estado'] == "ACEPTADO" || $fila['estado'] == "ABONADO" || $fila['estado'] == "PAGADO" || $fila['estado'] == "PRODUCCION"){
+                            ?>
                         <button class="btn btn-primary btn-sm" onclick="verDetalles(<?php echo $fila['idpedido']; ?>)">Detalles</button>
+                            <?php
+                        }
+                        ?>
+                        
                     </td>
                 </tr>
                 <?php endwhile; ?>
@@ -135,7 +152,7 @@ function checkColor($estado){
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" onclick="cerrarDialogo()">Cerrar</button>
-                <button type="button" class="btn btn-primary" onclick="irChat(document.getElementById('numPedido').value)">Asistencia</button>
+                <button type="button" class="btn btn-primary" onclick="irChat(document.getElementById('numPedido').value)">Chat Asistencia</button>
             </div>
         </form>
     </dialog>
@@ -183,7 +200,21 @@ function checkColor($estado){
     <script>
         // Funciones para manejar los eventos de los botones
 
-        function verDetalles(id) { 
+        function aceptarPedido(id){
+            $.get("../../Modelo/server.php?aceptarPedido=&idpedido="+id,
+                    function(data){
+                        parent.location.reload();
+                    });
+        }
+
+        function rechazarPedido(id){
+            $.get("../../Modelo/server.php?rechazarPedido=&idpedido="+id,
+                    function(data){
+                        parent.location.reload();
+                    });
+        }
+
+        function verDetalles(id) {
             // Aquí iría el código para cargar los datos del pedido en el diálogo de edición
             $.get("../../Modelo/server.php?tiketPedido=&idpedido="+id,
                     function(data){                        

@@ -127,6 +127,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    border-top: 8px solid black;
+    border-bottom: 8px solid black;
+    border-right: 8px solid black;
   }
 
   .progress-bar {
@@ -142,12 +146,20 @@
     text-align: center;
     font-weight: bold;
     color: white;
+    font-size:13px;
   }
 
+  /*
   #label1 { background-color: #4caf50; }
   #label2 { background-color: #2196f3; }
   #label3 { background-color: #ff9800; }
   #label4 { background-color: #f44336; }
+  */
+
+  #label1 { background-color: #878798; }
+  #label2 { background-color: #878798; }
+  #label3 { background-color: #878798; }
+  #label4 { background-color: #878798; }
 
   /* width */
   ::-webkit-scrollbar {
@@ -308,10 +320,10 @@ if(isset($_SESSION['esAdmin']) && $_SESSION['esAdmin']==0){
 <!-- partial:index.partial.html -->
 
 <div class="progress-container">
-    <div class="progress-label" id="label1"></div>
-    <div class="progress-label" id="label2"></div>
-    <div class="progress-label" id="label3"></div>
-    <div class="progress-label" id="label4"></div>
+    <div class="progress-label" id="label1">ACEPTADO</div>
+    <div class="progress-label" id="label2">ABONADO</div>
+    <div class="progress-label" id="label3">PAGADO</div>
+    <div class="progress-label" id="label4">PRODUCCION</div>
     <div class="progress-bar" id="my-progress"></div>
 </div>
 
@@ -339,17 +351,17 @@ if(isset($_SESSION['esAdmin']) && $_SESSION['esAdmin']==0){
 <div class='estadoContainer'>
     <p>
 
-      Envio: <span id=estado></span>
+      Cambiar Estado: <span id=estado></span>
       <?php 
         if($_SESSION['esAdmin']==1){
           ?>
         <select id="cambioEstado" name="estado" onchange="cambiarEstado()">
           <option value="null">Selecciona una..</option>
-          <option value="EN PROCESO">En Proceso</option>  
-          <option value="EN CAMINO">En Camino A entregar</option>
-          <option value="EN ESPERA">En Espera a Ser Retirado</option>
-          <option value="EXITOSO">Entregado</option>                    
-          <option value="FALLIDO">Fallido</option>
+          <option value="ACEPTADO">Pedido Aceptado</option>  
+          <option value="ABONADO">Pedido Abonado</option>
+          <option value="PAGADO">Pedido Pagado</option>
+          <option value="PRODUCCION">Pedido en Produccion</option>
+          <option value="RECHAZADO">Rechazado</option>
         </select>
           <?php
         }
@@ -399,33 +411,47 @@ let progressValue = 0; // Cambia este valor según el progreso real
 
 function updateProgressBar(label) {
   switch (label) {
-    case "EN PROCESO":
-      document.getElementById("label1").innerText =  "EN PROCESO";
+    case "ACEPTADO":
+      document.getElementById("label1").innerText =  "ACEPTADO";
+      document.getElementById("label1").style.backgroundColor = "green";
       progressValue += 20;
     break;
-    case "EN CAMINO":
-      document.getElementById("label1").innerText =  "EN PROCESO";
-      document.getElementById("label2").innerText =  "EN CAMINO";
+    case "ABONADO":
+      document.getElementById("label1").innerText =  "ACEPTADO";
+      document.getElementById("label2").innerText =  "ABONADO";
+      document.getElementById("label1").style.backgroundColor = "green";
+      document.getElementById("label2").style.backgroundColor = "green";
       progressValue += 40;
     break;
-    case "EN ESPERA":
-      document.getElementById("label1").innerText =  "EN PROCESO";
-      document.getElementById("label2").innerText =  "EN CAMINO";
-      document.getElementById("label3").innerText =  "EN ESPERA";
+    case "PAGADO":
+      document.getElementById("label1").innerText =  "ACEPTADO";
+      document.getElementById("label2").innerText =  "ABONADO";
+      document.getElementById("label3").innerText =  "PAGADO";
+      document.getElementById("label1").style.backgroundColor = "green";
+      document.getElementById("label2").style.backgroundColor = "green";
+      document.getElementById("label3").style.backgroundColor = "green";
       progressValue += 60;
     break;      
-    case "EXITOSO":
-      document.getElementById("label1").innerText =  "EN PROCESO";
-      document.getElementById("label2").innerText =  "EN CAMINO";
-      document.getElementById("label3").innerText =  "EN ESPERA";
-      document.getElementById("label4").innerText =  "ENTREGADO";
+    case "PRODUCCION":
+      document.getElementById("label1").innerText =  "ACEPTADO";
+      document.getElementById("label2").innerText =  "ABONADO";
+      document.getElementById("label3").innerText =  "PAGADO";
+      document.getElementById("label4").innerText =  "PRODUCCION";
+      document.getElementById("label1").style.backgroundColor = "green";
+      document.getElementById("label2").style.backgroundColor = "green";
+      document.getElementById("label3").style.backgroundColor = "green";
+      document.getElementById("label4").style.backgroundColor = "green";
       progressValue += 80;
     break;     
-    case "FALLIDO":
-      document.getElementById("label1").innerText =  "";
-      document.getElementById("label2").innerText =  "";
-      document.getElementById("label3").innerText =  "";
-      document.getElementById("label4").innerText =  "FALLIDO"; 
+    case "RECHAZADO":
+      document.getElementById("label1").innerText =  " ";
+      document.getElementById("label2").innerText =  " ";
+      document.getElementById("label3").innerText =  " ";
+      document.getElementById("label4").innerText =  "RECHAZADO"; 
+      document.getElementById("label1").style.backgroundColor = "red";
+      document.getElementById("label2").style.backgroundColor = "red";
+      document.getElementById("label3").style.backgroundColor = "red";
+      document.getElementById("label4").style.backgroundColor = "red";
       progressValue += 100;
     break;       
   }

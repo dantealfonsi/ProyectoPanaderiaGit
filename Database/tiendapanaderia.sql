@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-08-2024 a las 04:14:25
+-- Tiempo de generación: 18-09-2024 a las 17:30:17
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -206,7 +206,9 @@ CREATE TABLE `chat` (
 INSERT INTO `chat` (`id`, `idpedido`, `fecha`, `amo`, `envia`, `recibe`, `mensaje`, `activo`, `leido`, `cerrado`, `bg`, `fg`) VALUES
 (45, 20, '2024-06-23 03:29:00', '', '6', '5', 'hola', 0, 1, 0, '#DADFE8', '#4D4D4D'),
 (46, 20, '2024-06-23 04:25:53', '', '5', '6', 'deme sus datos', 0, 1, 0, '#ff7380', '#4D4D4D'),
-(47, 20, '2024-06-23 15:39:55', '', '6', '5', '0102 - V28129366', 0, 1, 0, '#DADFE8', '#4D4D4D');
+(47, 20, '2024-06-23 15:39:55', '', '6', '5', '0102 - V28129366', 0, 1, 0, '#DADFE8', '#4D4D4D'),
+(48, 23, '2024-09-18 14:36:20', '', '6', '5', 'hola', 0, 1, 0, '#DADFE8', '#4D4D4D'),
+(49, 23, '2024-09-18 14:37:10', '', '5', '6', 'ya te envio los datos', 0, 0, 0, '#ff7380', '#4D4D4D');
 
 -- --------------------------------------------------------
 
@@ -431,7 +433,9 @@ CREATE TABLE `itempedido` (
 --
 
 INSERT INTO `itempedido` (`iditempedido`, `idproducto`, `idpedido`, `iscustom`, `precio`, `cantidad`, `motivo`, `estado`, `fechacreacion`) VALUES
-(36, 98, 20, 1, 50, 1, ' dsfsdfds', 'EN PROCESO', '2024-06-23 03:26:46');
+(36, 98, 20, 1, 50, 1, ' dsfsdfds', 'EN PROCESO', '2024-06-23 03:26:46'),
+(37, 97, 21, 0, 33.176, 1, 'null', 'EN PROCESO', '2024-09-18 02:07:43'),
+(38, 97, 22, 0, 33.176, 1, 'null', 'EN ESPERA', '2024-09-18 03:01:20');
 
 -- --------------------------------------------------------
 
@@ -475,6 +479,13 @@ CREATE TABLE `notificaciones` (
   `bloqueado` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `notificaciones`
+--
+
+INSERT INTO `notificaciones` (`id`, `fecha`, `idusuario`, `ubicacion`, `noticia`, `bg`, `fg`, `visto`, `bloqueado`) VALUES
+(31, '2024-09-18 14:37:10', 6, '/ProyectoPanaderiaGit/Vista/Admin/chat.php?chat=&idpedido=23', 'Pedido #23 Tiene un Nuevo Mensaje ', '#FFC0CB', '#1A1A1A', 0, 0);
+
 -- --------------------------------------------------------
 
 --
@@ -489,7 +500,7 @@ CREATE TABLE `pedido_usuario` (
   `telefono` varchar(8) NOT NULL,
   `municipio` varchar(200) NOT NULL,
   `localidad` varchar(200) NOT NULL,
-  `estado` varchar(200) NOT NULL DEFAULT 'EN PROCESO',
+  `estado` varchar(200) NOT NULL DEFAULT 'SOLICITUD',
   `fechacreacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -498,7 +509,10 @@ CREATE TABLE `pedido_usuario` (
 --
 
 INSERT INTO `pedido_usuario` (`idpedido`, `idusuario`, `total`, `direccion`, `telefono`, `municipio`, `localidad`, `estado`, `fechacreacion`) VALUES
-(20, 6, 50, 'sadasdasds', '04264804', 'Bermúdez', 'Carupano', 'EN CAMINO', '2024-06-23 15:34:57');
+(20, 6, 50, 'sadasdasds', '04264804', 'Bermúdez', 'Carupano', 'SOLICITUD', '2024-09-18 13:47:39'),
+(21, 6, 33.176, 'calle Carabobo casa N 174', '04264804', 'Bermúdez', 'Carupano', 'ACEPTADO', '2024-09-18 03:48:57'),
+(22, 6, 33.176, 'sdvfsvavsvdsva', '04264804', 'Bermúdez', 'Carupano', 'RECHAZADO', '2024-09-18 03:47:08'),
+(23, 6, 33.176, 'sdvfsvavsvdsva', '04264804', 'Bermúdez', 'Carupano', 'ABONADO', '2024-09-18 14:37:20');
 
 -- --------------------------------------------------------
 
@@ -558,7 +572,7 @@ CREATE TABLE `productos` (
 --
 
 INSERT INTO `productos` (`idproducto`, `idreceta`, `nombre_producto`, `descripcion_producto`, `imagen_producto`, `precio_producto`, `categoria_producto`, `habilitado`, `existencia`, `iscustom`, `peso`, `pisos`, `modelos`, `bizcocho`, `relleno`, `cubierta`, `motivo`, `persona`, `idtipo`) VALUES
-(97, '7ec8a429e6', 'Torta cubierta', 'Torta con cubierta de vainilla', '/ProyectoPanaderiaGit/Assets/productoimagenes\\189d7f9a66.jpeg', 33.176, 11, 1, 1, 0, 0, 0, '', 0, '', '', '', 'niño', 0),
+(97, '7ec8a429e6', 'Torta cubierta', 'Torta con cubierta de vainilla', '/ProyectoPanaderiaGit/Assets/productoimagenes\\189d7f9a66.jpeg', 33.176, 11, 1, 5, 0, 0, 0, '', 0, '', '', '', 'niño', 0),
 (98, '0f0f2721a7', 'Torta Rosada', 'Torta para cumpleaños', '/ProyectoPanaderiaGit/Assets/productoimagenes/f97346900f.jpeg', 50, 11, 1, 1, 1, 1, 1, 'redonda', 0, 'vainilla', 'rosado', '', 'mujer', 0);
 
 -- --------------------------------------------------------
@@ -671,7 +685,10 @@ CREATE TABLE `transaccion` (
 --
 
 INSERT INTO `transaccion` (`idtransaccion`, `idusuario`, `idpedido`, `metodopago`, `estado`, `fechacreacion`) VALUES
-(34, 6, 20, 'pagomovil', 'EN CAMINO', '2024-06-23 15:34:56');
+(34, 6, 20, 'pagomovil', 'SOLICITUD', '2024-09-18 13:48:43'),
+(35, 6, 21, 'pagomovil', 'ACEPTADO', '2024-09-18 13:48:19'),
+(36, 6, 22, 'transferencia', 'EN PROCESO', '2024-09-18 02:39:53'),
+(37, 6, 23, 'transferencia', 'ABONADO', '2024-09-18 14:37:20');
 
 -- --------------------------------------------------------
 
@@ -943,7 +960,7 @@ ALTER TABLE `categoria_insumos`
 -- AUTO_INCREMENT de la tabla `chat`
 --
 ALTER TABLE `chat`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT de la tabla `de5`
@@ -967,13 +984,13 @@ ALTER TABLE `historial`
 -- AUTO_INCREMENT de la tabla `itemcarrito`
 --
 ALTER TABLE `itemcarrito`
-  MODIFY `iditemcarrito` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `iditemcarrito` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT de la tabla `itempedido`
 --
 ALTER TABLE `itempedido`
-  MODIFY `iditempedido` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `iditempedido` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT de la tabla `itemrecetas`
@@ -985,13 +1002,13 @@ ALTER TABLE `itemrecetas`
 -- AUTO_INCREMENT de la tabla `notificaciones`
 --
 ALTER TABLE `notificaciones`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT de la tabla `pedido_usuario`
 --
 ALTER TABLE `pedido_usuario`
-  MODIFY `idpedido` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `idpedido` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT de la tabla `persona`
@@ -1015,7 +1032,7 @@ ALTER TABLE `tipos`
 -- AUTO_INCREMENT de la tabla `transaccion`
 --
 ALTER TABLE `transaccion`
-  MODIFY `idtransaccion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `idtransaccion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`

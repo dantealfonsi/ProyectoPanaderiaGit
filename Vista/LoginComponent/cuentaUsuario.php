@@ -72,7 +72,7 @@
                 <div class="subtituloAdmin">
                     <span><i class="fas fa-user-cog"></i></span>
                     <span>&nbspHOLA <?php echo $nombreTitulo;?></span>
-                    <span class="user-logout"><a href="../cerrarSesion.php"><button type="button" title="Cerrar sesión" class="btn btn-danger"><span class="glyphicon glyphicon-log-in"></span></button></a></span>
+                    <span class="user-logout"><a href="../cerrarSesion.php"><button type="button" title="Cerrar sesión" class="btn btn-danger">Cerrar Sesion <span class="glyphicon glyphicon-log-in"></span></button></a></span>
                 </div>
             </div>
         </div>
@@ -85,7 +85,7 @@
   <div class="container">
             <ul class="nav nav-tabs">
                 <li class="active"><a data-toggle="pill" href="#home">Editar mi perfil</a></li>
-                <li><a data-toggle="pill" href="#menu">Menu</a></li>
+                <li><a data-toggle="pill" href="#menu">Mis Compras</a></li>
             </ul>
             
             <div class="tab-content">
@@ -100,7 +100,7 @@
                 
                 <div id="menu" class="tab-pane fade in active">
                     <div class="tab-title">
-                        <h3>Menu</h3>
+                        <h3>Historial</h3>
                     </div>
                     <!--Inicio del Perfil -->
                     <?php include '../Includes/menuUsuario.php'; ?>

@@ -55,7 +55,7 @@
 
     //INSERTAR EN transaccion 
     $Q_insertar_en_transaccion = 'INSERT INTO transaccion (idusuario, idpedido, metodoPago, estado)
-    VALUES ( '.$_SESSION['IDusuario'].', '.$_SESSION['IDpedido'].',"'.$_POST['metodoPago'] .'","EN PROCESO" )';
+    VALUES ( '.$_SESSION['IDusuario'].', '.$_SESSION['IDpedido'].',"'.$_POST['metodoPago'] .'","EN ESPERA" )';
     $ejecutar_insertar_en_transaccion = mysqli_query($conn, $Q_insertar_en_transaccion);
     
 
@@ -97,8 +97,8 @@
             <img class="thankYouImageHead my-5" src="../../Assets/images/cart/circleHead.png" />
             <img class="thankYouImage  my-5 rotate" src="../../Assets/images/cart/sun.png" />
          
-            <h1 style="font-size:3vw;">¡Gracias por comprar con nosotros! Comunicate en el Chat para completar tu pedido...</h1>
-            <a href="../Admin/chat.php?idpedido=<?php echo $_SESSION['IDpedido'] ?>" class=" btn btn-primary btn-lg button" style="font-size:1.5vw;">Ir al Chat</a>
+            <h1 style="font-size:3vw;">¡Gracias por comprar con nosotros! Tu Pedido esta en espera de ser aceptado...</h1>
+            <a href="../LoginComponent/historialUsuario.php" class=" btn btn-primary btn-lg button" style="font-size:1.5vw;">Ver Mi Compra</a>
         </div>
     
          <!-- PIE DE PÁGINA  -->

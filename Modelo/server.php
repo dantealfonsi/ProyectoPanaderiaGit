@@ -118,4 +118,16 @@
 
     }
 
+    if(isset($_GET['aceptarPedido'])){
+        $idpedido= $_GET['idpedido'];
+        $consulta = "update pedido_usuario set estado = 'ACEPTADO' where idpedido=$idpedido";
+        $resultado= mysqli_query($conn, $consulta);
+    }
+
+    if(isset($_GET['rechazarPedido'])){
+        $idpedido= $_GET['idpedido'];
+        $consulta = "update pedido_usuario set estado = 'RECHAZADO' where idpedido=$idpedido";
+        $resultado= mysqli_query($conn, $consulta);
+    }    
+
 ?>
