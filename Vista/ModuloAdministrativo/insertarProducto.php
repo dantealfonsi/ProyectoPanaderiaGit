@@ -72,6 +72,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $persona =$_POST['persona'];
 
         $sql = "INSERT INTO productos (
+        habilitado,
+        existencia,
         nombre_producto,
         descripcion_producto,
         imagen_producto,
@@ -87,6 +89,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         iscustom
         )
         VALUES (
+        1,
+        100,
         '$nombre_producto',
         '$descripcion_producto',
         '$archivoSubido',

@@ -63,7 +63,7 @@
     */
     $idPedido= $_GET['idpedido'];
     $Q_selecciona_tiket = "SELECT productos.idproducto, productos.nombre_producto, itempedido.iscustom,itempedido.motivo, itempedido.cantidad, productos.precio_producto FROM itempedido INNER JOIN productos on itempedido.idproducto = productos.idproducto where itempedido.idpedido =".$idPedido;
-    $Q_selecciona_info_pedido =  "SELECT pedido_usuario.idusuario, pedido_usuario.fechacreacion, pedido_usuario.telefono,pedido_usuario.direccion,pedido_usuario.total,transaccion.metodopago, transaccion.estado FROM transaccion INNER JOIN pedido_usuario on pedido_usuario.idpedido = transaccion.idpedido where transaccion.idpedido =".$idPedido;    
+    $Q_selecciona_info_pedido =  "SELECT pedido_usuario.idusuario, pedido_usuario.fechacreacion,pedido_usuario.fechapedido, pedido_usuario.telefono,pedido_usuario.direccion,pedido_usuario.total,transaccion.metodopago, transaccion.estado FROM transaccion INNER JOIN pedido_usuario on pedido_usuario.idpedido = transaccion.idpedido where transaccion.idpedido =".$idPedido;    
     
     $resultado= mysqli_query($conn, $Q_selecciona_info_pedido);
 
@@ -72,6 +72,7 @@
     }
 
     $fechaPedido = $infoPedido['fechacreacion'];
+    $fechaEntrega = historiFecha($infoPedido['fechapedido']);
     $telefono = $infoPedido['telefono'];
     $direccion = $infoPedido['direccion'];
     $total = $infoPedido['total'];
@@ -110,7 +111,7 @@
     endwhile;
         $tiket = $tiket . "</tbody></table><br>Total a Pagar:".$total;
   
-    $obj = array('fechaPedido' => $fechaPedido,'telefono' => $telefono, 'direccion' => $direccion,
+    $obj = array('fechaEntrega' => $fechaEntrega, 'fechaPedido' => $fechaPedido,'telefono' => $telefono, 'direccion' => $direccion,
     'total' => $total, 'metodoPago' => $metodoPago, 'estado' => $estado, 'tiket' => $tiket, 'numPedido' => $idPedido,
     'nombre' => $nombre,'apellido' => $apellido,'usuario' => $usuario,'IDusuario' => $IDusuario);
   

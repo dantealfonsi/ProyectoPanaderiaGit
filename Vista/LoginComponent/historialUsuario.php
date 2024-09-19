@@ -87,7 +87,7 @@ function checkColor($estado){
                 <tr>
                     <th>IDpedido</th>
                     <th>Telefono</th>
-                    <th>FechaCreacion</th>
+                    <th>Fecha Entrega</th>
                     <th>Estado</th>
                     <th>Direccion</th>
                     <th>Total Bs</th>
@@ -99,7 +99,7 @@ function checkColor($estado){
                 <tr>
                     <td><?php echo $fila['idpedido']; ?></td>
                     <td><?php echo $fila['telefono']; ?></td>
-                    <td><?php echo $fila['fechacreacion']; ?></td>
+                    <td><?php echo historifecha($fila['fechapedido']); ?></td>
                     <td style="background-color:<?php echo checkColor($fila['estado'])?>"><?php echo $fila['estado']; ?></td>
                     <td><?php echo $fila['direccion']; ?></td>
                     <td><?php echo $fila['total']; ?></td>

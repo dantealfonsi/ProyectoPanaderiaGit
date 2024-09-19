@@ -43,7 +43,7 @@
                         var datos= JSON.parse(data);
                         $("#usuario").html(datos.usuario);
                         document.getElementById('recibe').value=datos.IDusuario;
-                        $("#fecha").html(datos.fechaPedido);
+                        $("#fecha").html(datos.fechaEntrega);
                         $("#metodoPago").html(datos.metodoPago);
                         $("#totalPagar").html(datos.total);
                         $("#estado").html(datos.estado);
@@ -334,7 +334,7 @@ if(isset($_SESSION['esAdmin']) && $_SESSION['esAdmin']==0){
     <div>
       Soporte para el Pedido: <?php echo $_GET['idpedido']; ?>      
       <br>
-      Fecha: <span id=fecha></span><br>
+      Fecha Entrega: <span id=fecha></span><br>
     </div>
 
 </div>

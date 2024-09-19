@@ -27,8 +27,9 @@
 
 
     //AGREGAR DATOS A pedido_usuario
-    $Q_insertar_pedido_usuario ='INSERT INTO pedido_usuario (idusuario, total, direccion, telefono, municipio,localidad) 
-    VALUES ('.$_SESSION['IDusuario'].','.$_SESSION['precio_total'].',"'.$_POST['direccion'].'","'.$_SESSION['telefono'].'","'.$_POST['municipio'].'","'.$_POST['localidad'].'")';
+    $fechaString = date('Y-m-d', strtotime($_POST['fechaentrega']));
+    $Q_insertar_pedido_usuario ='INSERT INTO pedido_usuario (fechapedido, idusuario, total, direccion, telefono, municipio,localidad) 
+    VALUES ("'.$fechaString.'",'.$_SESSION['IDusuario'].','.$_SESSION['precio_total'].',"'.$_POST['direccion'].'","'.$_SESSION['telefono'].'","'.$_POST['municipio'].'","'.$_POST['localidad'].'")';
     $ejecutar_insertar_pedido_usuario = mysqli_query($conn, $Q_insertar_pedido_usuario);
 
     //INSERTAR EN itempedido
@@ -55,7 +56,7 @@
 
     //INSERTAR EN transaccion 
     $Q_insertar_en_transaccion = 'INSERT INTO transaccion (idusuario, idpedido, metodoPago, estado)
-    VALUES ( '.$_SESSION['IDusuario'].', '.$_SESSION['IDpedido'].',"'.$_POST['metodoPago'] .'","EN ESPERA" )';
+    VALUES ( '.$_SESSION['IDusuario'].', '.$_SESSION['IDpedido'].',"'.$_POST['metodoPago'] .'","SOLICITUD" )';
     $ejecutar_insertar_en_transaccion = mysqli_query($conn, $Q_insertar_en_transaccion);
     
 
@@ -97,7 +98,8 @@
             <img class="thankYouImageHead my-5" src="../../Assets/images/cart/circleHead.png" />
             <img class="thankYouImage  my-5 rotate" src="../../Assets/images/cart/sun.png" />
          
-            <h1 style="font-size:3vw;">¡Gracias por comprar con nosotros! Tu Pedido esta en espera de ser aceptado...</h1>
+            <h1 style="font-size:3vw;">¡Gracias por comprar con nosotros!</h1>
+            <h2>Tu Pedido esta en espera de ser aceptado...</h2>
             <a href="../LoginComponent/historialUsuario.php" class=" btn btn-primary btn-lg button" style="font-size:1.5vw;">Ver Mi Compra</a>
         </div>
     

@@ -11,7 +11,7 @@
     $validado = false; // validado
 
     // definir variables y asignar valores vacíos
-    $municipio= $localidad= $nombre = $apellido = $email = $direccion = $metodoPago = "";
+    $fechaentrega = $municipio = $localidad = $nombre = $apellido = $email = $direccion = $metodoPago = "";
     $errorNombre = $errorApellido = $erroremail = $errorDireccion = $errormetodoPago = $errorLocalidad= $errorMunicipio="";
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -20,6 +20,7 @@
         $municipio = validar_entrada($_POST["municipio"]);
         $localidad = validar_entrada($_POST["localidad"]);
         $nombre = validar_entrada($_POST["nombre"]);
+        $fechaentrega = $_POST["fechaentrega"];
         
         // verificar si el nombre solo contiene letras y espacios
         if (!preg_match("/^[a-zA-Z-' ]*$/",$nombre)) {
@@ -175,7 +176,7 @@
         echo 'graciasCheckout.php';
         $validado = false;
       }
-      else {        
+      else {
         echo htmlspecialchars($_SERVER["PHP_SELF"]);
       }
     
@@ -240,6 +241,9 @@
         </select> 
           <span class="error"><?php echo $errorLocalidad;?></span>
         </div>
+
+        <label for="entrega" class="form-label">Fecha de Entrega</label>
+        <input type="date" class="form-control" id="fechaentrega" name="fechaentrega" value="<?php echo $fechaentrega; ?>" required>
 
 <hr class="my-4 pinkLine">
 

@@ -13,4 +13,8 @@
         die("Connection failed: " . mysqli_connect_error());
     }
 
+    function historiFecha($fecha){ 
+        $date=date_create($fecha);
+        return date_format($date,"d/m/Y");
+    }
 ?>

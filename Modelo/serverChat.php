@@ -30,7 +30,31 @@ $conexion = $conn;
 			$consulta2 = "UPDATE pedido_usuario SET estado='{$_POST['estado']}' WHERE idpedido=".$_POST['tickedchat']."";
 			$row = mysqli_query( $GLOBALS['conexion'], $consulta );
 			$row2 = mysqli_query( $GLOBALS['conexion'], $consulta2 );
-			echo $_POST['estado'];
+
+			if($_POST['estado'] == "PAGADO"){
+				$idpedido = $_POST['tickedchat'];
+				$Q_selecciona_productos =  "SELECT * FROM itempedido where idpedido=".$idpedido;    
+    
+				$resultado= mysqli_query($conn, $Q_selecciona_productos);
+			
+				if(mysqli_num_rows($resultado) > 0){
+					while($fila = mysqli_fetch_assoc($resultado)):
+						$idproducto =  $fila['idproducto'];
+						$Q_info_producto =  "SELECT * FROM productos where idproducto=".$idproducto;
+						$result_info= mysqli_query($conn, $Q_info_producto);
+						$infoProducto = mysqli_fetch_assoc($result_info);
+						$existencia = $infoProducto['existencia'];
+						$cantidad = $fila['cantidad'];
+						$total= $existencia - $cantidad;
+						$query_producto = "UPDATE productos SET existencia=$total WHERE idproducto=$idproducto";
+						if($infoProducto['iscustom'] == 0){
+							$result = mysqli_query( $conn, $query_producto );
+						}						
+					endwhile;
+				}
+			}
+
+			echo $_POST['estado']; 
 		}		
 	}
 
