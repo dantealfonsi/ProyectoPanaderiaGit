@@ -224,7 +224,7 @@
 
         <div class='third-line'>
         <div class='flex-inside'>
-        Unidad en: <br> <select id='uni' name='uni'><option selected>Gramos</option><option>Unidades</option></select><br>
+        Unidad en: <br> <select id='uni' name='uni'><option selected value='gramos'>Gramos</option><option value='unidades'>Unidades</option></select><br>
         </div>
 
           <div class='flex-inside'>
@@ -298,8 +298,8 @@
       Unidad en: <br> <select id='uni' name='uni'>
       ";
       if(isset($_GET['uni'])){
-        if($_GET['uni']=="Gramos") echo "<option selected>Gramos</option><option>Unidades</option>";
-        else echo "<option>Gramos</option><option selected>Unidades</option>";
+        if($_GET['uni']=="gramos") echo "<option selected value='gramos'>Gramos</option><option value='unidades'>Unidades</option>";
+        else echo "<option value='gramos'>Gramos</option><option value='unidades' selected>Unidades</option>";
       }
       echo "</select><br>
       </div>      

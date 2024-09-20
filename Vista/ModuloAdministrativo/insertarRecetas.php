@@ -104,9 +104,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
 
             <div class='flex-inside'>
-                A que producto Pertenece?:<br>
+                A que producto Pertenece? (opcional)<br>
               <select name="nombre_producto" id="nombre_producto" onchange="valPerteneceProducto()">
-              <option value="">Seleccione</option>
+              <option value="">Seleccione..</option>
               <?php 
               
                   $consulta  = "SELECT idproducto, nombre_producto from productos where CHAR_LENGTH(idreceta) =0;";
@@ -353,7 +353,7 @@ function enviarReceta() {
     const nombreProducto = document.getElementById("nombre_producto").value;
     const preparacion = document.getElementById("nota").value;
 
-    if (nombreReceta && nombreProducto && preparacion) {
+    if (nombreReceta && preparacion) {
         const receta = {
             nombre_receta: nombreReceta,
             nombre_producto: nombreProducto,

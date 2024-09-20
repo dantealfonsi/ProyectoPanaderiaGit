@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-09-2024 a las 17:30:17
+-- Tiempo de generación: 20-09-2024 a las 03:01:39
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -208,7 +208,7 @@ INSERT INTO `chat` (`id`, `idpedido`, `fecha`, `amo`, `envia`, `recibe`, `mensaj
 (46, 20, '2024-06-23 04:25:53', '', '5', '6', 'deme sus datos', 0, 1, 0, '#ff7380', '#4D4D4D'),
 (47, 20, '2024-06-23 15:39:55', '', '6', '5', '0102 - V28129366', 0, 1, 0, '#DADFE8', '#4D4D4D'),
 (48, 23, '2024-09-18 14:36:20', '', '6', '5', 'hola', 0, 1, 0, '#DADFE8', '#4D4D4D'),
-(49, 23, '2024-09-18 14:37:10', '', '5', '6', 'ya te envio los datos', 0, 0, 0, '#ff7380', '#4D4D4D');
+(49, 23, '2024-09-18 14:37:10', '', '5', '6', 'ya te envio los datos', 0, 1, 0, '#ff7380', '#4D4D4D');
 
 -- --------------------------------------------------------
 
@@ -343,7 +343,9 @@ INSERT INTO `historial` (`id`, `fecha`, `nombre_usuario`, `cedula`, `ubicacion`)
 (39, '2024-06-23 19:16:56', 'pepes', 5, 'AGREGO UNA ENTRADA DE INSUMO'),
 (40, '2024-06-23 19:17:44', 'pepes', 5, 'AGREGO UNA SALIDA'),
 (41, '2024-06-23 20:56:53', 'pepes', 5, 'AGREGO UNA DEVOLUCION DE INSUMOS'),
-(42, '2024-06-23 21:04:53', 'pepes', 5, 'AGREGO UNA DEVOLUCION POR FABRICACION');
+(42, '2024-06-23 21:04:53', 'pepes', 5, 'AGREGO UNA DEVOLUCION POR FABRICACION'),
+(43, '2024-09-19 16:48:33', 'pepes', 5, 'EDITO UN Insumo'),
+(44, '2024-09-19 16:50:26', 'pepes', 5, 'EDITO UN Insumo');
 
 -- --------------------------------------------------------
 
@@ -369,7 +371,7 @@ CREATE TABLE `insumos` (
 --
 
 INSERT INTO `insumos` (`codigo`, `nombre`, `almacen`, `precio`, `existencia`, `categoria`, `c_min`, `c_max`, `deleted`, `uni`) VALUES
-('0002', 'huevo', 1, 8.00, -1, 'huevos', 1, 100, 0, 'unidades'),
+('0002', 'huevo', 1, 8.00, 36, 'huevos', 1, 100, 0, 'unidades'),
 ('0003', 'harina de maiz', 1, 0.12, 100, 'harinas', 1, 200, 0, 'gramos'),
 ('0101', 'harina de trigo', 1, 0.06, 500, 'harinas', 0, 0, 0, 'gramos');
 
@@ -424,7 +426,7 @@ CREATE TABLE `itempedido` (
   `precio` float NOT NULL,
   `cantidad` smallint(6) NOT NULL,
   `motivo` varchar(200) NOT NULL DEFAULT 'null',
-  `estado` varchar(200) NOT NULL DEFAULT 'EN PROCESO',
+  `estado` varchar(200) NOT NULL DEFAULT 'SOLICITUD',
   `fechacreacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -435,7 +437,9 @@ CREATE TABLE `itempedido` (
 INSERT INTO `itempedido` (`iditempedido`, `idproducto`, `idpedido`, `iscustom`, `precio`, `cantidad`, `motivo`, `estado`, `fechacreacion`) VALUES
 (36, 98, 20, 1, 50, 1, ' dsfsdfds', 'EN PROCESO', '2024-06-23 03:26:46'),
 (37, 97, 21, 0, 33.176, 1, 'null', 'EN PROCESO', '2024-09-18 02:07:43'),
-(38, 97, 22, 0, 33.176, 1, 'null', 'EN ESPERA', '2024-09-18 03:01:20');
+(38, 97, 22, 0, 33.176, 1, 'null', 'EN ESPERA', '2024-09-18 03:01:20'),
+(39, 97, 23, 0, 33.176, 1, 'null', 'EN PROCESO', '2024-09-18 19:22:08'),
+(44, 97, 29, 0, 33.176, 1, 'null', 'SOLICITUD', '2024-09-18 20:12:58');
 
 -- --------------------------------------------------------
 
@@ -457,9 +461,9 @@ CREATE TABLE `itemrecetas` (
 --
 
 INSERT INTO `itemrecetas` (`id`, `idproducto`, `idreceta`, `codigoinsumo`, `cantidad`, `uni`) VALUES
-(18, 97, '7ec8a429e6', '0002', 2.00, 'unidades'),
-(19, 97, '7ec8a429e6', '0101', 100.00, 'gramos'),
-(20, 98, '0f0f2721a7', '0002', 2.00, 'unidades');
+(21, 98, 'f75abfc571', '0002', 2.00, 'unidades'),
+(22, 99, 'b4e0f89077', '0002', 3.00, 'unidades'),
+(23, 99, 'b4e0f89077', '0101', 30.00, 'gramos');
 
 -- --------------------------------------------------------
 
@@ -479,13 +483,6 @@ CREATE TABLE `notificaciones` (
   `bloqueado` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `notificaciones`
---
-
-INSERT INTO `notificaciones` (`id`, `fecha`, `idusuario`, `ubicacion`, `noticia`, `bg`, `fg`, `visto`, `bloqueado`) VALUES
-(31, '2024-09-18 14:37:10', 6, '/ProyectoPanaderiaGit/Vista/Admin/chat.php?chat=&idpedido=23', 'Pedido #23 Tiene un Nuevo Mensaje ', '#FFC0CB', '#1A1A1A', 0, 0);
-
 -- --------------------------------------------------------
 
 --
@@ -501,18 +498,20 @@ CREATE TABLE `pedido_usuario` (
   `municipio` varchar(200) NOT NULL,
   `localidad` varchar(200) NOT NULL,
   `estado` varchar(200) NOT NULL DEFAULT 'SOLICITUD',
-  `fechacreacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `fechacreacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `fechapedido` date DEFAULT curdate()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `pedido_usuario`
 --
 
-INSERT INTO `pedido_usuario` (`idpedido`, `idusuario`, `total`, `direccion`, `telefono`, `municipio`, `localidad`, `estado`, `fechacreacion`) VALUES
-(20, 6, 50, 'sadasdasds', '04264804', 'Bermúdez', 'Carupano', 'SOLICITUD', '2024-09-18 13:47:39'),
-(21, 6, 33.176, 'calle Carabobo casa N 174', '04264804', 'Bermúdez', 'Carupano', 'ACEPTADO', '2024-09-18 03:48:57'),
-(22, 6, 33.176, 'sdvfsvavsvdsva', '04264804', 'Bermúdez', 'Carupano', 'RECHAZADO', '2024-09-18 03:47:08'),
-(23, 6, 33.176, 'sdvfsvavsvdsva', '04264804', 'Bermúdez', 'Carupano', 'ABONADO', '2024-09-18 14:37:20');
+INSERT INTO `pedido_usuario` (`idpedido`, `idusuario`, `total`, `direccion`, `telefono`, `municipio`, `localidad`, `estado`, `fechacreacion`, `fechapedido`) VALUES
+(20, 6, 50, 'sadasdasds', '04264804', 'Bermúdez', 'Carupano', 'SOLICITUD', '2024-09-18 13:47:39', '2024-09-18'),
+(21, 6, 33.176, 'calle Carabobo casa N 174', '04264804', 'Bermúdez', 'Carupano', 'ACEPTADO', '2024-09-18 03:48:57', '2024-09-18'),
+(22, 6, 33.176, 'sdvfsvavsvdsva', '04264804', 'Bermúdez', 'Carupano', 'RECHAZADO', '2024-09-18 03:47:08', '2024-09-18'),
+(23, 6, 33.176, 'sdvfsvavsvdsva', '04264804', 'Bermúdez', 'Carupano', 'PAGADO', '2024-09-19 00:09:56', '2024-09-18'),
+(29, 6, 33.176, 'sdasdasdasd', '04264804', 'Bermúdez', 'Carupano', 'SOLICITUD', '2024-09-18 20:12:58', '2024-09-20');
 
 -- --------------------------------------------------------
 
@@ -572,8 +571,10 @@ CREATE TABLE `productos` (
 --
 
 INSERT INTO `productos` (`idproducto`, `idreceta`, `nombre_producto`, `descripcion_producto`, `imagen_producto`, `precio_producto`, `categoria_producto`, `habilitado`, `existencia`, `iscustom`, `peso`, `pisos`, `modelos`, `bizcocho`, `relleno`, `cubierta`, `motivo`, `persona`, `idtipo`) VALUES
-(97, '7ec8a429e6', 'Torta cubierta', 'Torta con cubierta de vainilla', '/ProyectoPanaderiaGit/Assets/productoimagenes\\189d7f9a66.jpeg', 33.176, 11, 1, 5, 0, 0, 0, '', 0, '', '', '', 'niño', 0),
-(98, '0f0f2721a7', 'Torta Rosada', 'Torta para cumpleaños', '/ProyectoPanaderiaGit/Assets/productoimagenes/f97346900f.jpeg', 50, 11, 1, 1, 1, 1, 1, 'redonda', 0, 'vainilla', 'rosado', '', 'mujer', 0);
+(97, 'b4e0f89077', 'Torta cubierta', 'Torta con cubierta de vainilla', '/ProyectoPanaderiaGit/Assets/productoimagenes\\189d7f9a66.jpeg', 33.176, 11, 1, 4, 0, 0, 0, '', 0, '', '', '', 'niño', 0),
+(98, 'f75abfc571', 'Torta Rosada', 'Torta para cumpleaños', '/ProyectoPanaderiaGit/Assets/productoimagenes/f97346900f.jpeg', 50, 11, 1, 1, 1, 1, 1, 'redonda', 0, 'vainilla', 'rosado', '', 'mujer', 0),
+(99, 'b4e0f89077', 'Torta Blanca', 'Torta Redonda de un Piso Blanca rellena de vainilla', '/ProyectoPanaderiaGit/Assets/productoimagenes/3fb017adce.jpeg', 50, 11, 1, 1, 1, 1, 1, 'redonda', 1, 'vainilla', 'blanco', '', 'niña', 0),
+(101, '0a48fe25cf', 'Torta de chocolate', 'Torta con relleno de chocolate', '/ProyectoPanaderiaGit/Assets/productoimagenes/bb6023cff5.jpeg', 30, 9, 1, 0, 0, 0, 1, '', 0, '', '', '', 'niño', 0);
 
 -- --------------------------------------------------------
 
@@ -615,8 +616,32 @@ CREATE TABLE `recetas` (
 --
 
 INSERT INTO `recetas` (`idreceta`, `nombre`, `idproducto`, `notas`, `deleted`) VALUES
-('0f0f2721a7', 'Torta Rosada', 98, ' se prepara ', 0),
-('7ec8a429e6', 'Torta Cubierta Vainilla', 97, ' se mezcla la harina con los huevos y agua\n', 0);
+('0a48fe25cf', 'Pastel de Vainilla', 0, ' sxsvxcv', 0),
+('7ec8a429e6', 'Torta Cubierta Vainilla', 97, ' se mezcla la harina con los huevos y agua\n', 1),
+('b4e0f89077', 'Torta Cubierta rellena Vainilla', 99, ' se mezcla la harina con los huevos', 0),
+('f75abfc571', 'Torta Rosada', 98, '  se prepara ', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `s5`
+--
+
+CREATE TABLE `s5` (
+  `id` int(11) NOT NULL,
+  `codigo_producto` varchar(15) DEFAULT NULL,
+  `nombre_producto` varchar(34) DEFAULT NULL,
+  `cantidad` int(11) NOT NULL DEFAULT 0,
+  `precio` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `cedula_cliente` int(9) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `s5`
+--
+
+INSERT INTO `s5` (`id`, `codigo_producto`, `nombre_producto`, `cantidad`, `precio`, `cedula_cliente`) VALUES
+(2, '101', 'Torta de chocolate', 1, 30.00, 5);
 
 -- --------------------------------------------------------
 
@@ -688,7 +713,8 @@ INSERT INTO `transaccion` (`idtransaccion`, `idusuario`, `idpedido`, `metodopago
 (34, 6, 20, 'pagomovil', 'SOLICITUD', '2024-09-18 13:48:43'),
 (35, 6, 21, 'pagomovil', 'ACEPTADO', '2024-09-18 13:48:19'),
 (36, 6, 22, 'transferencia', 'EN PROCESO', '2024-09-18 02:39:53'),
-(37, 6, 23, 'transferencia', 'ABONADO', '2024-09-18 14:37:20');
+(37, 6, 23, 'transferencia', 'PAGADO', '2024-09-19 00:09:56'),
+(44, 6, 29, 'efectivo', 'SOLICITUD', '2024-09-18 20:12:58');
 
 -- --------------------------------------------------------
 
@@ -857,8 +883,7 @@ ALTER TABLE `notificaciones`
 -- Indices de la tabla `pedido_usuario`
 --
 ALTER TABLE `pedido_usuario`
-  ADD PRIMARY KEY (`idpedido`),
-  ADD KEY `1_usuario_muchos_pedidos` (`idusuario`);
+  ADD PRIMARY KEY (`idpedido`);
 
 --
 -- Indices de la tabla `persona`
@@ -883,6 +908,12 @@ ALTER TABLE `proveedor`
 --
 ALTER TABLE `recetas`
   ADD PRIMARY KEY (`idreceta`);
+
+--
+-- Indices de la tabla `s5`
+--
+ALTER TABLE `s5`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `salida`
@@ -978,25 +1009,25 @@ ALTER TABLE `ds5`
 -- AUTO_INCREMENT de la tabla `historial`
 --
 ALTER TABLE `historial`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT de la tabla `itemcarrito`
 --
 ALTER TABLE `itemcarrito`
-  MODIFY `iditemcarrito` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `iditemcarrito` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
 
 --
 -- AUTO_INCREMENT de la tabla `itempedido`
 --
 ALTER TABLE `itempedido`
-  MODIFY `iditempedido` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `iditempedido` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT de la tabla `itemrecetas`
 --
 ALTER TABLE `itemrecetas`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT de la tabla `notificaciones`
@@ -1008,7 +1039,7 @@ ALTER TABLE `notificaciones`
 -- AUTO_INCREMENT de la tabla `pedido_usuario`
 --
 ALTER TABLE `pedido_usuario`
-  MODIFY `idpedido` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `idpedido` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT de la tabla `persona`
@@ -1020,7 +1051,13 @@ ALTER TABLE `persona`
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `idproducto` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
+  MODIFY `idproducto` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
+
+--
+-- AUTO_INCREMENT de la tabla `s5`
+--
+ALTER TABLE `s5`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `tipos`
@@ -1032,7 +1069,7 @@ ALTER TABLE `tipos`
 -- AUTO_INCREMENT de la tabla `transaccion`
 --
 ALTER TABLE `transaccion`
-  MODIFY `idtransaccion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `idtransaccion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`

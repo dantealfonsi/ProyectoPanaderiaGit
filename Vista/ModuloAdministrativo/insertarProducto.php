@@ -17,9 +17,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nombre_producto = $_POST['nombre_producto'];
     $descripcion_producto = $_POST['descripcion_producto'];
     $precio_producto = $_POST['precio_producto'];
+    $receta_producto = $_POST['receta_producto'];
     $categoria_producto = $_POST['categoria_producto'];
     $directorio = $GLOBALS['ROOT_PATH']."/Assets/productoimagenes/";
     $ext="";
+    $habilitado = 0;
+
+    if(strlen( $receta_producto)>0){
+        $habilitado=1;
+    }
     //$tipoArchivo = strtolower(pathinfo($archivo, PATHINFO_EXTENSION));
 
 
@@ -72,6 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $persona =$_POST['persona'];
 
         $sql = "INSERT INTO productos (
+        idreceta,
         habilitado,
         existencia,
         nombre_producto,
@@ -89,7 +96,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         iscustom
         )
         VALUES (
-        1,
+        '$receta_producto',
+        $habilitado,
         100,
         '$nombre_producto',
         '$descripcion_producto',
@@ -108,6 +116,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         mysqli_query($conn, $sql) or die ("Error de Conaxion: ". mysqli_connect_error());
     }else{
         $sql = "INSERT INTO productos (
+        habilitado,
+        idreceta,
         nombre_producto,
         descripcion_producto,
         imagen_producto,
@@ -115,6 +125,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         categoria_producto
         )
         VALUES (
+        $habilitado,
+        '$receta_producto',
         '$nombre_producto',
         '$descripcion_producto', 
         '$archivoSubido',
@@ -235,7 +247,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="text" id="nombre_producto" name="nombre_producto" required>
                 </div>
             </div>
-
             
             <div class='second-line'>
              <div class='flex-inside'>
@@ -254,27 +265,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="file" id="imagen_producto" name="imagen_producto" required>
                 </div>
             </div>
-            
-              
+            <br>
+            <div class='flex-inside' style='width: 22%;margin: 1rem;'>
+                Con que Receta se Prepara.?<br>
+              <select name="receta_producto" id="receta_producto">              
+                <option value=''>Selecciona Una..</option>
+              <?php 
+                  $consulta_recetas  = "SELECT * from recetas";
+                  $result_recetas = mysqli_query($conn, $consulta_recetas);                  
+                  while($row = mysqli_fetch_array($result_recetas)) {
+                    echo "<option value='".$row['idreceta']."'>" . $row['nombre'] . "</option>";
+                  }
+
+              ?>
+              </select>              
+              </div>              
             <br>
                 <div class='flex-inside' style='width: 22%;margin: 1rem;'>
-                Categoria del producto:<br>
-              <select name="categoria_producto" id="categoria_producto">
-              </div>
-              <?php 
-              
+                Categoria del producto:<br>                
+                <select name="categoria_producto" id="categoria_producto">
+                <option value=''>Selecciona ..</option>
+              <?php               
                   $consulta  = "SELECT * from categorias";
                   $resultado_cat = mysqli_query($conn, $consulta);
                   while($row = mysqli_fetch_array($resultado_cat)) {
                     echo "<option value='".$row['idcategoria']."'>" . $row['nombre_categoria'] . "</option>";
                   }
-
               ?>
-
-              </select><br><br>
+              </select>
+              </div>
+              <br>
+              <div class='flex-inside' style='width: 22%;margin: 1rem;'>
               Tipo de Producto:<br>
-                    <select name="tipo" id="tipo" ">  
-                        <option value="">Seleccione</option>
+               <select name="tipo" id="tipo" ">  
+                <option value="">Seleccione...</option>
                 <?php 
                 
                     $consulta  = "SELECT * from tipos";
@@ -282,13 +306,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     while($row = mysqli_fetch_array($resultado_cat)) {
                         echo "<option value='".$row['idtipo']."'>" . $row['nombre_tipo'] . "</option>";
                     }
-
                 ?>
-                    </select>
-                    <br>
-                    <label>
-        <input type="checkbox" value="1" id="personalizable" name="personalizable"> Producto Personalizable
-    </label>
+                </select>
+                </div>
+                <br>
+                <div class='flex-inside' style='width: 22%;margin: 1rem;'>
+                <label style="font-size:18px;"><input style="padding:3px;" type="checkbox" value="1" id="personalizable" name="personalizable">Es un Producto Personalizable.</label>
+                </div>
 
     <div id="dialog" class="modal">
         <div class="modal-content">

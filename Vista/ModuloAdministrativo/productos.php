@@ -185,7 +185,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <!--<a title='Historial' href='?hist={$row['idproducto']}&Ent=1&Sal=0'><img id='icon-bt' src='../../Assets/images/inventory/book.png'></a>-->
                 ";
                 if ($_SESSION['esAdmin']==1){
-                  if ($row['habilitado']==1){    
+                  if ($row['habilitado']==1){
                   echo "
                   <a onclick=\"borrar('".$row['idproducto']."','".$row['idreceta']."')\" title='Desabilitar Producto'> <img id='icon-bt' src='../../Assets/images/inventory/erase.png'> </a>";} else{
                     echo"

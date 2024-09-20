@@ -231,7 +231,7 @@ Total <br>
       $Q_insert = mysqli_query($tmodulo->mysqlconnect(), $Q_insert_itemcocina );
 
       //consulta todos los item de insumos utilizados de la receta a cocinar
-      $Q_insumos = "select * from itemrecetas where idproducto=".$row['codigo_producto']."";
+      $Q_insumos = "select * from itemrecetas where idreceta=".$Q_IDreceta['idreceta']."";
       $query = mysqli_query($tmodulo->mysqlconnect(), $Q_insumos );
 
       while($item = mysqli_fetch_array($query)){
@@ -443,7 +443,7 @@ Producto:  <br>
 <div class='flex-inside'>
 Cantidad:  <br>
   <input type='number' min=1 value=1 name='cantidad' id='cantidad' steep='1'><br id='br-appear'>
-  <a class='btnBlue-small' style='cursor:pointer;' onclick=\"add('".$nombreX."')\" title='Agregar Producto a Salida'>Agregar</a>
+  <a class='btnBlue-small' style='cursor:pointer;' onclick=\"add('".$nombreX."')\" title='Agregar Producto a Fabricar'>Agregar</a>
   <a id=limpiar class='btnOrange-small' name=limpiar onclick=\"clearFunc()\">Limpiar</a>
 
   </div>
@@ -479,7 +479,7 @@ Cantidad:  <br>
     <input type='text' readonly style='font-size: 3.5rem; color: #f29874;text-align: end;' id='total' name='total'>
  </div>
  
-<button type='button' class='submitBtn' onclick=\"agregarSalida()\" class='accept' name='agregar_salida' id='agregar_salida' title='Procesar Salida' style='width: 100%;margin:0;'>Procesar</button>
+<button type='button' class='submitBtn' onclick=\"agregarSalida()\" class='accept' name='agregar_salida' id='agregar_salida' title='Procesar Fabricacion' style='width: 100%;margin:0;'>Procesar</button>
 </div>
 
 </section>  

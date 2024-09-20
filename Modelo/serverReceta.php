@@ -43,12 +43,15 @@ if(isset($data["nombre_receta"])){
     }
 
 // ... (código para insertar en la base de datos)
+    $idProducto = 0;
+    if(strlen($data["nombre_producto"])>0){
+        $idProducto = $data["nombre_producto"];
+        $Q_update_producto ="update productos set idreceta='$codigo', habilitado=1 where idproducto=".$data["nombre_producto"];
+        $resultado= mysqli_query($GLOBALS['conn'], $Q_update_producto);        
+    }
 
-    $sql = "insert into recetas (idreceta,nombre,idproducto,notas) values ('$codigo','".$data["nombre_receta"]."',".$data["nombre_producto"].",'".$data["nota"]."')";
+    $sql = "insert into recetas (idreceta,nombre,idproducto,notas) values ('$codigo','".$data["nombre_receta"]."',".$idProducto.",'".$data["nota"]."')";
     $resultado= mysqli_query($GLOBALS['conn'], $sql);
-
-    $Q_update_producto ="update productos set idreceta='$codigo', habilitado=1 where idproducto=".$data["nombre_producto"];
-    $resultado= mysqli_query($GLOBALS['conn'], $Q_update_producto);
 
     if (isset($data["productos"]) && is_array($data["productos"])) {
         foreach ($data["productos"] as $producto) {
