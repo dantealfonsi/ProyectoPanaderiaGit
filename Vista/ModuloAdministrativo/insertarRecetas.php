@@ -103,7 +103,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="text" id="nombre_receta" onfocusout="valNombreReceta()" name="nombre_receta" required>
                 </div>
 
-            <div class='flex-inside'>
+            <div class='flex-inside' style="display:none;">
                 A que producto Pertenece? (opcional)<br>
               <select name="nombre_producto" id="nombre_producto" onchange="valPerteneceProducto()">
               <option value="">Seleccione..</option>
@@ -350,13 +350,16 @@ function eliminarProducto(button) {
 
 function enviarReceta() {
     const nombreReceta = document.getElementById("nombre_receta").value;
-    const nombreProducto = document.getElementById("nombre_producto").value;
+    /*let nombreProducto = document.getElementById("nombre_producto").value;*/
     const preparacion = document.getElementById("nota").value;
+
+    /*if(!nombreProducto){
+        nombreProducto = "0";
+    }*/
 
     if (nombreReceta && preparacion) {
         const receta = {
-            nombre_receta: nombreReceta,
-            nombre_producto: nombreProducto,
+            nombre_receta: nombreReceta,            
             nota: preparacion,
             productos: productos
         };

@@ -268,8 +268,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <br>
             <div class='flex-inside' style='width: 22%;margin: 1rem;'>
                 Con que Receta se Prepara.?<br>
-              <select name="receta_producto" id="receta_producto">              
-                <option value=''>Selecciona Una..</option>
+              <select required name="receta_producto" id="receta_producto">
               <?php 
                   $consulta_recetas  = "SELECT * from recetas";
                   $result_recetas = mysqli_query($conn, $consulta_recetas);                  
@@ -279,7 +278,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
               ?>
               </select>              
-              </div>              
+            </div>
             <br>
                 <div class='flex-inside' style='width: 22%;margin: 1rem;'>
                 Categoria del producto:<br>                

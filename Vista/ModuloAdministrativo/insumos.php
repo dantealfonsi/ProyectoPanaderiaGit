@@ -238,7 +238,7 @@
       
       <div class='second-line'>
         <div class='flex-inside'>
-           Mínimo: <br> <input  type='number' placeholder='0' min=0 id='c_min' title='Minimo recurrente de Insumo' oninput='this.value = !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value): null'><br>
+           Mínimo: <br> <input  type='number' placeholder='0' min='-500' id='c_min' title='Minimo recurrente de Insumo' ><br>
         </div>
 
         <div class='flex-inside'>
@@ -335,7 +335,7 @@
        echo "
     <div class='second-line'>
       <div class='flex-inside'>
-         Mínimo: <br> <input  type='number' placeholder='0'  id='c_min' title='Minimo recurrente de Insumo' value='{$_GET['c_min']}'>
+         Mínimo: <br> <input  type='number' min='-500'  id='c_min' title='Minimo recurrente de Insumo' value='{$_GET['c_min']}'>
       </div>
 
       <div class='flex-inside'>

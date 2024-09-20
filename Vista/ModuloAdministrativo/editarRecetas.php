@@ -11,10 +11,16 @@
 include "../../Modelo/conexion.php"; 
 
 function readNombreProducto($IDproducto){
+    $nombreProducto="";
     $sql ="select idproducto, nombre_producto from productos  where idproducto={$IDproducto}";
     $resultado= mysqli_query($GLOBALS['conn'], $sql);
-    $row = mysqli_fetch_array($resultado);
-    return $row['nombre_producto'];
+    if($resultado){
+        $row = mysqli_fetch_array($resultado);
+        if(isset($row['nombre_producto']) && $row['nombre_producto'] != null){
+            return $row['nombre_producto'];
+        }        
+    }
+    return $nombreProducto;
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -28,7 +34,7 @@ if(isset($_GET['id'])){
     $receta = mysqli_fetch_array($resultado);
 
     $nombre_receta= $receta['nombre'];
-    $nombre_producto = readNombreProducto($receta['idproducto']);
+    //$nombre_producto = readNombreProducto($receta['idproducto']);
     $nota = $receta['notas'];
 
 }else{
@@ -126,7 +132,7 @@ if(isset($_GET['id'])){
                 </div>
          
 
-                <div class='flex-inside'>
+                <div class='flex-inside' style="display:none;">
                 A que producto Pertenece?:<br>
                     <select disabled name="nombre_producto" id="nombre_producto" >
                     <option value="">Seleccione</option>
@@ -136,9 +142,9 @@ if(isset($_GET['id'])){
                             $resultado_cat = mysqli_query($conn, $consulta);                  
                             while($row = mysqli_fetch_array($resultado_cat)) {
                                 $select = "";
-                                if($nombre_producto == $row['nombre_producto']) {
+                                /*if($nombre_producto == $row['nombre_producto']) {
                                     $select = "selected";
-                                }
+                                }*/
                                 echo "<option {$select} value='".$row['idproducto']."'>" . $row['nombre_producto'] . "</option>";
                             }
 
@@ -292,14 +298,18 @@ function eliminarProducto(button) {
 
 function enviarReceta() {
     const nombreReceta = document.getElementById("nombre_receta").value;
-    const nombreProducto = document.getElementById("nombre_producto").value;
+    /*let nombreProducto = document.getElementById("nombre_producto").value;*/
     const preparacion = document.getElementById("nota").value;
     const codigo = document.getElementById("codigo").value;
 
-    if (nombreReceta && nombreProducto) {
+    /*if(!nombreProducto){
+        nombreProducto = "0";
+    }*/
+
+
+    if (nombreReceta && preparacion) {
         const receta = {
-            nombre_receta: nombreReceta,
-            nombre_producto: nombreProducto,
+            nombre_receta: nombreReceta,            
             nota: preparacion,
             update: 'yes',
             codigo: codigo,

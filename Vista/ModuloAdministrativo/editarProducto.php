@@ -70,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header('location: productos.php');
 }
 
-$IDproducto= $nombre_producto= $descripcion_producto= $imagen_producto= $precio_producto= $categoria_producto = "";
+$IDreceta = $IDproducto = $nombre_producto = $descripcion_producto = $imagen_producto = $precio_producto = $categoria_producto = "";
 
     //******* inicio obtener detalles del producto *******
         //consulta
@@ -87,6 +87,7 @@ $descripcion_producto= $row_producto['descripcion_producto'];
 $imagen_producto= $row_producto['imagen_producto'];
 $precio_producto= $row_producto['precio_producto'];
 $categoria_producto =$row_producto['categoria_producto'];
+$IDreceta = $row_producto['idreceta'];
 
 ?>
 
@@ -209,8 +210,24 @@ $categoria_producto =$row_producto['categoria_producto'];
                 </div>
             </div>
             </div>
+            <br>
+            <div class='flex-inside' style='width: 22%;margin: 1rem;'>
+                Con que Receta se Prepara.?<br>
+              <select required name="receta_producto" id="receta_producto">
+              <?php 
+                  $consulta_recetas  = "SELECT * from recetas";
+                  $result_recetas = mysqli_query($conn, $consulta_recetas);
+                  $selected = "";                  
+                  while($row = mysqli_fetch_array($result_recetas)) {
+                    if($IDreceta == $row['idreceta']){
+                        $selected = "selected";
+                    }
+                    echo "<option $selected value='".$row['idreceta']."'>" . $row['nombre'] . "</option>";
+                  }
 
-    
+              ?>
+              </select>              
+            </div>
               
             <br>
                 <div class='flex-inside' style='width: 22%;margin: 1rem;'>

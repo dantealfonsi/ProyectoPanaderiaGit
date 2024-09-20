@@ -11,6 +11,60 @@
 
 <?php
 
+if(isset($_GET['consultaexistencias'])){
+
+    function compruebaExistencia($codigoinsumo,$cantidad){
+        $Q_select_insumos="select * from insumos where codigo='$codigoinsumo'";
+        $Q_result_insumos= mysqli_query($GLOBALS['conn'], $Q_select_insumos);
+        $Q_fila_insumo = mysqli_fetch_assoc($Q_result_insumos);
+
+        // Verifica si la existencia después de restar la cantidad es menor que el mínimo permitido
+        if(($Q_fila_insumo['existencia'] - $cantidad) < $Q_fila_insumo['c_min']){
+            return 0; // Indica que la existencia es menor que el mínimo permitido
+        }
+        else{
+            return 1; // Indica que la existencia es suficiente
+        }
+    }
+
+    function datosinsumo($codigoinsumo){
+        $Q_select_insumos="select * from insumos where codigo='$codigoinsumo'";
+        $Q_result_insumos= mysqli_query($GLOBALS['conn'], $Q_select_insumos);
+        return $Q_fila_insumo = mysqli_fetch_assoc($Q_result_insumos);
+    }
+
+    $obj = array('valido' => false, 'idproducto' => null );
+    $idproducto = $_GET['codigo'];
+
+    $Q_select_IDreceta="select idreceta from productos where idproducto=".$idproducto;
+    $Q_result_IDreceta= mysqli_query($GLOBALS['conn'], $Q_select_IDreceta);
+    $Q_IDreceta = mysqli_fetch_assoc($Q_result_IDreceta);
+
+    $idreceta = $Q_IDreceta['idreceta'];
+
+    $consulta = "SELECT * FROM itemrecetas WHERE idreceta='$idreceta'";
+    if($resultado = mysqli_query( $GLOBALS['conn'], $consulta )){
+     while($row = mysqli_fetch_assoc($resultado)){
+        if(compruebaExistencia($row['codigoinsumo'],$row['cantidad']) == 0){
+            $obj = array(
+                'valido' => false, 
+                'idproducto' =>  $row['codigoinsumo'], 
+                'nombre' => datosinsumo($row['codigoinsumo'])['nombre']);
+            break;
+
+        }
+        else{
+            $obj = array(
+                'valido' => true, 
+                'idproducto' =>  $row['codigoinsumo'], 
+                'nombre' => datosinsumo($row['codigoinsumo'])['nombre']);
+        }
+     }
+    }
+
+    echo json_encode($obj);
+}
+
 	/*****************************************************************************************************************
 	NOTIFICACIONES*/
     function countNotif($IDusuario){

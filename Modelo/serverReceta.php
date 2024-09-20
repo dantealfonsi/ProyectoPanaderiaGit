@@ -43,14 +43,11 @@ if(isset($data["nombre_receta"])){
     }
 
 // ... (código para insertar en la base de datos)
-    $idProducto = 0;
-    if(strlen($data["nombre_producto"])>0){
-        $idProducto = $data["nombre_producto"];
-        $Q_update_producto ="update productos set idreceta='$codigo', habilitado=1 where idproducto=".$data["nombre_producto"];
-        $resultado= mysqli_query($GLOBALS['conn'], $Q_update_producto);        
-    }
 
-    $sql = "insert into recetas (idreceta,nombre,idproducto,notas) values ('$codigo','".$data["nombre_receta"]."',".$idProducto.",'".$data["nota"]."')";
+    $Q_update_producto ="update productos set idreceta='$codigo', habilitado=1 where idreceta='".$data['codigo']."'";
+    $resultado= mysqli_query($GLOBALS['conn'], $Q_update_producto);
+
+    $sql = "insert into recetas (idreceta,nombre,notas) values ('$codigo','".$data["nombre_receta"]."','".$data["nota"]."')";
     $resultado= mysqli_query($GLOBALS['conn'], $sql);
 
     if (isset($data["productos"]) && is_array($data["productos"])) {
@@ -60,7 +57,7 @@ if(isset($data["nombre_receta"])){
             $nombreProducto = $producto["producto"];
             $codigoInsumo = readCodeInsumo($nombreProducto);
             
-            $sql = "insert into itemrecetas (idreceta,idproducto,codigoinsumo,cantidad,uni) values ('$codigo',".$data["nombre_producto"].",'".$codigoInsumo."',".$cantidad.",'$gramos')";
+            $sql = "insert into itemrecetas (idreceta,codigoinsumo,cantidad,uni) values ('$codigo','".$codigoInsumo."',".$cantidad.",'$gramos')";
             $resultado= mysqli_query($GLOBALS['conn'], $sql);
         }
     }

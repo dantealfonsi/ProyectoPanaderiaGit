@@ -221,7 +221,7 @@ Total <br>
     $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta );
     while($row = mysqli_fetch_array($resultado)){
       //CONSULTA EL IDreceta del producto cocinado
-      $Q_select_IDreceta="select idreceta from recetas where idproducto=".$row['codigo_producto'];
+      $Q_select_IDreceta="select idreceta from productos where idproducto=".$row['codigo_producto'];
       $Q_result_IDreceta = mysqli_query($tmodulo->mysqlconnect(), $Q_select_IDreceta );
       $Q_IDreceta = mysqli_fetch_array($Q_result_IDreceta);
 
@@ -714,7 +714,12 @@ function leerDatos(){
 
 function add(nombreX){
   if (document.getElementById('codigo').value.length>1 && (document.getElementById('cantidad').value *1)>0){
-          $.post("../../Modelo/modulo_proyecto.php",{
+
+    $.get("../../Modelo/server.php?consultaexistencias=&codigo="+document.getElementById('codigo').value,
+    function(data) { 
+      datos = JSON.parse(data);
+      if(datos.valido){
+        $.post("../../Modelo/modulo_proyecto.php",{
             addTemp: "",
             codigo: document.getElementById('codigo').value,
             tabla: tablaTemporal, 
@@ -726,14 +731,23 @@ function add(nombreX){
           document.getElementById('codigo').value='';
           document.getElementById('cantidad').value=0;          
         });
-        } 
-        else{
+      }
+      else{
+        Swal.fire(
+          'No se puede Fabricar',
+          `Uno o mas productos como el ${datos.nombre} faltan en existencia y estan fuera del rango minimo.`,
+          'warning'
+          );
+      }      
+    });
+  } 
+  else{
           Swal.fire(
           'Cuidado!',
           'Tienes datos faltantes para fabricar.',
           'warning'
           );
-        }
+  }
 
 }
 
