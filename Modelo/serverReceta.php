@@ -44,8 +44,8 @@ if(isset($data["nombre_receta"])){
 
 // ... (código para insertar en la base de datos)
 
-    $Q_update_producto ="update productos set idreceta='$codigo', habilitado=1 where idreceta='".$data['codigo']."'";
-    $resultado= mysqli_query($GLOBALS['conn'], $Q_update_producto);
+    /*$Q_update_producto ="update productos set idreceta='$codigo', habilitado=1 where idreceta='".$data['codigo']."'";
+    $resultado= mysqli_query($GLOBALS['conn'], $Q_update_producto);*/
 
     $sql = "insert into recetas (idreceta,nombre,notas) values ('$codigo','".$data["nombre_receta"]."','".$data["nota"]."')";
     $resultado= mysqli_query($GLOBALS['conn'], $sql);

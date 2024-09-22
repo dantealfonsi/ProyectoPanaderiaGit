@@ -1,0 +1,12 @@
+[✓] añadir verificaciones en cada parte del modulo, separar mas las cosas.
+[✓] Primero se crean las recetas y luego se le asignan a los productos creados.
+[✓] los productos personalizados que no tenga que fabricarlo ajuro para que este disponible.
+[✓] Crear una advertencia si falta inventario cuando se esta fabricando un producto.
+[✓] Muestra una lista si falta inventario cuando se esta fabricando un producto.
+[✓] Descuenta el inventario cuando se cambia el estado a pagado el pedido.
+[✓] aceptar o rechazar la solicitud del pedido, que lleguen solicitudes de pedidos y que se acepte o rechace.
+[✓] orden del pedido primero se hace la solicitud, los productos aceptado, pedidos abonados,pagados, produccion para finalizar.
+[✓] tiene que haber una fecha de entrega pero esa la pone el cliente para cuando quiere la entrega.
+[✓] Cambiar la linea de tiempo del chat a una sola linea y que se indique el estatus por donde esta.
+[✓] Solo poner el producto cuando este listo no cuando estee en produccion en otras palabras primero pasar por produccion para ponerlos en venta los productos.
+[✓] Solo se ponen los productos cuando pasa por produccion y hay existencia.

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-09-2024 a las 03:01:39
+-- Tiempo de generación: 22-09-2024 a las 18:13:37
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -37,13 +37,6 @@ CREATE TABLE `carac_devolucion_entrada` (
   `precio` decimal(10,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `carac_devolucion_entrada`
---
-
-INSERT INTO `carac_devolucion_entrada` (`id`, `fecha`, `codigo_producto`, `nombre_producto`, `cantidad`, `referencia`, `precio`) VALUES
-(2, '2024-06-23 20:56:53', '0002', '', 2, 625846, 8.00);
-
 -- --------------------------------------------------------
 
 --
@@ -61,13 +54,6 @@ CREATE TABLE `carac_devolucion_salida` (
   `precio` decimal(10,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `carac_devolucion_salida`
---
-
-INSERT INTO `carac_devolucion_salida` (`id`, `fecha`, `codigo_producto`, `nombre_producto`, `cantidad`, `referencia`, `cedula_cliente`, `precio`) VALUES
-(3, '2024-06-23 21:04:53', '0002', '', 1, 433635, NULL, 8.00);
-
 -- --------------------------------------------------------
 
 --
@@ -83,13 +69,6 @@ CREATE TABLE `carac_entrada` (
   `num_entrada` int(11) NOT NULL DEFAULT 0,
   `precio` decimal(10,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `carac_entrada`
---
-
-INSERT INTO `carac_entrada` (`id`, `fecha`, `codigo_producto`, `nombre_producto`, `cantidad`, `num_entrada`, `precio`) VALUES
-(8, '2024-06-23 19:16:55', '0002', 'huevo', 10, 625846, 8.00);
 
 -- --------------------------------------------------------
 
@@ -112,8 +91,9 @@ CREATE TABLE `carac_salida` (
 --
 
 INSERT INTO `carac_salida` (`id`, `fecha`, `codigo_producto`, `nombre_producto`, `cantidad`, `num_salida`, `cedula_cliente`) VALUES
-(12, '2024-06-23 19:17:43', '0002', 'huevo', 2, 433635, 5),
-(13, '2024-06-23 19:17:44', '0101', 'harina de trigo', 100, 433635, 5);
+(30, '2024-09-22 16:10:29', '0001', 'Huevos', 1, 416690, 5),
+(31, '2024-09-22 16:10:29', '0002', 'harina de trigo panadero', 1, 416690, 5),
+(32, '2024-09-22 16:10:30', '0003', 'margarina con sal', 1, 416690, 5);
 
 -- --------------------------------------------------------
 
@@ -125,14 +105,6 @@ CREATE TABLE `carrito` (
   `idcarrito` bigint(20) NOT NULL,
   `idusuario` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `carrito`
---
-
-INSERT INTO `carrito` (`idcarrito`, `idusuario`) VALUES
-(19, 5),
-(20, 6);
 
 -- --------------------------------------------------------
 
@@ -176,7 +148,8 @@ INSERT INTO `categoria_insumos` (`id`, `nombre`) VALUES
 (1, 'harinas'),
 (5, 'huevos'),
 (6, 'sales'),
-(7, 'azucares');
+(7, 'azucares'),
+(8, 'grasas');
 
 -- --------------------------------------------------------
 
@@ -199,17 +172,6 @@ CREATE TABLE `chat` (
   `fg` varchar(34) DEFAULT '#4D4D4D'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `chat`
---
-
-INSERT INTO `chat` (`id`, `idpedido`, `fecha`, `amo`, `envia`, `recibe`, `mensaje`, `activo`, `leido`, `cerrado`, `bg`, `fg`) VALUES
-(45, 20, '2024-06-23 03:29:00', '', '6', '5', 'hola', 0, 1, 0, '#DADFE8', '#4D4D4D'),
-(46, 20, '2024-06-23 04:25:53', '', '5', '6', 'deme sus datos', 0, 1, 0, '#ff7380', '#4D4D4D'),
-(47, 20, '2024-06-23 15:39:55', '', '6', '5', '0102 - V28129366', 0, 1, 0, '#DADFE8', '#4D4D4D'),
-(48, 23, '2024-09-18 14:36:20', '', '6', '5', 'hola', 0, 1, 0, '#DADFE8', '#4D4D4D'),
-(49, 23, '2024-09-18 14:37:10', '', '5', '6', 'ya te envio los datos', 0, 1, 0, '#ff7380', '#4D4D4D');
-
 -- --------------------------------------------------------
 
 --
@@ -225,13 +187,6 @@ CREATE TABLE `de5` (
   `precio` decimal(10,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `de5`
---
-
-INSERT INTO `de5` (`id`, `codigo_producto`, `nombre_producto`, `proveedor`, `cantidad`, `precio`) VALUES
-(1, '0002', 'huevo', 'Didapax', 2, 8.00);
-
 -- --------------------------------------------------------
 
 --
@@ -245,13 +200,6 @@ CREATE TABLE `devolucion_entrada` (
   `motivo` text DEFAULT NULL,
   `proveedor` varchar(34) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `devolucion_entrada`
---
-
-INSERT INTO `devolucion_entrada` (`fecha`, `responsable`, `referencia`, `motivo`, `proveedor`) VALUES
-('2024-06-23 20:56:53', 5, 625846, 'Daño', 'Didapax');
 
 -- --------------------------------------------------------
 
@@ -270,13 +218,6 @@ CREATE TABLE `devolucion_salida` (
   `total` decimal(13,2) DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `devolucion_salida`
---
-
-INSERT INTO `devolucion_salida` (`fecha`, `responsable`, `referencia`, `motivo`, `cedula_cliente`, `subtotal`, `iva`, `total`) VALUES
-('2024-06-23 21:04:53', 5, 433635, 'Daño', 5, 0.00, 0.00, 0.00);
-
 -- --------------------------------------------------------
 
 --
@@ -292,13 +233,6 @@ CREATE TABLE `ds5` (
   `precio` decimal(10,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `ds5`
---
-
-INSERT INTO `ds5` (`id`, `codigo_producto`, `nombre_producto`, `cedula_cliente`, `cantidad`, `precio`) VALUES
-(1, '0002', 'huevo', '5', 1, 8.00);
-
 -- --------------------------------------------------------
 
 --
@@ -312,13 +246,6 @@ CREATE TABLE `entrada` (
   `proveedor` varchar(34) DEFAULT NULL,
   `devuelto` tinyint(4) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `entrada`
---
-
-INSERT INTO `entrada` (`fecha`, `responsable`, `num_entrada`, `proveedor`, `devuelto`) VALUES
-('2024-06-23 19:16:55', 5, 625846, 'Didapax', 1);
 
 -- --------------------------------------------------------
 
@@ -339,13 +266,11 @@ CREATE TABLE `historial` (
 --
 
 INSERT INTO `historial` (`id`, `fecha`, `nombre_usuario`, `cedula`, `ubicacion`) VALUES
-(38, '2024-06-23 17:02:48', 'pepes', 5, 'AÑADIO UN PROOVEEDOR'),
-(39, '2024-06-23 19:16:56', 'pepes', 5, 'AGREGO UNA ENTRADA DE INSUMO'),
-(40, '2024-06-23 19:17:44', 'pepes', 5, 'AGREGO UNA SALIDA'),
-(41, '2024-06-23 20:56:53', 'pepes', 5, 'AGREGO UNA DEVOLUCION DE INSUMOS'),
-(42, '2024-06-23 21:04:53', 'pepes', 5, 'AGREGO UNA DEVOLUCION POR FABRICACION'),
-(43, '2024-09-19 16:48:33', 'pepes', 5, 'EDITO UN Insumo'),
-(44, '2024-09-19 16:50:26', 'pepes', 5, 'EDITO UN Insumo');
+(58, '2024-09-22 15:07:00', 'pepes', 5, 'AGREGO UN Insumo'),
+(59, '2024-09-22 15:08:17', 'pepes', 5, 'AGREGO UN Insumo'),
+(60, '2024-09-22 15:08:54', 'pepes', 5, 'AÑADIO UNA CATEGORIA'),
+(61, '2024-09-22 15:09:43', 'pepes', 5, 'AGREGO UN Insumo'),
+(62, '2024-09-22 16:10:30', 'pepes', 5, 'AGREGO UNA SALIDA');
 
 -- --------------------------------------------------------
 
@@ -371,9 +296,9 @@ CREATE TABLE `insumos` (
 --
 
 INSERT INTO `insumos` (`codigo`, `nombre`, `almacen`, `precio`, `existencia`, `categoria`, `c_min`, `c_max`, `deleted`, `uni`) VALUES
-('0002', 'huevo', 1, 8.00, 36, 'huevos', 1, 100, 0, 'unidades'),
-('0003', 'harina de maiz', 1, 0.12, 100, 'harinas', 1, 200, 0, 'gramos'),
-('0101', 'harina de trigo', 1, 0.06, 500, 'harinas', 0, 0, 0, 'gramos');
+('0001', 'Huevos', 0, 10.00, -1, 'huevos', -36, 200, 0, 'unidades'),
+('0002', 'harina de trigo panadero', 0, 0.11, -1, 'harinas', -1000, 10000, 0, 'gramos'),
+('0003', 'margarina con sal', 0, 0.25, -1, 'grasas', -500, 10000, 0, 'gramos');
 
 -- --------------------------------------------------------
 
@@ -410,7 +335,7 @@ CREATE TABLE `itemcocina` (
 --
 
 INSERT INTO `itemcocina` (`num_salida`, `idreceta`, `idproducto`, `cantidad`) VALUES
-(433635, '7ec8a429e6', 97, 1);
+(416690, 'b9e5693c1e', 103, 1);
 
 -- --------------------------------------------------------
 
@@ -429,17 +354,6 @@ CREATE TABLE `itempedido` (
   `estado` varchar(200) NOT NULL DEFAULT 'SOLICITUD',
   `fechacreacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `itempedido`
---
-
-INSERT INTO `itempedido` (`iditempedido`, `idproducto`, `idpedido`, `iscustom`, `precio`, `cantidad`, `motivo`, `estado`, `fechacreacion`) VALUES
-(36, 98, 20, 1, 50, 1, ' dsfsdfds', 'EN PROCESO', '2024-06-23 03:26:46'),
-(37, 97, 21, 0, 33.176, 1, 'null', 'EN PROCESO', '2024-09-18 02:07:43'),
-(38, 97, 22, 0, 33.176, 1, 'null', 'EN ESPERA', '2024-09-18 03:01:20'),
-(39, 97, 23, 0, 33.176, 1, 'null', 'EN PROCESO', '2024-09-18 19:22:08'),
-(44, 97, 29, 0, 33.176, 1, 'null', 'SOLICITUD', '2024-09-18 20:12:58');
 
 -- --------------------------------------------------------
 
@@ -461,9 +375,9 @@ CREATE TABLE `itemrecetas` (
 --
 
 INSERT INTO `itemrecetas` (`id`, `idproducto`, `idreceta`, `codigoinsumo`, `cantidad`, `uni`) VALUES
-(21, 98, 'f75abfc571', '0002', 2.00, 'unidades'),
-(22, 99, 'b4e0f89077', '0002', 3.00, 'unidades'),
-(23, 99, 'b4e0f89077', '0101', 30.00, 'gramos');
+(46, NULL, 'b9e5693c1e', '0001', 4.00, 'unidades'),
+(47, NULL, 'b9e5693c1e', '0002', 400.00, 'gramos'),
+(48, NULL, 'b9e5693c1e', '0003', 20.00, 'gramos');
 
 -- --------------------------------------------------------
 
@@ -501,17 +415,6 @@ CREATE TABLE `pedido_usuario` (
   `fechacreacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `fechapedido` date DEFAULT curdate()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `pedido_usuario`
---
-
-INSERT INTO `pedido_usuario` (`idpedido`, `idusuario`, `total`, `direccion`, `telefono`, `municipio`, `localidad`, `estado`, `fechacreacion`, `fechapedido`) VALUES
-(20, 6, 50, 'sadasdasds', '04264804', 'Bermúdez', 'Carupano', 'SOLICITUD', '2024-09-18 13:47:39', '2024-09-18'),
-(21, 6, 33.176, 'calle Carabobo casa N 174', '04264804', 'Bermúdez', 'Carupano', 'ACEPTADO', '2024-09-18 03:48:57', '2024-09-18'),
-(22, 6, 33.176, 'sdvfsvavsvdsva', '04264804', 'Bermúdez', 'Carupano', 'RECHAZADO', '2024-09-18 03:47:08', '2024-09-18'),
-(23, 6, 33.176, 'sdvfsvavsvdsva', '04264804', 'Bermúdez', 'Carupano', 'PAGADO', '2024-09-19 00:09:56', '2024-09-18'),
-(29, 6, 33.176, 'sdasdasdasd', '04264804', 'Bermúdez', 'Carupano', 'SOLICITUD', '2024-09-18 20:12:58', '2024-09-20');
 
 -- --------------------------------------------------------
 
@@ -571,10 +474,7 @@ CREATE TABLE `productos` (
 --
 
 INSERT INTO `productos` (`idproducto`, `idreceta`, `nombre_producto`, `descripcion_producto`, `imagen_producto`, `precio_producto`, `categoria_producto`, `habilitado`, `existencia`, `iscustom`, `peso`, `pisos`, `modelos`, `bizcocho`, `relleno`, `cubierta`, `motivo`, `persona`, `idtipo`) VALUES
-(97, 'b4e0f89077', 'Torta cubierta', 'Torta con cubierta de vainilla', '/ProyectoPanaderiaGit/Assets/productoimagenes\\189d7f9a66.jpeg', 33.176, 11, 1, 4, 0, 0, 0, '', 0, '', '', '', 'niño', 0),
-(98, 'f75abfc571', 'Torta Rosada', 'Torta para cumpleaños', '/ProyectoPanaderiaGit/Assets/productoimagenes/f97346900f.jpeg', 50, 11, 1, 1, 1, 1, 1, 'redonda', 0, 'vainilla', 'rosado', '', 'mujer', 0),
-(99, 'b4e0f89077', 'Torta Blanca', 'Torta Redonda de un Piso Blanca rellena de vainilla', '/ProyectoPanaderiaGit/Assets/productoimagenes/3fb017adce.jpeg', 50, 11, 1, 1, 1, 1, 1, 'redonda', 1, 'vainilla', 'blanco', '', 'niña', 0),
-(101, '0a48fe25cf', 'Torta de chocolate', 'Torta con relleno de chocolate', '/ProyectoPanaderiaGit/Assets/productoimagenes/bb6023cff5.jpeg', 30, 9, 1, 0, 0, 0, 1, '', 0, '', '', '', 'niño', 0);
+(103, 'b9e5693c1e', 'pastel de vainilla', 'torta de vainilla ideales para tu cumpleaños ', '/ProyectoPanaderiaGit/Assets/productoimagenes/901492e229.jpeg', 15.6229, 11, 1, 1, 0, 0, 1, '', 0, '', '', '', 'niño', 0);
 
 -- --------------------------------------------------------
 
@@ -589,13 +489,6 @@ CREATE TABLE `proveedor` (
   `direccion` varchar(50) DEFAULT NULL,
   `deleted` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `proveedor`
---
-
-INSERT INTO `proveedor` (`rif`, `nombre`, `telefono`, `direccion`, `deleted`) VALUES
-('132939167', 'Didapax', '04264804748', 'calle carabobo', 0);
 
 -- --------------------------------------------------------
 
@@ -616,32 +509,7 @@ CREATE TABLE `recetas` (
 --
 
 INSERT INTO `recetas` (`idreceta`, `nombre`, `idproducto`, `notas`, `deleted`) VALUES
-('0a48fe25cf', 'Pastel de Vainilla', 0, ' sxsvxcv', 0),
-('7ec8a429e6', 'Torta Cubierta Vainilla', 97, ' se mezcla la harina con los huevos y agua\n', 1),
-('b4e0f89077', 'Torta Cubierta rellena Vainilla', 99, ' se mezcla la harina con los huevos', 0),
-('f75abfc571', 'Torta Rosada', 98, '  se prepara ', 0);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `s5`
---
-
-CREATE TABLE `s5` (
-  `id` int(11) NOT NULL,
-  `codigo_producto` varchar(15) DEFAULT NULL,
-  `nombre_producto` varchar(34) DEFAULT NULL,
-  `cantidad` int(11) NOT NULL DEFAULT 0,
-  `precio` decimal(10,2) NOT NULL DEFAULT 0.00,
-  `cedula_cliente` int(9) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `s5`
---
-
-INSERT INTO `s5` (`id`, `codigo_producto`, `nombre_producto`, `cantidad`, `precio`, `cedula_cliente`) VALUES
-(2, '101', 'Torta de chocolate', 1, 30.00, 5);
+('b9e5693c1e', 'pastel de vainilla', NULL, ' se mezcla la harina de trigo con la mantequilla y de ultimo los huevos se ajusta la maza con agua hasta obtener una mezcla homogénea ', 0);
 
 -- --------------------------------------------------------
 
@@ -666,7 +534,7 @@ CREATE TABLE `salida` (
 --
 
 INSERT INTO `salida` (`fecha`, `responsable`, `num_salida`, `motivo`, `cedula_cliente`, `subtotal`, `iva`, `total`, `devuelto`) VALUES
-('2024-06-23 19:17:43', 5, 433635, 'Elaboracion', 5, 22.00, 3.52, 25.52, 1);
+('2024-09-22 16:10:29', 5, 416690, 'Elaboracion', 5, 0.00, 0.00, 0.00, 0);
 
 -- --------------------------------------------------------
 
@@ -910,12 +778,6 @@ ALTER TABLE `recetas`
   ADD PRIMARY KEY (`idreceta`);
 
 --
--- Indices de la tabla `s5`
---
-ALTER TABLE `s5`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indices de la tabla `salida`
 --
 ALTER TABLE `salida`
@@ -967,7 +829,7 @@ ALTER TABLE `carac_entrada`
 -- AUTO_INCREMENT de la tabla `carac_salida`
 --
 ALTER TABLE `carac_salida`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT de la tabla `carrito`
@@ -985,7 +847,7 @@ ALTER TABLE `categorias`
 -- AUTO_INCREMENT de la tabla `categoria_insumos`
 --
 ALTER TABLE `categoria_insumos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `chat`
@@ -1009,7 +871,7 @@ ALTER TABLE `ds5`
 -- AUTO_INCREMENT de la tabla `historial`
 --
 ALTER TABLE `historial`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT de la tabla `itemcarrito`
@@ -1027,7 +889,7 @@ ALTER TABLE `itempedido`
 -- AUTO_INCREMENT de la tabla `itemrecetas`
 --
 ALTER TABLE `itemrecetas`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT de la tabla `notificaciones`
@@ -1051,13 +913,7 @@ ALTER TABLE `persona`
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `idproducto` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
-
---
--- AUTO_INCREMENT de la tabla `s5`
---
-ALTER TABLE `s5`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idproducto` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
 
 --
 -- AUTO_INCREMENT de la tabla `tipos`
