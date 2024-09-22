@@ -19,8 +19,13 @@ if(isset($_GET['consultaexistencias'])){
         $Q_fila_insumo = mysqli_fetch_assoc($Q_result_insumos);
 
         // Verifica si la existencia después de restar la cantidad es menor que el mínimo permitido
-        if(($Q_fila_insumo['existencia'] - $cantidad) < $Q_fila_insumo['c_min']){
-            return 0; // Indica que la existencia es menor que el mínimo permitido
+        if($Q_fila_insumo['existencia'] < $cantidad){
+            if(($Q_fila_insumo['existencia'] - $cantidad) < $Q_fila_insumo['c_min']){
+                return 0; // Indica que la existencia es menor que el mínimo permitido
+            }
+            else{
+                return 1; // Indica que la existencia es suficiente
+            }
         }
         else{
             return 1; // Indica que la existencia es suficiente
@@ -33,7 +38,7 @@ if(isset($_GET['consultaexistencias'])){
         return $Q_fila_insumo = mysqli_fetch_assoc($Q_result_insumos);
     }
 
-    $obj = array('valido' => false, 'idproducto' => null );
+    $obj = array('valido' => false, 'idproducto' => null, 'nombre' => null );
     $idproducto = $_GET['codigo'];
 
     $Q_select_IDreceta="select idreceta from productos where idproducto=".$idproducto;

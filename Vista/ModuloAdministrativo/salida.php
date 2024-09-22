@@ -2,6 +2,91 @@
     include_once "../Includes/paths.php";
     include "../../Modelo/iniciarSesion.php";
     include "../../Modelo/modulo_proyecto.php";
+    include "../../Controlador/gestionar_salida.php";
+
+    $salida = new salida;
+    $tmodulo = new Modulo; 
+  
+
+
+/*************************************************************** */
+  /*  GET DE AGREGAR  */
+
+  if (isset($_POST['agregar_salida'])) {
+    $subtotal = 0;
+    $iva = 0;
+    $total = 0;
+    $CostoVenta = 0;
+    $precioVenta = 0;
+
+    // Inserta la salida de insumos para productos a fabricar.
+    $salida->insert_salida($_SESSION['IDusuario'], $_POST['num_salida'], $_POST['motivo'], $_POST['cedula'], $_POST['subtotal'], $_POST['iva'], $_POST['total']);
+
+    // Consulta todos los productos cocinados de la tabla temporal
+    $consulta = "SELECT * FROM s{$_SESSION['IDusuario']}";    
+    $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta);
+
+    while ($row = mysqli_fetch_assoc($resultado)) {
+        // Consulta el IDreceta del producto cocinado
+        $Q_select_IDreceta = "SELECT * FROM productos WHERE idproducto=" . $row['codigo_producto'];
+        $Q_result_IDreceta = mysqli_query($tmodulo->mysqlconnect(), $Q_select_IDreceta);
+        $Q_IDreceta = mysqli_fetch_assoc($Q_result_IDreceta);
+
+        // Inserta los productos cocinados en itemcocina para saber qué se cocinó con las recetas
+        $Q_insert_itemcocina = "INSERT INTO itemcocina(num_salida, idreceta, idproducto, cantidad) 
+                                VALUES(" . $_POST['num_salida'] . ", '" . $Q_IDreceta['idreceta'] . "', " . $row['codigo_producto'] . ", " . $row['cantidad'] . ")";
+        $Q_insert = mysqli_query($tmodulo->mysqlconnect(), $Q_insert_itemcocina);
+
+        // Consulta todos los items de insumos utilizados de la receta a cocinar
+        $Q_insumos = "SELECT * FROM itemrecetas WHERE idreceta='" . $Q_IDreceta['idreceta'] . "'";
+        $query = mysqli_query($tmodulo->mysqlconnect(), $Q_insumos);
+
+        while ($item = mysqli_fetch_assoc($query)) {
+            $existencia = 0;
+            $cantidad = 0;
+
+            // Calcula la cantidad total de insumos necesarios
+            //$cantidad = $row['cantidad'] * $item['cantidad'];
+            $cantidad = $row['cantidad'] ;
+            
+            // Consulta los datos del insumo
+            $Q_info_insumo = "SELECT * FROM insumos WHERE codigo='" . $item['codigoinsumo'] . "'";
+            $query_info = mysqli_query($tmodulo->mysqlconnect(), $Q_info_insumo);
+            $item_info_insumo = mysqli_fetch_assoc($query_info);
+
+            // Actualiza el subtotal
+            $subtotal += $item_info_insumo['precio'] * $cantidad;
+
+            /*
+            // Calcula la nueva existencia (NO HACE FALTA ) insert_detalle_salida HACE LA FUNCION AUTO
+            $existencia = $item_info_insumo['existencia'] - $cantidad;            
+            // Actualiza la existencia del insumo
+            $Q_update = "UPDATE insumos SET existencia={$existencia} WHERE codigo='".$item['codigoinsumo']."'";
+            $Q_update_result = mysqli_query($tmodulo->mysqlconnect(), $Q_update);*/
+
+            // Inserta el detalle de la salida
+            $salida->insert_detalle_salida($item['codigoinsumo'], $_POST['num_salida'], $cantidad, $row['cedula_cliente']);
+        }
+
+        // Calcula el total gastado y el precio de venta
+        $iva = $subtotal * 16 / 100;
+        $total = $subtotal + $iva;
+        $CostoVenta = $total / $row['cantidad'];
+        $precioVenta = (($CostoVenta * 30) / 100) + $CostoVenta;
+
+        // Actualiza el precio de venta y la existencia del producto
+        $existencia = $Q_IDreceta['existencia'] + $row['cantidad'];
+        $Q_update = "UPDATE productos SET existencia={$existencia}, precio_producto={$precioVenta} WHERE idproducto=" . $row['codigo_producto'];
+        $query = mysqli_query($tmodulo->mysqlconnect(), $Q_update);
+    }
+
+    // Elimina la tabla temporal
+    $tmodulo->sql_consulta("DROP TABLE s{$_SESSION['IDusuario']}");
+    $tmodulo->historial($_SESSION['nombreUsuario'], $_SESSION['IDusuario'], 'AGREGO UNA SALIDA');
+    header("Location: salida.php?msg");
+}
+
+//END    
 ?>
 
 <!DOCTYPE html>
@@ -62,12 +147,7 @@
   </head> 
 <body>
 
-<?php
-  include "../../Controlador/gestionar_salida.php";
-
-  $salida = new salida;
-  $tmodulo = new Modulo; 
- 
+<?php 
 
 /*  GET DE MOSTRAR DETALLE  */
 
@@ -137,7 +217,7 @@ Cocinaste: <br>
 
 $Q_select_cocinaste = "SELECT * from itemcocina WHERE num_salida = {$_GET['numsalida']}";
 $Q_result_cocinaste = mysqli_query($tmodulo->mysqlconnect(), $Q_select_cocinaste );
-while($Q_row_cocinaste = mysqli_fetch_array($Q_result_cocinaste)){
+while($Q_row_cocinaste = mysqli_fetch_assoc($Q_result_cocinaste)){
   echo "<li>".$Q_row_cocinaste['cantidad']." ".$salida->readProductoReceta($Q_row_cocinaste['idproducto'])['nombre_producto']."</li>";
 }
 
@@ -163,7 +243,7 @@ $consulta = "SELECT * from carac_salida WHERE num_salida = {$_GET['numsalida']}"
 
 $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta );
 
-while($row = mysqli_fetch_array($resultado)){
+while($row = mysqli_fetch_assoc($resultado)){
   echo "
   <tbody>   
     <tr>
@@ -201,69 +281,6 @@ Total <br>
 </div>
 ";
   }
-
-  /*************************************************************** */
-  /*  GET DE AGREGAR  */
-
-  if(isset($_POST['agregar_salida'])){
-
-    $subtotal= 0;
-    $iva=0;
-    $total=0;
-    $CostoVenta=0;
-    $precioVenta=0;
-
-    //inserta la salida de insumos para productos a fabricar.
-    $salida->insert_salida($_SESSION['IDusuario'], $_POST['num_salida'],$_POST['motivo'],$_POST['cedula'],$_POST['subtotal'],$_POST['iva'],$_POST['total']);
-
-    //consulta todos los productos cocinados de la tabla temporal
-    $consulta = "SELECT * from s{$_SESSION['IDusuario']}";    
-    $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta );
-    while($row = mysqli_fetch_array($resultado)){
-      //CONSULTA EL IDreceta del producto cocinado
-      $Q_select_IDreceta="select idreceta from productos where idproducto=".$row['codigo_producto'];
-      $Q_result_IDreceta = mysqli_query($tmodulo->mysqlconnect(), $Q_select_IDreceta );
-      $Q_IDreceta = mysqli_fetch_array($Q_result_IDreceta);
-
-      //inserta los productos cocinados en itemcocina para saber que se cocino con las recetas
-      $Q_insert_itemcocina = "insert into itemcocina(num_salida,idreceta,idproducto,cantidad) 
-      values(".$_POST['num_salida'].",'".$Q_IDreceta['idreceta']."',".$row['codigo_producto'].",".$row['cantidad'].")";
-      $Q_insert = mysqli_query($tmodulo->mysqlconnect(), $Q_insert_itemcocina );
-
-      //consulta todos los item de insumos utilizados de la receta a cocinar
-      $Q_insumos = "select * from itemrecetas where idreceta=".$Q_IDreceta['idreceta']."";
-      $query = mysqli_query($tmodulo->mysqlconnect(), $Q_insumos );
-
-      while($item = mysqli_fetch_array($query)){
-        $cantidad = $row['cantidad'] * $item['cantidad'];
-
-        //consulto el precio del insumo
-        $Q_info_insumo="select precio FROM insumos WHERE codigo='".$item['codigoinsumo']."'";
-        $query_info = mysqli_query($tmodulo->mysqlconnect(), $Q_info_insumo );
-        $item_info_insumo = mysqli_fetch_array($query_info);
-
-        $subtotal = $subtotal + ($item_info_insumo['precio'] * $cantidad);
-
-        //se descuenta insumo por insumo y se ajusta el inventario
-        $salida->insert_detalle_salida($item['codigoinsumo'],$_POST['num_salida'],$cantidad,$row['cedula_cliente']);
-      }
-      
-      //calcula el total gastado y el precio de venta
-      $iva= $subtotal * 16/100;
-      $total= $subtotal + $iva;
-      $CostoVenta = $total / $row['cantidad'];
-      $precioVenta = (($CostoVenta * 30) /100) + $CostoVenta;
-
-      //actualiza el Precio de venta y la existencia del producto
-      $Q_update = "UPDATE productos set existencia={$row['cantidad']}, precio_producto={$precioVenta} where idproducto=".$row['codigo_producto'];
-      $query = mysqli_query($tmodulo->mysqlconnect(), $Q_update );
-
-    }
-    $tmodulo->sql_consulta("DROP TABLE s{$_SESSION['IDusuario']}");
-    $tmodulo->historial($_SESSION['nombreUsuario'],$_SESSION['IDusuario'],'AGREGO UNA SALIDA');
-    $header = header("Location:salida.php?msg");
-
-  } //END
 
   /*************************************************************** */
 
@@ -317,7 +334,7 @@ Total <br>
 
   $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta );
   
-  while($row = mysqli_fetch_array($resultado)){
+  while($row = mysqli_fetch_assoc($resultado)){
     $cadena= $cadena . "
                    <tr>
                     <td>".$row['fecha']."</td>

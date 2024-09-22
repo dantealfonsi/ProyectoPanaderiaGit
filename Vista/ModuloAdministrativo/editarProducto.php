@@ -162,8 +162,7 @@ $IDreceta = $row_producto['idreceta'];
 
           <h1 class='Fieldset-title'> EDITAR PRODUCTO</h1>
           
-            <a href='productos.php' class='close-btn close-btnTitleOnly'> ⌦ </a> 
-          
+            <a href='productos.php' class='close-btn close-btnTitleOnly'> ⌦ </a>
         </section>
 
         <div class="login-page">
@@ -216,9 +215,9 @@ $IDreceta = $row_producto['idreceta'];
               <select required name="receta_producto" id="receta_producto">
               <?php 
                   $consulta_recetas  = "SELECT * from recetas";
-                  $result_recetas = mysqli_query($conn, $consulta_recetas);
-                  $selected = "";                  
+                  $result_recetas = mysqli_query($conn, $consulta_recetas);                  
                   while($row = mysqli_fetch_array($result_recetas)) {
+                    $selected = "";
                     if($IDreceta == $row['idreceta']){
                         $selected = "selected";
                     }
