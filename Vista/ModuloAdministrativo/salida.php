@@ -110,7 +110,21 @@
         <link rel="stylesheet"href="<?php echo $GLOBALS['ROOT_PATH'] ?>/css/animate.min.css"/>
 
     <style>
+            dialog {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                border: none;
+                padding: 20px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                border-radius: 8px;
+                background-color: white;
+            }
 
+            .dialog-content {
+                text-align: center;
+            } 
 /* Fuentes de Texto*/
 @font-face {
       font-family: roboto;
@@ -146,6 +160,25 @@
     </style>
   </head> 
 <body>
+
+<dialog id="info-dialog">
+  <div class="dialog-content">
+    Elementos Faltantes en Rojo de la Receta:
+  <table id='example' class='ui celled table' style='width:100%; '> 
+                    <thead>
+                        <tr>
+                            <th>Falta</th>
+                            <th>Cant</th>
+                            <th>Uni</th>
+                            <th>Insumo</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-cuerpo">
+                    </tbody>
+                </table>    
+  </div>
+  <button class="add-button" onclick="document.getElementById('info-dialog').close()">Cerrar</button>
+</dialog>
 
 <?php 
 
@@ -750,11 +783,40 @@ function add(nombreX){
         });
       }
       else{
-        Swal.fire(
+        const lista = datos.lista;
+        const dialog = document.getElementById("info-dialog");
+        const tablaCuerpo = document.getElementById("tabla-cuerpo");        
+        let asterisco = '';
+        let color = 'black';        
+
+        tablaCuerpo.innerHTML = "";
+
+        lista.forEach((producto, index) => {
+                    if(producto.falta){
+                      asterisco = '*';
+                      color = 'red';
+                    }
+                    else{
+                      asterisco = '';
+                      color = 'black'
+                    }
+                    const fila = document.createElement("tr");
+                    fila.innerHTML = `
+                        <td style='color:${color};'>${asterisco}</td>
+                        <td>${producto.cantidad}</td>
+                        <td>${producto.unidad}</td>
+                        <td>${producto.insumo}</td>
+                    `;
+                    tablaCuerpo.appendChild(fila);
+                });
+
+        dialog.showModal();
+
+        /*Swal.fire(
           'No se puede Fabricar',
           `Uno o mas productos como el ${datos.nombre} faltan en existencia y estan fuera del rango minimo.`,
           'warning'
-          );
+          );*/
       }      
     });
   } 

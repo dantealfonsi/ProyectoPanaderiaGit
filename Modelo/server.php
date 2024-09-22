@@ -38,7 +38,12 @@ if(isset($_GET['consultaexistencias'])){
         return $Q_fila_insumo = mysqli_fetch_assoc($Q_result_insumos);
     }
 
-    $obj = array('valido' => false, 'idproducto' => null, 'nombre' => null );
+    $faltante = 0;
+    $faltainsumo = false;
+    $valido = false;
+    $list = array();
+
+    $obj = array('valido' => $valido, 'lista' => null );
     $idproducto = $_GET['codigo'];
 
     $Q_select_IDreceta="select idreceta from productos where idproducto=".$idproducto;
@@ -51,20 +56,23 @@ if(isset($_GET['consultaexistencias'])){
     if($resultado = mysqli_query( $GLOBALS['conn'], $consulta )){
      while($row = mysqli_fetch_assoc($resultado)){
         if(compruebaExistencia($row['codigoinsumo'],$row['cantidad']) == 0){
-            $obj = array(
-                'valido' => false, 
-                'idproducto' =>  $row['codigoinsumo'], 
-                'nombre' => datosinsumo($row['codigoinsumo'])['nombre']);
-            break;
-
+            $faltante++;
+            $faltainsumo = true;
         }
         else{
-            $obj = array(
-                'valido' => true, 
-                'idproducto' =>  $row['codigoinsumo'], 
-                'nombre' => datosinsumo($row['codigoinsumo'])['nombre']);
+            $valido = true;
         }
+        $list[] = array('falta' =>$faltainsumo, 'cantidad' => $row['cantidad'], 'unidad' => $row['uni'], 'insumo' => datosinsumo($row['codigoinsumo'])['nombre']);
+        $faltainsumo = false;
      }
+
+     if($faltante > 0){
+        $valido = false;
+     }
+
+     $obj = array(
+        'valido' => $valido, 
+        'lista' => $list);
     }
 
     echo json_encode($obj);
