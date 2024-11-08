@@ -160,7 +160,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $existenciaNula = "";
             $title_existencia="";
             if($row['existencia']<1){
-              $existenciaNula= "red";
+              $existenciaNula= "#f77e7e";
               $title_existencia = "Producto No a la Venta por Existencia, debe Fabricar";
             }
 

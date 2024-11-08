@@ -18,7 +18,7 @@ $page="";
 
 
 
-        <h1 class="business-name"><a href="<?php echo $GLOBALS['ROOT_PATH'] ?>/Vista/index.php" class="animate__animated animate__backInDown">Panaderia</a></h1>
+        <h1 class="business-name"><a href="<?php echo $GLOBALS['ROOT_PATH'] ?>/Vista/index.php" class="animate__animated animate__backInDown">DULCE AMOR</a></h1>
 
         <ul>
             <li><a href="<?php echo $GLOBALS['ROOT_PATH'] ?>/Vista/index.php" class="<?php if($page == 'index'){echo 'active';}?>" >INICIO</a></li>

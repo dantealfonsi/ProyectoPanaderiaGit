@@ -121,6 +121,11 @@
 
   </script>
   <style>
+
+html,body{
+  margin-top:1rem;
+}
+
 .progress-container {
     width: 100%;
     background-color: #f1f1f1;
@@ -306,6 +311,18 @@ if(isset($_SESSION['esAdmin']) && $_SESSION['esAdmin']==0){
 }
 ?>
 
+<?php if(isset($_SESSION['esAdmin']) && $_SESSION['esAdmin']=='1'){
+        ?>
+        <a onClick='goToPedidos()' style='font-size: 3rem;font-weight: bolder;cursor:pointer'>⇦ Ir Atras</a></span>
+      <?php
+        } else {
+          ?>
+      <a href='../LoginComponent/historialUsuario.php' style='font-size: 3rem;font-weight: bolder;cursor:pointer'>⇦ Ir Atras</a></span>
+      <?php
+        }
+      ?>  
+
+
   <?php
   $notificaciones = "0";
 
@@ -469,6 +486,11 @@ setInterval(() => {
                     });  
   
 }, 3000);
+
+
+
+function goToPedidos() { window.location.href = './pedidosAdmin.php'; }
+// Ajusta la ruta según sea necesario }
 </script>
 </body>
 </html>

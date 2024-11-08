@@ -208,14 +208,14 @@ function checkColor($estado){
         function aceptarPedido(id){
             $.get("../../Modelo/server.php?aceptarPedido=&idpedido="+id,
                     function(data){
-                        parent.location.reload();
+                        location.reload();
                     });
         }
 
         function rechazarPedido(id){
             $.get("../../Modelo/server.php?rechazarPedido=&idpedido="+id,
                     function(data){
-                        parent.location.reload();
+                        location.reload();
                     });
         }
 

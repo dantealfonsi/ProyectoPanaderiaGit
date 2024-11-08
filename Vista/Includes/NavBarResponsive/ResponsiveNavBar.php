@@ -467,7 +467,7 @@
           
           <ul class="sub-menu blank">
             <li><a onclick="proveedores()">Proveedores</a></li> 
-            <li><a onclick="persona()">Usuarios</a></li>
+            <!-- <li><a onclick="persona()">Usuarios</a></li>-->
             <!--<li><a >Empleados</a></li>-->
             <li><a onclick="usuario()">Clientes</a></li>
           </ul>

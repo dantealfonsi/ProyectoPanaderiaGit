@@ -10,7 +10,7 @@ include_once "paths.php";
     <div class="footer">
         <div class="footer-container">
             <div class="logo">
-                <span class="logo-name" style='font-size:3rem;'>PANADERIA CARLOS ESPINOZA</span>
+                <span class="logo-name" style='font-size:3rem;'>PANADERIA DULCE AMOR</span>
             </div>
         
  
@@ -25,7 +25,6 @@ include_once "paths.php";
 
         <div class="legal-links"  style='font-size: .9rem;'>
             <span class="privacy-policy"><b><a href="<?php echo $GLOBALS['ROOT_PATH'] ?>/Vista/AcercaDeComponent/acercaDe.php">Acerca de nosotros</a></b></span>
-            <span class="term-of-use"><b><a href=#>Terminos de uso</a></b></span>
         </div>
 
            
