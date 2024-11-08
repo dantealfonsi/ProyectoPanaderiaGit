@@ -68,12 +68,13 @@
 
         <!-- Iniciar Encabezado -->
         <div id="resolucionPantalla" class="col-md-15">
-            <div class="contenedorNombreFormulario">
+            <div class="contenedorNombreFormulario" style='display: flex;align-items: center;margin-bottom: 2rem;flex-direction: row;justify-content: space-between;padding: 0 2rem;'>
                 <div class="subtituloAdmin">
                     <span><i class="fas fa-user-cog"></i></span>
-                    <span>&nbspHOLA <?php echo $nombreTitulo;?></span>
+                        <span>Bienvenido <b><?php echo $nombreTitulo;?>!</b></span>
+                    </div>
                     <span class="user-logout"><a href="../cerrarSesion.php"><button type="button" title="Cerrar sesión" class="btn btn-danger">Cerrar Sesion <span class="glyphicon glyphicon-log-in"></span></button></a></span>
-                </div>
+
             </div>
         </div>
         <!-- Finalizar Encabezado -->
@@ -100,7 +101,7 @@
                 
                 <div id="menu" class="tab-pane fade in active">
                     <div class="tab-title">
-                        <h3>Historial</h3>
+                        <h3>Otros</h3>
                     </div>
                     <!--Inicio del Perfil -->
                     <?php include '../Includes/menuUsuario.php'; ?>

@@ -45,6 +45,7 @@ if(isset($_GET['consultaexistencias'])){
 
     $obj = array('valido' => $valido, 'lista' => null );
     $idproducto = $_GET['codigo'];
+    $cantidad = $_GET['cantidad'];
 
     $Q_select_IDreceta="select idreceta from productos where idproducto=".$idproducto;
     $Q_result_IDreceta= mysqli_query($GLOBALS['conn'], $Q_select_IDreceta);
@@ -55,7 +56,7 @@ if(isset($_GET['consultaexistencias'])){
     $consulta = "SELECT * FROM itemrecetas WHERE idreceta='$idreceta'";
     if($resultado = mysqli_query( $GLOBALS['conn'], $consulta )){
      while($row = mysqli_fetch_assoc($resultado)){
-        if(compruebaExistencia($row['codigoinsumo'],$row['cantidad']) == 0){
+        if(compruebaExistencia($row['codigoinsumo'],$cantidad*$row['cantidad']) == 0){
             $faltante++;
             $faltainsumo = true;
         }
@@ -123,6 +124,11 @@ if(isset($_GET['consultaexistencias'])){
 
  if(isset($_GET['tiketPedido'])){
 
+    function historiFecha($fecha){ 
+        $date=date_create($fecha);
+        return date_format($date,"d/m/Y");
+    }
+
     /*
         SELECT productos.IDproducto, productos.nombre_producto, itempedido.cantidad, productos.precio_producto FROM itempedido INNER JOIN productos on itempedido.IDproducto = productos.IDproducto where itempedido.IDpedido = 10;
         SELECT pedido_usuario.fechaCreacion, pedido_usuario.telefono,pedido_usuario.direccion,transaccion.metodoPago, transaccion.estado FROM transaccion INNER JOIN pedido_usuario on pedido_usuario.IDpedido = transaccion.IDpedido where transaccion.IDpedido = 10;
@@ -174,9 +180,9 @@ if(isset($_GET['consultaexistencias'])){
         if($fila['iscustom']==1){
             $motivo=" /Motivo: <b>". $fila['motivo']."</b>";
         }
-        $tiket = $tiket . "<tr><td>".$fila['nombre_producto']. $motivo."</td><td>".$fila['cantidad']."</td><td>".$fila['precio_producto']."</td></tr>";
+        $tiket = $tiket . "<tr><td style='text-transform:capitalize;'>".$fila['nombre_producto']. $motivo."</td><td>".$fila['cantidad']."</td><td>".$fila['precio_producto']."</td></tr>";
     endwhile;
-        $tiket = $tiket . "</tbody></table><br>Total a Pagar:".$total;
+        $tiket = $tiket . "</tbody></table><br><span style='font-size:2rem;'>Total a Pagar:</span><span style='font-size:2rem;color:green;'>".$total."</span>";
   
     $obj = array('fechaEntrega' => $fechaEntrega, 'fechaPedido' => $fechaPedido,'telefono' => $telefono, 'direccion' => $direccion,
     'total' => $total, 'metodoPago' => $metodoPago, 'estado' => $estado, 'tiket' => $tiket, 'numPedido' => $idPedido,

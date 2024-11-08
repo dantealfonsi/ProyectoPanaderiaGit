@@ -314,7 +314,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
 
     <div id="dialog" class="modal">
-        <div class="modal-content">
+        <div class="modal-content" style='    display: flex;
+    flex-direction: column;
+    width: 40%;
+    align-items: flex-start;
+    gap: .5rem;'>
             <h2>Opciones de Personalización</h2>
             <!-- Aquí puedes agregar más inputs para personalización -->             
             Peso Kg
@@ -323,30 +327,55 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <input type="number" name="pisos" id="pisos" step="1" value="1" min=1 max=3><br>
             Modelo
             <select id="modelo" name="modelo" >
-                <option value=''>Seleciione</option>
+                <option value=''>Seleccione</option>
                 <option value='redonda'>Redonda</option>
                 <option value='cuadrada'>Cuadrada</option>
             </select><br>
-            <input type="checkbox"  value="1" name="bizcocho" id="bizcocho"> Bizcocho<br>
+            
+            <div style='display:flex;flex-direction:column;'>
+                <h3>¿Tiene Bizcocho?</h3>
+                <div style='display:flex;flex-direction:center;'>
+                    <input type="checkbox"  value="1" name="bizcocho" id="bizcocho" style='display: flex;flex-direction: row;justify-content: flex-start;margin-right:2rem;width:auto;'> Bizcocho<br>
+                </div>
+            </div>
+    
+            <div>
             Relleno
+            </div>
             <select id="relleno" name="relleno" >
-                <option value=''>Seleciione</option>
+                <option value=''>Seleccione</option>
                 <option value='vainilla'>Vainilla</option>
                 <option value='chocolate'>Chocolate</option>
                 <option value='fresa'>Fresa</option>
             </select><br>
+            <div>
             Cubierta
             <select id="cubierta" name="cubierta" >
-                <option value=''>Seleciione</option>
+                <option value=''>Seleccione</option>
                 <option value='blanco'>Blanco</option>
                 <option value='azul'>Azul</option>
                 <option value='chocolate'>Chocolate</option>
                 <option value='rosado'>Rosado</option>
             </select><br>
-            <input type="radio" name="persona" id="persona" value="niño"> Niño            
-            <input type="radio" name="persona" id="persona" value="niña"> Niña <br>          
-            <input type="radio" name="persona" id="persona" value="hombre"> Hombre            
-            <input type="radio" name="persona" id="persona" value="mujer"> Mujer            
+            </div>
+
+            <div>
+                <input type="radio" name="persona" id="persona" value="niño"> Niño            
+            </div>
+            
+            <div>
+                <input type="radio" name="persona" id="persona" value="niña"> Niña <br>          
+            </div>
+            
+            <div>
+                <input type="radio" name="persona" id="persona" value="hombre"> Hombre            
+            </div>
+            
+            <div>
+                <input type="radio" name="persona" id="persona" value="mujer"> Mujer            
+            </div>
+
+
             <!-- Botón para finalizar -->
              <br><br>
             <button type="button" onclick="cerrarDialog()">Aceptar</button> 

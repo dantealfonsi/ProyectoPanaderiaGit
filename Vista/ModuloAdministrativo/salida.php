@@ -764,9 +764,11 @@ function leerDatos(){
 
 function add(nombreX){
   if (document.getElementById('codigo').value.length>1 && (document.getElementById('cantidad').value *1)>0){
+    let cantidad = document.getElementById('cantidad').value;
 
-    $.get("../../Modelo/server.php?consultaexistencias=&codigo="+document.getElementById('codigo').value,
+    $.get("../../Modelo/server.php?consultaexistencias=&cantidad="+cantidad+"&codigo="+document.getElementById('codigo').value,
     function(data) { 
+      alert(data);
       datos = JSON.parse(data);
       if(datos.valido){
         $.post("../../Modelo/modulo_proyecto.php",{

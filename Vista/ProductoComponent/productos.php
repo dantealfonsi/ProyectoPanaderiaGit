@@ -58,7 +58,8 @@
 
 <!--========== ENCABEZADO ==========-->    
 
-    <?php $page = 'productos'?>
+  
+
           <!--Iniciar Barra de Navegación-->
           <?php include '../Includes/BarraNavegacionMovil.php';?>
         <!--FIN Barra de Navegación-->
@@ -101,7 +102,7 @@
             </div>
         </div> -->
         <!--Aqui se Acaba la imagen en forma de onda-->
-
+        <?php $page = 'productos'?>
 <!--========== INTENTO DE CONSULTAR PRODUCTOS DESTACADOS ==========-->
 
 <section class="featured section" id="featured">

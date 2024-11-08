@@ -47,7 +47,7 @@
 .progress-bar {
     float: left; /* La barra de progreso flota a la izquierda */
     height: 20px;
-    background-color: #4caf50;
+    background-color: orange;
     width: 0;
 }
 
@@ -68,8 +68,19 @@
     opacity: 0.6;
     /* Otros estilos según tus preferencias */
 }
+button:disabled{
+    background:red !important;
+}
 
 
+#filtrosLista li{
+    background: #ff7380;
+    text-decoration: none;
+    color: white;
+    font-weight: 600;
+    padding: .8rem;
+    border: 1px solid black;
+}
 </style>
 
 <body>
@@ -104,14 +115,18 @@
         $resultado_cat = mysqli_query($conn, $Q_obtener_categorias);
 
     ?>
-    <div class="row category-title">
+    <div class="row category-title" style='display: flex;
+    flex-direction: column;
+    align-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;'>
         <div class="col">
             <h2 class="category" id="small_title"></h2>
             <h2 class="category-name " id="big_title"></h2>
         </div>
 
         <!--========== BOTÓN DE ORDENAR POR ==========-->
-        <div>
+        <div style='display: flex;align-items: center;justify-content: center;flex-wrap: wrap;gap:.4rem;'>
 
         <div id="conten-peso" class="dropdown col-auto ">
             <button class="dropbtn button" id="cat-but" >Peso &nbsp<i class='bx--bxs-down-arrow'></i></button>
@@ -122,6 +137,7 @@
             </div>
         </div>       
 
+        <span style='color:black;font-size:4rem;'>➪</span>
 
         <div id="conten-pisos" class="dropdown col-auto disabled-conten-div">
             <button class="dropbtn button" id="cat-but">Pisos &nbsp<i class='bx--bxs-down-arrow'></i></button>
@@ -132,6 +148,9 @@
             </div>
         </div>       
 
+        <span style='color:black;font-size:4rem;'>➪</span>
+
+
         <div id="conten-modelo" class="dropdown col-auto disabled-conten-div">
             <button class="dropbtn button" id="cat-but">Modelo &nbsp<i class='bx--bxs-down-arrow'></i></button>
             <div class="dropdown-content disabled-div" id="divmodelo">
@@ -140,7 +159,8 @@
             </div>
         </div>
 
-        <br>
+        <span style='color:black;font-size:4rem;'>➪</span>
+
 
         <div id="conten-bizcocho" class="dropdown col-auto disabled-conten-div">
             <button class="dropbtn button" id="cat-but">Es Bizcocho &nbsp<i class='bx--bxs-down-arrow'></i></button>
@@ -149,6 +169,8 @@
                 <a href="#" onclick="stringBizcocho('0')">No</a>
             </div>
         </div>
+
+        <span style='color:black;font-size:4rem;'>➪</span>
 
         <div id="conten-relleno" class="dropdown col-auto disabled-conten-div">
             <button class="dropbtn button" id="cat-but">Relleno &nbsp<i class='bx--bxs-down-arrow'></i></button>
@@ -159,6 +181,9 @@
             </div>
         </div>
 
+        <span style='color:black;font-size:4rem;'>➪</span>
+
+
         <div id="conten-cubierta" class="dropdown col-auto disabled-conten-div">
             <button class="dropbtn button" id="cat-but">Cubierta &nbsp<i class='bx--bxs-down-arrow'></i></button>
             <div class="dropdown-content disabled-div" id="divcubierta">
@@ -167,7 +192,10 @@
                 <a href="#" onclick="stringCubierta('azul')">Azul</a>
                 <a href="#" onclick="stringCubierta('rosado')">Rosada</a>
             </div>
-        </div>        
+        </div>       
+        
+        <span style='color:black;font-size:4rem;'>➪</span>
+
 
         <div id="conten-persona" class="dropdown col-auto disabled-conten-div">
             <button class="dropbtn button" id="cat-but">Para Quien es &nbsp<i class='bx--bxs-down-arrow'></i></button>
@@ -178,18 +206,26 @@
                 <a href="#" onclick="stringPersona('mujer')">Mujer</a>
             </div>
         </div> 
-        </div>    
+        </div> 
+        <div class="progress-container" style="width:50%;position:relative;left: 25%;background:url('../../Assets/images/charge.png');">
+            <div class="progress-bar" id="myProgressBar"></div>
+            <span style='color:white;position: absolute;left: 45%;'>Progreso</span>
+            <!--<button id="searchButton" disabled>Buscar</button>-->
+        </div>   
     </div>
 </div>
-<div id="filtrosAplicados"></div>
-<div class="progress-container">
-    <div class="progress-bar" id="myProgressBar"></div>
-    <!--<button id="searchButton" disabled>Buscar</button>-->
-</div>
-
-    <div id="result" class="featured__container bd-grid mt-4">
+<div id="filtrosAplicados" style="padding-left: 10rem; padding-right: 10rem; display: flex; align-items: center; flex-direction: column;">
+    <ul id="filtrosLista" style="columns: 2; -webkit-columns: 2; -moz-columns: 2;">
+      <!-- Las etiquetas se insertarán aquí -->
+    </ul>
+  </div>
+    <div>
         
     </div>
+
+
+    <div id="result" class="featured__container bd-grid mt-4">
+
 </section>
 
 <!--Inicio de Footer -->
@@ -211,7 +247,7 @@ let bizcocho="";
 let relleno="";
 let cubierta="";
 let persona="";
-let filtros = '';
+let filtros = [];
 
 document.getElementById('small_title').innerHTML = 'Personalizable';
 document.getElementById('big_title').innerHTML = '¡Busca tu torta a tu Gusto ya!';
@@ -368,15 +404,35 @@ function updateProgressBar(progress) {
     searchButton.disabled = progress < 100;*/
 }
 
+
+
 function agregarFiltro(filtro) {
-        filtros += filtro + ', ';
-        actualizarEtiqueta();
+    filtros.push(filtro);
+    actualizarEtiqueta();
 }
 
 function actualizarEtiqueta() {
-        const etiqueta = document.getElementById('filtrosAplicados');
-        etiqueta.textContent = 'Torta : ' + filtros.slice(0, -2); // Elimina la última coma y espacio
+    const lista = document.getElementById('filtrosLista');
+    lista.innerHTML = ''; // Limpiar el contenido previo
+
+    const tituloItem = document.createElement('li');
+    tituloItem.textContent = 'Torta';
+    lista.appendChild(tituloItem);
+
+    filtros.forEach(filtro => {
+        const li = document.createElement('li');
+        li.textContent = filtro;
+        lista.appendChild(li);
+    });
+
+    // Aplicar estilo de columnas si hay más de cuatro elementos
+    if (filtros.length > 4) {
+        lista.style.columns = '2';
+    } else {
+        lista.style.columns = '1';
+    }
 }
+
 
 function reset(){
     peso = "";
@@ -399,3 +455,4 @@ function reset(){
     </script>
 </body>
 </html>
+

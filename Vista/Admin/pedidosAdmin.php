@@ -11,6 +11,11 @@
     {
         exit('Acceso Denegado!');
     }    
+
+    function historiFecha($fecha){ 
+        $date=date_create($fecha);
+        return date_format($date,"d/m/Y");
+    }    
 ?>
 
 <?php
@@ -107,7 +112,7 @@ function checkColor($estado){
                 </tr>
             </thead>
             <tbody>
-                <?php while($fila = mysqli_fetch_assoc($resultado)): ?>
+                <?php while($fila = mysqli_fetch_assoc($resultado)): ?> 
                 <tr>
                     <td><?php echo $fila['idpedido']; ?></td>
                     <td><?php echo $fila['telefono']; ?></td>

@@ -6,8 +6,12 @@
     //Conexion a la base de datos 
     include "../../Modelo/conexion.php"; 
 
+    function historiFecha($fecha){ 
+        $date=date_create($fecha);
+        return date_format($date,"d/m/Y");
+    }
     
-?>
+?> 
 
 <?php
 // Suponiendo que ya tienes una conexión a la base de datos establecida y guardada en $conexion.
@@ -43,7 +47,7 @@ function checkColor($estado){
     <meta charset="UTF-8">
     <title>Listado de Pedidos</title>
     <!-- Incluir Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">    
+    <link rel="stylesheet" href="../../css/4.3.1.css">    
     <meta charset="utf-8">
         <title>Panaderia | Login</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -75,13 +79,12 @@ function checkColor($estado){
 <div>
   <div >    
 
-  <div class="login">
+  <div class="login" style='padding: 0 5rem;'>
           <div class="login-header">
-              <h3>Historial de Compras</h3>
-              <p>Mi Historial</p>
+              <h3 style='text-decoration:underline;'>Historial de Compras</h3>
           </div>
       </div>
-    <div class="container mt-5">
+    <div class="container mt-5" style='margin-bottom: 20vh;'>
         <table class="table table-bordered">
             <thead class="thead-dark">
                 <tr>
@@ -90,14 +93,14 @@ function checkColor($estado){
                     <th>Fecha Entrega</th>
                     <th>Estado</th>
                     <th>Direccion</th>
-                    <th>Total Bs</th>
+                    <th>Total(Bs)</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
                 <?php while($fila = mysqli_fetch_assoc($resultado)): ?>
                 <tr>
-                    <td><?php echo $fila['idpedido']; ?></td>
+                    <td ><?php echo $fila['idpedido']; ?></td>
                     <td><?php echo $fila['telefono']; ?></td>
                     <td><?php echo historifecha($fila['fechapedido']); ?></td>
                     <td style="background-color:<?php echo checkColor($fila['estado'])?>"><?php echo $fila['estado']; ?></td>
@@ -114,11 +117,11 @@ function checkColor($estado){
     </div>
  
     <!-- Dialogo para editar -->
-    <dialog id="dialogoEditar" class="modal-dialog">
+    <dialog id="dialogoEditar" class="modal-dialog" style='box-shadow: 11px 8px 20px 2px #595353;border: none;'>
         <form method="post" class="modal-content">
             <!-- Contenido del diálogo -->
             <div class="modal-header">
-                <h5 class="modal-title">Detalles Pedido <input style='color:black' type=text id=numPedido readonly ></h1></h5>
+                <h5 class="modal-title" style='style="display: flex;align-items: center;gap: 1rem;'><b>Detalles Pedido<b> <input style='color: black;width: 40%;text-align: center;background: #ffd0d0;font-weight: 800;border: none;' type=text id=numPedido readonly ></h1></h5>
                 <button type="button" class="close" onclick="cerrarDialogo()">&times;</button>
             </div>
             <div class="modal-body">
@@ -139,9 +142,8 @@ function checkColor($estado){
         <!-- Inicio del nav de abajo -->
         <?php include '../Includes/NavDeAbajo.php';?>
     <!-- Incluir Bootstrap JS y dependencias -->
-    <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="../Javascript/jquery-3.5.1.js"></script>
+    <script src="../Javascript/popper.min.js"></script>
 
     <script>
         // Funciones para manejar los eventos de los botones
@@ -152,7 +154,7 @@ function checkColor($estado){
             asistencia = document.getElementById(pedidoEstado).value;
             // Aquí iría el código para cargar los datos del pedido en el diálogo de edición
             $.get("../../Modelo/server.php?tiketPedido=&idpedido="+id,
-                    function(data){                        
+                    function(data){
                         var datos= JSON.parse(data);
                         $("#tiket").html(datos.tiket);
                         document.getElementById('numPedido').value=datos.numPedido;
@@ -160,10 +162,12 @@ function checkColor($estado){
 
             var dialogo = document.getElementById('dialogoEditar');
             if(asistencia == "SOLICITUD" || asistencia == "RECHAZADO"){
-                botonAsistencia.disabled = true;
+                //botonAsistencia.disabled = true; 
+                botonAsistencia.style.display = 'none';               
             }
             else{
-                botonAsistencia.disabled = false;
+                //botonAsistencia.disabled = false;
+                botonAsistencia.style.display = 'inline-block';                
             }
             dialogo.showModal();
             // ...
@@ -175,6 +179,7 @@ function checkColor($estado){
         }
 
         function irChat(id){ 
+            alert("aqui");
            window.location.href="../Admin/chat.php?idpedido="+id;
         }
     </script>

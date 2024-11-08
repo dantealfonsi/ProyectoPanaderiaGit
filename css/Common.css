@@ -15,6 +15,7 @@ html, body{
     padding: 0;
     background-color:white;
     scroll-behavior: smooth;
+    margin-top: 6rem;
 }
 
 .subtitle h2{
@@ -55,7 +56,17 @@ html, body{
 .main-header{
     background-color: white;
     padding-top: 5px;
-    padding-bottom: 90px;
+    padding-bottom: 14px;
+    position: fixed;
+    top: 0;
+    z-index: 1000000;
+    width: 100%;
+    box-shadow: -4px 5px 20px 2px #000000a8;
+}
+
+.main-header ul{
+    display: flex;
+    flex-direction: column !important;
 }
 
 .checkbtn{

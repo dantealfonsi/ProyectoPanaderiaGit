@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-09-2024 a las 18:13:37
+-- Tiempo de generación: 08-11-2024 a las 02:10:25
 -- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.0.30
+-- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -70,6 +70,14 @@ CREATE TABLE `carac_entrada` (
   `precio` decimal(10,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `carac_entrada`
+--
+
+INSERT INTO `carac_entrada` (`id`, `fecha`, `codigo_producto`, `nombre_producto`, `cantidad`, `num_entrada`, `precio`) VALUES
+(9, '2024-11-07 23:04:54', '0002', 'harina de trigo panadero', 10, 603992, 0.11),
+(10, '2024-11-07 23:38:19', '0001', 'Huevos', 11, 329076, 10.00);
+
 -- --------------------------------------------------------
 
 --
@@ -105,6 +113,13 @@ CREATE TABLE `carrito` (
   `idcarrito` bigint(20) NOT NULL,
   `idusuario` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `carrito`
+--
+
+INSERT INTO `carrito` (`idcarrito`, `idusuario`) VALUES
+(21, 11);
 
 -- --------------------------------------------------------
 
@@ -236,6 +251,21 @@ CREATE TABLE `ds5` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `ds11`
+--
+
+CREATE TABLE `ds11` (
+  `id` int(11) NOT NULL,
+  `codigo_producto` varchar(15) DEFAULT NULL,
+  `nombre_producto` varchar(34) DEFAULT NULL,
+  `cedula_cliente` varchar(34) DEFAULT NULL,
+  `cantidad` int(11) NOT NULL DEFAULT 0,
+  `precio` decimal(10,2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `entrada`
 --
 
@@ -246,6 +276,14 @@ CREATE TABLE `entrada` (
   `proveedor` varchar(34) DEFAULT NULL,
   `devuelto` tinyint(4) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `entrada`
+--
+
+INSERT INTO `entrada` (`fecha`, `responsable`, `num_entrada`, `proveedor`, `devuelto`) VALUES
+('2024-11-07 23:38:19', 11, 329076, 'Frikiplaza', 0),
+('2024-11-07 23:04:54', 11, 603992, 'Frikiplaza', 0);
 
 -- --------------------------------------------------------
 
@@ -270,7 +308,18 @@ INSERT INTO `historial` (`id`, `fecha`, `nombre_usuario`, `cedula`, `ubicacion`)
 (59, '2024-09-22 15:08:17', 'pepes', 5, 'AGREGO UN Insumo'),
 (60, '2024-09-22 15:08:54', 'pepes', 5, 'AÑADIO UNA CATEGORIA'),
 (61, '2024-09-22 15:09:43', 'pepes', 5, 'AGREGO UN Insumo'),
-(62, '2024-09-22 16:10:30', 'pepes', 5, 'AGREGO UNA SALIDA');
+(62, '2024-09-22 16:10:30', 'pepes', 5, 'AGREGO UNA SALIDA'),
+(63, '2024-11-07 22:44:03', 'juango', 11, 'AÑADIO UN PROOVEEDOR'),
+(64, '2024-11-07 22:44:12', 'juango', 11, 'EDITO UN PROVEEDOR'),
+(65, '2024-11-07 22:44:22', 'juango', 11, 'EDITO UN PROVEEDOR'),
+(66, '2024-11-07 23:04:55', 'juango', 11, 'AGREGO UNA ENTRADA DE INSUMO'),
+(67, '2024-11-07 23:16:06', 'juango', 11, 'EDITO UNA CATEGORIA'),
+(68, '2024-11-07 23:16:10', 'juango', 11, 'EDITO UNA CATEGORIA'),
+(69, '2024-11-07 23:38:19', 'juango', 11, 'Creo una Entrada Rapida'),
+(70, '2024-11-08 00:12:26', 'juango', 11, 'EDITO UN Insumo'),
+(71, '2024-11-08 00:12:37', 'juango', 11, 'EDITO UN Insumo'),
+(72, '2024-11-08 01:00:14', 'juango', 11, 'EDITO UN Insumo'),
+(73, '2024-11-08 01:00:23', 'juango', 11, 'EDITO UN Insumo');
 
 -- --------------------------------------------------------
 
@@ -296,9 +345,9 @@ CREATE TABLE `insumos` (
 --
 
 INSERT INTO `insumos` (`codigo`, `nombre`, `almacen`, `precio`, `existencia`, `categoria`, `c_min`, `c_max`, `deleted`, `uni`) VALUES
-('0001', 'Huevos', 0, 10.00, -1, 'huevos', -36, 200, 0, 'unidades'),
-('0002', 'harina de trigo panadero', 0, 0.11, -1, 'harinas', -1000, 10000, 0, 'gramos'),
-('0003', 'margarina con sal', 0, 0.25, -1, 'grasas', -500, 10000, 0, 'gramos');
+('0001', 'Huevos', 0, 10.00, 10, 'huevos', -36, 200, 0, 'unidades'),
+('0002', 'harina de trigo panadero', 0, 0.11, 10, 'harinas', -1000, 10000, 0, 'gramos'),
+('0003', 'margarina con sal', 0, 0.25, 1, 'grasas', -500, 10000, 0, 'gramos');
 
 -- --------------------------------------------------------
 
@@ -355,6 +404,13 @@ CREATE TABLE `itempedido` (
   `fechacreacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `itempedido`
+--
+
+INSERT INTO `itempedido` (`iditempedido`, `idproducto`, `idpedido`, `iscustom`, `precio`, `cantidad`, `motivo`, `estado`, `fechacreacion`) VALUES
+(45, 103, 30, 0, 15.6229, 3, 'null', 'SOLICITUD', '2024-11-07 21:17:35');
+
 -- --------------------------------------------------------
 
 --
@@ -375,9 +431,9 @@ CREATE TABLE `itemrecetas` (
 --
 
 INSERT INTO `itemrecetas` (`id`, `idproducto`, `idreceta`, `codigoinsumo`, `cantidad`, `uni`) VALUES
-(46, NULL, 'b9e5693c1e', '0001', 4.00, 'unidades'),
-(47, NULL, 'b9e5693c1e', '0002', 400.00, 'gramos'),
-(48, NULL, 'b9e5693c1e', '0003', 20.00, 'gramos');
+(49, NULL, 'e3ed13e9aa', '0001', 4.00, 'unidades'),
+(50, NULL, 'e3ed13e9aa', '0002', 400.00, 'gramos'),
+(51, NULL, 'e3ed13e9aa', '0003', 20.00, 'gramos');
 
 -- --------------------------------------------------------
 
@@ -415,6 +471,13 @@ CREATE TABLE `pedido_usuario` (
   `fechacreacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `fechapedido` date DEFAULT curdate()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `pedido_usuario`
+--
+
+INSERT INTO `pedido_usuario` (`idpedido`, `idusuario`, `total`, `direccion`, `telefono`, `municipio`, `localidad`, `estado`, `fechacreacion`, `fechapedido`) VALUES
+(30, 11, 46.8687, 'asasdasd', '', 'Bermúdez', 'Carupano', 'ABONADO', '2024-11-07 23:58:57', '2024-11-15');
 
 -- --------------------------------------------------------
 
@@ -474,7 +537,7 @@ CREATE TABLE `productos` (
 --
 
 INSERT INTO `productos` (`idproducto`, `idreceta`, `nombre_producto`, `descripcion_producto`, `imagen_producto`, `precio_producto`, `categoria_producto`, `habilitado`, `existencia`, `iscustom`, `peso`, `pisos`, `modelos`, `bizcocho`, `relleno`, `cubierta`, `motivo`, `persona`, `idtipo`) VALUES
-(103, 'b9e5693c1e', 'pastel de vainilla', 'torta de vainilla ideales para tu cumpleaños ', '/ProyectoPanaderiaGit/Assets/productoimagenes/901492e229.jpeg', 15.6229, 11, 1, 1, 0, 0, 1, '', 0, '', '', '', 'niño', 0);
+(103, 'e3ed13e9aa', 'pastel de vainilla', 'torta de vainilla ideales para tu cumpleaños ', '/ProyectoPanaderiaGit/Assets/productoimagenes/901492e229.jpeg', 15.6229, 11, 1, 1, 0, 0, 1, '', 0, '', '', '', 'niño', 0);
 
 -- --------------------------------------------------------
 
@@ -489,6 +552,13 @@ CREATE TABLE `proveedor` (
   `direccion` varchar(50) DEFAULT NULL,
   `deleted` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `proveedor`
+--
+
+INSERT INTO `proveedor` (`rif`, `nombre`, `telefono`, `direccion`, `deleted`) VALUES
+('123456789', 'Frikiplaza', '04128581138', 'Direccion', 0);
 
 -- --------------------------------------------------------
 
@@ -509,7 +579,22 @@ CREATE TABLE `recetas` (
 --
 
 INSERT INTO `recetas` (`idreceta`, `nombre`, `idproducto`, `notas`, `deleted`) VALUES
-('b9e5693c1e', 'pastel de vainilla', NULL, ' se mezcla la harina de trigo con la mantequilla y de ultimo los huevos se ajusta la maza con agua hasta obtener una mezcla homogénea ', 0);
+('e3ed13e9aa', 'pastel de vainilla', NULL, 'Se mezcla la harina de trigo con la mantequilla y de ultimo los huevos se ajusta la maza con agua hasta obtener una mezcla homogénea ', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `s11`
+--
+
+CREATE TABLE `s11` (
+  `id` int(11) NOT NULL,
+  `codigo_producto` varchar(15) DEFAULT NULL,
+  `nombre_producto` varchar(34) DEFAULT NULL,
+  `cantidad` int(11) NOT NULL DEFAULT 0,
+  `precio` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `cedula_cliente` int(9) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -582,7 +667,8 @@ INSERT INTO `transaccion` (`idtransaccion`, `idusuario`, `idpedido`, `metodopago
 (35, 6, 21, 'pagomovil', 'ACEPTADO', '2024-09-18 13:48:19'),
 (36, 6, 22, 'transferencia', 'EN PROCESO', '2024-09-18 02:39:53'),
 (37, 6, 23, 'transferencia', 'PAGADO', '2024-09-19 00:09:56'),
-(44, 6, 29, 'efectivo', 'SOLICITUD', '2024-09-18 20:12:58');
+(44, 6, 29, 'efectivo', 'SOLICITUD', '2024-09-18 20:12:58'),
+(45, 11, 30, 'pagomovil', 'ABONADO', '2024-11-07 23:58:57');
 
 -- --------------------------------------------------------
 
@@ -616,7 +702,23 @@ CREATE TABLE `usuario` (
 INSERT INTO `usuario` (`idusuario`, `idpersona`, `nombreusuario`, `contrasena`, `nombre`, `apellido`, `correo`, `direccion`, `telefono`, `descripcion`, `claveverificacion`, `verificado`, `suscrito`, `esadmin`, `fechacreacion`, `deleted`) VALUES
 (5, '', 'pepes', '$2y$10$wkoJJFdBY1IyahK2PXwu/.AnGrWdh5KpijABJ32CdfHF/TzOqShTC', 'pepes admin', 'verazxx', 'pepe@gmail.com', 'xx xxxx', 'xxx', 'xxx', 'f424ffb8411b6cefe3bd4f3461371575', 1, 0, 1, '2024-05-25 02:36:57', 0),
 (6, '', 'pedro', '$2y$10$KXCKoqgWEmhVkS4W006XD.80YuhlK72umUALwFJBTp9l9mJ025NHO', 'Pedro', 'Parker josefo', 'pedroparker@gmail.com', '1235 s aaaaaaaa', '04264804', '', 'd2612ee7435844101f35be825b58ef36', 1, 0, 0, '2024-05-25 02:56:43', 0),
-(9, '0e993ab333', 'juan', '$2y$10$YhXWDAf8yWkTPza1v6IIuuKMfEz47unzvhHv393UIVvYMoVQ9o8wK', 'Juan', 'Perez', 'juanperez@gmail.com', 'calle 174', '04264804', '', 'e0e5fb8cb10a54db30616165ed611f03', 1, 0, 2, '2024-06-05 17:52:16', 0);
+(9, '0e993ab333', 'juan', '$2y$10$YhXWDAf8yWkTPza1v6IIuuKMfEz47unzvhHv393UIVvYMoVQ9o8wK', 'Juan', 'Perez', 'juanperez@gmail.com', 'calle 174', '04264804', '', 'e0e5fb8cb10a54db30616165ed611f03', 1, 0, 2, '2024-06-05 17:52:16', 0),
+(11, '37ce1eceaa', 'juango', '$2y$10$36ChivyzPFhjQp9FkamiSusjO7YPYayjIUft4sBEpzAfwQI/1A0xC', 'Juan', 'Hernandez', 'juan@gmail.com', '', '', '', 'ba87eacf39122dc2fc9da1749319ebee', 1, 0, 1, '2024-11-07 22:25:17', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `v11`
+--
+
+CREATE TABLE `v11` (
+  `id` int(11) NOT NULL,
+  `codigo_producto` varchar(15) DEFAULT NULL,
+  `nombre_producto` varchar(34) DEFAULT NULL,
+  `proveedor` varchar(34) DEFAULT NULL,
+  `cantidad` int(11) NOT NULL DEFAULT 0,
+  `precio` decimal(10,2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Índices para tablas volcadas
@@ -693,6 +795,12 @@ ALTER TABLE `devolucion_salida`
 -- Indices de la tabla `ds5`
 --
 ALTER TABLE `ds5`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `ds11`
+--
+ALTER TABLE `ds11`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -778,6 +886,12 @@ ALTER TABLE `recetas`
   ADD PRIMARY KEY (`idreceta`);
 
 --
+-- Indices de la tabla `s11`
+--
+ALTER TABLE `s11`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `salida`
 --
 ALTER TABLE `salida`
@@ -804,6 +918,12 @@ ALTER TABLE `usuario`
   ADD PRIMARY KEY (`idusuario`);
 
 --
+-- Indices de la tabla `v11`
+--
+ALTER TABLE `v11`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
@@ -823,7 +943,7 @@ ALTER TABLE `carac_devolucion_salida`
 -- AUTO_INCREMENT de la tabla `carac_entrada`
 --
 ALTER TABLE `carac_entrada`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `carac_salida`
@@ -835,7 +955,7 @@ ALTER TABLE `carac_salida`
 -- AUTO_INCREMENT de la tabla `carrito`
 --
 ALTER TABLE `carrito`
-  MODIFY `idcarrito` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `idcarrito` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT de la tabla `categorias`
@@ -868,28 +988,34 @@ ALTER TABLE `ds5`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT de la tabla `ds11`
+--
+ALTER TABLE `ds11`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT de la tabla `historial`
 --
 ALTER TABLE `historial`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 
 --
 -- AUTO_INCREMENT de la tabla `itemcarrito`
 --
 ALTER TABLE `itemcarrito`
-  MODIFY `iditemcarrito` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `iditemcarrito` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT de la tabla `itempedido`
 --
 ALTER TABLE `itempedido`
-  MODIFY `iditempedido` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `iditempedido` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT de la tabla `itemrecetas`
 --
 ALTER TABLE `itemrecetas`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT de la tabla `notificaciones`
@@ -901,7 +1027,7 @@ ALTER TABLE `notificaciones`
 -- AUTO_INCREMENT de la tabla `pedido_usuario`
 --
 ALTER TABLE `pedido_usuario`
-  MODIFY `idpedido` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `idpedido` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT de la tabla `persona`
@@ -916,6 +1042,12 @@ ALTER TABLE `productos`
   MODIFY `idproducto` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
 
 --
+-- AUTO_INCREMENT de la tabla `s11`
+--
+ALTER TABLE `s11`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
 -- AUTO_INCREMENT de la tabla `tipos`
 --
 ALTER TABLE `tipos`
@@ -925,13 +1057,19 @@ ALTER TABLE `tipos`
 -- AUTO_INCREMENT de la tabla `transaccion`
 --
 ALTER TABLE `transaccion`
-  MODIFY `idtransaccion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `idtransaccion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `idusuario` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `idusuario` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT de la tabla `v11`
+--
+ALTER TABLE `v11`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

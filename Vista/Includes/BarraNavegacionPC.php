@@ -7,7 +7,8 @@
         session_start();
     }
     
-    $page="";
+    $page="index";
+    
     if(isset($_SESSION['nombreUsuario'])){
         if($_SESSION['esAdmin'] == 1)
         {
@@ -72,7 +73,6 @@
             align-items: center;
         }
 
-        
 
 </style>
 
@@ -80,7 +80,13 @@
 
 <link href="<?php echo  $GLOBALS['ROOT_PATH']; ?>/css/icons.css" rel='stylesheet'>
 
-<nav class="nav-media1200 main-nav-media1200" style='position:relative;z-index:5; background:white;height:6rem'>
+<nav class="nav-media1200 main-nav-media1200" style='
+    z-index: 100000000;
+    background: white;
+    height: 6rem;
+    position: fixed;
+    top: 0;
+    box-shadow: 0px 5px 20px 6px #0000004f;'>
 <input type="hidden" id="sessionValue" value="<?php if(isset($_SESSION['IDusuario'])) echo $_SESSION['IDusuario']; ?>"> 
         
 

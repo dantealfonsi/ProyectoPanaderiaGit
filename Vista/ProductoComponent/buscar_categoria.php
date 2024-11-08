@@ -11,7 +11,6 @@
 
 
 
-
         // <!--========== PHP FETCH PRODUCT DETAILS ==========-->
 
         

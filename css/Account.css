@@ -154,6 +154,11 @@ hr{
     cursor: pointer;
 }
 
+.form button:hover{
+    background-color:rgb(221, 102, 102) !important;
+    transition: ease .4s;
+}
+
 .form .message {
     margin: 15px 0 0;
     color: #b3b3b3;
@@ -376,6 +381,11 @@ hr{
         -webkit-transition: all 0.3 ease;
         transition: all 0.3 ease;
         cursor: pointer;
+    }
+
+    .form button:hover{
+        background:rgb(230, 87, 87) !important;
+        transition: ease .4s;
     }
 
     .form .message {

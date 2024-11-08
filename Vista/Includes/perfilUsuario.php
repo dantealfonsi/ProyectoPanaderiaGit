@@ -17,7 +17,7 @@
                                 <div class="input-group-addon">
                                     <i class="fas fa-check"></i>
                                 </div> 
-                                <label class="col-md-4 control-label" for="Username "><?php echo $nombreUsuario;?></label>
+                                <input value = "<?php echo $nombreUsuario;?>" disabled class="form-control input-md" style='width: 33.33333333%;'>
                             </div>
                         </div>
                     </div>
@@ -59,7 +59,7 @@
                                 <div class="input-group-addon">
                                     <i class="fas fa-map-marked-alt"></i>
                                 </div>
-                                <input value = "<?php echo $direccion;?>" id="Address " name="address" type="text" placeholder="Enter Address " class="form-control input-md">
+                                <input value = "<?php echo $direccion;?>" id="Address " name="address" type="text" placeholder="Dirección" class="form-control input-md">
                             </div>
                         </div>
                     </div>
@@ -72,7 +72,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-phone"></i> 
                                 </div>
-                                <input value = "<?php echo $telefono;?>" id="Phone Number " name="phone" type="text" placeholder="Phone Number " class="form-control input-md">
+                                <input value = "<?php echo $telefono;?>" id="Phone Number " name="phone" type="text" placeholder="Numero de Telefono" class="form-control input-md">
                             </div>
                         </div>
                     </div>
@@ -86,7 +86,7 @@
                                 <div class="input-group-addon">
                                     <i class="fas fa-envelope"></i>
                                 </div>
-                                <label class="col-md-4 control-label" for="Email Address "><?php echo $correo;?></label>
+                                <input value="<?php echo $correo;?>" class="form-control input-md" disabled>
                             </div>
                         </div>
                     </div>
@@ -96,7 +96,7 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label" for="Overview (max 200 words)">Biografia</label>
                         <div class="col-md-4">                     
-                            <textarea class="form-control" rows="10"  id="Overview (max 200 words)" name="description" placeholder="Overview (max 200 words)"><?php echo $descripcion;?></textarea>
+                            <textarea class="form-control" rows="10"  id="Overview (max 200 words)" name="description" placeholder="Maximo 200 Palabras"><?php echo $descripcion;?></textarea>
                         </div>
                     </div>
 
@@ -128,7 +128,7 @@
                                 <div class="input-group-addon">
                                     <i class="fas fa-unlock-alt"></i>
                                 </div>
-                                <input type="password" id="Current Password " name="currentPassword" type="text" placeholder="Enter Current Password " class="form-control input-md">
+                                <input type="password" id="Current Password " name="currentPassword" type="text" placeholder="Ingresa la contraseña actual" class="form-control input-md">
                             </div>
                         </div>
                     </div>
@@ -199,7 +199,7 @@
                                 <label class="col-md-4 control-label" ></label>  
                                 <div class="col-md-4">
                                     <button name="deleteAccount" class="btn btn-danger"><span class="glyphicon glyphicon-remove-sign"></span> Borrar Cuenta</button>
-                                    <span class=message"><?php echo "&nbsp&nbsp <b>$passwordMessage</b>";?></span>
+                                    <span class="message"><?php echo "&nbsp&nbsp <b>$passwordMessage</b>";?></span>
                                 </div>
                             </div>
                         </div>
