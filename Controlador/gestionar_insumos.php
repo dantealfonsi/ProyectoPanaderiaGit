@@ -168,15 +168,6 @@ class Producto{
 
       /*FUNCION PARA LEER UN USUARIO POR CEDULA*/
 
-      public function readUsuario($cedula){
-        $tmodulo=new Modulo;
-        $consulta = "SELECT * FROM usuarios WHERE cedula='".$cedula."'";
-        $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta );
-        $row = mysqli_fetch_array($resultado);
-        return $row;
-      }
-
-
       /*LISTA DE PROVEEDORES*/
 
       public function list_proveedores(){

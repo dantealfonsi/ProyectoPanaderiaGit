@@ -424,7 +424,7 @@ input{
   text-align: initial;
   position: relative;
   bottom: 1.5rem;
-  border-bottom: 0.15rem solid rgb(27 175 245);
+  border-bottom: 0.15rem solid #ff7380;
   color: #555555;
   font-family: 'roboto';
 }

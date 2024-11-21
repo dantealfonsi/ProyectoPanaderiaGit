@@ -202,7 +202,7 @@
 
         <div class='first-line'>
           <div class='flex-inside'>
-            Categoría: <br>
+            <span>Categoría</span>
             <input onfocusout=\"valCategoria()\" title='Seleccione la categoria' autocomplete='off' list='list_categoria'  type='text' name='categoria' id='categoria' style='text-align:center' placeholder='Categoria' required >
             <datalist id='list_categoria'>
             ";
@@ -210,39 +210,43 @@
               
           echo "</datalist> 
             </div>
+
+            <div class='flex-inside'>
+            <span>Código</span> <input onfocusout=\"valCodigo()\" title='Ingrese Codigo de cuatro digitos' pattern='^[0-9]{4}' type='text' id='codigo' maxlength='4' title='Ingrese 4 valores numericos' autocomplete='off' required>
+            </div>
           </div>
 
           <div class='second-line'>
-            <div class='flex-inside'>
-        Código: <br>  <input onfocusout=\"valCodigo()\" title='Ingrese Codigo de cuatro digitos' pattern='^[0-9]{4}' type='text' id='codigo' maxlength='4' title='Ingrese 4 valores numericos' autocomplete='off' required>
-            </div>
+            
             
           <div class='flex-inside'>
-        Nombre: <br>  <input onfocusout=\"valNombre()\" title='No se permiten caracteres especiales' type='text' id='nombre' style='width:30rem;' placeholder='Ingrese Nombre del Insumo' autocomplete='off' required>
+        <span>Nombre</span> <input onfocusout=\"valNombre()\" title='No se permiten caracteres especiales' type='text' id='nombre' style='width:18rem;' placeholder='Ingrese Nombre del Insumo' autocomplete='off' required>
+          </div>
+
+          <div class='flex-inside'>
+            <span>Almacen</span> <input  type='number' class='number' min=0 max=1 id='almacen' style='width: auto;    margin-bottom: 0;' value='0'>
           </div>
         </div>
 
         <div class='third-line'>
         <div class='flex-inside'>
-        Unidad en: <br> <select id='uni' name='uni'><option selected value='gramos'>Gramos</option><option value='unidades'>Unidades</option></select><br>
+        <span>Unidad</span><select id='uni' name='uni'><option selected value='gramos'>Gramos</option><option value='unidades'>Unidades</option></select>
         </div>
 
           <div class='flex-inside'>
-            Precio: <br> <input type='number' placeholder='0.00' id='precio' min='0' value='0.00' step='0.01' title='Currency' pattern='^\d+(?:\.\d{1,2})?$' onblur='this.parentNode.parentNode.style.backgroundColor=/^\d+(?:\.\d{1,2})?$/.test(this.value)?'inherit':'red' oninput='this.value = !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value): null'><br>
+            <span>Precio</span> <input type='number' placeholder='0.00' id='precio' min='0' value='0.00' step='0.01' title='Currency' pattern='^\d+(?:\.\d{1,2})?$' onblur='this.parentNode.parentNode.style.backgroundColor=/^\d+(?:\.\d{1,2})?$/.test(this.value)?'inherit':'red' oninput='this.value = !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value): null'>
           </div>
 
-          <div class='flex-inside'>
-            Almacen: <br> <input  type='number' class='number' min=0 max=1 id='almacen' style='width: auto;' value='0'><br>
-          </div>
+
       </div>
       
       <div class='second-line'>
         <div class='flex-inside'>
-           Mínimo: <br> <input  type='number' placeholder='0' min='-500' id='c_min' title='Minimo recurrente de Insumo' ><br>
+           <span>Mínimo</span> <input  type='number' placeholder='0' min='-500' id='c_min' title='Minimo recurrente de Insumo'>
         </div>
 
         <div class='flex-inside'>
-          Máximo:  <br> <input type='number' placeholder='0'  min=0 id='c_max' title='Maximo recurrente de Insumo' oninput='this.value = !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value): null'><br>
+          <span>Máximo</span><input type='number' placeholder='0'  min=0 id='c_max' title='Maximo recurrente de Insumo' oninput='this.value = !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value): null'>
         </div> 
      </div> 
 
@@ -255,7 +259,7 @@
       echo "
       <div class='EditBox'> 
       
-        <form id='form' action='insumos.php' method='POST'>;
+        <form id='form' action='insumos.php' method='POST'>
        
         <fieldset>
 
@@ -272,7 +276,7 @@
       <input type='hidden' id='id' value='".$_GET['id']."'>
       <div class='first-line'>
         <div class='flex-inside'>
-          Categoría: <br>
+          <span>Categoría</span>
           <input onfocusout=\"valCategoria()\" title='Seleccione la categoria' autocomplete='off'  list='list_categoria' value='".$producto->readProducto($_GET['codigo'])['categoria']."'  type='text' name='categoria' id='categoria' style='text-align:center' placeholder='Categoria' >
           <datalist id='list_categoria'>
           ";
@@ -280,42 +284,50 @@
             
         echo "</datalist> 
           </div>
+           <div class='flex-inside'>
+              <span>Código</span> 
+              <input readonly title='Ingrese Codigo de cuatro digitos' pattern='^[0-9]{4}' type='text' id='codigo' maxlength='4' title='Ingrese 4 valores numericos' autocomplete='off' value='".$_GET['codigo']."' required>
+          </div>
         </div>
 
         <div class='second-line'>
           <div class='flex-inside'>
-      Código: <br>  <input readonly title='Ingrese Codigo de cuatro digitos' pattern='^[0-9]{4}' type='text' id='codigo' maxlength='4' title='Ingrese 4 valores numericos' autocomplete='off' value='".$_GET['codigo']."' required>
+              <span>Nombre</span>
+              <input title='No se permiten caracteres especiales' type='text' id='nombre' placeholder='Ingrese Nombre del Insumo' autocomplete='off' value='".$_GET['nombre']."' required>
           </div>
           
-        <div class='flex-inside'>
-      Nombre: <br>  <input title='No se permiten caracteres especiales' type='text' id='nombre' style='width:30rem;' placeholder='Ingrese Nombre del Insumo' autocomplete='off' value='".$_GET['nombre']."' required>
-        </div>
+          <div class='flex-inside'>
+            <span>Unidad En</span>
+            <select id='uni' name='uni'>
+          ";
+              if(isset($_GET['uni'])){
+                if($_GET['uni']=="gramos") 
+                  echo "
+                    <option selected value='gramos'>Gramos</option><option value='unidades'>Unidades</option>";
+                  else echo 
+                    "<option value='gramos'>Gramos</option><option value='unidades' selected>Unidades</option>";
+                }
+                  echo "</select>
+            </div>      
+
+          <div class='flex-inside'>
+            <span> Almacen</span><input  type='number' class='number' min=0 max=1 id='almacen' style='width: auto;margin-bottom:0' value='{$_GET['almacen']}'>
+          </div>
+
+
       </div>
 
       <div class='third-line'>
-    
-      <div class='flex-inside'>
-      Unidad en: <br> <select id='uni' name='uni'>
-      ";
-      if(isset($_GET['uni'])){
-        if($_GET['uni']=="gramos") echo "<option selected value='gramos'>Gramos</option><option value='unidades'>Unidades</option>";
-        else echo "<option value='gramos'>Gramos</option><option value='unidades' selected>Unidades</option>";
-      }
-      echo "</select><br>
-      </div>      
 
         <div class='flex-inside'>
-          Precio: <br> <input type='number' placeholder='0.00' id='precio' min='0' step='0.01' title='Currency' pattern='^\d+(?:\.\d{1,2})?$' onblur='this.parentNode.parentNode.style.backgroundColor=/^\d+(?:\.\d{1,2})?$/.test(this.value)?'inherit':'red' value='".$_GET['precio']."'><br>
+          <span>Precio</span><input type='number' placeholder='0.00' id='precio' min='0' step='0.01' title='Currency' pattern='^\d+(?:\.\d{1,2})?$' onblur='this.parentNode.parentNode.style.backgroundColor=/^\d+(?:\.\d{1,2})?$/.test(this.value)?'inherit':'red' value='".$_GET['precio']."'>
         </div>";
 
        if ($_SESSION['esAdmin']==1){
           echo "          
-            <div class='flex-inside'>
-              Almacen: <br> <input  type='number' class='number' min=0 max=1 id='almacen' style='width: auto;' value='{$_GET['almacen']}'>
-            </div>
-    
+
            <div class='flex-inside'>
-            Existencia:  <br> <input type='number'  min='0' max='10000' id='existencia' value='{$_GET['existencia']}' oninput='this.value = !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value): null'>
+            <span>Existencia</span> <input type='number'  min='0' max='10000' id='existencia' value='{$_GET['existencia']}' oninput='this.value = !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value): null'>
           </div>
          </div>
        ";
@@ -324,10 +336,10 @@
 
         echo "  
         <div class='flex-inside'>     
-            Almacen: <br> <input readonly type='number' min=0 max=1 id='almacen' style='width: auto;' value='{$_GET['almacen']}'>
+            <span>Almacen</span> <input readonly type='number' min=0 max=1 id='almacen' style='width: auto;' value='{$_GET['almacen']}'>
         </div>
         <div class='flex-inside'> 
-            Existencia:  <br> <input readonly type='number' min='0' max='10000' id='existencia'  value='{$_GET['existencia']}'>
+            <span>Existencia</span> <input readonly type='number' min='0' max='10000' id='existencia'  value='{$_GET['existencia']}'>
         </div>
          ";
        }
@@ -335,11 +347,11 @@
        echo "
     <div class='second-line'>
       <div class='flex-inside'>
-         Mínimo: <br> <input  type='number' min='-500'  id='c_min' title='Minimo recurrente de Insumo' value='{$_GET['c_min']}'>
+         <span>Mínimo</span><input  type='number' min='-500'  id='c_min' title='Minimo recurrente de Insumo' value='{$_GET['c_min']}'>
       </div>
 
       <div class='flex-inside'>
-        Máximo:  <br> <input type='number' placeholder='0'  id='c_max' title='Maximo recurrente de Insumo' value='{$_GET['c_max']}'>
+        <span>Máximo</span><input type='number' placeholder='0'  id='c_max' title='Maximo recurrente de Insumo' value='{$_GET['c_max']}'>
       </div> 
     </div> 
 
@@ -393,7 +405,6 @@
          <th>FECHA</th>
          <th>CANTIDAD ENTRADA</th>
          <th>PROVEEDOR</th>
-         <th>RESPONSABLE</th>
        </tr>
        </thead> <tbody>";
        while($row = mysqli_fetch_array($resultado)){    /*Te muestra el resultado de busqueda*/ 
@@ -403,7 +414,6 @@
              <td>".$row['fecha']."</td>
              <td>".$row['cantidad']."</td>
              <td>".$producto->readEntrada($row['num_entrada'])['proveedor']."</td>
-             <td>".$producto->readUsuario($producto->readEntrada($row['num_entrada'])['responsable'])['nombre']."</td>
         </tr>           
         ";
        }
@@ -414,7 +424,7 @@
        }
 
        if (isset($_GET['Sal'])&& $_GET['Sal']==1){
-        $consulta = "SELECT * from carac_salida WHERE codigo_producto='{$_GET['hist']}'";   /*Buscar Producto*/
+        $consulta = "SELECT * from carac_salida WHERE codigo_producto='0001'";   /*Buscar Producto*/
 
         $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta );
           
@@ -425,7 +435,6 @@
         <tr>
           <th>FECHA</th>
           <th>CANTIDAD ENTRADA</th>
-          <th>RESPONSABLE</th>
         </tr>
         </thead> <tbody>";
         while($row = mysqli_fetch_array($resultado)){    /*Te muestra el resultado de busqueda*/ 
@@ -434,7 +443,6 @@
           <tr>
               <td>".$row['fecha']."</td>
               <td>".$row['cantidad']."</td>
-              <td>".$producto->readUsuario($producto->readSalida($row['num_salida'])['responsable'])['nombre']."</td>
          </tr>           
          ";
         }
@@ -464,7 +472,7 @@
       echo "
       <div class='EditBox'> 
       
-        <form id='form' action='insumos.php' method='POST'>;
+        <form id='form' action='insumos.php' method='POST'>
 
         <fieldset>
          
@@ -485,8 +493,8 @@
     
         <div class='first-line' style='display: flex;flex-direction: column;align-items: center;'>
           <div class='flex-inside'>
-            Proveedor: <br> 
-        <input  title='Seleccione Proveedor' onfocusout=\"valProveedor()\" required minlength=2 autocomplete='off' list='list_proveedores' type='text' name='proveedor' id='proveedor'><br>        
+           <span>Proveedor</span>
+        <input  title='Seleccione Proveedor' onfocusout=\"valProveedor()\" required minlength=2 autocomplete='off' list='list_proveedores' type='text' name='proveedor' id='proveedor'>       
       <datalist id='list_proveedores'>
       ";
                 $producto->list_proveedores();
@@ -496,13 +504,13 @@
           </div>
         <div class='second-line' style='display: flex;flex-direction: column;align-items: center;'>
           <div class='flex-inside'>  
-              Cantidad: <br> <input type='number' min='0' max='10000' name='existencia' id='existencia'><br>
+              <span>Cantidad</span><input type='number' min='0' max='10000' name='existencia' id='existencia'>
           </div>
         </div>
         
         <div class='second-line' style='display: flex;flex-direction: column;align-items: center;'>
           <div class='flex-inside'>  
-            Costo: <br>  <input placeholder='0.00' name='precio' id='precio' min='0' value='0.00' step='0.01' title='Currency' pattern='^\d+(?:\.\d{1,2})?$' onblur='this.parentNode.parentNode.style.backgroundColor=/^\d+(?:\.\d{1,2})?$/.test(this.value)?'inherit':'red'><br>
+            <span>Costo</span><input placeholder='0.00' name='precio' id='precio' min='0' value='0.00' step='0.01' title='Currency' pattern='^\d+(?:\.\d{1,2})?$' onblur='this.parentNode.parentNode.style.backgroundColor=/^\d+(?:\.\d{1,2})?$/.test(this.value)?'inherit':'red'>
           </div>
         </div>
      
@@ -747,19 +755,19 @@ $('#myTable3').DataTable( {
     buttons:[
         {
             extend:    'collection',
-            text:      '<img id="table_icon_export" src="../fonts/export.svg">',
+            text:      '<img id="table_icon_export" <img id="table_icon" src="../../Assets/images/inventory/download.png">',
             className: 'square square-red',
             titleAttr: 'Exportar',
             buttons: [
                 {
                   extend:    'excelHtml5',
-                  text:      '<img id="table_icon" style="margin: 0;" src="../fonts/excel.svg"> EXCEL',
+                  text:      '<img id="table_icon" src="../../Assets/images/inventory/excel.svg"> EXCEL',
                   className: 'square square-excel',
                   titleAttr: 'Excel'
                 },
                 {
                   extend:    'pdfHtml5',
-                  text:      '<img id="table_icon" src="../fonts/pdf.svg"> PDF',
+                  text:      '<img id="table_icon" src="../../Assets/images/inventory/pdf.svg"> PDF',
                   titleAttr: 'PDF',
                   className: 'square square-pdf',
                      /////////////Custom PDF/////////////////////////
