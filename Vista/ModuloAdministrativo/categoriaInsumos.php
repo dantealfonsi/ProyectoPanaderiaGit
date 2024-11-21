@@ -119,22 +119,20 @@ if(isset($_GET['borrar'])){
 ?>       
          <h1 class='titulo_caja'> CATEGORÍAS INSUMOS </h1> <br>
 
-         <div class='caja'>
-
-          <form class='categoria_form' action='categoriaInsumos.php' method='post'><br>
-              <h3 style="text-align: left;font-size: 2rem;font-family: 'roboto'; color: #6d6d6d;">Nueva Categoría</h3><hr style="background: #313131;margin: 0.5rem 0rem 2rem 0rem;">
-              <input class='categoria_input' placeholder='Nombre de la Categoria' title='No se permiten caracteres especiales' type='text' id='nombreCrear' pattern='(\w|\s)*'> <br>
-              <button type='button' class='submitBtn' onclick="agregarCategoria()"  id='agregar' value='Agregar' style='width:auto; padding: 1rem;border-radius: 1.2rem;'>Agregar</button>
-  
-          </form>
+          
 
             <?php 
       
-  $cadena="<div class='categoria_inventarioBox'>
-            <table id='myTable' style='width: 100%; text-align:center; font-size:16;'>
+  $cadena="
+
+      <div class='outerTable'>
+  
+            <div class='InventarioBox'>
+            <form id='form' action='categoriaInsumos.php' method='POST'>
+            <table id='myTable' class='display' style='width:100%;'>
             <thead>
             <tr class='tr'>
-              <th style='width:70%'>NOMBRE</th>
+              <th>NOMBRE</th>
               <th>ACCIONES</th>
             </tr>
             </thead>
@@ -151,8 +149,9 @@ if(isset($_GET['borrar'])){
                           </td>
                             </tr>";
   }
-  $cadena = $cadena . "</body></table>
-                    </fieldset>
+  $cadena = $cadena . "</tbody></table>
+                         </form>   
+                         </div>
                   </div>";
   echo $cadena;
 
@@ -177,6 +176,31 @@ if (isset($_GET['edit'])){
   </div>
   ";
 }
+
+
+if (isset($_GET['add'])){
+  echo "
+<div class='EditBox'>
+<fieldset>
+  <form action='categoriaInsumos.php' method='post'>
+  <div style='text-align:right;'> <a href='categoriaInsumos.php' class='close-btn'> ⌦ </a> </div>
+  <h2 class='header-screen'> AGREGAR CATEGORÍA </h2> <br><br>
+
+  <input type='hidden' id='id' value='".$_GET['id']."'>
+  <h1 style='color:black;'>Nombre:</h1><br>
+  <input style='margin: auto;' title='No se permiten caracteres especiales' class='input-form' type='text' placeholder='Nombre de la Categoria' title='No se permiten caracteres especiales' ' id='nombreCrear' pattern='(\w|\s)*'><br><br>
+   <button type='button' class='submitBtn' onclick='agregarCategoria()'  id='agregar' value='Agregar' >Agregar</button>
+  <br>
+  </form>
+  </fieldset>
+
+  
+          </form>
+          
+  </div>
+  ";
+}
+
 
 if (isset($_GET['hist'])){
   $titulo = $_GET['nombre'];
@@ -265,6 +289,14 @@ if (isset($_GET['hist'])){
         },
         
         buttons:[
+          {
+                text:      '<img id="table_icon" src="../../Assets/images/inventory/plus.png">',
+                className: 'square square-green',
+                titleAttr: 'Agregar nueva entrada',
+                action: function ( e, dt, button, config ) {
+                window.location = '?add';
+                }        
+            },
             {
                 extend:    'collection',
                 text:      '<img id="table_icon_export" src="../../Assets/images/inventory/download.png"></i>',
