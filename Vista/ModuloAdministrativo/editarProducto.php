@@ -14,11 +14,12 @@ include "../../Modelo/conexion.php";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $bytes = random_bytes(5);
     $codigorifa = bin2hex($bytes);
-    $IDproducto = $_POST['idproducto'];
+    $IDproducto = $_POST['IDproducto'];
     $nombre_producto = $_POST['nombre_producto'];
     $descripcion_producto = $_POST['descripcion_producto'];
     $precio_producto = $_POST['precio_producto'];
     $categoria_producto = $_POST['categoria_producto'];
+    $id_tipo =  $_POST['id_tipo'];
     $directorio = $GLOBALS['ROOT_PATH']."/Assets/productoimagenes/";
     $ext="";
     //$tipoArchivo = strtolower(pathinfo($archivo, PATHINFO_EXTENSION));
@@ -58,11 +59,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $archivo = $directorio.$codigorifa.$ext;
             $archivoSubido = addslashes($archivo);
             $sql = "UPDATE productos SET nombre_producto='$nombre_producto' ,descripcion_producto='$descripcion_producto', 
-            imagen_producto='$archivoSubido' , precio_producto=$precio_producto ,categoria_producto=$categoria_producto  WHERE idproducto=".$IDproducto;
+            imagen_producto='$archivoSubido' , precio_producto=$precio_producto ,categoria_producto=$categoria_producto,idtipo=$id_tipo  WHERE idproducto=".$IDproducto;
         }
         else{
             $sql = "UPDATE productos SET nombre_producto='$nombre_producto' ,descripcion_producto='$descripcion_producto', 
-            precio_producto=$precio_producto ,categoria_producto=$categoria_producto WHERE idproducto=".$IDproducto;    
+            precio_producto=$precio_producto ,categoria_producto=$categoria_producto,idtipo=$id_tipo WHERE idproducto=".$IDproducto;    
         }        
     }
 
@@ -70,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header('location: productos.php');
 }
 
-$IDreceta = $IDproducto = $nombre_producto = $descripcion_producto = $imagen_producto = $precio_producto = $categoria_producto = "";
+$idtipo = $IDreceta = $IDproducto = $nombre_producto = $descripcion_producto = $imagen_producto = $precio_producto = $categoria_producto = "";
 
     //******* inicio obtener detalles del producto *******
         //consulta
@@ -88,6 +89,7 @@ $imagen_producto= $row_producto['imagen_producto'];
 $precio_producto= $row_producto['precio_producto'];
 $categoria_producto =$row_producto['categoria_producto'];
 $IDreceta = $row_producto['idreceta'];
+$idtipo = $row_producto['idtipo'];
 
 ?>
 
@@ -169,86 +171,96 @@ $IDreceta = $row_producto['idreceta'];
             <div class="form">    
 
             <form actions="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
+            
             <input type=hidden name=IDproducto value="<?php echo $IDproducto?>">
+                    
             <section class='form-section'>
 
-              <div class='first-line'>
+                <div class='first-line'> 
                 <div class='flex-inside'>  
-                    Nombre del producto<br>
-                <input type="text" id="nombre_producto" name="nombre_producto"  value="<?php echo $nombre_producto ?>" required>
+                    <span>Nombre del producto</span> 
+                    <input type="text" id="nombre_producto" name="nombre_producto" value="<?php echo $nombre_producto ?>" required>
                 </div>
-            </div>
 
-            
-            <div class='second-line'>
-             <div class='flex-inside'>
-                Descripción del producto:<br>
-                <textarea style='color:black;' id="descripcion_producto" name="descripcion_producto"  required><?php echo $descripcion_producto ?></textarea>
-             </div>
-            </div>
-
-            <div class='third-line'>
-             <div class='flex-inside'>
-            Precio del producto:<br>
-                <input style='color:black;' type="number" step="0.01" id="precio_producto" name="precio_producto" value=<?php echo $precio_producto ?> required>
+                <div class='flex-inside'>
+                    <span>Precio del producto:</span>
+                    <input style='color:black;' type="number" step="0.01" id="precio_producto" name="precio_producto" value=<?php echo $precio_producto ?> required>
+                    <span class="currency-label" style='position: absolute;margin-top: 3.4rem;margin-left: 14rem;text-decoration: none;'>BS</span>
                 </div>
-            </div>
-<br>
-            <div class='third-line'>
-            <div class='flex-inside'>
-                Cambiar Imagen del producto:<br>
-                <input type="file" id="imagen_producto" name="imagen_producto">
+
+
                 </div>
-            </div>
-            </div>
 
-            <div class='third-line'>
-            <div class='flex-inside' style='padding: 0 1.5rem;'>
-                <br>
-                <img src="<?php echo $imagen_producto;?>" style='width: 40%;border: dotted pink;' class="product-image" />
+                <div class='second-line'>
+                <div class='flex-inside'>
+                    <span>Receta de Preparación</span>
+                    <select required name="receta_producto" id="receta_producto">
+                        <?php 
+                            $consulta_recetas  = "SELECT * from recetas";
+                            $result_recetas = mysqli_query($conn, $consulta_recetas);                  
+                            while($row = mysqli_fetch_array($result_recetas)) {
+                                $selected = "";
+                                if($IDreceta == $row['idreceta']){
+                                    $selected = "selected";
+                                }
+                                echo "<option $selected value='".$row['idreceta']."'>" . $row['nombre'] . "</option>";
+                            }
+
+                        ?>
+                    </select>                   
                 </div>
-            </div>
-            </div>
-            <br>
-            <div class='flex-inside' style='width: 22%;margin: 1rem;'>
-                Con que Receta se Prepara.?<br>
-              <select required name="receta_producto" id="receta_producto">
-              <?php 
-                  $consulta_recetas  = "SELECT * from recetas";
-                  $result_recetas = mysqli_query($conn, $consulta_recetas);                  
-                  while($row = mysqli_fetch_array($result_recetas)) {
-                    $selected = "";
-                    if($IDreceta == $row['idreceta']){
-                        $selected = "selected";
-                    }
-                    echo "<option $selected value='".$row['idreceta']."'>" . $row['nombre'] . "</option>";
-                  }
 
-              ?>
-              </select>              
-            </div>
-              
-            <br>
-                <div class='flex-inside' style='width: 22%;margin: 1rem;'>
-                Categoria del producto:<br>
-              <select name="categoria_producto" id="categoria_producto">
-              </div>
-              <?php 
-              
-                  $consulta  = "SELECT * from categorias";
-                  $resultado_cat = mysqli_query($conn, $consulta);
-                  while($row = mysqli_fetch_array($resultado_cat)) {
-                    $selected  = "";
-                    if($categoria_producto == $row['idcategoria']) $selected = "selected";
-                    echo "<option {$selected} value='".$row['idcategoria']."'>" . $row['nombre_categoria'] . "</option> ";
-                  }
+                <div class='flex-inside'>
+                    <span>Categoria del producto</span>                
+                    <select name="categoria_producto" id="categoria_producto">
+                        <?php 
+                        
+                            $consulta  = "SELECT * from categorias";
+                            $resultado_cat = mysqli_query($conn, $consulta);
+                            while($row = mysqli_fetch_array($resultado_cat)) {
+                                $selected  = "";
+                                if($categoria_producto == $row['idcategoria']) $selected = "selected";
+                                echo "<option {$selected} value='".$row['idcategoria']."'>" . $row['nombre_categoria'] . "</option> ";
+                            }
 
-              ?>
-              </select><br><br>
-            </div>
-        </div>
-        <button class='submitBtn'>Guardar Datos</button>
-        </form>
+                        ?>
+                    </select>
+                </div>
+
+                <div class='flex-inside'>
+                <span>Tipo de Producto</span>
+                <select name="id_tipo" id="tipo">  
+                    <option value="">Seleccione.</option>
+                    <?php 
+                        $consulta  = "SELECT * from tipos";
+                        $resultado_cat = mysqli_query($conn, $consulta);
+                        while($row = mysqli_fetch_array($resultado_cat)) {
+                            $selected = "";
+                            if($idtipo == $row['idtipo']) $selected = "selected";
+                            echo "<option {$selected} value='".$row['idtipo']."'>" . $row['nombre_tipo'] . "</option>";
+                        }
+                    ?>
+                </select>
+                </div>
+                </div>
+                <div class='third-line'>
+                <div class='flex-inside' style='display: flex;flex-direction: column;gap: .2rem;'>
+                <span>Imagen del producto</span>
+                <input type="file" id="imagen_producto" name="imagen_producto" style='padding: 0.4rem;'>
+                <img src="<?php echo $imagen_producto;?>" style='width:18rem;border: dotted pink;' class="product-image" />
+                </div>
+                </div>
+
+                <div class='third-line'>
+                <div class='flex-inside'>
+                    <span>Descripción del producto</span>
+                    <textarea style='color:black;' id="descripcion_producto" name="descripcion_producto"  required style='text-transform:capitalize;'><?php echo $descripcion_producto ?></textarea>
+                </div>
+                </div>
+                </div>
+                </section>
+                <button class='submitBtn' style='margin-bottom: 2rem;'>Guardar Datos</button>
+            </form>
     </body>
 </html>
 

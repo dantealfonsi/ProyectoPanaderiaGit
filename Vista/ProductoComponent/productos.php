@@ -34,6 +34,21 @@
      <!--========== BOXICONS ==========-->
      <link href='<?php echo $GLOBALS['ROOT_PATH'] ?>/css/boxicons.min.css' rel='stylesheet'>
 
+     <style>
+            
+    .featured__img{
+        box-shadow: 1px 1px 20px 6px #8080808c !important;
+    }
+
+    .img_destacada{
+        box-shadow: 1px 1px 20px 6px #8080808c !important;
+    }
+
+    .bx{
+        display: none;
+    }
+     </style>
+
 </head>
 
 <!--___________________________________________________________________________-->

@@ -144,6 +144,7 @@ function pre_r($array){
     <!--========== CSS FILES ==========-->
     <link rel="stylesheet" type="text/css" href="<?php echo $GLOBALS['ROOT_PATH'] ?>/css/Common.css">
     <link rel="stylesheet" type="text/css" href="<?php echo $GLOBALS['ROOT_PATH'] ?>/css/Sanjana.css">
+    
 
     <link href="jquery.nice-number.css" rel="stylesheet">
     <!--========== JQUERY CDN ==========-->
@@ -176,6 +177,7 @@ function pre_r($array){
     </head>
 
     <style>
+
 
     /* Chrome, Safari, Edge, Opera */
     input::-webkit-outer-spin-button,

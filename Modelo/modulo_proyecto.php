@@ -109,18 +109,6 @@ public function crear(){
     iva DECIMAL(13,2) DEFAULT 0.00, 
     total DECIMAL(13,2) DEFAULT 0.00)";
   $resultado = mysqli_query( $conexion, $consulta );
-
-
-  $consulta = "CREATE TABLE IF NOT EXISTS carac_devolucion_entrada (
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    codigo_producto VARCHAR(15),
-    nombre_producto VARCHAR(34),
-    cantidad INT NOT NULL DEFAULT 0,
-    referencia INT NOT NULL DEFAULT 0,
-    precio DECIMAL(10,2)
-  )";
-  $resultado = mysqli_query($conexion, $consulta);
   
   $consulta = "CREATE TABLE IF NOT EXISTS carac_devolucion_salida (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,

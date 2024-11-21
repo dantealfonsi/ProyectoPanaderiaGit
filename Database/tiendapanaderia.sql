@@ -26,7 +26,7 @@ SET time_zone = "+00:00";
 --
 -- Estructura de tabla para la tabla `carac_devolucion_entrada`
 --
-
+/*
 CREATE TABLE `carac_devolucion_entrada` (
   `id` int(11) NOT NULL,
   `fecha` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -36,7 +36,7 @@ CREATE TABLE `carac_devolucion_entrada` (
   `referencia` int(11) NOT NULL DEFAULT 0,
   `precio` decimal(10,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
+*/
 -- --------------------------------------------------------
 
 --
@@ -727,9 +727,10 @@ CREATE TABLE `v11` (
 --
 -- Indices de la tabla `carac_devolucion_entrada`
 --
+/*
 ALTER TABLE `carac_devolucion_entrada`
   ADD PRIMARY KEY (`id`);
-
+*/
 --
 -- Indices de la tabla `carac_devolucion_salida`
 --
@@ -930,9 +931,10 @@ ALTER TABLE `v11`
 --
 -- AUTO_INCREMENT de la tabla `carac_devolucion_entrada`
 --
+/*
 ALTER TABLE `carac_devolucion_entrada`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
+*/
 --
 -- AUTO_INCREMENT de la tabla `carac_devolucion_salida`
 --

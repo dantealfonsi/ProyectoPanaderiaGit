@@ -239,147 +239,181 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="form">    
 
             <form actions="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
-                <section class='form-section'>
+            
+            <section class='form-section'>
 
               <div class='first-line'> 
                 <div class='flex-inside'>  
-                    Nombre del producto<br>
+                   <span>Nombre del producto</span> 
                 <input type="text" id="nombre_producto" name="nombre_producto" required>
                 </div>
+
+                <div class='flex-inside'>
+                    <span>Precio del producto:</span>
+                    <input style='color:black;' type="number" step="0.01" id="precio_producto" value="0" name="precio_producto" required>
+                    <span class="currency-label" style='position: absolute;margin-top: 3.4rem;margin-left: 14rem;text-decoration: none;'>BS</span>
+                </div>
+
+                <div class='flex-inside'>
+                    <span>Imagen del producto</span>
+                    <input type="file" id="imagen_producto" name="imagen_producto" required style='padding: 0.4rem;'>
+                </div>
+
+           
             </div>
             
             <div class='second-line'>
-             <div class='flex-inside'>
-                Descripción del producto:<br>
-                <textarea style='color:black;' id="descripcion_producto" name="descripcion_producto" required></textarea>
-             </div>
-            </div>
-
-            <div class='third-line'>
-             <div class='flex-inside'>
-            Precio del producto:<br>
-                <input style='color:black;' type="number" step="0.01" id="precio_producto" value="0" name="precio_producto" required>
+                <div class='flex-inside'>
+                    <span>Receta de Preparación</span>
+                    <select required name="receta_producto" id="receta_producto">
+                    <?php 
+                        $consulta_recetas  = "SELECT * from recetas";
+                        $result_recetas = mysqli_query($conn, $consulta_recetas);                  
+                        while($row = mysqli_fetch_array($result_recetas)) {
+                            echo "<option value='".$row['idreceta']."'>" . $row['nombre'] . "</option>";
+                        }
+                    ?>
+                    </select>              
                 </div>
-            <div class='flex-inside'>
-                Imagen del producto:<br>
-                <input type="file" id="imagen_producto" name="imagen_producto" required>
-                </div>
-            </div>
-            <br>
-            <div class='flex-inside' style='width: 22%;margin: 1rem;'>
-                Con que Receta se Prepara.?<br>
-              <select required name="receta_producto" id="receta_producto">
-              <?php 
-                  $consulta_recetas  = "SELECT * from recetas";
-                  $result_recetas = mysqli_query($conn, $consulta_recetas);                  
-                  while($row = mysqli_fetch_array($result_recetas)) {
-                    echo "<option value='".$row['idreceta']."'>" . $row['nombre'] . "</option>";
-                  }
 
-              ?>
-              </select>              
-            </div>
-            <br>
-                <div class='flex-inside' style='width: 22%;margin: 1rem;'>
-                Categoria del producto:<br>                
-                <select name="categoria_producto" id="categoria_producto">
-                <option value=''>Selecciona ..</option>
-              <?php               
-                  $consulta  = "SELECT * from categorias";
-                  $resultado_cat = mysqli_query($conn, $consulta);
-                  while($row = mysqli_fetch_array($resultado_cat)) {
-                    echo "<option value='".$row['idcategoria']."'>" . $row['nombre_categoria'] . "</option>";
-                  }
-              ?>
-              </select>
+                <div class='flex-inside'>
+                    <span>Categoria del producto</span>                
+                    <select name="categoria_producto" id="categoria_producto">
+                        <option value=''>Selecciona ..</option>
+                        <?php               
+                            $consulta  = "SELECT * from categorias";
+                            $resultado_cat = mysqli_query($conn, $consulta);
+                            while($row = mysqli_fetch_array($resultado_cat)) {
+                                echo "<option value='".$row['idcategoria']."'>" . $row['nombre_categoria'] . "</option>";
+                            }
+                        ?>
+                    </select>
               </div>
-              <br>
-              <div class='flex-inside' style='width: 22%;margin: 1rem;'>
-              Tipo de Producto:<br>
-               <select name="tipo" id="tipo" ">  
-                <option value="">Seleccione...</option>
-                <?php 
-                
-                    $consulta  = "SELECT * from tipos";
-                    $resultado_cat = mysqli_query($conn, $consulta);
-                    while($row = mysqli_fetch_array($resultado_cat)) {
-                        echo "<option value='".$row['idtipo']."'>" . $row['nombre_tipo'] . "</option>";
-                    }
-                ?>
+
+              <div class='flex-inside'>
+                <span>Tipo de Producto</span>
+                <select name="tipo" id="tipo" >  
+                    <option value="">Seleccione...</option>
+                    <?php 
+                        $consulta  = "SELECT * from tipos";
+                        $resultado_cat = mysqli_query($conn, $consulta);
+                        while($row = mysqli_fetch_array($resultado_cat)) {
+                            echo "<option value='".$row['idtipo']."'>" . $row['nombre_tipo'] . "</option>";
+                        }
+                    ?>
                 </select>
+            </div>
+             </div>
+             <div class='third-line'>
+                <div class='flex-inside' style='display: flex;flex-direction: row;gap: 0rem;'>
+                    <span>Es Personalizable:</span>
+                    <label class="checkbox-container">
+                        <input style="padding:3px;" type="checkbox" value="1" id="personalizable" name="personalizable">
+                        <span class="checkmark" style='border-radius: 0;'></span>
+                    </label>
                 </div>
-                <br>
-                <div class='flex-inside' style='width: 22%;margin: 1rem;'>
-                <label style="font-size:18px;"><input style="padding:3px;" type="checkbox" value="1" id="personalizable" name="personalizable">Es un Producto Personalizable.</label>
-                </div>
+            </div>
 
+             <div class='third-line'>
+                <div class='flex-inside'>
+                    <span>Descripción del producto</span>
+                    <textarea style='color:black;width:37rem;' id="descripcion_producto" name="descripcion_producto" required></textarea>
+                </div>
+            </div>
+            </div>
+        </div>
     <div id="dialog" class="modal">
-        <div class="modal-content" style='    display: flex;
-    flex-direction: column;
-    width: 40%;
-    align-items: flex-start;
-    gap: .5rem;'>
-            <h2>Opciones de Personalización</h2>
-            <!-- Aquí puedes agregar más inputs para personalización -->             
-            Peso Kg
-            <input type="number" name="peso" id="peso"  step="1" value="1" min=1 max=20> <br>
-            Pisos
-            <input type="number" name="pisos" id="pisos" step="1" value="1" min=1 max=3><br>
-            Modelo
-            <select id="modelo" name="modelo" >
-                <option value=''>Seleccione</option>
-                <option value='redonda'>Redonda</option>
-                <option value='cuadrada'>Cuadrada</option>
-            </select><br>
-            
-            <div style='display:flex;flex-direction:column;'>
-                <h3>¿Tiene Bizcocho?</h3>
-                <div style='display:flex;flex-direction:center;'>
-                    <input type="checkbox"  value="1" name="bizcocho" id="bizcocho" style='display: flex;flex-direction: row;justify-content: flex-start;margin-right:2rem;width:auto;'> Bizcocho<br>
-                </div>
-            </div>
-    
-            <div>
-            Relleno
-            </div>
-            <select id="relleno" name="relleno" >
-                <option value=''>Seleccione</option>
-                <option value='vainilla'>Vainilla</option>
-                <option value='chocolate'>Chocolate</option>
-                <option value='fresa'>Fresa</option>
-            </select><br>
-            <div>
-            Cubierta
-            <select id="cubierta" name="cubierta" >
-                <option value=''>Seleccione</option>
-                <option value='blanco'>Blanco</option>
-                <option value='azul'>Azul</option>
-                <option value='chocolate'>Chocolate</option>
-                <option value='rosado'>Rosado</option>
-            </select><br>
+        <div class="modal-content" style='display: flex;flex-direction: column;width: 40%;align-items: center;height: 70vh;overflow-y: auto;overflow-x: hidden;'>
+        
+            <h2 style="font-size: 2rem;margin-bottom: 2rem;font-family: 'button'; text-decoration:underline;">Opciones de Personalización</h2>
+            <!-- Aquí puedes agregar más inputs para personalización -->       
+             
+            <div class='flex-inside'>
+                    <span>Peso (KG)</span>
+                    <input type="number" name="peso" id="peso"  step="1" value="1" min=1 max=20> <br>
             </div>
 
-            <div>
-                <input type="radio" name="persona" id="persona" value="niño"> Niño            
+            <div class='flex-inside'>
+                    <span>Pisos</span>
+                    <input type="number" name="pisos" id="pisos" step="1" value="1" min=1 max=3><br>
+            </div>
+
+            <div class='flex-inside'>
+                    <span>Modelo</span>
+                    <select id="modelo" name="modelo" >
+                        <option value=''>Seleccione</option>
+                        <option value='redonda'>Redonda</option>
+                        <option value='cuadrada'>Cuadrada</option>
+                    </select>
+                    <br>            
             </div>
             
-            <div>
-                <input type="radio" name="persona" id="persona" value="niña"> Niña <br>          
+            <div class='flex-inside'>
+                <span>Relleno</span>
+                <select id="relleno" name="relleno" >
+                    <option value=''>Seleccione</option>
+                    <option value='vainilla'>Vainilla</option>
+                    <option value='chocolate'>Chocolate</option>
+                    <option value='fresa'>Fresa</option>
+                </select><br>
+                    <br>            
+            </div>
+
+            <div class='flex-inside'>
+                <span>Cubierta</span>
+                <select id="cubierta" name="cubierta" >
+                    <option value=''>Seleccione</option>
+                    <option value='blanco'>Blanco</option>
+                    <option value='chocolate'>Chocolate</option>
+                    <option value='azul'>Azul</option>
+                    <option value='rosada'>Rosada</option>
+                </select><br>
+                    <br>            
+            </div>
+
+            <div class='flex-inside' style='display: flex;flex-direction: row;gap: 0rem;'>
+                    <span>Tiene Bizcocho:</span>
+                    <label class="checkbox-container">
+                    <input type="checkbox"  value="1" name="bizcocho" id="bizcocho" style='display: flex;flex-direction: row;justify-content: flex-start;margin-right:2rem;width:auto;'><br>
+                        <span class="checkmark" style='border-radius: 0;'></span>
+                    </label>
+            </div>
+
+            <div class='flex-inside' style='display: flex;flex-direction: row;gap: 0rem;'>
+                    <span style='position: relative;'>Publico:</span>
+
+                    <div style='position: relative;left: 1rem;'>
+                        <label class="radius-container" style="font-size: 1.6rem;color: #333333;font-family: 'roboto';font-weight: bold;">Niño
+                            <input type="radio" name="persona" id="persona" value="niño">    
+                            <span class="checkmark"></span>
+                        </label>
+
+                        <label class="radius-container" style="font-size: 1.6rem;color: #333333;font-family: 'roboto';font-weight: bold;">Niña
+                            <input type="radio" name="persona" id="persona" value="niña">                            
+                            <span class="checkmark"></span>
+                        </label>
+
+                        <label class="radius-container" style="font-size: 1.6rem;color: #333333;font-family: 'roboto';font-weight: bold;">Hombre
+                            <input type="radio" name="persona" id="persona" value="hombre">      
+                            <span class="checkmark"></span>
+                        </label>
+
+
+                        <label class="radius-container" style="font-size: 1.6rem;color: #333333;font-family: 'roboto';font-weight: bold;">Mujer
+                        <input type="radio" name="persona" id="persona" value="mujer">                            
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>      
             </div>
             
-            <div>
-                <input type="radio" name="persona" id="persona" value="hombre"> Hombre            
+            <div class='button-container' style='padding: 2rem 0;'>
+                <button type="button" class='button-rounded-1' onclick="cerrarDialog()">Aceptar</button> 
+                <button type="button" class='button-rounded-2' onclick="cancelDialog()">Cancelar</button>
             </div>
-            
-            <div>
-                <input type="radio" name="persona" id="persona" value="mujer"> Mujer            
+
             </div>
 
 
-            <!-- Botón para finalizar -->
-             <br><br>
-            <button type="button" onclick="cerrarDialog()">Aceptar</button> 
-            <button type="button" onclick="cancelDialog()">Cancelar</button>
         </div>
     </div>          
             </div>
@@ -391,6 +425,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </html>
 
 <script>
+    
 const checkbox = document.getElementById('personalizable');
 const dialog = document.getElementById('dialog');
 
@@ -403,15 +438,16 @@ checkbox.addEventListener('change', () => {
 });
 
 function cerrarDialog() {
+    
 
     const modeloInput = document.getElementById('modelo');
     const rellenoInput = document.getElementById('relleno'); 
     const cubiertaInput = document.getElementById('cubierta');
     const personaRadio = document.querySelectorAll('input[type="radio"][name="persona"]');
     
-    const modeloValor = modeloInput.value.trim();
-    const rellenoValor = rellenoInput.value.trim();
-    const cubiertaValor = cubiertaInput.value.trim();
+    const modeloValor = modeloInput.value;
+    const rellenoValor = rellenoInput.value;
+    const cubiertaValor = cubiertaInput.value;
 
     let seleccionado = false;
     personaRadio.forEach((radio) => {

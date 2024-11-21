@@ -130,7 +130,7 @@ fieldset{
 .Fieldset-title{
     font-size: 3rem;
     text-align: initial;
-    margin: 0.6rem 0 0rem 2.6rem;
+    margin: 2.6rem 0 0rem 2.6rem;
     letter-spacing: 0.3rem;
     border-bottom: 0.15rem solid rgb(248, 130, 136);
     color: #555555;
@@ -151,13 +151,13 @@ padding: 0 1.5rem;
 }
 
 .first-line{
-  width:100%;
+  width: 100%;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   align-items: flex-start;
-  gap:0.5rem 1rem;
-  padding: 0.5rem 1rem;
+  gap: 0.5rem 1rem;
+  padding: 2.5rem 1rem;
 }
 
 .first-line select{
@@ -176,7 +176,7 @@ padding: 0 1.5rem;
   flex-wrap: wrap;
   align-items: flex-start;
   gap: 0.5rem 1rem;
-  padding: 0.5rem 1rem;
+  padding: 2.5rem 1rem;
   display:flex;
 }
 
@@ -189,7 +189,7 @@ padding: 0 1.5rem;
   flex-wrap: wrap;
   align-items: flex-start;
   gap: 0.5rem 1rem;
-  padding: 0.5rem 1rem;
+  padding: 2.5rem 1rem;
 }
 
 .left-box{
@@ -204,6 +204,13 @@ padding: 0 1.5rem;
 
 .flex-inside{
   text-align: initial;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.flex-inside span{
+  text-decoration:underline;
   font-size: 1.6rem;
   color: #333333;
   font-family: 'roboto';
@@ -230,7 +237,8 @@ input{
   border-right: none;
   color: #555555;
   width: 18rem;
-  background: whitesmoke;
+  background: #e5e5e5;
+  text-transform: capitalize;
 }
 
 .btnBlue-small{
@@ -329,8 +337,7 @@ input{
 
 
 .outerTable{
-  margin-left: 3rem;
-  margin-right: 3rem;
+  padding: 1rem;
 }
 
 
@@ -947,7 +954,7 @@ input[type="submit"]:hover {
 
 
 .submitBtn{
-  background: rgb(255, 171, 180);
+  background: #D12B69;
   color: white;
   padding: 1rem 0;
   margin: 0rem;
@@ -956,15 +963,16 @@ input[type="submit"]:hover {
   border: rgb(252, 132, 132);
   text-align: center;
   font-size: 1.8rem;
-  font-family: 'roboto';
+  font-family: 'button';
   text-transform: uppercase;
+  border-radius: 1rem;
 }
 
 
 .submitBtn:hover {
-  background-color: #ff5757;
+  background-color: #ff68a0;
    transform: scale(1.080);
-   transition: ease 0.5s;
+   transition: ease 0.4s;
  }
 
 
@@ -1295,19 +1303,20 @@ input[type="search"]:hover {
 }
  
 select{
-  color: #7c7c7c;
+  color: #333333;
     padding: 4px 3px;
     border: 1px solid transparent;
     border-color: transparent transparent #ffa5a5 transparent;
     cursor: pointer;
     user-select: none;
-    width: 100%;
-    padding: 0.5rem;
+    width: 18rem;
+    padding: 0.6rem;
     text-align: initial;
     font-size: 1.4rem;
     background-color: #e1e1e1;
     font-family: 'roboto';
-
+    border-radius:.4rem;
+    text-transform: capitalize;
 }
 
 
@@ -1363,7 +1372,7 @@ iframe{
   overflow: scroll;
   background: #eee;
   box-shadow: 0rem 0rem 4rem 0px rgb(195 195 195);
-  width: fit-content;  
+  min-width:-webkit-fill-available;
   height: auto;
   border: 1px solid darkgray;
   margin: auto;
@@ -1790,4 +1799,190 @@ flex-direction: column;
     width: 40%;
   }
 
+}
+
+
+
+input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; } /* Para Firefox */ input[type="number"] { -moz-appearance: textfield; }
+
+/*CHECKBOX CUSTOM*/
+
+/* The container */
+.checkbox-container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+}
+
+/* Hide the browser's default checkbox */
+.checkbox-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+  
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+}
+
+/* On mouse-over, add a grey background color */
+.checkbox-container:hover input ~ .checkmark {
+  background-color: #ccc;
+  
+}
+
+/* When the checkbox is checked, add a blue background */
+.checkbox-container input:checked ~ .checkmark {
+  background-color: #D12B69;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.checkbox-container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.checkbox-container .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+
+/***********CUSTOM RADIUS*************/
+
+/* The container */
+.radius-container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.radius-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+  border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.radius-container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.radius-container input:checked ~ .checkmark {
+  background-color: #D12B69;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.radius-container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.radius-container .checkmark:after {
+ 	top: 9px;
+	left: 9px;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: white;
+}
+
+
+/**********TRUE BUTTONS****************/
+
+
+.button-rounded-1{
+  background: #D12B69;
+  color: white;
+  padding: 0.5rem 2.5rem;
+  border-radius: 3rem;
+  font-family: 'button';
+  border: none;
+  font-size: 1.5rem;
+}
+
+
+.button-rounded-1:hover{
+  background: #ff68a0;
+  transition: ease .4s;
+}
+
+.button-rounded-2{
+  background: none;
+  color: #D12B69;
+  padding: 0.5rem 2.5rem;
+  border-radius: 3rem;
+  font-family: 'button';
+  border: 1px solid #D12B69;
+  font-size: 1.5rem;
+  
+}
+
+.button-rounded-2:hover{
+  background: #D12B69;
+  color: white;
+  padding: 0.5rem 2.5rem;
+  border-radius: 3rem;
+  font-family: 'button';
+  border: none;
+  font-size: 1.5rem;
+  transition: ease .4s;
 }

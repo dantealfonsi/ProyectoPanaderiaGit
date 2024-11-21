@@ -73,15 +73,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="utf-8">
     <link rel="stylesheet" href="../../css/main.css">
     <link rel="stylesheet" type="text/css" href="../Javascript/DataTables/dataTables.min.css" />
-    <link rel="stylesheet" type="text/css" href="../../css/SweetAlert/sweetalert2.min.css" />
 
     <script src="../Javascript/DataTables/jQuery/jquery.min.js"></script>
     <title>productos a la venta</title>
 
         <!--CSS File-->
         <link rel="stylesheet" type="text/css" href="<?php echo $GLOBALS['ROOT_PATH'] ?>/css/Common.css">
-        <!-- Font Awesome -->
-        <script src="https://kit.fontawesome.com/0e16635bd7.js" crossorigin="anonymous"></script>
         <!--BOXICONS-->
         <link href='<?php echo $GLOBALS['ROOT_PATH'] ?>/css/boxicons.min.css' rel='stylesheet'>
         <!-- Animate CSS -->
@@ -138,10 +135,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class='InventarioBox'>
 
       <form id='form' action='productos.php' method='POST'>
-        <table id='myTable' class='display'>
+        <table id='myTable' style='width:100% !important'>
          <thead> 
           <tr class='tr'>
-            <th>PERSON</th>
             <th>CÓDIGO</th>
             <th>NOMBRE</th>
             <th>PRECIO</th>
@@ -171,7 +167,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
             echo "            
             <tr>
-                <td title='".$title_person."'>".$person."</td>
                 <td>".$row['idproducto']."</td>
                 <td>".$row['nombre_producto']."</td>
                 <td>".$row['precio_producto'].".BS</td>
