@@ -68,6 +68,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         font-size: 1.4rem;
         font-family: 'Roboto';
        }
+
+       tr td {
+        font-size: 1rem;
+        padding: 0.8rem;
+        font-family: roboto;
+        width: 10%;
+        border: 1px solid #d7d7d7;
+    }
         </style>
     </head>
 
@@ -99,15 +107,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
               <div class='first-line' style='padding: 2rem;gap: 2rem;'> 
                 <div class='flex-inside'>  
-                    Nombre de la Receta:<br>
+                <span>Nombre de la Receta</span>
                 <input type="text" id="nombre_receta" onfocusout="valNombreReceta()" name="nombre_receta" required>
                 </div>
 
             <div class='flex-inside' style="display:none;">
-                A que producto Pertenece? (opcional)<br>
-              <select name="nombre_producto" id="nombre_producto" onchange="valPerteneceProducto()">
-              <option value="">Seleccione..</option>
-              <?php 
+                <span>Producto Relacionado(Opcional)</span>
+                <select name="nombre_producto" id="nombre_producto" onchange="valPerteneceProducto()">
+                <option value="">Seleccione</option>
+                <?php 
               
                   $consulta  = "SELECT idproducto, nombre_producto from productos where CHAR_LENGTH(idreceta) =0;";
                   $resultado_cat = mysqli_query($conn, $consulta);
@@ -127,31 +135,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div>
                 <div class='first-line' style='padding: 2rem;gap: 2rem;'> 
                     <div class='flex-inside'>  
-                        Cantidad:<br>
+                        
+                    <span>Cantidad</span>
                     <input type="number" id="cantidad" name="cantidad" steep="1" value="1">
                     </div>                
                     <div class='flex-inside' style='display: flex;flex-direction: column;' >
-                    Unidad en:
-                    <select disabled id="uni" name="uni">
+                    <span>Unidad</span>
+                    <select disabled id="uni" name="uni" class='first-line-select'>
                         <option selected>gramos</option>
                         <option>unidades</option>
                     </select>
                     </div>
                 <div class='flex-inside'>
-                    Insumo:<br>
-                    <select name="nombre_insumo" id="nombre_insumo" onchange="copyUnidad()">  
+                <span>Insumo</span>
+                  <div style='display:flex;flex-direction:row;gap:1rem'>
+                  <select name="nombre_insumo" id="nombre_insumo" onchange="copyUnidad()">  
                         <option value="">Seleccione</option>
-                <?php 
-                
-                    $consulta  = "SELECT * from insumos";
-                    $resultado_cat = mysqli_query($conn, $consulta);
-                    while($row = mysqli_fetch_array($resultado_cat)) {
-                        echo "<option value='".$row['nombre']."'>" . $row['nombre'] . "</option>";
-                    }
+                            <?php 
+                    
+                                $consulta  = "SELECT * from insumos";
+                                $resultado_cat = mysqli_query($conn, $consulta);
+                                while($row = mysqli_fetch_array($resultado_cat)) {
+                                    echo "<option value='".$row['nombre']."'>" . $row['nombre'] . "</option>";
+                                }
 
-                ?>
+                            ?>
                     </select>
-                    <a class='btnBlue-small' type="button" onclick="agregarProducto()">Agregar</a>
+                    <a class='button-rounded-1' style='cursor:pointer;' type="button" onclick="agregarProducto()">Agregar</a>
+                  </div>
+                   
             </section>
                 </div>                
                 </div>                  
@@ -162,8 +174,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class='InventarioBox' style='height: 27rem;  width: auto; overflow-y: scroll;'> 
                 <table style='width: 100%;'> 
                     <thead>
-                        <tr>
-                            <th>Cantidad</th>
+                        <tr style='background: linear-gradient(-11deg, #E994B3, #FAD2DD);color: #000000;'>
+                            <th style='padding:1rem;'>Cantidad</th>
                             <th>Unidad</th>
                             <th>Insumo</th>
                             <th>Acciones</th>
@@ -177,7 +189,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <div class='second-line'>
              <div class='flex-inside' style='width: 95%;margin: auto;'>
-                Preparacion:<br><br>
+                <h1 style="text-align: center;font-size: 2rem;text-decoration: underline;color: #333333;font-family: 'button';">Preparacion</h1>
                 <textarea style='color:black;height: 15rem;' id="nota" name="nota" required> </textarea>
              </div>
         </div>  
@@ -250,7 +262,7 @@ function valNombreReceta(){
           } 
           else {
           restrictUsuario = true;
-          $("#nombre_receta").css("border-bottom","2px solid #6acfff");
+          $("#nombre_receta").css("border-bottom","2px solid #cf375b");
         }
       });
 }

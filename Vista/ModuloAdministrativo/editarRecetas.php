@@ -95,7 +95,16 @@ if(isset($_GET['id'])){
         height: 6rem;
         font-size: 1.4rem;
         font-family: 'Roboto';
+        padding:1rem;
        }
+
+       tr td {
+        font-size: 1rem;
+        padding: 0.8rem;
+        font-family: roboto;
+        width: 10%;
+        border: 1px solid #d7d7d7;
+    }
         </style>
     </head>
 
@@ -127,13 +136,13 @@ if(isset($_GET['id'])){
 
             <div class='first-line' style='padding: 2rem;gap: 2rem;'> 
                 <div class='flex-inside'>  
-                    Nombre de la Receta:<br>
+                    <span>Nombre de la Receta:</span>
                 <input type="text" readonly id="nombre_receta" name="nombre_receta" value="<?php echo $nombre_receta; ?>">
                 </div>
          
 
                 <div class='flex-inside' style="display:none;">
-                A que producto Pertenece?:<br>
+                    <span>Producto Relacionado</span>
                     <select disabled name="nombre_producto" id="nombre_producto" >
                     <option value="">Seleccione</option>
                         <?php 
@@ -157,11 +166,11 @@ if(isset($_GET['id'])){
         <section class='form-section'>
             <div class='first-line' style='padding: 2rem;gap: 2rem;'> 
                 <div class='flex-inside'>  
-                    Cantidad:<br>
+                    <span>Cantidad</span>
                     <input type="number" id="cantidad" name="cantidad" steep="1" value="1">
                 </div>                
                 <div class='flex-inside'>
-                    Unidad en:<br>
+                    <span>Unidad</span>
                     <select disabled id="uni" name="uni">
                         <option selected>gramos</option>
                         <option>unidades</option>
@@ -169,7 +178,8 @@ if(isset($_GET['id'])){
                 </div>
                 
                 <div class='flex-inside'>
-                    Insumo:<br>
+                    <span>Insumo</span>
+                    <div style='display:flex;flex-direction:row;gap:1rem'>
                     <select name="nombre_insumo" id="nombre_insumo"  onchange="copyUnidad()">  
                         <option value="">Seleccione</option>
                             <?php 
@@ -182,7 +192,8 @@ if(isset($_GET['id'])){
 
                             ?>
                     </select>
-                    <a class='btnBlue-small' type="button" onclick="agregarProducto()">Agregar</a>
+                    <a class='button-rounded-1' type="button" onclick="agregarProducto()">Agregar</a>
+                    </div>
                 </div>                
             </div>                  
         </div>
@@ -192,8 +203,8 @@ if(isset($_GET['id'])){
     <div class='InventarioBox' style='height: 27rem;  width: auto; overflow-y: scroll;'> 
         <table style='width: 100%;'> 
             <thead>
-                <tr>
-                    <th>Cantidad</th>
+                <tr style='background: linear-gradient(-11deg, #E994B3, #FAD2DD);color: #000000;'>
+                    <th style='padding:1rem;'>Cantidad</th>
                     <th>Unidad</th>
                     <th>Insumo</th>
                     <th>Acciones</th>
@@ -205,7 +216,7 @@ if(isset($_GET['id'])){
 </section>
         <div class='second-line'>
              <div class='flex-inside' style='width: 95%;margin: auto;'>
-                Preparacion:<br><br>
+             <h1 style="text-align: center;font-size: 2rem;text-decoration: underline;color: #333333;font-family: 'button';">Preparacion</h1>
                 <textarea style='color:black;height: 15rem;' id="nota" name="nota" required> <?php echo $nota; ?></textarea>
              </div>
         </div>        
@@ -279,7 +290,7 @@ function mostrarTabla() {
             <td>${producto.gramos}</td>
             <td>${producto.producto}</td>
             <td>
-                <button onclick="eliminarProducto(this)">Eliminar</button>
+                <a onclick="eliminarProducto(this)"><img id=icon-bt src='../../Assets/images/inventory/erase.png'></a>
             </td>
         `;
         tablaCuerpo.appendChild(fila);
@@ -290,11 +301,27 @@ function eliminarProducto(button) {
     const fila = button.parentNode.parentNode;
     const index = fila.rowIndex - 1; // Restamos 1 para ajustar al índice del array
 
-    if (confirm("¿Estás seguro de eliminar este Insumo?")) {
-        productos.splice(index, 1); // Elimina el producto del array
-        mostrarTabla();
-    }
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: "No podrás revertir esto",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminarlo'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            productos.splice(index, 1); // Elimina el producto del array
+            mostrarTabla();
+            Swal.fire(
+                '¡Eliminado!',
+                'El insumo ha sido eliminado.',
+                'success'
+            )
+        }
+    })
 }
+
 
 function enviarReceta() {
     const nombreReceta = document.getElementById("nombre_receta").value;

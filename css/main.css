@@ -160,9 +160,9 @@ padding: 0 1.5rem;
   padding: 2.5rem 1rem;
 }
 
-.first-line select{
-  background: #ffebeb;
-  border: none;
+.first-line-select{
+  background: #adadad;
+    border: none;
   font-size: 1.4rem;
   padding: 0.6rem;
   width: 18rem;
@@ -1963,6 +1963,7 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 .button-rounded-1:hover{
   background: #ff68a0;
   transition: ease .4s;
+  cursor: pointer;
 }
 
 .button-rounded-2{
@@ -1985,4 +1986,5 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
   border: none;
   font-size: 1.5rem;
   transition: ease .4s;
+  cursor: pointer;
 }

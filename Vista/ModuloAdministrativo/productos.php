@@ -168,7 +168,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "            
             <tr>
                 <td>".$row['idproducto']."</td>
-                <td>".$row['nombre_producto']."</td>
+                <td style='text-transform:capitalize;'>".$row['nombre_producto']."</td>
                 <td>".$row['precio_producto'].".BS</td>
                 <td>".$row['categoria_producto']."</td>
                 <td>";

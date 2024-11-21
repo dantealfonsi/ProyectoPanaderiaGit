@@ -100,7 +100,7 @@
           
             echo "            
             <tr>
-                <td>".$row['nombre']."</td>
+                <td style='text-transform:capitalize'>".$row['nombre']."</td>
                 <td>".$row['notas']."</td>
                 <td>
                 <a title='Editar Receta' href='editarRecetas.php?id=".$row['idreceta']."'><img id='icon-bt' src='../../Assets/images/inventory/edit.png'></a>
