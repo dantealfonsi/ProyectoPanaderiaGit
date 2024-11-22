@@ -166,11 +166,12 @@ if (isset($_GET['edit'])){
 <fieldset>
 <form action='categoriaInsumos.php' name='EditForm' method='post'>
   <div style='text-align:right;'> <a href='categoriaInsumos.php' class='close-btn'> ⌦ </a> </div>
-  <h2 class='header-screen'> EDITAR CATEGORÍA </h2> <br><br>
+  <h2 class='header-screen'> EDITAR CATEGORÍA-INSUMOS-</h2> <br><br>
 
   <input type='hidden' id='id' value='".$_GET['id']."'>
-  <h1 style='color:black;'>Nombre:</h1><br><input style='margin: auto;' title='No se permiten caracteres especiales' class='input-form' type='text' id='nombre' value='".$categoria->readCategoriaId($_GET['id'])['nombre']."'><br><br>
-  <br><button type='button' class='submitBtn' onclick=\"editar()\" id='guardar' value='Guardar'>Guardar</button>   <br><br><br>
+  <h1 style='color:black;text-decoration:underline;'>Nombre:</h1><br>
+  <input style='margin: auto;width:36rem;text-align:center;' title='No se permiten caracteres especiales' type='text' id='nombre' value='".$categoria->readCategoriaId($_GET['id'])['nombre']."'><br><br>
+  <br><button type='button' class='submitBtn' onclick=\"editar()\" id='guardar' value='Guardar' style='width:36rem;'>Guardar</button>   <br><br><br>
   </form>
   </fieldset>
   </div>
@@ -184,12 +185,12 @@ if (isset($_GET['add'])){
 <fieldset>
   <form action='categoriaInsumos.php' method='post'>
   <div style='text-align:right;'> <a href='categoriaInsumos.php' class='close-btn'> ⌦ </a> </div>
-  <h2 class='header-screen'> AGREGAR CATEGORÍA </h2> <br><br>
+  <h2 class='header-screen'>AGREGAR CATEGORÍA-INSUMOS-</h2> <br><br>
 
   <input type='hidden' id='id' value='".$_GET['id']."'>
-  <h1 style='color:black;'>Nombre:</h1><br>
-  <input style='margin: auto;' title='No se permiten caracteres especiales' class='input-form' type='text' placeholder='Nombre de la Categoria' title='No se permiten caracteres especiales' ' id='nombreCrear' pattern='(\w|\s)*'><br><br>
-   <button type='button' class='submitBtn' onclick='agregarCategoria()'  id='agregar' value='Agregar' >Agregar</button>
+  <h1 style='color:black;text-decoration:underline;'>Nombre:</h1><br>
+  <input style='margin: auto;width:36rem;text-align:center;' title='No se permiten caracteres especiales' type='text' placeholder='Nombre de la Categoria' title='No se permiten caracteres especiales' ' id='nombreCrear' pattern='(\w|\s)*'><br><br>
+   <button type='button' class='submitBtn' onclick='agregarCategoria()'  id='agregar' value='Agregar' style='width:36rem;'>Agregar</button>
   <br>
   </form>
   </fieldset>

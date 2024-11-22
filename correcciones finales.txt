@@ -1,2 +1,3 @@
 -Ponerle sombras a las imagenes.
+-Estilo de categorias igual a los demas modulos.
 -

@@ -235,6 +235,8 @@
 
           <div class='flex-inside'>
             <span>Precio</span> <input type='number' placeholder='0.00' id='precio' min='0' value='0.00' step='0.01' title='Currency' pattern='^\d+(?:\.\d{1,2})?$' onblur='this.parentNode.parentNode.style.backgroundColor=/^\d+(?:\.\d{1,2})?$/.test(this.value)?'inherit':'red' oninput='this.value = !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value): null'>
+            <span class='currency-label' style='position: absolute;margin-top: 3.4rem;margin-left: 14rem;text-decoration: none;'>BS</span>
+
           </div>
 
 

@@ -51,6 +51,15 @@
       text-align: center;
     }
 
+    .inside-td {
+        font-size: 1rem;
+        padding: 0.8rem;
+        font-family: roboto;
+        width: 10%;
+        border: 1px solid #d7d7d7;
+        text-transform:capitalize;
+    }
+
     @media (max-width: 950px) {
 
       .existencia{
@@ -94,38 +103,37 @@
 
           <div class='first-line'>
             <div class='flex-inside'>
-            Número: <br> 
+           <span> Número</span>
               <input  type='number' name='num_entrada' style='text-align:center;' readonly value='".$titulo."'>
             </div>
   
           <div class='flex-inside'>
-          Fecha: 	<br>
+          <span>Fecha</span>
             <input type='text' disabled value='".$entrada->readEntrada($_GET['numentrada'])['fecha']."'>
           </div>
-        </div>
 
-        <div class='second-line'>
           <div class='flex-inside'>
-            Responsable: <br> 
+            <span>Responsable</span>
             <input type='text' readonly value='".$entrada->getUsuario($entrada->readEntrada($_GET['numentrada'])['responsable'])['nombre']."'>
           </div>
 
-      <div class='flex-inside'>
-        Proveedor: <br> 
-        <input  title='Seleccione Proveedor' required minlength=2 autocomplete='off' onkeypress=\"this.value=''\" list='list_proveedores' type='text' name='proveedor' id='proveedor' readonly value='".$entrada->readEntrada($_GET['numentrada'])['proveedor']."'>
+          <div class='flex-inside'>
+            <span>Proveedor</span>
+            <input  title='Seleccione Proveedor' required minlength=2 autocomplete='off' onkeypress=\"this.value=''\" list='list_proveedores' type='text' name='proveedor' id='proveedor' readonly value='".$entrada->readEntrada($_GET['numentrada'])['proveedor']."'>
           </div>
         </div>
+      
       </section>   
       
       
           
-        <section class='table-section'>  
+        <section class='table-section' style='padding: 2rem;'>  
 
         <div class='InventarioBox' style='height: 27rem;  width: auto; overflow-y: scroll;'> 
         <table style='width: 100%;'> 
           <thead> 
-            <tr>
-              <th>CÓDIGO</th>
+            <tr style='background: linear-gradient(-11deg, #E994B3, #FAD2DD);color: #000000;'>
+              <th style='padding:1rem;'>CÓDIGO</th>
               <th>PROUCTO</th>
               <th>CANTIDAD</th>
               <th>PRECIO</th>
@@ -140,10 +148,10 @@
           echo "
           <tbody>   
             <tr>
-              <td>{$row['codigo_producto'] }</td> 
-              <td>{$row['nombre_producto']}</td>
-              <td>{$row['cantidad']}</td>
-              <td>{$row['precio']}</td>
+              <td class='inside-td'>{$row['codigo_producto'] }</td> 
+              <td class='inside-td'>{$row['nombre_producto']}</td>
+              <td class='inside-td'>{$row['cantidad']}</td>
+              <td class='inside-td'>{$row['precio']}</td>
            </tr>
           </tbody> 
           ";
@@ -269,36 +277,37 @@
           <input  type='hidden' id='nameTemp' readonly value='v".$_SESSION['IDusuario']."'>
           <div class='first-line'>
             <div class='flex-inside'>
-            Número: <br> 
+            <span>Número</span>
               <input  type='number' id='num_entrada' name='num_entrada' style='text-align:center;' readonly value='".$entrada->num_entrada()."'>
             </div>
   
           <div class='flex-inside'>
-          Fecha: 	<br>
+          <span>Fecha</span>
             <input type='date' value='".$currentDate = date('Y-m-d')."' disabled>
           </div>
-        </div>
 
-        <div class='second-line'>
           <div class='flex-inside'>
-            Responsable: <br> 
+            <span>Responsable</span>
             <input type='text' readonly value='".$entrada->getUsuario($_SESSION['IDusuario'])['nombreusuario']."'>
           </div>
 
-      <div class='flex-inside'>
-        Proveedor: <br> 
-        <input  title='Seleccione Proveedor' required minlength=2 autocomplete='off' list='list_proveedores' type='text' name='proveedor' id='proveedor' placeholder='Seleccione Proveedor'>
-        <datalist id='list_proveedores'>
-        ";
+        <div class='flex-inside'>
+          <span>Proveedor</span>
+          <input  title='Seleccione Proveedor' required minlength=2 autocomplete='off' list='list_proveedores' type='text' name='proveedor' id='proveedor' placeholder='Seleccione Proveedor'>
+          <datalist id='list_proveedores'>
+          ";
                   $entrada->list_proveedores();
         echo "
                 </datalist> 
-          </div>
+            </div>
+
+
         </div>
+
 
         <div class='third-line'>      
           <div class='flex-inside'>
-            Código: <br> <input title='Seleccione el codigo de un producto' autocomplete='off'  pattern='^[0-9]{4}' list='list_productos' type='text' name='codigo' id='codigo' placeholder='Ingrese Codigo' >
+            <span>Código</span> <input title='Seleccione el codigo de un producto' autocomplete='off'  pattern='^[0-9]{4}' list='list_productos' type='text' name='codigo' id='codigo' placeholder='Ingrese Codigo' >
           
             <datalist id='list_productos'>
           ";
@@ -309,19 +318,25 @@
     </div>
    
     <div class='flex-inside'>
-      Cantidad: <br><input  title='Ingrese Cantidad'  type='number' min=1 value=1 name='cantidad' id='cantidad' oninput='this.value = !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value): null'>
+      <span>Precio de Compra</span>
+      <input  title='Ingrese Precio' id='precio' type='number' placeholder='0.00' name='precio' min='0' value='0.00' step='0.01' title='Currency' pattern='^\d+(?:\.\d{1,2})?$' onblur='this.parentNode.parentNode.style.backgroundColor=/^\d+(?:\.\d{1,2})?$/.test(this.value)?'inherit':'red' oninput='this.value = !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value): null'>
+      <span class='currency-label' style='position: absolute;margin-top: 3.4rem;margin-left: 14rem;text-decoration: none;'>BS</span>
     </div>
 
     <div class='flex-inside'>
-      Precio de Compra: <br><input  title='Ingrese Precio' id='precio' type='number' placeholder='0.00' name='precio' min='0' value='0.00' step='0.01' title='Currency' pattern='^\d+(?:\.\d{1,2})?$' onblur='this.parentNode.parentNode.style.backgroundColor=/^\d+(?:\.\d{1,2})?$/.test(this.value)?'inherit':'red' oninput='this.value = !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value): null'>
-      <a class='btnBlue-small' style='cursor:pointer;' onclick=\"add()\">Añadir</a>
-      <a id=limpiar class='btnOrange-small' name=limpiar onclick=\"clearFunc()\">Limpiar</a>
-      </div>
-  </div>   
+      <span>Cantidad</span> 
+      <div>
+          <input  title='Ingrese Cantidad'  type='number' min=1 value=1 name='cantidad' id='cantidad' oninput='this.value = !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value): null'>
+          <a class='button-rounded-1' style='cursor:pointer;' onclick=\"add()\">Añadir</a>
+          <a id=limpiar class='button-rounded-2' name=limpiar onclick=\"clearFunc()\">Limpiar</a>
+      </div>    
+    </div>
+  </div>
+
+     
 
   <section class='table-section'>   
 <div class='InventarioBox' style='height: 27rem; width: auto; overflow-y: scroll;' id='InventarioBox'> 
-
 </div>
 
 <script> 
@@ -337,7 +352,7 @@
 
 </section>  
 
-      <button type='button' class='submitBtn' name='agregar_entrada' id='agregar_entrada' onclick=\"agregarEntrada()\" title='Procesar Entrada'> Procesar </button>
+      <button type='button' class='submitBtn' name='agregar_entrada' id='agregar_entrada' style='margin-top: 2rem;' onclick=\"agregarEntrada()\" title='Procesar Entrada'> Procesar </button>
     </section>
     </div>
     

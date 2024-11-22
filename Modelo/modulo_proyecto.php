@@ -254,8 +254,8 @@ if (isset($_POST['infoTemp'])){
     $tabla_temp = "  
     <table style=width:100%>
     <thead>
-    <tr>  
-      <th>ACCIONES</th>
+    <tr style='background: linear-gradient(-11deg, #E994B3, #FAD2DD);color: #000000;'>  
+      <th style='padding:1rem;'>ACCIONES</th>
       <th>CODIGO</th>
       <th>PROUCTO</th>
       <th>CANTIDAD</th>
@@ -275,11 +275,11 @@ if (isset($_POST['infoTemp'])){
     $tabla_temp = $tabla_temp."
 
     <tr>
-      <td><a onclick=borrar_producto({$row['id']})><img id=icon-bt src='../../Assets/images/inventory/erase.png'></a></td>
-      <td>{$row['codigo_producto'] }</td> 
-      <td>{$row['nombre_producto']}</td>
-      <td>{$row['cantidad']}</td>
-      <td>{$row['precio']}</td>
+      <td class='inside-td'><a onclick=borrar_producto({$row['id']})><img id=icon-bt src='../../Assets/images/inventory/erase.png'></a></td>
+      <td class='inside-td'>{$row['codigo_producto'] }</td> 
+      <td class='inside-td'>{$row['nombre_producto']}</td>
+      <td class='inside-td'>{$row['cantidad']}</td>
+      <td class='inside-td'>{$row['precio']}</td>
    </tr>   
   ";
   //calcula el subtotal de los insumos utilizados al costo
@@ -372,10 +372,10 @@ if (isset($_POST['infoTempE'])){
     $tabla_temp = "
     <table style=width:100%>
     <thead>
-    <tr>  
-      <th>ACCIONES</th>
+    <tr style='background: linear-gradient(-11deg, #E994B3, #FAD2DD);color: #000000;'>  
+      <th style='padding:1rem;'>ACCIONES</th>
       <th>CODIGO</th>
-      <th>PROUCTO</th>
+      <th>PRODUCTO</th>
       <th>CANTIDAD</th>
     </tr>
     </thead>
@@ -393,10 +393,10 @@ if (isset($_POST['infoTempE'])){
     $tabla_temp = $tabla_temp."
 
     <tr>
-      <td><a onclick=borrar_producto({$row['id']})><img id=icon-bt src='../../Assets/images/inventory/erase.png'></a></td>
-      <td>{$row['codigo_producto'] }</td> 
-      <td>{$row['nombre_producto']}</td>
-      <td>{$row['cantidad']}</td>
+      <td class='inside-td' ><a onclick=borrar_producto({$row['id']})><img id=icon-bt src='../../Assets/images/inventory/erase.png'></a></td>
+      <td class='inside-td'>{$row['codigo_producto'] }</td> 
+      <td class='inside-td'>{$row['nombre_producto']}</td>
+      <td class='inside-td'>{$row['cantidad']}</td>
    </tr>   
   ";
   $subtotal = $subtotal + $row['precio'];
@@ -495,10 +495,10 @@ if (isset($_POST['infoTempDE'])){
     $tabla_temp = "
     <table style=width:100%>
     <thead>
-    <tr>  
-      <th>ACCIONES</th>
+    <tr style='background: linear-gradient(-11deg, #E994B3, #FAD2DD);color: #000000;'>  
+      <th style='padding:1rem;'>ACCIONES</th>
       <th>CODIGO</th>
-      <th>PROUCTO</th>
+      <th>PRODUCTO</th>
       <th>CANTIDAD</th>
     </tr>
     </thead>
@@ -516,10 +516,10 @@ if (isset($_POST['infoTempDE'])){
     $tabla_temp = $tabla_temp."
 
     <tr>
-      <td><a onclick=borrar_producto({$row['id']})><img id=icon-bt src='../../Assets/images/inventory/erase.png'></a></td>
-      <td>{$row['codigo_producto'] }</td> 
-      <td>{$row['nombre_producto']}</td>
-      <td>{$row['cantidad']}</td>
+      <td class='inside-td'><a onclick=borrar_producto({$row['id']})><img id=icon-bt src='../../Assets/images/inventory/erase.png'></a></td>
+      <td class='inside-td'>{$row['codigo_producto'] }</td> 
+      <td class='inside-td'>{$row['nombre_producto']}</td>
+      <td class='inside-td'>{$row['cantidad']}</td>
    </tr>   
   ";
   $subtotal = $subtotal + $row['precio'];
@@ -643,8 +643,8 @@ if (isset($_POST['infoTempDS'])){
     $tabla_temp = "
     <table style=width:100%>
     <thead>
-    <tr>  
-      <th>ACCIONES</th>
+    <tr style='background: linear-gradient(-11deg, #E994B3, #FAD2DD);color: #000000;'>  
+      <th style='padding:1rem;'>ACCIONES</th>
       <th>CODIGO</th>
       <th>PRODUCTO</th>
       <th>CANTIDAD</th>
@@ -665,11 +665,11 @@ if (isset($_POST['infoTempDS'])){
     $tabla_temp = $tabla_temp."
 
     <tr>
-      <td><a onclick=borrar_producto({$row['id']})><img id=icon-bt src='../../Assets/images/inventory/erase.png'></a></td>
-      <td>{$row['codigo_producto'] }</td> 
-      <td>{$row['nombre_producto']}</td>
-      <td>{$row['cantidad']}</td>
-      <td>{$row['precio']}</td>
+      <td class='inside-td'><a onclick=borrar_producto({$row['id']})><img id=icon-bt src='../../Assets/images/inventory/erase.png'></a></td>
+      <td class='inside-td'>{$row['codigo_producto'] }</td> 
+      <td class='inside-td'>{$row['nombre_producto']}</td>
+      <td class='inside-td'>{$row['cantidad']}</td>
+      <td class='inside-td'>{$row['precio']}</td>
    </tr>   
   ";
   $subtotal = $subtotal + $row['precio'];
