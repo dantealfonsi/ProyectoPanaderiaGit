@@ -14,7 +14,7 @@
     <link rel="stylesheet" type="text/css" href="../../css/SweetAlert/sweetalert2.min.css" />
 
     <script src="../Javascript/DataTables/jQuery/jquery.min.js"></script>
-    <title>insumos</title>
+    <title>Insumos</title>
 
         <!--CSS File-->
         <link rel="stylesheet" type="text/css" href="<?php echo $GLOBALS['ROOT_PATH'] ?>/css/Common.css">
@@ -50,6 +50,15 @@
 
     body{
       text-align: center;
+    }
+
+    .inside-td {
+        font-size: 1rem;
+        padding: 0.8rem;
+        font-family: roboto;
+        width: 10%;
+        border: 1px solid #d7d7d7;
+        text-transform:capitalize;
     }
 
     @media (max-width: 950px) {
@@ -253,7 +262,7 @@
 
           <div class='first-line'>
             <div class='flex-inside'>
-            Referencia: <br> 
+            <span>Referencia</span>
             <input onchange=\"detectRef()\" required title='Seleccione el numero de referencia de Entrada en el Inventario' autocomplete='off' onkeypress=\"this.value=''\"  list='list_entrada'  type='text' name='referencia' id='referencia' style='text-align:center' ><br>
             <datalist id='list_entrada'>";
                 $dev_entrada->list_entrada();
@@ -261,7 +270,7 @@
             </div>
 
             <div class='flex-inside'>
-            Motivo: <br>
+            <span>Motivo</span>
                 <select name='motivo' id='motivo'> 
                   <option selected>Daño</option>
                   <option>Equivocación</option>
@@ -269,42 +278,45 @@
                 </select> 
           </div>
           <div class='flex-inside'>
-          Fecha: 	<br>
+          <span>Fecha</span>
             <input type='date' value='".$currentDate = date('Y-m-d')."' disabled>
           </div>
-        </div>
 
-        <div class='second-line'>
           <div class='flex-inside'>
-            Responsable: <br> 
+            <span>Responsable</span>
             <input type='text' readonly value='".$dev_entrada->getUsuario($_SESSION['IDusuario'])['nombreusuario']."'>
           </div>
 
-      <div class='flex-inside'>
-        Proveedor: <br> 
-        <input  title='Seleccione Proveedor' required minlength=2 autocomplete='off' onkeypress=\"this.value=''\"  type='text' name='proveedor' id='proveedor'  value= '' readonly>
-          </div>
-        </div>
+                  
 
-        <div class='third-line'>      
           <div class='flex-inside'>
-            Código: <br> <input title='Seleccione el codigo de un producto' autocomplete='off' onkeypress=\"this.value=''\" pattern='^[0-9]{4}' list='list_productos' type='text' name='codigo' id='codigo' placeholder='XXXX' onchange=\"getExistencia()\">
+            <span>Proveedor</span>
+            <input  title='Seleccione Proveedor' required minlength=2 autocomplete='off' onkeypress=\"this.value=''\"  type='text' name='proveedor' id='proveedor'  value= '' readonly>
+          </div>
+
+           <div class='flex-inside'>
+            <span>Código</span> <input title='Seleccione el codigo de un producto' autocomplete='off' onkeypress=\"this.value=''\" pattern='^[0-9]{4}' list='list_productos' type='text' name='codigo' id='codigo' placeholder='XXXX' onchange=\"getExistencia()\">
           
             <datalist id='list_productos'>
            
          </datalist> 
         
-    </div>
-   
-    <div class='flex-inside'>
-      Cantidad: <br><input  title='Ingrese Cantidad'  type='number' min=0 value=0 name='cantidad' id='cantidad' oninput='this.value = !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value): null'>
-      <a class='btnBlue-small' style='cursor:pointer;' onclick=\"add('nombreX')\">Añadir</a> <br>
-      </div>
+        </div>
+      
+        <div class='flex-inside'>
+          <span>Cantidad</span>
+          <div>
+            <input title='Ingrese Cantidad'  type='number' min=0 value=0 name='cantidad' id='cantidad' oninput='this.value = !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value): null'>
+            <a class='button-rounded-1' style='cursor:pointer;' onclick=\"add('nombreX')\">Añadir</a> <br>
+          </div>
+        </div>
 
-    <div class='flex-inside'>
-      <input  title='Ingrese Precio' id='precio' type='hidden' placeholder='0.00' name='precio' min='0' value='0.00' step='0.01' title='Currency' pattern='^\d+(?:\.\d{1,2})?$' onblur='this.parentNode.parentNode.style.backgroundColor=/^\d+(?:\.\d{1,2})?$/.test(this.value)?'inherit':'red' oninput='this.value = !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value): null'>
-    </div>
-  </div>   
+        <div class='flex-inside'>
+          <input  title='Ingrese Precio' id='precio' type='hidden' placeholder='0.00' name='precio' min='0' value='0.00' step='0.01' title='Currency' pattern='^\d+(?:\.\d{1,2})?$' onblur='this.parentNode.parentNode.style.backgroundColor=/^\d+(?:\.\d{1,2})?$/.test(this.value)?'inherit':'red' oninput='this.value = !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value): null'>
+        </div>
+
+        </div>
+
 
   <section class='table-section'>  
 <div class='outerTable'> 

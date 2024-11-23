@@ -125,6 +125,16 @@
             .dialog-content {
                 text-align: center;
             } 
+
+            
+        .inside-td{
+        font-size: 1rem;
+        padding: 0.8rem;
+        font-family: roboto;
+        width: 10%;
+        border: 1px solid #d7d7d7;
+        text-transform:capitalize;
+    }
 /* Fuentes de Texto*/
 @font-face {
       font-family: roboto;
@@ -150,6 +160,15 @@
       text-align: center;
     }
 
+    .inside-td {
+        font-size: 1rem;
+        padding: 0.8rem;
+        font-family: roboto;
+        width: 10%;
+        border: 1px solid #d7d7d7;
+        text-transform:capitalize;
+    }
+
     @media (max-width: 950px) {
 
       .existencia{
@@ -163,13 +182,13 @@
 
 <dialog id="info-dialog">
   <div class="dialog-content">
-    Elementos Faltantes en Rojo de la Receta:
-  <table id='example' class='ui celled table' style='width:100%; '> 
-                    <thead>
-                        <tr>
-                            <th>Falta</th>
-                            <th>Cant</th>
-                            <th>Uni</th>
+    <span style='font-size: 1.4rem;font-weight: bold;text-decoration: underline;'>Elementos Faltantes(<span style='color:red'>*</span>)</span>
+  <table id='example' class='ui celled table' style='width:100%;margin-top: 1rem;margin-bottom: 1rem;'> 
+                    <thead style='background: linear-gradient(-11deg, #E994B3, #FAD2DD);color: #000000;'>
+                        <tr style='padding:1rem;'>
+                            <th style='padding:1rem;'>Falta</th>
+                            <th>Cantidad</th>
+                            <th>Unidad</th>
                             <th>Insumo</th>
                         </tr>
                     </thead>
@@ -177,7 +196,7 @@
                     </tbody>
                 </table>    
   </div>
-  <button class="add-button" onclick="document.getElementById('info-dialog').close()">Cerrar</button>
+  <button class="button-rounded-2" onclick="document.getElementById('info-dialog').close()">Cerrar</button>
 </dialog>
 
 <?php 
@@ -208,54 +227,42 @@
       <section class='form-section'>       
         <div class='first-line'>
           <div class='flex-inside'>
-            Motivo: <br>
+           <span>Motivo</span>
                 <input type='text' name='motivo' id='motivo' readonly  value='".$salida->readSalida($_GET['numsalida'])['motivo']."'> 
             </div>
   
   <div class='flex-inside'>
-  Fecha: 	<br>
+  <span>Fecha</span>
     <input text' value='".$salida->readSalida($_GET['numsalida'])['fecha']."' disabled>
+</div>
+
+<div class='flex-inside'>
+<span>Responsable</span>
+  <input type='text'readonly value='".$salida->getPersona($salida->readSalida($_GET['numsalida'])['cedula_cliente'])['nombre']."'>
 </div>
   
 </div>
 <div class='second-line'>
 
 <div class='flex-inside'>
-Usuario que lo realizo:  <br>
-  <input type='text'readonly value='".$salida->getPersona($salida->readSalida($_GET['numsalida'])['cedula_cliente'])['nombre']."'>
-</div>
-
-<div class='flex-inside'>
-Apellido:  <br>
-  <input type='text' id='apellido' name='apellido' value='".$salida->getPersona($salida->readSalida($_GET['numsalida'])['cedula_cliente'])['apellido']."'>
-</div>
-</div>
-
-<div class='first-line'>
-
-<div class='flex-inside'>
-Responsable: <br> 
-<input type='text' readonly value='".$salida->getPersona($_SESSION['IDusuario'])['nombreusuario']."'>
-
-</div>
-
-
-</div>
-
-
-</section>   
-<div class='flex-inside'>
-Cocinaste: <br>
+<span>Lista de Cocina</span>
 ";
 
 $Q_select_cocinaste = "SELECT * from itemcocina WHERE num_salida = {$_GET['numsalida']}";
 $Q_result_cocinaste = mysqli_query($tmodulo->mysqlconnect(), $Q_select_cocinaste );
 while($Q_row_cocinaste = mysqli_fetch_assoc($Q_result_cocinaste)){
-  echo "<li>".$Q_row_cocinaste['cantidad']." ".$salida->readProductoReceta($Q_row_cocinaste['idproducto'])['nombre_producto']."</li>";
+  echo "<li style='font-size: 1.4rem;display: flex;align-items: center;text-transform: capitalize;margin-left: 1rem;'><b>-</b>".$Q_row_cocinaste['cantidad']." ".$salida->readProductoReceta($Q_row_cocinaste['idproducto'])['nombre_producto']."</li>";
 }
 
 echo "
 </div>
+
+</div>
+
+
+
+</section>   
+
 <br>
 <section class='table-section'>
   
@@ -264,9 +271,9 @@ echo "
 <div class='InventarioBox' style='height: 27rem; overflow-y: scroll; width: auto;'>
  
 <table style='width: 100%;'> 
-  <thead> 
+  <thead style='background: linear-gradient(-11deg, #E994B3, #FAD2DD);color: #000000;'> 
     <tr>
-      <th>CÓDIGO</th>
+      <th style='padding:1rem;'>CÓDIGO</th>
       <th>INSUMO UTILIZADO</th>
       <th>CANTIDAD</th>
     <tr>
@@ -280,9 +287,9 @@ while($row = mysqli_fetch_assoc($resultado)){
   echo "
   <tbody>   
     <tr>
-      <td>{$row['codigo_producto']}</td> 
-      <td>{$row['nombre_producto']}</td>
-      <td>{$row['cantidad']}</td>
+      <td class='inside-td'>{$row['codigo_producto']}</td> 
+      <td class='inside-td'>{$row['nombre_producto']}</td>
+      <td class='inside-td'>{$row['cantidad']}</td>
    </tr>
   </tbody> 
   ";
@@ -296,17 +303,17 @@ echo "
 <div class='left-box'>    
 
 <div class='flex-inside'>
-Subtotal <br>
+<span>Subtotal</span>
 <input type='text'  id='subtotal' name='subtotal' value='".$salida->readSalida($_GET['numsalida'])['subtotal']."' readonly>
 </div>
 
 <div class='flex-inside'>
-Iva <br>
+<span>Iva</span>
 <input type='text'  id='iva' name='iva' value='".$salida->readSalida($_GET['numsalida'])['iva']."' readonly>
 </div>
 
 <div class='flex-inside'>
-Total <br>
+<span>Total</span>
 <input type='text'  id='total' name='total' value='".$salida->readSalida($_GET['numsalida'])['total']."' readonly>
 </div>
 
@@ -412,7 +419,7 @@ Total <br>
             <input  type='hidden' id='nameTemp' readonly value='s".$_SESSION['IDusuario']."'>
             <div class='first-line'>
               <div class='flex-inside'>
-                Motivo: <br>
+                <span>Motivo</span>
                     <select name='motivo' id='motivo'> 
                       <option selected>Elaboracion</option>
                       <option>Deshecho</option>
@@ -421,22 +428,43 @@ Total <br>
                 </div>
       
 <div class='flex-inside'>
-      Número: <br> 
+      <span>Número</span>
 
         <input value='".$salida->num_salida()."' type='text' name='num_salida' id='num_salida' readonly >
 </div>
 
       <div class='flex-inside'>
-      Fecha: 	<br>
+      <span>Fecha</span>
         <input type='date' value='".$currentDate = date('Y-m-d')."' disabled>
 </div>
 
       <div class='flex-inside'>
-          Responsable: <br> 
+          <span>Responsable</span>
           <input type='text' readonly value='".$salida->getPersona($_SESSION['IDusuario'])['nombreusuario']."'>
       </div>
 </div>
 <div class='second-line'>
+
+<div class='flex-inside'>
+  <span>Producto</span>
+  <input list='list_productos' type='text' name='codigo' id='codigo'  style='text-align:center' placeholder='Selecciona'>        
+    <datalist id='list_productos'>
+      ";
+
+      $salida->list_productos();
+
+      echo "
+    </datalist> 
+</div>
+
+<div class='flex-inside'>
+  <span>Cantidad</span>
+  <div>
+    <input type='number' min=1 value=1 name='cantidad' id='cantidad' steep='1'><br id='br-appear'>
+      <a class='button-rounded-1' style='cursor:pointer;' onclick=\"add('".$nombreX."')\" title='Agregar Producto a Fabricar'>Agregar</a>
+      <a id=limpiar class='button-rounded-2' name=limpiar onclick=\"clearFunc()\">Limpiar</a>
+  </div>
+</div>
 
 <div class='flex-inside'>
       <br>
@@ -474,32 +502,9 @@ echo "
 
 
 
-</div>
-
-<div class='third-line'>
-
-<div class='flex-inside'>
-Producto:  <br> 
- <input list='list_productos' type='text' name='codigo' id='codigo'  style='text-align:center' placeholder='Selecciona'>        
-<datalist id='list_productos'>
-  ";
-
-  $salida->list_productos();
-
-   echo "
-</datalist> 
 
 </div>
-<div class='flex-inside'>
-Cantidad:  <br>
-  <input type='number' min=1 value=1 name='cantidad' id='cantidad' steep='1'><br id='br-appear'>
-  <a class='btnBlue-small' style='cursor:pointer;' onclick=\"add('".$nombreX."')\" title='Agregar Producto a Fabricar'>Agregar</a>
-  <a id=limpiar class='btnOrange-small' name=limpiar onclick=\"clearFunc()\">Limpiar</a>
 
-  </div>
-
-
-</div>
 </section>   
 
 <section class='table-section' style='display: flex;padding: 0 1.5rem;'>   
@@ -586,13 +591,13 @@ $(document).ready(function() {
                 buttons: [
                     {
                       extend:    'excelHtml5',
-                      text:      '<img id="table_icon" style="margin: 0;" src="../../Assets/images/inventory/excel.png"> EXCEL</i>',
+                      text:      '<img id="table_icon" style="margin: 0;" src="../../Assets/images/inventory/excel.svg"> EXCEL</i>',
                       className: 'square square-excel',
                       titleAttr: 'Excel'
                     },
                     {
                       extend:    'pdfHtml5',
-                      text:      '<img id="table_icon" "../../Assets/images/inventory/pdf.svg"> PDF</i>',
+                      text:      '<img id="table_icon" src="../../Assets/images/inventory/pdf.svg"> PDF</i>',
                       titleAttr: 'PDF',
                       className: 'square square-pdf',
                       exportOptions: {columns: [ 0,1,2 ]},
@@ -768,8 +773,7 @@ function add(nombreX){
 
     $.get("../../Modelo/server.php?consultaexistencias=&cantidad="+cantidad+"&codigo="+document.getElementById('codigo').value,
     function(data) { 
-      alert(data);
-      datos = JSON.parse(data);
+      datos = JSON.parse(data); 
       if(datos.valido){
         $.post("../../Modelo/modulo_proyecto.php",{
             addTemp: "",

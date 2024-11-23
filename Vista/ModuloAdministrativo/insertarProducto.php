@@ -268,7 +268,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <select required name="receta_producto" id="receta_producto">
                     <?php 
                         $consulta_recetas  = "SELECT * from recetas";
-                        $result_recetas = mysqli_query($conn, $consulta_recetas);                  
+                        $result_recetas = mysqli_query($conn, $consulta_recetas);      
+                        echo "<option value=''>Seleccione...</option>";                
                         while($row = mysqli_fetch_array($result_recetas)) {
                             echo "<option value='".$row['idreceta']."'>" . $row['nombre'] . "</option>";
                         }

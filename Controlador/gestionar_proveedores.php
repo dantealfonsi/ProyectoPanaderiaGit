@@ -63,11 +63,27 @@ class Proveedor{
       /*LLEER SOLO EL NOMBRE DE UN PROVEEDOR EN ENTRADA POR NUMERO DE ENTRADA*/
 
       public function readNombreProveedor($num_entrada){
-        $tmodulo=new Modulo;
+        $tmodulo = new Modulo;
         $consulta = "SELECT * FROM entrada WHERE num_entrada='".$num_entrada."'";
-        $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta);
+        
+        $conexion = $tmodulo->mysqlconnect();
+        if (!$conexion) {
+            die("Error al conectar: " . mysqli_connect_error());
+        }
+    
+        $resultado = mysqli_query($conexion, $consulta);
+        if (!$resultado) {
+            die("Error en la consulta: " . mysqli_error($conexion));
+        }
+    
         $row = mysqli_fetch_array($resultado);
+        if (!$row) {
+            return null;
+        }
+    
         return $row;  
-      }
+    }
+    
+    
       
     }

@@ -17,7 +17,7 @@
                                 <div class="input-group-addon">
                                     <i class="fas fa-check"></i>
                                 </div> 
-                                <input value = "<?php echo $nombreUsuario;?>" disabled class="form-control input-md" style='width: 33.33333333%;'>
+                                <input value = "<?php echo $nombreUsuario;?>" disabled style='width: 33.33333333%;'>
                             </div>
                         </div>
                     </div>
@@ -31,7 +31,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-user"></i>
                                 </div>
-                                <input value = "<?php echo $nombre;?>" id="First Name" name="fname" type="text" placeholder="Nombre" class="form-control input-md">
+                                <input value = "<?php echo $nombre;?>" id="First Name" name="fname" type="text" placeholder="Nombre" >
                             </div>
                         </div>
                     </div>
@@ -45,7 +45,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-user"></i>
                                 </div>
-                                <input value = "<?php echo $apellido;?>" id="Last Name " name="lname" type="text" placeholder="Last Name " class="form-control input-md">
+                                <input value = "<?php echo $apellido;?>" id="Last Name " name="lname" type="text" placeholder="Last Name ">
                             </div>
                         </div>
                     </div>
@@ -59,7 +59,7 @@
                                 <div class="input-group-addon">
                                     <i class="fas fa-map-marked-alt"></i>
                                 </div>
-                                <input value = "<?php echo $direccion;?>" id="Address " name="address" type="text" placeholder="Dirección" class="form-control input-md">
+                                <input value = "<?php echo $direccion;?>" id="Address " name="address" type="text" placeholder="Dirección">
                             </div>
                         </div>
                     </div>
@@ -72,7 +72,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-phone"></i> 
                                 </div>
-                                <input value = "<?php echo $telefono;?>" id="Phone Number " name="phone" type="text" placeholder="Numero de Telefono" class="form-control input-md">
+                                <input value = "<?php echo $telefono;?>" id="Phone Number " name="phone" type="text" placeholder="Numero de Telefono">
                             </div>
                         </div>
                     </div>
@@ -86,7 +86,7 @@
                                 <div class="input-group-addon">
                                     <i class="fas fa-envelope"></i>
                                 </div>
-                                <input value="<?php echo $correo;?>" class="form-control input-md" disabled>
+                                <input value="<?php echo $correo;?>" disabled>
                             </div>
                         </div>
                     </div>
@@ -103,9 +103,9 @@
                         
                     <div class="form-group">
                         <label class="col-md-4 control-label" ></label>  
-                        <div class="col-md-4">
-                            <button name="updateProfile" class="btn btn-success"><span class="glyphicon glyphicon-thumbs-up"></span> Actualizar</button>
-                            <button name="revertProfile" class="btn btn-danger" value=""><span class="glyphicon glyphicon-repeat"></span> Revertir</button>
+                        <div class="col-md-4" style='display: flex;'>
+                            <button name="updateProfile" class="button-rounded-1" style='display:flex;'><span class="glyphicon glyphicon-thumbs-up"></span> Actualizar</button>
+                            <button name="revertProfile" class="button-rounded-2" style='display:flex;' value=""><span class="glyphicon glyphicon-repeat"></span> Revertir</button>
                             <span class="message"><?php echo "&nbsp&nbsp <b>$updateMessage</b>";?></span>
                         </div> 
                     </div>
@@ -128,7 +128,7 @@
                                 <div class="input-group-addon">
                                     <i class="fas fa-unlock-alt"></i>
                                 </div>
-                                <input type="password" id="Current Password " name="currentPassword" type="text" placeholder="Ingresa la contraseña actual" class="form-control input-md">
+                                <input type="password" id="Current Password " name="currentPassword" type="text" placeholder="Ingresa la contraseña actual" >
                             </div>
                         </div>
                     </div>
@@ -143,7 +143,7 @@
                                 <div class="input-group-addon">
                                     <i class="fas fa-key"></i>
                                 </div>
-                                <input type="password" id="New Password " name="newPassword" type="text" placeholder="Introducir nueva contraseña " class="form-control input-md">
+                                <input type="password" id="New Password " name="newPassword" type="text" placeholder="Introducir nueva contraseña ">
                             </div>
                         </div>
                     </div>
@@ -157,23 +157,24 @@
                                 <div class="input-group-addon">
                                     <i class="fas fa-key"></i>
                                 </div>
-                                <input type="password" id="Confirm Password " name="confirmPassword" type="text" placeholder="Confirmar contraseña " class="form-control input-md">
+                                <input type="password" id="Confirm Password " name="confirmPassword" type="text" placeholder="Confirmar contraseña" >
                             </div>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="col-md-4 control-label" ></label>  
-                        <div class="col-md-4">
-                            <button name="updatePassword" class="btn btn-success"><span class="glyphicon glyphicon-thumbs-up"></span> Actualizar</button>
-                            <button name="clearPassword" class="btn btn-danger"><span class="glyphicon glyphicon-remove-sign"></span> Limpiar</button>
+                        <div class="col-md-4" style='display: flex;'>
+                            <button name="updatePassword" class="button-rounded-1"><span class="glyphicon glyphicon-thumbs-up"></span> Actualizar</button>
+                            <button name="clearPassword" class="button-rounded-2"><span class="glyphicon glyphicon-remove-sign"></span> Limpiar</button>
                             <span class=message"><?php echo "&nbsp&nbsp <b>$passwordMessage</b>";?></span>
                         </div>
                     </div>
 
                     <br>
                     <hr>
-                    <div class="danger-zone">
+
+                   <!-- <div class="danger-zone">
                         <div class="danger-zone-inside">
                             <div class="change-password-container">
                                 <div class="change-password-subtitle">
@@ -204,6 +205,7 @@
                             </div>
                         </div>
                     </div>
+                    -->
                 </fieldset>
             </form>
         </div> 

@@ -82,6 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <script src="https://kit.fontawesome.com/0e16635bd7.js" crossorigin="anonymous"></script>
         <!--BOXICONS-->
         <link href='./checkout/boxicons.min.css' rel='stylesheet'>
+        <link rel="stylesheet" href="../../css/main.css">
         <!-- Animate CSS -->
         <link rel="stylesheet" href="<?php echo $GLOBALS['ROOT_PATH'] ?>/css/animate.min.css"/>
         <!-- Bootstrap Core CSS -->
@@ -96,6 +97,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <!-- include summernote css/js -->
         <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
+        <style>
+
+        input{
+            font-size:1.4rem;
+        }
+
+        .input-group-addon{
+            background: linear-gradient(45deg, #fb74a0, #ff2881);
+        }
+
+        @font-face {
+            font-family: button;
+            src: url(../../css/button.ttf) format('truetype');
+        }
+        
+        </style>
+        
     </head>
 
     <body>

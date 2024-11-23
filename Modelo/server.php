@@ -47,13 +47,20 @@ if(isset($_GET['consultaexistencias'])){
     $idproducto = $_GET['codigo'];
     $cantidad = $_GET['cantidad'];
 
-    $Q_select_IDreceta="select idreceta from productos where idproducto=".$idproducto;
-    $Q_result_IDreceta= mysqli_query($GLOBALS['conn'], $Q_select_IDreceta);
-    $Q_IDreceta = mysqli_fetch_assoc($Q_result_IDreceta);
+    $Q_select_IDreceta = "SELECT idreceta FROM productos WHERE idproducto = '$idproducto'";
+    $Q_result_IDreceta = mysqli_query($GLOBALS['conn'], $Q_select_IDreceta);
+
+    if ($Q_result_IDreceta) {
+        $Q_IDreceta = mysqli_fetch_assoc($Q_result_IDreceta);
+    } else {
+        // Manejo de errores, por ejemplo:
+        die('Error en la consulta: ' . mysqli_error($GLOBALS['conn']));
+    }
 
     $idreceta = $Q_IDreceta['idreceta'];
 
     $consulta = "SELECT * FROM itemrecetas WHERE idreceta='$idreceta'";
+
     if($resultado = mysqli_query( $GLOBALS['conn'], $consulta )){
      while($row = mysqli_fetch_assoc($resultado)){
         if(compruebaExistencia($row['codigoinsumo'],$cantidad*$row['cantidad']) == 0){
@@ -69,6 +76,8 @@ if(isset($_GET['consultaexistencias'])){
 
      if($faltante > 0){
         $valido = false;
+     }else{
+        $valido = true;
      }
 
      $obj = array(

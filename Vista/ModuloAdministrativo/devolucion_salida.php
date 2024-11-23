@@ -52,6 +52,15 @@
       text-align: center;
     }
 
+    
+    .inside-td{
+        font-size: 1rem;
+        padding: 0.8rem;
+        font-family: roboto;
+        width: 10%;
+        border: 1px solid #d7d7d7;
+    }
+
     @media (max-width: 950px) {
 
       .existencia{
@@ -95,27 +104,26 @@
 
           <div class='first-line'>
             <div class='flex-inside'>
-            Número: <br> 
+            <span>Número</span>
               <input  type='number' name='num_salida' style='text-align:center;' readonly value='".$titulo."'>
             </div>
   
           <div class='flex-inside'>
-          Fecha: 	<br>
+          <span>Fecha</span>
             <input type='text' disabled value='".$dev_salida->readDevSalida($_GET['ref'])['fecha']."'>
           </div>
-        </div>
 
-        <div class='second-line'>
-          <div class='flex-inside'> 
-            Responsable: <br> 
+           <div class='flex-inside'> 
+            <span>Responsable</span>
             <input type='text' readonly value='".$dev_salida->getUsuario($dev_salida->readDevSalida($_GET['ref'])['responsable'])['nombre']."'>
           </div>
-
-      <div class='flex-inside'>
-         <br> 
-        <input  type='hidden' name='cedula_cliente' id='cedula_cliente' value='".$dev_salida->readDevSalida($_GET['ref'])['CEDULA_CLIENTE']."'>
+          
+          <div class='flex-inside'> 
+            <input  type='hidden' name='cedula_cliente' id='cedula_cliente' value='".$dev_salida->readDevSalida($_GET['ref'])['CEDULA_CLIENTE']."'>
           </div>
+
         </div>
+
       </section>   
       
       
@@ -125,8 +133,8 @@
         <div class='InventarioBox' style='height: 27rem; width:auto; overflow-y: scroll;'> 
         <table style='width: 100%;'> 
           <thead> 
-            <tr>
-              <th>CÓDIGO</th>
+            <tr style='background: linear-gradient(-11deg, #E994B3, #FAD2DD);color: #000000;'>
+              <th style='padding:1rem;'>CÓDIGO</th>
               <th>PROUCTO</th>
               <th>CANTIDAD</th>
               <th>PRECIO</th>
@@ -141,10 +149,10 @@
           echo "
           <tbody>   
             <tr>
-              <td>{$row['codigo_producto'] }</td> 
-              <td>{$row['nombre_producto']}</td>
-              <td>{$row['cantidad']}</td>
-              <td>{$row['precio']}</td>
+              <td  class='inside-td'>{$row['codigo_producto'] }</td> 
+              <td  class='inside-td'>{$row['nombre_producto']}</td>
+              <td  class='inside-td'>{$row['cantidad']}</td>
+              <td  class='inside-td'>{$row['precio']}</td>
            </tr>
           </tbody> 
           ";
@@ -259,7 +267,7 @@
           <!-- <a class='square square-blue' href='productos.php?inv=&agregar_inv=0&id=&trigger=1'>Crear Nuevo Insumo</a>-->
           <div class='first-line'>
             <div class='flex-inside'>
-            Referencia: <br> 
+            <span>Referencia</span>
             <input onchange=\"detectRef()\" required title='Seleccione el numero de referencia de Salida en el Inventario' autocomplete='off' onkeypress=\"this.value=''\"  list='list_salida'  type='text' name='referencia' id='referencia' style='text-align:center' ><br>
             <datalist id='list_salida'>";
                 $dev_salida->list_salida();
@@ -267,7 +275,7 @@
             </div>
 
             <div class='flex-inside'>
-            Motivo: <br>
+            <span>Motivo</span>
                 <select name='motivo' id='motivo'> 
                   <option selected>Daño</option>
                   <option>Equivocación</option>
@@ -275,26 +283,21 @@
                 </select> 
           </div>
           <div class='flex-inside'>
-          Fecha: 	<br>
+          <span>Fecha</span>
             <input type='date' value='".$currentDate = date('Y-m-d')."' disabled>
           </div>
-        </div>
 
-        <div class='second-line'>
           <div class='flex-inside'>
-            Responsable: <br> 
+            <span>Responsable</span>
             <input type='text' readonly value='".$dev_salida->getUsuario($_SESSION['IDusuario'])['nombre']."'>
           </div>
 
-      <div class='flex-inside'>
-         <br> 
-        <input type='hidden' name='cedula_cliente' id='cedula_cliente' value='".$_SESSION['IDusuario']."'>
-          </div>
         </div>
 
-        <div class='third-line'>      
+        <div class='second-line'>
+
           <div class='flex-inside'>
-            Codigo: <br> <input title='Seleccione el codigo de un producto' autocomplete='off' onkeypress=\"this.value=''\" pattern='^[0-9]{4}' list='list_productos' type='text' name='codigo' id='codigo' placeholder='XXXX' onchange=\"getExistencia()\">
+            <span>Codigo</span> <input title='Seleccione el codigo de un producto' autocomplete='off' onkeypress=\"this.value=''\" pattern='^[0-9]{4}' list='list_productos' type='text' name='codigo' id='codigo' placeholder='XXXX' onchange=\"getExistencia()\">
           
             <datalist id='list_productos'>
          </datalist> 
@@ -302,9 +305,20 @@
     </div>
    
     <div class='flex-inside'>
-      Cantidad: <br><input  title='Ingrese Cantidad'  type='number' min=0 value=0 name='cantidad' id='cantidad' oninput='this.value = !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value): null'>
-      <a class='btnBlue-small' style='cursor:pointer;' onclick=\"add('')\">Añadir</a> <br>
+      <span>Cantidad</span>
+        <div>
+          <input  title='Ingrese Cantidad'  type='number' min=0 value=0 name='cantidad' id='cantidad' oninput='this.value = !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value): null'>
+          <a class='button-rounded-1' style='cursor:pointer;' onclick=\"add('')\">Añadir</a> <br>
+        </div>
       </div>
+ 
+      <div class='flex-inside'>
+        <input type='hidden' name='cedula_cliente' id='cedula_cliente' value='".$_SESSION['IDusuario']."'>
+          </div>
+        </div>
+
+        <div class='third-line'>      
+
 
     <div class='flex-inside'>
       <input  title='Ingrese Precio' id='precio' type='hidden' placeholder='0.00' name='precio' min='0' value='0.00' step='0.01' title='Currency' pattern='^\d+(?:\.\d{1,2})?$' onblur='this.parentNode.parentNode.style.backgroundColor=/^\d+(?:\.\d{1,2})?$/.test(this.value)?'inherit':'red' oninput='this.value = !!this.value && Math.abs(this.value) >= 0 ? Math.abs(this.value): null'>

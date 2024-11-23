@@ -19,6 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $descripcion_producto = $_POST['descripcion_producto'];
     $precio_producto = $_POST['precio_producto'];
     $categoria_producto = $_POST['categoria_producto'];
+    $IDReceta = $_POST['receta_producto'];
     $id_tipo =  $_POST['id_tipo'];
     $directorio = $GLOBALS['ROOT_PATH']."/Assets/productoimagenes/";
     $ext="";
@@ -53,22 +54,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // insertar los datos en la base de datos
     // ...
+    
     if(isset($_FILES['imagen_producto']['name'])){
         $archivo = $_FILES['imagen_producto']['name'];
         if (isset($archivo) && $archivo != "") {
             $archivo = $directorio.$codigorifa.$ext;
             $archivoSubido = addslashes($archivo);
-            $sql = "UPDATE productos SET nombre_producto='$nombre_producto' ,descripcion_producto='$descripcion_producto', 
-            imagen_producto='$archivoSubido' , precio_producto=$precio_producto ,categoria_producto=$categoria_producto,idtipo=$id_tipo  WHERE idproducto=".$IDproducto;
+            $sql = "UPDATE productos SET 
+            nombre_producto='$nombre_producto',
+            descripcion_producto='$descripcion_producto', 
+            imagen_producto='$archivoSubido',
+            precio_producto=$precio_producto,
+            categoria_producto=$categoria_producto,
+            idreceta= '$IDReceta',
+            idtipo=$id_tipo  
+            WHERE idproducto=".$IDproducto;
         }
         else{
-            $sql = "UPDATE productos SET nombre_producto='$nombre_producto' ,descripcion_producto='$descripcion_producto', 
-            precio_producto=$precio_producto ,categoria_producto=$categoria_producto,idtipo=$id_tipo WHERE idproducto=".$IDproducto;    
+            $sql = "UPDATE productos SET 
+            nombre_producto='$nombre_producto',
+            descripcion_producto='$descripcion_producto',
+            precio_producto=$precio_producto,
+            categoria_producto=$categoria_producto,
+            idreceta= '$IDReceta',
+            idtipo=$id_tipo 
+            WHERE idproducto=".$IDproducto;    
         }        
     }
 
-    mysqli_query($conn, $sql);
-    header('location: productos.php');
+    $result = mysqli_query($conn, $sql);
+    if (!$result) {
+        die('Error en la consulta: ' . mysqli_error($GLOBALS['conn']));
+    }
+        
+    //header('location: productos.php');
 }
 
 $idtipo = $IDreceta = $IDproducto = $nombre_producto = $descripcion_producto = $imagen_producto = $precio_producto = $categoria_producto = "";
@@ -197,8 +216,9 @@ $idtipo = $row_producto['idtipo'];
                     <select required name="receta_producto" id="receta_producto">
                         <?php 
                             $consulta_recetas  = "SELECT * from recetas";
-                            $result_recetas = mysqli_query($conn, $consulta_recetas);                  
-                            while($row = mysqli_fetch_array($result_recetas)) {
+                            $result_recetas = mysqli_query($conn, $consulta_recetas);
+                            echo "<option value=''>Seleccione...</option>";                            
+                            while($row = mysqli_fetch_assoc($result_recetas)) {
                                 $selected = "";
                                 if($IDreceta == $row['idreceta']){
                                     $selected = "selected";
@@ -259,7 +279,7 @@ $idtipo = $row_producto['idtipo'];
                 </div>
                 </div>
                 </section>
-                <button class='submitBtn' style='margin-bottom: 2rem;'>Guardar Datos</button>
+                <button type="submit" class='submitBtn' style='margin-bottom: 2rem;'>Guardar Datos</button>
             </form>
     </body>
 </html>

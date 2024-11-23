@@ -116,32 +116,31 @@ echo "
 
   <div class='first-line'>
     <div class='flex-inside'>
-      Razón Social: <br>
-      <input pattern='^([A-Z]).*' type='text' name='nombre' id='nombre' onfocusout=\"valNombre()\" required style='width: 24rem;'>
+      <span>Razón Social</span>
+      <input pattern='^([A-Z]).*' type='text' name='nombre' id='nombre' onfocusout=\"valNombre()\" required style='width: 18rem;'>
     </div>
-  </div>
-
-  <div class='second-line'>
-    <div class='flex-inside'>
-      RIF: <br> 
-
+     <div class='flex-inside'>
+      <span>RIF</span>
+        <div>
         <select style='width: fit-content;' name='id_rif' id='selectRif' onfocusout=\"valRifState()\" required> <option value='J'>J-</option><option value='V'>V-</option> <option value='E'>E-</option> </select>  
         <input pattern='^(\d{9})$' onfocusout=\"valRif()\"type='text' name='rif' id='rif' title='Numero de 9 digitos' placeholder='XXXXXXXXX' required>
-    
-    </div>
-
-    <div class='flex-inside'>
-    Teléfono: <br> 
-    <input  id='telefono' onfocusout=\"valTelefono()\" pattern='^(\+58)?-?([04]\d{3})?-?(\d{3})-?(\d{4})' title='EJ: Empieza por +58 o 04XX' type='text' name='telefono' required>
-    </div>
-
-  </div>
-  
-  <div class='third-line'>
-    <div class='flex-inside'>
-      Dirección: <br> <input type='text' id='direccion' onfocusout=\"valDireccion()\" name='direccion' required  style='width: 24rem;'>
+        </div>
     </div>
   </div>
+
+    <div class='second-line'>
+      <div class='flex-inside'>
+        <span>Teléfono</span>
+        <input  id='telefono' onfocusout=\"valTelefono()\" pattern='^(\+58)?-?([04]\d{3})?-?(\d{3})-?(\d{4})' title='EJ: Empieza por +58 o 04XX' type='text' name='telefono' style='width: 18rem;' required>
+      </div>
+
+       <div class='flex-inside'>
+      <span>Dirección</span> 
+      <input type='text' id='direccion' onfocusout=\"valDireccion()\" name='direccion' required  style='width: 23rem;'>
+    </div>
+   </div>
+
+
   </section>
     <button type='button' class='submitBtn' style='margin-left: 2.5rem;margin-top: 2.5rem;' name='agregar' onclick=\"agregarProveedor()\" >Agregar</button>
   </div>
@@ -173,31 +172,31 @@ echo "
 
   <div class='first-line'>
     <div class='flex-inside'>
-      Razón Social: <br>
-      <input pattern='^([A-Z]).*' type='text' id='nombre' name='nombre' onfocusout=\"valNombre()\" required style='width: 24rem;'  value='".$_GET['nombre']."'>
+      <span>Razón Social</span>
+      <input pattern='^([A-Z]).*' type='text' id='nombre' name='nombre' onfocusout=\"valNombre()\" required style='width: 18rem;'  value='".$_GET['nombre']."'>
     </div>
-  </div>
 
-  <div class='second-line'>
-    <div class='flex-inside'>
-      RIF: <br> 
+        <div class='flex-inside'>
+      <span>RIF</span>
 
       <input pattern='^(\d{9})' type='text' id='rif' name='rif' title='Numero de 9 digitos' placeholder='XXXXXXXXX' required value='{$_GET['rif']}' readonly>
     
     </div>
+  </div>
+
+  <div class='second-line'>
 
     <div class='flex-inside'>
-    Teléfono: <br> 
+    <span>Teléfono</span> 
     <input id='telefono' onfocusout=\"valTelefono()\" pattern='^(\+58)?-?([04]\d{3})?-?(\d{3})-?(\d{4})' title='EJ: Empieza por +58 o 04XX' type='text' name='telefono' required value='{$_GET['telefono']}'>
     </div>
 
-  </div>
-  
-  <div class='third-line'>
-    <div class='flex-inside'>
-      Dirección: <br> <input type='text' id='direccion' onfocusout=\"valDireccion()\" name='direccion' required  style='width: 24rem;' value='{$_GET['direccion']}'>
+        <div class='flex-inside'>
+      <span>Dirección</span> <input type='text' id='direccion' onfocusout=\"valDireccion()\" name='direccion' required  style='width: 18rem;' value='{$_GET['direccion']}'>
     </div>
+
   </div>
+
   </section>
     <button type='button' class='submitBtn' style='margin-left: 2.5rem;margin-top: 2.5rem;' name='guardar' onclick=\"editarProveedor()\" >Guardar</button>
   </div>
@@ -205,68 +204,57 @@ echo "
   }
 
 
-  if (isset($_GET['hist'])){
+  if (isset($_GET['hist'])) {
     $titulo = $_GET['nombre'];
+    
     echo "
-
     <div class='EditBox'>
       <fieldset>
-
-   
       <section style='display: flex; justify-content: space-between;'>
-
       <div>
-      <h1 class='titulo-Subtitulo'>Historial</h1>
-      <h1 class='subtitle_container'><span></span>$titulo</h1>
+        <h1 class='titulo-Subtitulo'>Historial</h1>
+        <h1 class='subtitle_container'><span></span>$titulo</h1>
       </div>
-      
-        <a href='proveedores.php' class='close-btn close-btnTitleOnly'> ⌦ </a> 
-      
+      <a href='proveedores.php' class='close-btn close-btnTitleOnly'> ⌦ </a>
     </section>
       ";
-      
-     $consulta = "SELECT * from CARAC_ENTRADA";   /*Buscar Producto*/
 
-     $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta );
-       
-     echo "
-     <div class='InventarioBox2'> 
-     <table id='myTable2'> 
-      <thead> 
-        <tr>
-          <th>FECHA</th>
-          <th>PRODUCTO</th>
-          <th>CANTIDAD ENTRADA</th>
-        </tr>
-     </thead> 
-     <tbody>";
-     while($row = mysqli_fetch_array($resultado)){    /*Te muestra el resultado de busqueda*/ 
-     
-   if(trim($proveedor->readNombreProveedor($row['NUM_ENTRADA'])['PROVEEDOR']) == trim($_GET['nombre']) ){
-       echo "            
-       <tr>
-           <td>".$row['fecha']."</td>
-           <td>".$row['nombre_producto']."</td>
-           <td>".$row['cantidad']."</td>
-
-      </tr>           
-      ";}
-     }
-     echo 
-   "</tbody>
-   </table>
-   </div>
- </form>   
-</div>";
+    $consulta = "SELECT * from CARAC_ENTRADA";   /*Buscar Producto*/
+    $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta);
 
     echo "
-    </fieldset>
-    </div>";
-  }
+    <div class='InventarioBox2'> 
+      <table id='myTable2'> 
+        <thead> 
+          <tr>
+            <th>FECHA</th>
+            <th>PRODUCTO</th>
+            <th>CANTIDAD ENTRADA</th>
+          </tr>
+        </thead> 
+        <tbody>";
+    while ($row = mysqli_fetch_array($resultado)) { /*Te muestra el resultado de busqueda*/ 
+        $nombreProveedor = $proveedor->readNombreProveedor($row['num_entrada']);
+        if ($nombreProveedor && trim($nombreProveedor['proveedor']) == trim($_GET['nombre'])) {
+            echo "            
+            <tr>
+              <td>".$row['fecha']."</td>
+              <td>".$row['nombre_producto']."</td>
+              <td>".$row['cantidad']."</td>
+            </tr>";            
+        }
+    }
+    echo "</tbody>
+      </table>
+    </div>
+  </fieldset>   
+</div>";
+}
+
 
   echo "</form></div>";
   $cadena="
-          <div class='outerBox'>
+          <div class='outerTable'>
           <div class='InventarioBox'>
             <table id='myTable' style='width: 100%; text-align:center; font-size:16;'>
             <thead>
@@ -739,7 +727,6 @@ direccion: document.getElementById('direccion').value
 
 function editarProveedor() {
 
-  
 if(restrictEditRif===true && restrictEditTelefono===true){
   restrictEdit=true;
 }else{
@@ -777,27 +764,27 @@ direccion: document.getElementById('direccion').value
 
 function borrar(rif) {
 
-Swal.fire({
-title: 'Estas seguro que desea Eliminar',
-text: "Seguro que quieres eliminar este Proveedor",
-icon: 'warning',
-showCancelButton: true,
-confirmButtonColor: '#3085d6',
-cancelButtonColor: '#d33',
-cancelButtonText: "Cancelar",
-confirmButtonText: 'Si!'
-}).then((result) => {
-if (result.isConfirmed) {
-  Swal.fire(
-    'Borrada!',
-    'El Proveedor ha sido borrado.',
-    'success'
-  ).then(function(){ 
-    window.location.href="proveedores.php?user=&borrar=0&id="+ rif; }
-  );
-}
-})
-
+  Swal.fire({
+  title: 'Estas seguro que desea Eliminar',
+  text: "Seguro que quieres eliminar este Proveedor",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  cancelButtonText: "Cancelar",
+  confirmButtonText: 'Si!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire(
+        'Borrada!',
+        'El Proveedor ha sido borrado.',
+        'success'
+      ).then(function(){ 
+        window.location.href="proveedores.php?user=&borrar=0&id="+ rif; }
+      );
+     }
+    }
+  )
 }
 
 </script>

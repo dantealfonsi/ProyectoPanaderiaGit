@@ -300,7 +300,9 @@ if (isset($_GET['detalle'])){
 }
 
   echo "</form>";
-  $cadena="<div class='InventarioBox'> 
+  $cadena="
+      <div class='outerTable'>
+        <div class='InventarioBox'> 
             <table id='myTable' style='width: 100%; text-align:center; fone-size:16;'>
             <thead>
             <tr class='tr'>
@@ -344,6 +346,7 @@ if (isset($_GET['detalle'])){
                             </tr>";
   }
   $cadena = $cadena . "</tbody></table>
+                      </div>
                   </div>
                 <br>";
   echo $cadena;
