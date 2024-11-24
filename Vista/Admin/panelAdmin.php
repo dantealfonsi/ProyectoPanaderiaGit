@@ -52,6 +52,7 @@ if (isset($_GET['chat'])) {
     margin-left: 80px;
     border: none;
     }
+
     </style>    
     
     </head>

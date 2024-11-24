@@ -96,7 +96,7 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label" for="Overview (max 200 words)">Biografia</label>
                         <div class="col-md-4">                     
-                            <textarea class="form-control" rows="10"  id="Overview (max 200 words)" name="description" placeholder="Maximo 200 Palabras"><?php echo $descripcion;?></textarea>
+                            <textarea rows="10"  id="Overview (max 200 words)" name="description" placeholder="Maximo 200 Palabras"><?php echo $descripcion;?></textarea>
                         </div>
                     </div>
 
@@ -115,7 +115,7 @@
                     <hr>
                     <div class="change-password-container">
                         <div class="change-password-subtitle">
-                            <h3>Actualizar Contraseña</h3>
+                            <h3 style="text-align: center;font-family: 'button';color: black;">Actualizar Contraseña</h3>
                             <p><i class="fas fa-exclamation-triangle"></i>&nbsp&nbsp Tendras que loguearte de nuevo para que tu contraseña se actualice.</p>
                         </div>
                     </div>

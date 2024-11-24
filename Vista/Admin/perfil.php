@@ -108,10 +108,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             background: linear-gradient(45deg, #fb74a0, #ff2881);
         }
 
-        @font-face {
-            font-family: button;
-            src: url(../../css/button.ttf) format('truetype');
-        }
+
+        textarea{
+        color: #313131;
+        background: #f3f3f3;
+        border: dotted pink;
+        width: -webkit-fill-available;
+        height: 6rem;
+        font-size: 1.4rem;
+        font-family: 'Roboto';
+    }
+
+    
+    @font-face {
+      font-family: button;
+      src: url(../../css/button.ttf) format('truetype');
+     }
         
         </style>
         
@@ -123,10 +135,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <!-- Inicio del Header-->
     <section style='width: calc(100% - 78px); margin-left: 78px;'>
         <div id="screenRes" class="col-md-15" >
-            <div class="form-name-container">
-                <div class="adminPanelContainer">
-                    <div class="adminPanelSubtitle">
-                        <h2>PANEL DE CONTROL</h2>
+            <div>
+                <div>
+                    <div>
+                        <h2 style="font-family: 'button';color: black;text-align: center;text-decoration: underline;">PANEL DE CONTROL</h2>
                     </div>
                 </div>
             </div>
@@ -144,7 +156,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="tab-content">
                 <div id="home" class="tab-pane fade in active">
                     <div class="tab-title">
-                        <h3>Editar mi perfil</h3>
+                        <h3 style="text-align: center;font-family: 'button';color: black;">Editar mi perfil</h3>
                     </div>
                     <!--Inicio del Perfil -->
                     <?php include '../Includes/perfilUsuario.php'; ?>
