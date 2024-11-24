@@ -36,7 +36,7 @@
   left: 0;
   height: 100%;
   width: 260px;
-  background-color: #ff7c82;
+  background:#d75687;
   z-index: 100;
   transition: all 0.5s ease;
 }
@@ -106,7 +106,7 @@
 
 
 .sidebar .nav-list li:hover {
-  background-color: #a35e61;
+  background-color: #a32755
 }
 
 .sidebar .nav-list li .icon-link {
@@ -179,7 +179,7 @@
 .sidebar .nav-list li .sub-menu {
   padding: 6px 6px 14px 80px;
   margin-top: -10px;
-  background: #a35e61;
+  background: #D12B69;
   display: none;
   transition: all 0.3s ease;
 }

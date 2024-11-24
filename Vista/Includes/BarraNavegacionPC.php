@@ -82,7 +82,7 @@
 
 <nav class="nav-media1200 main-nav-media1200" style='
     z-index: 100000000;
-    background: white;
+    background:linear-gradient(45deg, #FAD2DD, #EA93B3);
     height: 6rem;
     position: fixed;
     top: 0;

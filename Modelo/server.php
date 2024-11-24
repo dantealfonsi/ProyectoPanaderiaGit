@@ -176,11 +176,11 @@ if(isset($_GET['consultaexistencias'])){
 
     $resultado3 = mysqli_query($conn, $Q_selecciona_tiket);
     $tiket=" <table class='table table-bordered'>
-    <thead class=thead-dark>
-        <tr>
-            <th>Producto</th>
-            <th>Cantidad</th>
-            <th>Precio</th>
+    <thead>
+        <tr style='background: linear-gradient(-11deg, #E994B3, #FAD2DD);color: #000000;'>
+            <th style='padding:1rem;'>Producto</th>
+            <th style='padding:1rem;'>Cantidad</th>
+            <th style='padding:1rem;'>Precio</th>
         </tr>
     </thead>
     <tbody>";
@@ -191,7 +191,8 @@ if(isset($_GET['consultaexistencias'])){
         }
         $tiket = $tiket . "<tr><td style='text-transform:capitalize;'>".$fila['nombre_producto']. $motivo."</td><td>".$fila['cantidad']."</td><td>".$fila['precio_producto']."</td></tr>";
     endwhile;
-        $tiket = $tiket . "</tbody></table><br><span style='font-size:2rem;'>Total a Pagar:</span><span style='font-size:2rem;color:green;'>".$total."</span>";
+        $tiket = $tiket . "</tbody></table><br><span style='font-size: 2rem;font-weight: 700;text-decoration: underline;font-family: 'roboto';'>Total a Pagar:
+        </span><span style='font-size: 2rem;color: white;background: linear-gradient(45deg, #D12B69, #ffa5a5);padding: 0.5rem;margin-left: 1rem;font-weight: 700;border-radius: 1rem;'>".$total."</span>";
   
     $obj = array('fechaEntrega' => $fechaEntrega, 'fechaPedido' => $fechaPedido,'telefono' => $telefono, 'direccion' => $direccion,
     'total' => $total, 'metodoPago' => $metodoPago, 'estado' => $estado, 'tiket' => $tiket, 'numPedido' => $idPedido,

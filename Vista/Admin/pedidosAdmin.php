@@ -27,13 +27,13 @@ $resultado = mysqli_query($conn, $query);
 function checkColor($estado){
     switch ($estado) {
         case 'ACEPTADO':
-            return "green";
+            return "#00ff573b";
         case 'ABONADO':
-            return "yellow";            
+            return "#ffc5006e";            
         case 'PAGADO':
-            return "orange";            
+            return "#ff6a267a";            
         case 'RECHAZADO':
-            return "red";
+            return "#dc356da8";
         default:
             # code...
             break;
@@ -92,7 +92,7 @@ function checkColor($estado){
 <?php $page = 'historialCompras';?>
 
   
-<h1 class='titulo_caja'> Historial de Ventas </h1>
+<h1 class='titulo_caja' style='font-weight:800;'> Historial de Ventas </h1>
 
 <div class='outerTable'>
 
@@ -103,7 +103,6 @@ function checkColor($estado){
         <thead >
                 <tr class='tr'>
                     <th>IDpedido</th>
-                    <th>Telefono</th>
                     <th>Fecha Entrega</th>
                     <th>Estado</th>
                     <th>Direccion</th>
@@ -115,22 +114,21 @@ function checkColor($estado){
                 <?php while($fila = mysqli_fetch_assoc($resultado)): ?> 
                 <tr>
                     <td><?php echo $fila['idpedido']; ?></td>
-                    <td><?php echo $fila['telefono']; ?></td>
                     <td><?php echo historifecha($fila['fechapedido']); ?></td>
-                    <td style="background-color:<?php echo checkColor($fila['estado'])?>"><?php echo $fila['estado']; ?></td>
+                    <td style="background-color:<?php echo checkColor($fila['estado'])?>;font-weight:800;"><?php echo $fila['estado']; ?></td>
                     <td><?php echo $fila['direccion']; ?></td>
-                    <td><?php echo $fila['total']; ?></td>
+                    <td><?php echo $fila['total']; ?> <b>BS<b></td>
                     <td>
                         <?php 
                         if($fila['estado'] == "SOLICITUD"){
                             ?>
-                                <button class="btn btn-primary btn-sm" style="background:green;" onclick="aceptarPedido(<?php echo $fila['idpedido']; ?>)">Aceptar</button>
-                                <button class="btn btn-primary btn-sm" style="background:red;" onclick="rechazarPedido(<?php echo $fila['idpedido']; ?>)">Rechazar</button>
+                                <button class="button-rounded-1"  onclick="aceptarPedido(<?php echo $fila['idpedido']; ?>)">Aceptar</button>
+                                <button class="button-rounded-2"  onclick="rechazarPedido(<?php echo $fila['idpedido']; ?>)">Rechazar</button>
                             <?php
                         }
                         if($fila['estado'] == "ACEPTADO" || $fila['estado'] == "ABONADO" || $fila['estado'] == "PAGADO" || $fila['estado'] == "PRODUCCION"){
                             ?>
-                        <button class="btn btn-primary btn-sm" onclick="verDetalles(<?php echo $fila['idpedido']; ?>)">Detalles</button>
+                        <button style='background:none;border:none;' onclick="verDetalles(<?php echo $fila['idpedido']; ?>)"><img id='icon-bt' src='../../Assets/images/inventory/eye.png'></button>
                             <?php
                         }
                         ?>
@@ -147,7 +145,8 @@ function checkColor($estado){
         <form method="post" class="modal-content">
             <!-- Contenido del diálogo -->
             <div class="modal-header">
-                <h5 class="modal-title">Detalles Pedido <input style='color:black' type=text id=numPedido readonly ></h1></h5>
+                <h5 class="modal-title"><span style="font-weight:bold;text-decoration:underline;font-size:2rem;font-family: 'roboto';">DETALLES PEDIDO<span>
+                    <input style='color:black;width:10rem;margin-left:1rem;' type=text id=numPedido readonly ></h1></h5>
                 <a type="button" class='close-btn close-btnTitleOnly' onclick="cerrarDialogo()">⌦</a>
             </div>
             <div class="modal-body">
@@ -156,8 +155,8 @@ function checkColor($estado){
                 <div id=tiket></div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" onclick="cerrarDialogo()">Cerrar</button>
-                <button type="button" class="btn btn-primary" onclick="irChat(document.getElementById('numPedido').value)">Chat Asistencia</button>
+                <button type="button" class="button-rounded-2" onclick="cerrarDialogo()">Cerrar</button>
+                <button type="button" class="button-rounded-1" onclick="irChat(document.getElementById('numPedido').value)">Chat Asistencia</button>
             </div>
         </form>
     </dialog>

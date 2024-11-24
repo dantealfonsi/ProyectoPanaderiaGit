@@ -371,7 +371,7 @@ table.dataTable th, table.dataTable td {
     position: relative;
     clear: both;
     height: 5rem;
-    background: linear-gradient(22deg, #ff9494 13%, rgb(255 193 201) 100%);
+    background: linear-gradient(45deg, #EA93B3, #FAD2DD);
     width: 100%;
 }
 

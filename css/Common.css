@@ -543,12 +543,12 @@ html, body{
     }
 
     .main-nav-media1200 a:hover{
-        color: #FFA5A5FF;
+        color: #c31f5c;
     }
 
     .main-nav-media1200 .active{
         text-decoration: blink;
-        color: #FFA5A5FF;
+        color: #c31f5c;
         border-bottom: 2px solid currentColor;
     }
 
