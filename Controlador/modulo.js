@@ -741,6 +741,44 @@ function devolucion_salida(){
   */
 }
 
+function reportes(){
+  /*
+    producto=0;
+    cat=0;
+    ent=0;
+    sal=1;
+    rep=0;
+    per=0;
+    pro=0;
+    tab=0;
+    UsuarioPerfil=0;
+  */
+    document.getElementById("iframe").src="../ModuloAdministrativo/reportes.php";
+  /*
+    document.getElementsByClassName('main-nav')[0].style.background = "transparent";
+    document.getElementsByClassName('categoria-nav')[0].style.background = "transparent";
+    document.getElementsByClassName('producto-nav')[0].style.background = "transparent";
+    document.getElementsByClassName('entrada-nav')[0].style.background = "transparent";
+    document.getElementsByClassName('salida-nav')[0].style.background = "#f39f9f";
+    document.getElementsByClassName('proveedores-nav')[0].style.background = "transparent";
+    document.getElementsByClassName('reporte-nav')[0].style.background = "transparent";
+    document.getElementsByClassName('persona-nav')[0].style.background = "transparent";
+    document.getElementsByClassName('perfil-nav')[0].style.background = "transparent";
+  
+      ///////FONT COLOR///////////
+    document.getElementsByClassName('main-nav')[0].style.color = "#8f94a1";
+    document.getElementsByClassName('categoria-nav')[0].style.color = "#8f94a1";
+    document.getElementsByClassName('producto-nav')[0].style.color = "#8f94a1";
+    document.getElementsByClassName('entrada-nav')[0].style.color = "#8f94a1";
+    document.getElementsByClassName('salida-nav')[0].style.color = "#ffff";
+    document.getElementsByClassName('proveedores-nav')[0].style.color = "#8f94a1";
+    document.getElementsByClassName('reporte-nav')[0].style.color = "#8f94a1";
+    document.getElementsByClassName('persona-nav')[0].style.color = "#8f94a1";
+    document.getElementsByClassName('perfil-a')[0].style.color = "#8f94a1";
+    */
+  }
+  
+
 
 /*
 

@@ -38,6 +38,8 @@
         $Q_insert = mysqli_query($tmodulo->mysqlconnect(), $Q_insert_itemcocina);
 
         // Consulta todos los items de insumos utilizados de la receta a cocinar
+
+
         $Q_insumos = "SELECT * FROM itemrecetas WHERE idreceta='" . $Q_IDreceta['idreceta'] . "'";
         $query = mysqli_query($tmodulo->mysqlconnect(), $Q_insumos);
 
@@ -47,7 +49,7 @@
 
             // Calcula la cantidad total de insumos necesarios
             //$cantidad = $row['cantidad'] * $item['cantidad'];
-            $cantidad = $row['cantidad'] ;
+            $cantidad = $row['cantidad'] * $item['cantidad'];
             
             // Consulta los datos del insumo
             $Q_info_insumo = "SELECT * FROM insumos WHERE codigo='" . $item['codigoinsumo'] . "'";

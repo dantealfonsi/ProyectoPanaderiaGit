@@ -14,7 +14,7 @@ public $user =  "root"; /*Nombre del Usuario*/
 public $password = ""; /*Contraseña de la base de datos*/
 
 
-/*Funcion de Encriptado de contraseña*/
+/*Funcion de Encriptado de contraseña*/ 
 
 public function encrypt($string, $key) {
   $result = '';
@@ -270,7 +270,7 @@ if (isset($_POST['infoTemp'])){
   $resultado3 = mysqli_query( $conexion, $consulta3 );
   $cedula = '';
 
-  while($row = mysqli_fetch_array($resultado3)){
+  while($row = mysqli_fetch_assoc($resultado3)){
      
     $tabla_temp = $tabla_temp."
 
@@ -284,15 +284,16 @@ if (isset($_POST['infoTemp'])){
   ";
   //calcula el subtotal de los insumos utilizados al costo
       //consulta todos los item de insumos utilizados de la receta a cocinar
-      $Q_insumos = "select * from itemrecetas where idproducto=".$row['codigo_producto']."";
+      $idreceta = mysqli_fetch_assoc(mysqli_query($conexion, "SELECT idreceta from productos where idproducto={$row['codigo_producto']}"))['idreceta'];
+      $Q_insumos = "select * from itemrecetas where idreceta='".$idreceta."'";
       $query = mysqli_query($conexion, $Q_insumos );
-      while($item = mysqli_fetch_array($query)){
+      while($item = mysqli_fetch_assoc($query)){
         $cantidad = $row['cantidad'] * $item['cantidad'];
 
         //consulto el precio del insumo
         $Q_info_insumo="select precio FROM insumos WHERE codigo='".$item['codigoinsumo']."'";
         $query_info = mysqli_query($conexion, $Q_info_insumo );
-        $item_info_insumo = mysqli_fetch_array($query_info);
+        $item_info_insumo = mysqli_fetch_assoc($query_info);
 
         $subtotal = $subtotal + ($item_info_insumo['precio'] * $cantidad);
       }
@@ -310,7 +311,7 @@ if (isset($_POST['infoTemp'])){
   $consulta = "SELECT * FROM usuario WHERE idusuario='{$cedula}'";
   $resultado = mysqli_query( $conexion, $consulta );
 
-  if ($row = mysqli_fetch_array($resultado))
+  if ($row = mysqli_fetch_assoc($resultado))
   {
     $nombre=$row['nombre'];
     $apellido=$row['apellido'];

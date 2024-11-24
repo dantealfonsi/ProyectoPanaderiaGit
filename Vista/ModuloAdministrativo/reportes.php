@@ -48,8 +48,9 @@
         src: url(../../css/spartan.ttf) format('truetype');
        }
 
-    body{
+    body,html{
       text-align: center;
+      margin:0;
     }
 
     @media (max-width: 950px) {
@@ -74,17 +75,14 @@ label{
   color: #2a2a2ad4;
 }
 
+.left{
+  display:flex;
+}
+
     </style>
   </head>
 <body>
-         <!--Iniciar Barra de Navegación-->
-         <?php include '../Includes/BarraNavegacionMovil.php';?>
-        <!--FIN Barra de Navegación-->
 
-
-        <!--Iniciar Barra de Navegación @media 1200px-->
-        <?php include '../Includes/BarraNavegacionPC.php';?>
-        <!--FIN Barra de Navegación @media 1200px-->
   <?php
   
     include "../../Controlador/gestionar_insumos.php";
@@ -102,6 +100,7 @@ label{
       return $row;  
     }
   
+
     function readCaracSalida($num_salida){
       $row;
       $tmodulo=new Modulo;
@@ -193,6 +192,8 @@ label{
 
     </div>
 
+     <div class='outerTable'>
+
     <div class='InventarioBox'>
     <form id='form' action='productos.php' method='POST'>
       <table id='myTable'>
@@ -222,7 +223,8 @@ label{
         echo 
       "</tbody></table>
     </form>   
- </div>";
+ </div>
+  </div>";
 }
 
 if (isset($_GET['mas'])){
@@ -246,7 +248,7 @@ if (isset($_GET['mas'])){
 
     </div>
    
-   
+    <div class='outerTable'>
     <div class='InventarioBox'>
     <form id='form' action='productos.php' method='POST'>
       <table id='myTable'>
@@ -283,7 +285,8 @@ if (isset($_GET['mas'])){
       "</tbody>
       </table>
     </form>   
- </div>";
+ </div>
+  </div>";
 }
 
 if (isset($_GET['masentradas'])){
@@ -307,6 +310,8 @@ if (isset($_GET['masentradas'])){
   </div>
 
   </div>
+
+   <div class='outerTable'>
 
   <div class='InventarioBox'>
   <form id='form' action='productos.php' method='POST'>
@@ -344,6 +349,7 @@ if (isset($_GET['masentradas'])){
     "</tbody>
     </table>
   </form>   
+</div>
 </div>";
 }
 
@@ -369,7 +375,7 @@ if (isset($_GET['massalidas'])){
 
   </div>
 
-
+ <div class='outerTable'>
   <div class='InventarioBox'>
   <form id='form' action='productos.php' method='POST'>
     <table id='myTable'  style='width:100%;'>
@@ -406,6 +412,7 @@ if (isset($_GET['massalidas'])){
     "</tbody>
     </table>
   </form>   
+</div>
 </div>";
 }
 
@@ -424,6 +431,8 @@ if (isset($_GET['gananciasTotales'])){
   echo "
 
   <div class='flexbuttons'>   
+
+      <div class='outerTable'>
 
   <div class='InventarioBox'>
   <form id='form' action='productos.php' method='POST'>
@@ -462,6 +471,7 @@ if (isset($_GET['gananciasTotales'])){
     "</tbody>
     </table>
   </form>   
+</div>
 </div>";
 }
 
@@ -482,6 +492,8 @@ if (isset($_GET['gananciasTotalesPorDia'])){
 
       
   <div class='flexbuttons'>   
+
+      <div class='outerTable'>
 
   <div class='InventarioBox'>
   <form id='form' action='productos.php' method='POST'>
@@ -516,6 +528,7 @@ if (isset($_GET['gananciasTotalesPorDia'])){
     "</tbody>
     </table>
   </form>   
+</div>
 </div>";
 }
 
@@ -536,6 +549,9 @@ if (isset($_GET['GastoEntradaPorDia'])){
 
       
   <div class='flexbuttons'>   
+
+      <div class='outerTable'>
+
 
   <div class='InventarioBox'>
   <form id='form' action='productos.php' method='POST'>
@@ -562,14 +578,15 @@ if (isset($_GET['GastoEntradaPorDia'])){
       
         echo "
         <tr>
-          <td>".$row['FECHA']."</td>
-          <td>".$row['TOTAL']."</td>
+          <td>".$row['fecha']."</td>
+          <td>".$row['total']."</td>
        </tr>";
       }
       echo 
     "</tbody>
     </table>
   </form>   
+</div>
 </div>";
 }
 
@@ -590,6 +607,8 @@ if (isset($_GET['GastoEntrada'])){
 
       
   <div class='flexbuttons'>   
+
+      <div class='outerTable'>
 
   <div class='InventarioBox'>
   <form id='form' action='productos.php' method='POST'>
@@ -628,6 +647,7 @@ if (isset($_GET['GastoEntrada'])){
     "</tbody>
     </table>
   </form>   
+</div>
 </div>";
 }
 
@@ -646,6 +666,8 @@ if (isset($_GET['productosPorDia'])){
   echo "
   
   <div class='flexbuttons'>   
+
+      <div class='outerTable'>
 
   <div class='InventarioBox'>
   <form id='form' action='productos.php' method='POST'>
@@ -678,6 +700,7 @@ if (isset($_GET['productosPorDia'])){
     "</tbody>
     </table>
   </form>   
+</div>
 </div>";
 }
 
@@ -694,7 +717,10 @@ if (isset($_GET['GananciaNeta'])){
 
   echo "
  
-  <div class='flexbuttons'>   
+  <div class='flexbuttons'> 
+  
+      <div class='outerTable'>
+
 
   <div class='InventarioBox'>
   <form id='form' action='productos.php' method='POST'>
@@ -730,6 +756,7 @@ if (isset($_GET['GananciaNeta'])){
     "</tbody>
     </table>
   </form>   
+</div>
 </div>";
 }
 
@@ -747,6 +774,8 @@ if (isset($_GET['gananciaNetaPorDia'])){
 
   echo "   
   <div class='flexbuttons'>   
+
+      <div class='outerTable'>
 
   <div class='InventarioBox'>
   <form id='form' action='productos.php' method='POST'>
@@ -788,12 +817,15 @@ if (isset($_GET['gananciaNetaPorDia'])){
     "</tbody>
     </table>
   </form>   
+</div>
 </div>";
 }
 
 if (isset($_GET['nulo'])){
 
   echo "
+
+      <div class='outerTable'>
 
   <div class='InventarioBox'>
   <form id='form' action='productos.php' method='POST'>
@@ -831,12 +863,16 @@ if (isset($_GET['nulo'])){
     "</tbody>
     </table>
   </form>   
+</div>
 </div>";
 }
 
 if (isset($_GET['pocaExistencia'])){
 
   echo "
+
+      <div class='outerTable'>
+
 
   <div class='InventarioBox'>
   <form id='form' action='productos.php' method='POST'>
@@ -874,12 +910,16 @@ if (isset($_GET['pocaExistencia'])){
     "</tbody>
     </table>
   </form>   
+</div>
 </div>";
 }
 
 if (isset($_GET['mejoresClientes'])){
 
   echo "
+
+      <div class='outerTable'>
+
 
   <div class='InventarioBox'>
   <form id='form' action='productos.php' method='POST'>
@@ -907,14 +947,15 @@ if (isset($_GET['mejoresClientes'])){
       
         echo "
         <tr>
-            <td>".$row['CEDULA_CLIENTE']."</td>
-            <td>".$row['TOTAL']."</td>
+            <td>".$row['cedula_cliente']."</td>
+            <td>".$row['total']."</td>
        </tr>";
       }
       echo 
     "</tbody>
     </table>
   </form>   
+</div>
 </div>";
 }
 
@@ -923,6 +964,9 @@ if (isset($_GET['mejoresClientes'])){
 if (isset($_GET['productosdes'])){
 
   echo "
+
+      <div class='outerTable'>
+
 
   <div class='InventarioBox'>
   <form id='form' action='reportes.php?productosdes' method='POST'>
@@ -962,6 +1006,7 @@ if (isset($_GET['productosdes'])){
     "</tbody>
     </table>
   </form>   
+</div>
 </div>";
 
 }
@@ -979,6 +1024,9 @@ if (isset($_GET['inventario'])){
     <div class='right'>    
     </div>
      </div>
+
+         <div class='outerTable'>
+
     <div class='InventarioBox'>
       <form id='form' action='inventario.php' method='POST'>
         <table id='myTable'  style='width:100%;'>
@@ -1014,7 +1062,7 @@ while($row = mysqli_fetch_array($resultado)){
   $state="#ff959236";
 
 
-  if ($row['DELETED']==0){
+  if ($row['deleted']==0){
     $estado = "ACTIVO";
     $disabled = "fff";
     $state="#e4ffe0d1";
@@ -1023,10 +1071,10 @@ while($row = mysqli_fetch_array($resultado)){
     $cadena= $cadena . "
     <tr style='background:{$disabled}'>
         <td style='background:{$state}'>$estado</td>
-        <td>".$row['CODIGO']."</td>
-        <td>".$row['NOMBRE']."</td>
-        <td>".$row['PRECIO']."</td>
-        <td>".$row['EXISTENCIA']."</td>
+        <td>".$row['codigo']."</td>
+        <td>".$row['nombre']."</td>
+        <td>".$row['precio']."</td>
+        <td>".$row['existencia']."</td>
     </tr>";
  }
     $cadena = $cadena .
@@ -1034,6 +1082,7 @@ while($row = mysqli_fetch_array($resultado)){
     </table>
         </fieldset>
           </form>
+            </div>
             </div>
       ";
 mysqli_close($conexion);
@@ -1045,6 +1094,8 @@ echo $cadena;
 if (isset($_GET['devueltoE'])){
 
   echo "
+
+      <div class='outerTable'>
 
   <div class='InventarioBox'>
   <form id='form' action='productos.php' method='POST'>
@@ -1084,6 +1135,7 @@ if (isset($_GET['devueltoE'])){
     "</tbody>
     </table>
   </form>   
+</div>
 </div>";
 }
 
@@ -1091,6 +1143,8 @@ if (isset($_GET['devueltoE'])){
 if (isset($_GET['devueltoS'])){
 
   echo "
+
+      <div class='outerTable'>
 
   <div class='InventarioBox'>
   <form id='form' action='productos.php' method='POST'>
@@ -1130,6 +1184,7 @@ if (isset($_GET['devueltoS'])){
     "</tbody>
     </table>
   </form>   
+</div>
 </div>";
 }
 
@@ -1137,6 +1192,8 @@ if (isset($_GET['devueltoS'])){
 if (isset($_GET['hist'])){
 
   echo "
+
+      <div class='outerTable'>
 
   <div class='InventarioBox'>
 
@@ -1170,6 +1227,7 @@ if (isset($_GET['hist'])){
     "</tbody>
     </table>
   </form>   
+</div>
 </div>";
 }
 
@@ -1202,7 +1260,7 @@ if (isset($_GET['hist'])){
               "sNext": "→",
               "sPrevious": "←"
           },  
-          "sSearch": "<img id='icon-buscar' src='../fonts/search.svg'>",
+          "sSearch": "<img id='icon-buscar' src='../../Assets/images/inventory/search.png'>",
           "sInfo": "<div class='table_label'>Pagina _START_ (_TOTAL_ entradas) </div>",
           "sInfoEmpty": "No hay entradas que mostrar"
         },
@@ -1210,19 +1268,19 @@ if (isset($_GET['hist'])){
         buttons:[
             {
                 extend:    'collection',
-                text:      '<img id="table_icon_export" src="../fonts/export.svg"></i>',
+                text:      '<img id="table_icon_export" src="../../Assets/images/inventory/download.png">',
                 className: 'square square-red',
                 titleAttr: 'Exportar',
                 buttons: [
                     {
                       extend:    'excelHtml5',
-                      text:      '<img id="table_icon" style="margin: 0;" src="../fonts/excel.svg"> EXCEL</i>',
+                      text:      '<img id="table_icon" style="margin: 0;" src="../../Assets/images/inventory/excel.svg"> EXCEL</i>',
                       className: 'square square-excel',
                       titleAttr: 'Excel'
                     },
                     {
                       extend:    'pdfHtml5',
-                      text:      '<img id="table_icon" src="../fonts/pdf.svg"> PDF</i>',
+                      text:      '<img id="table_icon" src="../../Assets/images/inventory/pdf.svg"> PDF</i>',
                       titleAttr: 'PDF',
                       className: 'square square-pdf',
                       /////////////Custom PDF/////////////////////////

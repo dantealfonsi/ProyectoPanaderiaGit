@@ -484,6 +484,16 @@
 
         <li>
         <div class="icon-link">
+          <a onclick="reportes()">
+          <img src="../../Assets/images/inventory/personas.svg">
+            <span class="link-name" id="link-name">Reportes</span>
+          </a>
+        </div>
+
+        </li>
+
+        <li>
+        <div class="icon-link">
           <a onclick="perfil()">
           <img src="../../Assets/images/inventory/personas.svg">
             <span class="link-name" id="link-name">Perfil</span>
