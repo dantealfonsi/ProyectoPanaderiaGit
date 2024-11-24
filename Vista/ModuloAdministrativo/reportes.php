@@ -14,6 +14,7 @@
     <link rel="stylesheet" type="text/css" href="../../css/SweetAlert/sweetalert2.min.css" />
 
     <script src="../Javascript/DataTables/jQuery/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>insumos</title>
 
         <!--CSS File-->
@@ -61,23 +62,28 @@
 
     }
 
-    .custom-select {
-  position: relative;
-  font-family: Arial;
-  display: inline-block;
-  width:50%;
-}
+  .custom-select {
+    position: relative;
+    font-family: Arial;
+    display: inline-block;
+    width:50%;
+  }
 
-label{
-  margin: 2px 20px;
-  font-family: 'button';
-  font-size: 2rem;
-  color: #2a2a2ad4;
-}
+  label{
+    margin: 2px 20px;
+    font-family: 'button';
+    font-size: 2rem;
+    color: #2a2a2ad4;
+  }
 
-.left{
-  display:flex;
-}
+  .left{
+    display:flex;
+  }
+
+  .outerTable{
+    width: 100%;
+    padding:2rem !important;
+  }
 
     </style>
   </head>
@@ -149,23 +155,23 @@ label{
     <div class='custom-select'>
       <select id='reporte' onchange=\"reporte()\"> 
       <option>Seleccione</option>
-      <option>Inventario Generalizado</option>
       <option>Historial de Sesion</option>
-      <option>Producto mas movido</option>
-      <option>Entradas y Salidas por Productos</option>
-      <option>Entradas</option>
-      <option>Salidas</option>
-      <option>Sin Existencia</option>
-      <option>Poca Existencia</option>
-      <option>Productos Desabilitados</option>
+      <option>Inventario Generalizado</option>
+      <option>Usuarios Por Mes</option>
+      <option>Producto Mas Comprado</option>
+      <option>Entrada De Insumos</option>
+      <option>Insumos Utilizados</option>
       <option>Ganancias Totales</option>
       <option>Ganancias Totales Por Dia</option>
-      <option>Gasto en Entrada</option>
-      <option>Gasto en Entrada Por Dia</option>
+      <option>Ganancias Totales Por Mes</option>
       <option>Ganancias Netas</option>
       <option>Ganancias Netas Por Dia</option>
+      <option>Ganancias Netas Por Mes</option>
+      <option>Gasto en Entrada</option>
+      <option>Gasto en Entrada Por Dia</option>
       <option>Mejores Clientes</option>
-      <option>Salidas de Producto Por Dia</option>
+      <option>Productos Desabilitados</option>
+
      </select> 
     </div> 
       </div> 
@@ -254,7 +260,6 @@ if (isset($_GET['mas'])){
       <table id='myTable'>
         <thead>  
           <tr class='tr'>
-              <th>CODIGO</th>
               <th>NOMBRE</th>
               <th>CANTIDAD MOVIDA</th>
             </tr>
@@ -262,13 +267,25 @@ if (isset($_GET['mas'])){
         <tbody>
         ";
 
-        $consulta = "SELECT codigo_producto, nombre_producto, SUM(cantidad) AS cantidad from carac_salida GROUP BY codigo_producto ORDER BY cantidad DESC;";   /*Buscar Producto*/
+        $consulta = "SELECT p.nombre_producto, COUNT(ip.idproducto) as cantidad_pedidos
+          FROM itempedido ip
+          JOIN productos p ON ip.idproducto = p.idproducto
+          GROUP BY p.nombre_producto
+          ORDER BY cantidad_pedidos DESC
+          LIMIT 1;
+          ";   /*Buscar Producto*/
         
-        if (isset($_GET['desde'])){
-
-          $consulta = "SELECT fecha, codigo_producto, nombre_producto, SUM(cantidad) AS cantidad from carac_salida WHERE fecha BETWEEN '{$_GET['desde']} 00:00' AND '{$_GET['hasta']} 23:59' GROUP BY codigo_producto ORDER BY cantidad DESC;";   /*Buscar Producto*/
-
-        }
+        if (isset($_GET['desde'])) {
+          $consulta = "SELECT p.nombre_producto, COUNT(ip.idproducto) as cantidad_pedidos
+          FROM itempedido ip
+          JOIN productos p ON ip.idproducto = p.idproducto
+          WHERE ip.fechacreacion BETWEEN '{$_GET['desde']} 00:00:00' AND '{$_GET['hasta']} 23:59:59'
+          GROUP BY p.nombre_producto
+          ORDER BY cantidad_pedidos DESC
+          LIMIT 1;
+          ";
+      }
+      
 
         $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta );
         
@@ -276,9 +293,8 @@ if (isset($_GET['mas'])){
         
           echo "
           <tr>
-              <td>".$row['codigo_producto']."</td>
-              <td>".$row['nombre_producto']."</td>
-              <td>".$row['cantidad']."</td>
+              <td style='text-transform:capitalize;'>".$row['nombre_producto']."</td>
+              <td>".$row['cantidad_pedidos']."</td>
          </tr>";
         }
         echo 
@@ -320,17 +336,30 @@ if (isset($_GET['masentradas'])){
         <tr class='tr'>
             <th>CODIGO</th>
             <th>NOMBRE</th>
-            <th>ENTRADAS</th>
+            <th>CANTIDAD</th>
+            <th>UNIDAD</th>
           </tr>
       </thead>
       <tbody>
       ";
 
-      $consulta = "SELECT codigo_producto, nombre_producto, SUM(cantidad) AS cantidad from carac_entrada GROUP BY codigo_producto ORDER BY cantidad DESC;";   /*Buscar Producto*/
+      $consulta = 
+        "SELECT ce.codigo_producto, ce.nombre_producto, SUM(ce.cantidad) AS cantidad, i.uni
+        FROM carac_entrada ce
+        JOIN insumos i ON ce.codigo_producto = i.codigo
+        GROUP BY ce.codigo_producto, i.uni
+        ORDER BY cantidad DESC;
+        ";   /*Buscar Producto*/
       
       if (isset($_GET['desde'])){
 
-        $consulta = "SELECT fecha, codigo_producto, nombre_producto, SUM(cantidad) AS cantidad from carac_entrada WHERE fecha BETWEEN '{$_GET['desde']} 00:00' AND '{$_GET['hasta']} 23:59' GROUP BY codigo_producto ORDER BY cantidad DESC;";   /*Buscar Producto*/
+        $consulta = "SELECT ce.fecha, ce.codigo_producto, ce.nombre_producto, SUM(ce.cantidad) AS cantidad, i.uni
+          FROM carac_entrada ce
+          JOIN insumos i ON ce.codigo_producto = i.codigo
+          WHERE ce.fecha BETWEEN '{$_GET['desde']} 00:00:00' AND '{$_GET['hasta']} 23:59:59'
+          GROUP BY ce.codigo_producto, ce.fecha, i.uni
+          ORDER BY cantidad DESC;
+        ";
 
       }
 
@@ -341,8 +370,10 @@ if (isset($_GET['masentradas'])){
         echo "
         <tr>
             <td>".$row['codigo_producto']."</td>
-            <td>".$row['nombre_producto']."</td>
+            <td style='text-transform:capitalize;'>".$row['nombre_producto']."</td>
             <td>".$row['cantidad']."</td>
+            <td style='text-transform:capitalize;'>".$row['uni']."</td>
+
        </tr>";
       }
       echo 
@@ -383,19 +414,30 @@ if (isset($_GET['massalidas'])){
         <tr class='tr'>
             <th>CODIGO</th>
             <th>NOMBRE</th>
-            <th>SALIDAS</th>
+            <th>CANTIDAD</th>
+            <th>UNIDAD</th>
           </tr>
       </thead>
       <tbody>
       ";
 
-      $consulta = "SELECT codigo_producto, nombre_producto, SUM(cantidad) AS cantidad from carac_salida GROUP BY codigo_producto ORDER BY cantidad ASC;";   /*Buscar Producto*/
-      
-      if (isset($_GET['desde'])){
-
-        $consulta = "SELECT fecha, codigo_producto, nombre_producto, SUM(cantidad) AS cantidad from carac_salida WHERE fecha BETWEEN '{$_GET['desde']} 00:00' AND '{$_GET['hasta']} 23:59' GROUP BY codigo_producto ORDER BY cantidad ASC;";   /*Buscar Producto*/
-
-      }
+      $consulta = "SELECT cs.codigo_producto, cs.nombre_producto, SUM(cs.cantidad) AS cantidad, i.uni
+      FROM carac_salida cs
+      JOIN insumos i ON cs.codigo_producto = i.codigo
+      GROUP BY cs.codigo_producto, i.uni
+      ORDER BY cantidad ASC;
+      ";
+            
+            if (isset($_GET['desde'])) {
+              $consulta = "SELECT cs.fecha, cs.codigo_producto, cs.nombre_producto, SUM(cs.cantidad) AS cantidad, i.uni
+              FROM carac_salida cs
+              JOIN insumos i ON cs.codigo_producto = i.codigo
+              WHERE cs.fecha BETWEEN '{$_GET['desde']} 00:00:00' AND '{$_GET['hasta']} 23:59:59'
+              GROUP BY cs.codigo_producto, cs.fecha, i.uni
+              ORDER BY cantidad ASC;
+              ";
+          }
+          
 
       $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta );
       
@@ -404,8 +446,10 @@ if (isset($_GET['massalidas'])){
         echo "
         <tr>
             <td>".$row['codigo_producto']."</td>
-            <td>".$row['nombre_producto']."</td>
+            <td style='text-transform:capitalize;'>".$row['nombre_producto']."</td>
             <td>".$row['cantidad']."</td>
+            <td style='text-transform:capitalize;'>".$row['uni']."</td>
+
        </tr>";
       }
       echo 
@@ -464,7 +508,7 @@ if (isset($_GET['gananciasTotales'])){
         }else{
           echo "<td>Inicio-Ahora</td> ";
         }echo"
-            <td>".$row['total']."</td>
+            <td>".$row['total']." <b>BS</b></td>
        </tr>";
       }
       echo 
@@ -508,10 +552,15 @@ if (isset($_GET['gananciasTotalesPorDia'])){
       ";
     
 
-      $consulta = "SELECT DATE(fecha) as fecha,SUM(total) AS total FROM salida WHERE fecha BETWEEN DAY('2023-08-09 23:22:07') AND NOW() GROUP BY DATE(fecha);";   /*Buscar Producto*/
+      $consulta = "SELECT DATE(fechapedido) as Fecha, ROUND(SUM(total),2) as Ganancia_Diaria FROM pedido_usuario WHERE estado IN ('PRODUCCION', 'PAGADO') GROUP BY DATE(fechapedido) ORDER BY Fecha;";   /*Buscar Producto*/
       
       if (isset($_GET['desde'])){
-        $consulta = "SELECT DATE(fecha) as fecha,SUM(total) AS total FROM salida WHERE fecha BETWEEN '{$_GET['desde']} 00:00' AND '{$_GET['hasta']}' GROUP BY DATE(fecha);";   /*Buscar Producto*/
+        $consulta = "SELECT DATE(fechapedido) as Fecha, ROUND(SUM(total), 2) as Ganancia_Diaria
+        FROM pedido_usuario
+        WHERE estado IN ('PRODUCCION', 'PAGADO')
+        AND fechapedido BETWEEN '{$_GET['desde']} 00:00:00' AND '{$_GET['hasta']} 23:59:59'
+        GROUP BY DATE(fechapedido)
+        ORDER BY Fecha;";   /*Buscar Producto*/
       }
 
       $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta );
@@ -520,8 +569,73 @@ if (isset($_GET['gananciasTotalesPorDia'])){
       
         echo "
         <tr>
-          <td>".$row['fecha']."</td>
-          <td>".$row['total']."</td>
+          <td>".$row['Fecha']."</td>
+          <td>".$row['Ganancia_Diaria']." <b>BS</b></td>
+       </tr>";
+      }
+      echo 
+    "</tbody>
+    </table>
+  </form>   
+</div>
+</div>";
+}
+
+
+
+if (isset($_GET['gananciasTotalesPorMes'])){
+
+   
+  $desde_1='';
+  $hasta_1='';
+
+  if (isset($_GET['desde'])){
+       
+    $desde_1= $_GET['desde'];
+    $hasta_1= $_GET['hasta'];
+
+  }  
+
+  echo "
+
+      
+  <div class='flexbuttons'>   
+
+      <div class='outerTable'>
+
+  <div class='InventarioBox'>
+  <form id='form' action='productos.php' method='POST'>
+    <table id='myTable'  style='width:100%;'>
+      <thead>  
+        <tr class='tr'>
+            <th>FECHA</th>
+            <th>GANANCIA TOTAL</th>
+          </tr>
+      </thead>
+      <tbody>
+      ";
+    
+
+      $consulta = "SELECT DATE_FORMAT(fechapedido, '%Y-%m') as Mes, ROUND(SUM(total),2) as Ganancia_Mensual FROM pedido_usuario WHERE estado IN ('PRODUCCION', 'PAGADO') GROUP BY DATE_FORMAT(fechapedido, '%Y-%m') ORDER BY Mes;";   /*Buscar Producto*/
+      
+      if (isset($_GET['desde'])){
+        $consulta = "SELECT DATE_FORMAT(fechapedido, '%Y-%m') as Mes, ROUND(SUM(total), 2) as Ganancia_Mensual
+          FROM pedido_usuario
+          WHERE estado IN ('PRODUCCION', 'PAGADO')
+          AND fechapedido BETWEEN '{$_GET['desde']} 00:00:00' AND '{$_GET['hasta']} 23:59:59'
+          GROUP BY DATE_FORMAT(fechapedido, '%Y-%m')
+          ORDER BY Mes;
+          ";   /*Buscar Producto*/
+      }
+
+      $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta );
+      
+      while($row = mysqli_fetch_array($resultado)){    /*Te muestra el resultado de busqueda*/
+      
+        echo "
+        <tr>
+          <td>".$row['Mes']."</td>
+          <td>".$row['Ganancia_Mensual']." <b>BS</b></td>
        </tr>";
       }
       echo 
@@ -703,123 +817,339 @@ if (isset($_GET['productosPorDia'])){
 </div>
 </div>";
 }
+if (isset($_GET['GananciaNeta'])) {
+  $desde_1 = '';
+  $hasta_1 = '';
 
-if (isset($_GET['GananciaNeta'])){
-  $desde_1='';
-  $hasta_1='';
-
-  if (isset($_GET['desde'])){
-       
-    $desde_1= $_GET['desde'];
-    $hasta_1= $_GET['hasta'];
-
+  if (isset($_GET['desde'])) {
+    $desde_1 = $_GET['desde'];
+    $hasta_1 = $_GET['hasta'];
   }  
 
   echo "
- 
   <div class='flexbuttons'> 
-  
-      <div class='outerTable'>
+    <div class='outerTable'>
+      <div class='InventarioBox'>
+        <form id='form' action='productos.php' method='POST'>
+          <table id='myTable'  style='width:100%;'>
+            <thead>  
+              <tr class='tr'>
+                <th>FECHA</th>
+                <th>GANANCIA NETA</th>
+              </tr>
+            </thead>
+            <tbody>
+  ";
 
+  if (isset($_GET['desde'])) {
+    $desde = "{$_GET['desde']} 00:00:00";
+    $hasta = "{$_GET['hasta']} 23:59:59";
 
-  <div class='InventarioBox'>
-  <form id='form' action='productos.php' method='POST'>
-    <table id='myTable'  style='width:100%;'>
-      <thead>  
-        <tr class='tr'>
-            <th>FECHA</th>
-            <th>GANANCIA NETA</th>
-          </tr>
-      </thead>
-      <tbody>
-      ";
-    
-      $ganancia=($tmodulo->row_sqlconector("SELECT SUM(total) AS total FROM salida WHERE  fecha BETWEEN '2023-08-09 23:22:07' AND NOW();")['TOTAL'] - $tmodulo->row_sqlconector("SELECT SUM(precio) AS total FROM carac_entrada WHERE  fecha BETWEEN '2023-08-09 23:22:07' AND NOW();")['total']);     
-      
-      if (isset($_GET['desde'])){
-      $ganancia=($tmodulo->row_sqlconector("SELECT SUM(total) AS total FROM salida WHERE  fecha BETWEEN '{$_GET['desde']} 00:00' AND '{$_GET['hasta']}';")['TOTAL'] - $tmodulo->row_sqlconector("SELECT SUM(precio) AS total FROM carac_entrada WHERE  fecha BETWEEN '{$_GET['desde']} 00:00' AND '{$_GET['hasta']}';")['total']);     
-      }
+    $consulta = "SELECT (ganancias_totales - gastos_entrada) AS ganancia_neta
+    FROM (
+      SELECT
+        (SELECT SUM(total) FROM pedido_usuario WHERE estado IN ('PRODUCCION', 'PAGADO') AND fechapedido BETWEEN '$desde' AND '$hasta') AS ganancias_totales,
+        (SELECT SUM(precio) FROM carac_entrada WHERE fecha BETWEEN '$desde' AND '$hasta') AS gastos_entrada
+    ) AS totales;";
+  } else {
+    $consulta = "SELECT (ganancias_totales - gastos_entrada) AS ganancia_neta
+    FROM (
+      SELECT
+        (SELECT SUM(total) FROM pedido_usuario WHERE estado IN ('PRODUCCION', 'PAGADO') AND fechapedido BETWEEN '2023-08-09 23:22:07' AND NOW()) AS ganancias_totales,
+        (SELECT SUM(precio) FROM carac_entrada WHERE fecha BETWEEN '2023-08-09 23:22:07' AND NOW()) AS gastos_entrada
+    ) AS totales;";
+  }
 
-     /*Te muestra el resultado de busqueda*/
-      
-        echo "
-        <tr>";
-        if (isset($_GET['desde'])){
-          echo "<td>{$_GET['desde']} Hasta {$_GET['hasta']}</td>";
-        }else{
-          echo "<td>Inicio-Ahora</td> ";
-        }echo"
-            <td>".$ganancia."</td>
-       </tr>";
-       
-      echo 
-    "</tbody>
-    </table>
-  </form>   
-</div>
-</div>";
+  $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta);
+
+  $ganancia_neta = 0;
+  if ($row = mysqli_fetch_assoc($resultado)) {
+    $ganancia_neta = $row['ganancia_neta'];
+  }
+
+  echo "
+  <tr>";
+  if (isset($_GET['desde'])) {
+    echo "<td>{$_GET['desde']} Hasta {$_GET['hasta']}</td>";
+  } else {
+    echo "<td>Inicio-Ahora</td>";
+  }
+  echo "<td>" . number_format($ganancia_neta, 2) . "</td>
+  </tr>";
+
+  echo "
+            </tbody>
+          </table>
+        </form>   
+      </div>
+    </div>
+  </div>";
 }
+
+
 
 if (isset($_GET['gananciaNetaPorDia'])){
 
-  $desde_1='';
-  $hasta_1='';
+  $desde_1 = '';
+  $hasta_1 = '';
 
-  if (isset($_GET['desde'])){
-       
-    $desde_1= $_GET['desde'];
-    $hasta_1= $_GET['hasta'];
-
+  if (isset($_GET['desde'])) {
+    $desde_1 = $_GET['desde'];
+    $hasta_1 = $_GET['hasta'];
   }  
 
-  echo "   
-  <div class='flexbuttons'>   
+  echo "
+  <div class='flexbuttons'> 
+    <div class='outerTable'>
+      <div class='InventarioBox'>
+        <form id='form' action='productos.php' method='POST'>
+          <table id='myTable'  style='width:100%;'>
+            <thead>  
+              <tr class='tr'>
+                <th>FECHA</th>
+                <th>GANANCIA NETA</th>
+              </tr>
+            </thead>
+            <tbody>
+  ";
 
-      <div class='outerTable'>
+  if (isset($_GET['desde'])) {
+    $desde = "{$_GET['desde']} 00:00:00";
+    $hasta = "{$_GET['hasta']} 23:59:59";
 
-  <div class='InventarioBox'>
-  <form id='form' action='productos.php' method='POST'>
-    <table id='myTable'  style='width:100%;'>
-      <thead>  
-        <tr class='tr'>
-            <th>FECHA</th>
-            <th>GANANCIA TOTAL</th>
-          </tr>
-      </thead>
-      <tbody>
-      ";
-    
+    $consulta = "SELECT DATE(ip.fechapedido) AS fecha, 
+                        ROUND((SUM(ip.total) - (SELECT SUM(ce.precio) 
+                                               FROM carac_entrada ce 
+                                               WHERE ce.fecha BETWEEN '$desde' AND '$hasta' 
+                                               AND DATE(ce.fecha) = DATE(ip.fechapedido))), 2) AS ganancia_neta
+                 FROM pedido_usuario ip
+                 WHERE ip.estado IN ('PRODUCCION', 'PAGADO')
+                   AND ip.fechapedido BETWEEN '$desde' AND '$hasta'
+                 GROUP BY DATE(ip.fechapedido)
+                 ORDER BY fecha;
+    ";
+  } else {
+    $consulta = "SELECT DATE(ip.fechapedido) AS fecha, 
+                        ROUND((SUM(ip.total) - (SELECT SUM(ce.precio) 
+                                               FROM carac_entrada ce 
+                                               WHERE ce.fecha BETWEEN '2023-08-09 23:22:07' AND NOW() 
+                                               AND DATE(ce.fecha) = DATE(ip.fechapedido))), 2) AS ganancia_neta
+                 FROM pedido_usuario ip
+                 WHERE ip.estado IN ('PRODUCCION', 'PAGADO')
+                   AND ip.fechapedido BETWEEN '2023-08-09 23:22:07' AND NOW()
+                 GROUP BY DATE(ip.fechapedido)
+                 ORDER BY fecha;
+    ";
+  }
 
-      $consulta = "SELECT DATE(fecha) as fecha,SUM(total) AS total FROM salida WHERE fecha BETWEEN '2023-08-09 23:22:07' AND NOW() GROUP BY DATE(FECHA);";   /*Buscar Producto*/
-      $entrada=0;
+  $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta);
 
+  while ($row = mysqli_fetch_assoc($resultado)) {
+    $fecha = $row['fecha'];
+    $ganancia_neta = $row['ganancia_neta'];
 
+    echo "
+    <tr>";
+    echo "<td>$fecha</td>";
+    echo "<td>" . number_format($ganancia_neta, 2) . "</td>
+    </tr>";
+  }
 
-      if (isset($_GET['desde'])){
-        $consulta = "SELECT DATE(fecha) as fecha,SUM(total) AS total FROM salida WHERE fecha BETWEEN '{$_GET['desde']} 00:00' AND '{$_GET['hasta']}' GROUP BY DATE(fecha);";   /*Buscar Producto*/
-      }
-
-      $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta );
-      
-      while($row = mysqli_fetch_array($resultado)){  
-        if(isset($tmodulo->row_sqlconector("SELECT DATE(fecha) as fecha,SUM(precio) AS total FROM carac_entrada WHERE fecha = '{$row['fecha']}';")['total'])){
-          $entrada=$tmodulo->row_sqlconector("SELECT DATE(fecha) as fecha,SUM(precio) AS total FROM carac_entrada WHERE fecha = '{$row['fecha']}';")['total'];
-        }else{
-          $entrada=0;
-        }        
-        echo "
-        <tr>
-          <td>".$row['fecha']."</td>
-          <td>".$row['total']-$entrada."</td>
-       </tr>";
-      }
-      echo 
-    "</tbody>
-    </table>
-  </form>   
-</div>
-</div>";
+  echo "
+            </tbody>
+          </table>
+        </form>   
+      </div>
+    </div>
+  </div>";
 }
+
+
+if (isset($_GET['gananciaNetaPorMes'])) {
+  $desde_1 = '';
+  $hasta_1 = '';
+
+  if (isset($_GET['desde'])) {
+    $desde_1 = $_GET['desde'];
+    $hasta_1 = $_GET['hasta'];
+  }  
+
+  echo "
+  <div class='flexbuttons'> 
+    <div class='outerTable'>
+      <div class='InventarioBox'>
+        <form id='form' action='productos.php' method='POST'>
+          <table id='myTable'  style='width:100%;'>
+            <thead>  
+              <tr class='tr'>
+                <th>MES</th>
+                <th>GANANCIA NETA</th>
+              </tr>
+            </thead>
+            <tbody>
+  ";
+
+  if (isset($_GET['desde'])) {
+    $desde = "{$_GET['desde']} 00:00:00";
+    $hasta = "{$_GET['hasta']} 23:59:59";
+
+    $consulta = "SELECT DATE_FORMAT(ip.fechapedido, '%Y-%m') AS mes, 
+                        ROUND((SUM(ip.total) - (SELECT SUM(ce.precio) 
+                                               FROM carac_entrada ce 
+                                               WHERE ce.fecha BETWEEN '$desde' AND '$hasta' 
+                                               AND DATE_FORMAT(ce.fecha, '%Y-%m') = DATE_FORMAT(ip.fechapedido, '%Y-%m'))), 2) AS ganancia_neta
+                 FROM pedido_usuario ip
+                 WHERE ip.estado IN ('PRODUCCION', 'PAGADO')
+                   AND ip.fechapedido BETWEEN '$desde' AND '$hasta'
+                 GROUP BY DATE_FORMAT(ip.fechapedido, '%Y-%m')
+                 ORDER BY mes;
+    ";
+  } else {
+    $consulta = "SELECT DATE_FORMAT(ip.fechapedido, '%Y-%m') AS mes, 
+                        ROUND((SUM(ip.total) - (SELECT SUM(ce.precio) 
+                                               FROM carac_entrada ce 
+                                               WHERE ce.fecha BETWEEN '2023-08-09 23:22:07' AND NOW() 
+                                               AND DATE_FORMAT(ce.fecha, '%Y-%m') = DATE_FORMAT(ip.fechapedido, '%Y-%m'))), 2) AS ganancia_neta
+                 FROM pedido_usuario ip
+                 WHERE ip.estado IN ('PRODUCCION', 'PAGADO')
+                   AND ip.fechapedido BETWEEN '2023-08-09 23:22:07' AND NOW()
+                 GROUP BY DATE_FORMAT(ip.fechapedido, '%Y-%m')
+                 ORDER BY mes;
+    ";
+  }
+
+  $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta);
+
+  while ($row = mysqli_fetch_assoc($resultado)) {
+    $mes = $row['mes'];
+    $ganancia_neta = $row['ganancia_neta'];
+
+    echo "
+    <tr>";
+    echo "<td>$mes</td>";
+    echo "<td>" . number_format($ganancia_neta, 2) . "</td>
+    </tr>";
+  }
+
+  echo "
+            </tbody>
+          </table>
+        </form>   
+      </div>
+    </div>
+  </div>";
+}
+
+
+
+if (isset($_GET['usuariosPorMes'])) {
+  $desde_1 = '';
+  $hasta_1 = '';
+
+  if (isset($_GET['desde'])) {
+    $desde_1 = $_GET['desde'];
+    $hasta_1 = $_GET['hasta'];
+  }
+
+  echo "
+  <div class='flexbuttons'>
+    <div class='outerTable'>
+      <div class='InventarioBox'>
+        <form id='form' action='usuarios.php' method='POST'>
+          <canvas id='usuariosPorMesChart' width='400' height='200'></canvas>
+          <table id='myTable' style='width:100%; margin-top: 20px;'>
+            <thead>  
+              <tr class='tr'>
+                <th>MES</th>
+                <th>CANTIDAD DE USUARIOS</th>
+              </tr>
+            </thead>
+            <tbody>
+  ";
+
+  if (isset($_GET['desde'])) {
+    $desde = "{$_GET['desde']} 00:00:00";
+    $hasta = "{$_GET['hasta']} 23:59:59";
+
+    $consulta = "SELECT DATE_FORMAT(fechacreacion, '%Y-%m') AS mes, COUNT(idusuario) AS cantidad_usuarios
+                 FROM usuario
+                 WHERE fechacreacion BETWEEN '$desde' AND '$hasta'
+                 GROUP BY DATE_FORMAT(fechacreacion, '%Y-%m')
+                 ORDER BY mes;";
+  } else {
+    $consulta = "SELECT DATE_FORMAT(fechacreacion, '%Y-%m') AS mes, COUNT(idusuario) AS cantidad_usuarios
+                 FROM usuario
+                 WHERE fechacreacion BETWEEN '2023-08-09 23:22:07' AND NOW()
+                 GROUP BY DATE_FORMAT(fechacreacion, '%Y-%m')
+                 ORDER BY mes;";
+  }
+
+  $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta);
+
+  // Arrays para almacenar datos del gráfico
+  $meses = [];
+  $cantidades = [];
+
+  while ($row = mysqli_fetch_assoc($resultado)) {
+    $mes = $row['mes'];
+    $cantidad_usuarios = $row['cantidad_usuarios'];
+
+    echo "
+    <tr>";
+    echo "<td>$mes</td>";
+    echo "<td>$cantidad_usuarios</td>
+    </tr>";
+
+    // Añadir datos al gráfico
+    $meses[] = $mes;
+    $cantidades[] = $cantidad_usuarios;
+  }
+
+  echo "
+            </tbody>
+          </table>
+        </form>   
+      </div>
+    </div>
+  </div>";
+
+  // Datos para el gráfico
+  $meses_json = json_encode($meses);
+  $cantidades_json = json_encode($cantidades);
+
+  echo "
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var ctx = document.getElementById('usuariosPorMesChart').getContext('2d');
+      var usuariosPorMesChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+              labels: $meses_json,
+              datasets: [{
+                  label: 'Cantidad de Usuarios',
+                  data: $cantidades_json,
+                  backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                  borderColor: 'rgba(75, 192, 192, 1)',
+                  borderWidth: 1
+              }]
+          },
+          options: {
+              responsive: true,
+              scales: {
+                  y: {
+                      beginAtZero: true
+                  }
+              }
+          }
+      });
+    });
+  </script>
+  ";
+}
+
+
+
+
 
 if (isset($_GET['nulo'])){
 
@@ -887,7 +1217,7 @@ if (isset($_GET['pocaExistencia'])){
       <tbody>
       ";
 
-      $consulta = "SELECT * FROM `productos` WHERE existencia < c_min AND deleted=0 GROUP BY codigo ORDER BY existencia ASC;";   /*Buscar Producto*/
+      $consulta = "SELECT * FROM `insumos` WHERE existencia < c_min AND deleted=0 GROUP BY codigo ORDER BY existencia ASC;";   /*Buscar Producto*/
     
       if (isset($_GET['desde'])){
 
@@ -989,8 +1319,8 @@ if (isset($_GET['productosdes'])){
       
         echo "
         <tr>
-            <td>".$row['CODIGO']."</td>
-            <td>".$row['NOMBRE']."</td>
+            <td>".$row['codigo']."</td>
+            <td>".$row['nombre']."</td>
             <td>
             ";
             if ($_COOKIE['nivel']==0){
@@ -1125,10 +1455,10 @@ if (isset($_GET['devueltoE'])){
       
         echo "
         <tr>
-             <td>".$row['FECHA']."</td>
-            <td>".readCaracEntrada($row['NUM_ENTRADA'])['NOMBRE_PRODUCTO']."</td>
-            <td>".readCaracEntrada($row['NUM_ENTRADA'])['CANTIDAD']."</td>
-            <td>".$row['MOTIVO']."</td>
+             <td>".$row['fecha']."</td>
+            <td>".readCaracEntrada($row['NUM_ENTRADA'])['nombre_producto']."</td>
+            <td>".readCaracEntrada($row['NUM_ENTRADA'])['cantidad']."</td>
+            <td>".$row['motivo']."</td>
        </tr>";
       }
       echo 
@@ -1174,10 +1504,10 @@ if (isset($_GET['devueltoS'])){
       
         echo "
         <tr>
-             <td>".$row['FECHA']."</td>
-            <td>".readCaracSalida($row['NUM_SALIDA'])['NOMBRE_PRODUCTO']."</td>
-            <td>".readCaracSalida($row['NUM_SALIDA'])['CANTIDAD']."</td>
-            <td>".$row['MOTIVO']."</td>
+             <td>".$row['fecha']."</td>
+            <td>".readCaracSalida($row['NUM_SALIDA'])['nombre_producto']."</td>
+            <td>".readCaracSalida($row['NUM_SALIDA'])['cantidad']."</td>
+            <td>".$row['motivo']."</td>
        </tr>";
       }
       echo 
@@ -1346,7 +1676,7 @@ var nombre_reporte;
 
 function reporte(){ 
   
-    if(document.getElementById("reporte").value=="Producto mas movido"){
+    if(document.getElementById("reporte").value=="Producto Mas Comprado"){
 
 
       if (document.getElementById("desde").value.length==0 && document.getElementById("hasta").value.length==0){
@@ -1389,7 +1719,7 @@ function reporte(){
         
     }
     
-    if(document.getElementById("reporte").value=="Entradas"){
+    if(document.getElementById("reporte").value=="Entrada De Insumos"){
 
       if (document.getElementById("desde").value.length==0 && document.getElementById("hasta").value.length==0){
 
@@ -1401,7 +1731,7 @@ function reporte(){
     }
 
 
-    if(document.getElementById("reporte").value=="Salidas"){
+    if(document.getElementById("reporte").value=="Insumos Utilizados"){
 
       if (document.getElementById("desde").value.length==0 && document.getElementById("hasta").value.length==0){
 
@@ -1445,6 +1775,19 @@ function reporte(){
         window.location.href="reportes.php?mejoresClientes=&desde="+document.getElementById("desde").value+"&hasta="+document.getElementById("hasta").value;       
       }
     }
+
+
+          if(document.getElementById("reporte").value=="Usuarios Por Mes"){
+
+      if (document.getElementById("desde").value.length==0 && document.getElementById("hasta").value.length==0){
+
+        window.location.href="reportes.php?usuariosPorMes=";
+      }
+      else{
+        window.location.href="reportes.php?usuariosPorMes=&desde="+document.getElementById("desde").value+"&hasta="+document.getElementById("hasta").value;       
+      }
+    }
+    
     
       if(document.getElementById("reporte").value=="Salidas de Producto Por Dia"){
 
@@ -1478,6 +1821,21 @@ function reporte(){
         window.location.href="reportes.php?gananciasTotalesPorDia=&desde="+document.getElementById("desde").value+"&hasta="+document.getElementById("hasta").value;       
       }
     }
+
+      if(document.getElementById("reporte").value=="Ganancias Totales Por Mes"){
+
+      if (document.getElementById("desde").value.length==0 && document.getElementById("hasta").value.length==0){
+
+        window.location.href="reportes.php?gananciasTotalesPorMes=";
+      }
+      else{
+        window.location.href="reportes.php?gananciasTotalesPorMes=&desde="+document.getElementById("desde").value+"&hasta="+document.getElementById("hasta").value;       
+      }
+    }
+
+
+
+    
 
        if(document.getElementById("reporte").value=="Gasto en Entrada"){
 
@@ -1521,6 +1879,17 @@ function reporte(){
       }
       else{
         window.location.href="reportes.php?gananciaNetaPorDia=&desde="+document.getElementById("desde").value+"&hasta="+document.getElementById("hasta").value;       
+      }
+    }
+
+    if(document.getElementById("reporte").value=="Ganancias Netas Por Mes"){
+
+      if (document.getElementById("desde").value.length==0 && document.getElementById("hasta").value.length==0){
+
+        window.location.href="reportes.php?gananciaNetaPorMes=";
+      }
+      else{
+        window.location.href="reportes.php?gananciaNetaPorMes=&desde="+document.getElementById("desde").value+"&hasta="+document.getElementById("hasta").value;       
       }
     }
 

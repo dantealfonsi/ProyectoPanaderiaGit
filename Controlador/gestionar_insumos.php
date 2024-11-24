@@ -106,7 +106,7 @@ class Producto{
         $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta );
         
         if($row = mysqli_fetch_array($resultado))
-        return $row['TOTAL'];  
+        return $row['total'];  
       }
 
 
