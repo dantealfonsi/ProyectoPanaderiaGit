@@ -5,12 +5,6 @@
     margin: 0;
     z-index: 2;
 }
-  
-.slideshow-container img{
-    filter: brightness(80%);
-    vertical-align: bottom;
-    margin-bottom:-40px;
-}
 
 /* Hide the images by default */
 .slideshow-container .mySlides{

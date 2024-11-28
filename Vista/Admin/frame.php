@@ -144,25 +144,27 @@ justify-content: space-evenly;
   width: 100%;
   box-shadow: rgba(142, 142, 142, 0.3) 0px 30px 30px -10px;
   transition: all 0.5s ease-in-out;
+  font-family: 'Roboto';
 }
 
 .content-box {
-  background: linear-gradient(3deg, rgb(120 198 253) 13%, rgb(54 153 255 / 42%) 100%);
-  transition: all 0.5s ease-in-out;
-  padding: 60px 25px 25px 25px;
-  transform-style: preserve-3d;
-  border-radius: 20px;
+  background: linear-gradient(45deg, #e3507f, #ff9bbbb0);
+    transition: all 0.5s ease-in-out;
+    padding: 60px 25px 25px 25px;
+    transform-style: preserve-3d;
+    border-radius: 20px;
+    font-family: 'Roboto';
 }
 
 .content-box .card-title {
   display: inline-block;
   color: white;
-  font-size: 32px;
+  font-size: 24px;
   font-weight: 900;
   transition: all 0.5s ease-in-out;
   transform: translate3d(0px, 0px, 50px);
-  font-family: 'button';
   letter-spacing: 1.5px;
+  font-family: 'Roboto';
 }
 
 .content-box .card-title:hover {
@@ -318,9 +320,13 @@ table{
     <script src="../chartJs/chart.min.js"></script>
     <link rel="stylesheet" type="text/css" href="..\DataTables\dataTables.min.css" />
     <script src="..\DataTables\jQuery\jquery.min.js"></script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
   </head>
   <body>
+
+
+
     <div>
   <div class='flexbox'>
 
@@ -328,7 +334,8 @@ table{
   <div class="card">
       <div class="content-box">
           <span class="card-title" id='card-title'></span>
-          <span class="card-title">134</span>
+          <span class="card-title"><?php echo $tmodulo->row_sqlconector("SELECT COUNT(*) AS total_entradas FROM productos;")['total_entradas']?> </span>
+          </span>
           <p class="card-content">
               Productos
           </p>
@@ -343,8 +350,8 @@ table{
 
 <div class="parent">
   <div class="card">
-      <div class="content-box" style='background: linear-gradient(3deg, rgb(171 219 217) 13%, rgb(84 221 235 / 42%) 100%);'>
-          <span class="card-title"><?php echo $tmodulo->row_sqlconector("SELECT SUM(TOTAL) AS SUMA FROM SALIDA WHERE  DAY(FECHA)= DAY(CURRENT_TIMESTAMP()) AND MONTH(FECHA)= MONTH(CURRENT_TIMESTAMP()) AND YEAR(FECHA)= YEAR(CURRENT_TIMESTAMP())")['SUMA'] ?>BS</span>
+      <div class="content-box">
+          <span class="card-title"><?php echo $tmodulo->row_sqlconector("SELECT SUM(total) AS total FROM salida WHERE fecha >= DATE_SUB(NOW(), INTERVAL 1 MONTH);")['total'] ?>BS</span>
           <p class="card-content">
               Ganancias Totales
           </p>
@@ -359,8 +366,8 @@ table{
 
 <div class="parent">
   <div class="card">
-      <div class="content-box" style='background: linear-gradient(3deg, rgb(253 120 120) 13%, rgb(255 168 224 / 42%) 100%);'>
-          <span class="card-title"><?php echo $tmodulo->row_sqlconector("SELECT SUM(PRECIO) AS SUMA FROM CARAC_ENTRADA WHERE  DAY(FECHA)= DAY(CURRENT_TIMESTAMP()) AND MONTH(FECHA)= MONTH(CURRENT_TIMESTAMP()) AND YEAR(FECHA)= YEAR(CURRENT_TIMESTAMP())")['SUMA'] ?>BS</span>
+      <div class="content-box">
+          <span class="card-title"><?php echo $tmodulo->row_sqlconector("SELECT DATE(fecha) AS fecha, SUM(precio) AS total FROM carac_entrada WHERE fecha >= DATE_SUB(NOW(), INTERVAL 1 MONTH) GROUP BY DATE(fecha) ORDER BY fecha;")['total'] ?>BS</span>
           <p class="card-content">
              Gasto en Entradas
           </p>
@@ -375,8 +382,8 @@ table{
 
 <div class="parent">
   <div class="card">
-      <div class="content-box" style='background: linear-gradient(3deg, rgb(253 213 120) 13%, rgb(255 156 54 / 42%) 100%);'>
-          <span class="card-title"><?php echo $ganancia=($tmodulo->row_sqlconector("SELECT SUM(TOTAL) AS SUMA FROM SALIDA WHERE  DAY(FECHA)= DAY(CURRENT_TIMESTAMP()) AND MONTH(FECHA)= MONTH(CURRENT_TIMESTAMP()) AND YEAR(FECHA)= YEAR(CURRENT_TIMESTAMP())")['SUMA'] - $tmodulo->row_sqlconector("SELECT SUM(PRECIO) AS SUMA FROM CARAC_ENTRADA WHERE  DAY(FECHA)= DAY(CURRENT_TIMESTAMP()) AND MONTH(FECHA)= MONTH(CURRENT_TIMESTAMP()) AND YEAR(FECHA)= YEAR(CURRENT_TIMESTAMP())")['SUMA']) ?>BS</span>
+      <div class="content-box">
+          <span class="card-title"><?php echo $ganancia=($tmodulo->row_sqlconector("SELECT (ganancias_totales - gastos_entrada) AS ganancia_neta FROM ( SELECT (SELECT ROUND(SUM(total),2) FROM pedido_usuario WHERE estado IN ('PRODUCCION', 'PAGADO') AND fechapedido >= DATE_SUB(NOW(), INTERVAL 1 MONTH)) AS ganancias_totales, (SELECT SUM(precio) FROM carac_entrada WHERE fecha >= DATE_SUB(NOW(), INTERVAL 1 MONTH)) AS gastos_entrada ) AS totales;")['ganancia_neta']) ?>BS</span>
           <p class="card-content">
               Ganancias Netas
           </p>
@@ -389,134 +396,114 @@ table{
 
   </div> 
 
+  <div>
 
 
+  </div>
 
-  <!--  <canvas id="myChart" style="width:100%;max-width:600px"></canvas> -->
+
+  
+  <?php
+// Incluir lógica para obtener los datos de la base de datos
+$desde_1 = '';
+$hasta_1 = '';
+
+if (isset($_GET['desde'])) {
+  $desde_1 = $_GET['desde'];
+  $hasta_1 = $_GET['hasta'];
+}
+
+echo "
+<div style='display: flex;width: 100%;align-items: center;justify-content: center;margin-top:5%;'>
+<div class='graphContainer' style='width:60%;background: white;border-radius: 2rem;'>
+  <canvas id='usuariosPorMesChart' width='400' height='200'></canvas>
+</div>
+<div>
+";
+
+if (isset($_GET['desde'])) {
+  $desde = "{$_GET['desde']} 00:00:00";
+  $hasta = "{$_GET['hasta']} 23:59:59";
+
+  $consulta = "
+    SELECT DATE_FORMAT(fechacreacion, '%Y-%m') AS mes, COUNT(idusuario) AS cantidad_usuarios
+    FROM usuario
+    WHERE fechacreacion BETWEEN '$desde' AND '$hasta'
+    GROUP BY DATE_FORMAT(fechacreacion, '%Y-%m')
+    ORDER BY mes DESC
+    LIMIT 12;
+  ";
+} else {
+  $consulta = "
+    SELECT DATE_FORMAT(fechacreacion, '%Y-%m') AS mes, COUNT(idusuario) AS cantidad_usuarios
+    FROM usuario
+    WHERE fechacreacion BETWEEN '2023-08-09 23:22:07' AND NOW()
+    GROUP BY DATE_FORMAT(fechacreacion, '%Y-%m')
+    ORDER BY mes DESC
+    LIMIT 12;
+  ";
+}
+
+$resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta);
+
+// Arrays para almacenar datos del gráfico
+$meses = [];
+$cantidades = [];
+
+while ($row = mysqli_fetch_assoc($resultado)) {
+  $mes = $row['mes'];
+  $cantidad_usuarios = $row['cantidad_usuarios'];
+
+  // Añadir datos al gráfico
+  $meses[] = $mes;
+  $cantidades[] = $cantidad_usuarios;
+}
+
+// Invertir los arrays para mostrar los meses en orden ascendente
+$meses = array_reverse($meses);
+$cantidades = array_reverse($cantidades);
+
+// Datos para el gráfico
+$meses_json = json_encode($meses);
+$cantidades_json = json_encode($cantidades);
+
+echo "
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var ctx = document.getElementById('usuariosPorMesChart').getContext('2d');
+    var usuariosPorMesChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: $meses_json,
+            datasets: [{
+                label: 'Cantidad de Usuarios',
+                data: $cantidades_json,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+  });
+</script>
+";
+?>
+
+  <div class='graphContainer' style='width:10%;'>
+  <canvas id="usuariosPorMesChart"></canvas>
+</div>
 
   </div>
   
      <div class='clip'> a </div>
      <div class='clip-2'> a </div>
-
- 
-
-    <script>
-  $.get("grafico.php?S=",
-        function(data){
-            var datos= JSON.parse(data);
-            var barColors = ["#4bc0c0", "#36a2eb","#ff6384","#ff9f40","#ffcd56"];
-
-    const chartData = {
-      
-  labels: [datos[0][0], datos[0][1], datos[0][2], datos[0][3], datos[0][4]],
-  data: [datos[1][0], datos[1][1],datos[1][2], datos[1][3],datos[1][4]],
-
-};
-
-const myChart = document.querySelector(".my-chart");
-const ul = document.querySelector(".programming-stats .details ul");
-
-
-new Chart(myChart, {
-  type: "doughnut",
-  data: {
-    labels: chartData.labels,
-    datasets: [
-      {
-        label: "- Cantidad Sacada",
-        data: chartData.data,
-        backgroundColor: barColors
-      },
-    ],
-  },
-  options: {
-    borderWidth: 10,
-    borderRadius: 2,
-    hoverBorderWidth: 0,
-    plugins: {
-      legend: {
-        display: false,
-      },
-    },
-  },
-});
-
-const populateUl = () => {
-  chartData.labels.forEach((l, i) => {
-    let li = document.createElement("li");
-    li.innerHTML = `${l}: <span class='percentage'>${chartData.data[i]}%</span>`;
-    ul.appendChild(li);
-  });
-};
-
-populateUl();
-
-});
-
-
-</script>
-
-
-<script>
-  $.get("grafico.php?SVE=",
-        function(data){
-            var datos= JSON.parse(data);
-            var barColors = ["#4bc0c0", "#36a2eb","#ff6384","#ff9f40","#ffcd56"];
-
-    const chartData = {
-      
-  labels: [datos[0][0], datos[0][1], datos[0][2], datos[0][3], datos[0][4],datos[0][5],datos[0][6],datos[0][7],datos[0][8]],
-  data: [datos[1][0], datos[1][1],datos[1][2], datos[1][3],datos[1][4],datos[1][5],datos[1][6],datos[1][7],datos[1][8]],
-
-};
-
-const myChart2 = document.querySelector(".my-chart2");
-const ul = document.querySelector(".programming-stats .details ul");
-
-
-new Chart(myChart2, {
-  type: "line",
-  data: {
-    labels: chartData.labels,
-    datasets: [
-      {
-        label: "-Total Sacado",
-        data: chartData.data,
-        backgroundColor: barColors
-      },
-    ],
-  },
-  options: {
-    scales:{
-      x:{
-        display:false
-      }
-    },
-    borderWidth: 10,
-    borderRadius: 2,
-    hoverBorderWidth: 0,
-    plugins: {
-      legend: {
-        display: false,
-      },
-    },
-  },
-});
-
-const populateUl = () => {
-  chartData.labels.forEach((l, i) => {
-    let li = document.createElement("li");
-    li.innerHTML = `${l}: <span class='percentage'>${chartData.data[i]}%</span>`;
-    ul.appendChild(li);
-  });
-};
-
-populateUl();
-
-});
-
-</script>
-
     </body>
 </html>

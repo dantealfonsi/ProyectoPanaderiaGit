@@ -169,7 +169,6 @@
       <option>Ganancias Netas Por Mes</option>
       <option>Gasto en Entrada</option>
       <option>Gasto en Entrada Por Dia</option>
-      <option>Mejores Clientes</option>
       <option>Productos Desabilitados</option>
 
      </select> 
@@ -233,77 +232,118 @@
   </div>";
 }
 
-if (isset($_GET['mas'])){
 
-  $desde_1='';
-  $hasta_1='';
+if (isset($_GET['mas'])) {
+  $desde_1 = '';
+  $hasta_1 = '';
 
-  if (isset($_GET['desde'])){
-       
-    $desde_1= $_GET['desde'];
-    $hasta_1= $_GET['hasta'];
+  if (isset($_GET['desde'])) {
+    $desde_1 = $_GET['desde'];
+    $hasta_1 = $_GET['hasta'];
+  }
 
-  }  
-
-    echo "
-
-    <div class='flexbuttons'>   
-
-    <div class='left-two'>    
+  echo "
+  <div class='flexbuttons'>
+    <div class='left-two'>
     </div>
-
-    </div>
-   
-    <div class='outerTable'>
+  </div>
+  
+  <div class='outerTable'>
     <div class='InventarioBox'>
-    <form id='form' action='productos.php' method='POST'>
-      <table id='myTable'>
-        <thead>  
-          <tr class='tr'>
+      <form id='form' action='productos.php' method='POST'>
+        <canvas id='productosMasPedidosChart' width='400' height='200'></canvas>
+        <table id='myTable' style='width:100%; margin-top: 20px;'>
+          <thead>  
+            <tr class='tr'>
               <th>NOMBRE</th>
               <th>CANTIDAD MOVIDA</th>
             </tr>
-        </thead>
-        <tbody>
-        ";
+          </thead>
+          <tbody>
+  ";
 
-        $consulta = "SELECT p.nombre_producto, COUNT(ip.idproducto) as cantidad_pedidos
-          FROM itempedido ip
-          JOIN productos p ON ip.idproducto = p.idproducto
-          GROUP BY p.nombre_producto
-          ORDER BY cantidad_pedidos DESC
-          LIMIT 1;
-          ";   /*Buscar Producto*/
-        
-        if (isset($_GET['desde'])) {
-          $consulta = "SELECT p.nombre_producto, COUNT(ip.idproducto) as cantidad_pedidos
-          FROM itempedido ip
-          JOIN productos p ON ip.idproducto = p.idproducto
-          WHERE ip.fechacreacion BETWEEN '{$_GET['desde']} 00:00:00' AND '{$_GET['hasta']} 23:59:59'
-          GROUP BY p.nombre_producto
-          ORDER BY cantidad_pedidos DESC
-          LIMIT 1;
-          ";
-      }
-      
+  if (isset($_GET['desde'])) {
+    $desde = "{$_GET['desde']} 00:00:00";
+    $hasta = "{$_GET['hasta']} 23:59:59";
 
-        $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta );
-        
-        while($row = mysqli_fetch_array($resultado)){    /*Te muestra el resultado de busqueda*/
-        
-          echo "
-          <tr>
-              <td style='text-transform:capitalize;'>".$row['nombre_producto']."</td>
-              <td>".$row['cantidad_pedidos']."</td>
-         </tr>";
-        }
-        echo 
-      "</tbody>
-      </table>
-    </form>   
- </div>
+    $consulta = "SELECT p.nombre_producto, COUNT(ip.idproducto) as cantidad_pedidos
+                 FROM itempedido ip
+                 JOIN productos p ON ip.idproducto = p.idproducto
+                 WHERE ip.fechacreacion BETWEEN '$desde' AND '$hasta'
+                 GROUP BY p.nombre_producto
+                 ORDER BY cantidad_pedidos DESC
+                 LIMIT 12;";
+  } else {
+    $consulta = "SELECT p.nombre_producto, COUNT(ip.idproducto) as cantidad_pedidos
+                 FROM itempedido ip
+                 JOIN productos p ON ip.idproducto = p.idproducto
+                 GROUP BY p.nombre_producto
+                 ORDER BY cantidad_pedidos DESC
+                 LIMIT 12;";
+  }
+
+  $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta);
+
+  // Arrays para almacenar datos del gráfico
+  $productos = [];
+  $cantidades = [];
+
+  while ($row = mysqli_fetch_assoc($resultado)) {
+    $nombre_producto = $row['nombre_producto'];
+    $cantidad_pedidos = $row['cantidad_pedidos'];
+
+    echo "
+    <tr>
+      <td style='text-transform:capitalize;'>$nombre_producto</td>
+      <td>$cantidad_pedidos</td>
+    </tr>";
+
+    // Añadir datos al gráfico
+    $productos[] = $nombre_producto;
+    $cantidades[] = $cantidad_pedidos;
+  }
+
+  echo "
+          </tbody>
+        </table>
+      </form>   
+    </div>
   </div>";
+
+  // Datos para el gráfico
+  $productos_json = json_encode($productos);
+  $cantidades_json = json_encode($cantidades);
+
+  echo "
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var ctx = document.getElementById('productosMasPedidosChart').getContext('2d');
+      var productosMasPedidosChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+              labels: $productos_json,
+              datasets: [{
+                  label: 'Cantidad Movida',
+                  data: $cantidades_json,
+                  backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                  borderColor: 'rgba(75, 192, 192, 1)',
+                  borderWidth: 1
+              }]
+          },
+          options: {
+              responsive: true,
+              scales: {
+                  y: {
+                      beginAtZero: true
+                  }
+              }
+          }
+      });
+    });
+  </script>
+  ";
 }
+
 
 if (isset($_GET['masentradas'])){
 
@@ -647,123 +687,244 @@ if (isset($_GET['gananciasTotalesPorMes'])){
 }
 
 
-if (isset($_GET['GastoEntradaPorDia'])){
- 
-  $desde_1='';
-  $hasta_1='';
 
-  if (isset($_GET['desde'])){
-       
-    $desde_1= $_GET['desde'];
-    $hasta_1= $_GET['hasta'];
+if (isset($_GET['GastoEntradaPorDia'])) {
+  $desde_1 = '';
+  $hasta_1 = '';
 
-  }  
+  if (isset($_GET['desde'])) {
+    $desde_1 = $_GET['desde'];
+    $hasta_1 = $_GET['hasta'];
+  }
 
   echo "
-
-      
   <div class='flexbuttons'>   
+    <div class='outerTable'>
+      <div class='InventarioBox'>
+        <form id='form' action='productos.php' method='POST'>
+          <canvas id='gastoEntradaPorDiaChart' width='400' height='200'></canvas>
+          <table id='myTable' style='width:100%; margin-top: 20px;'>
+            <thead>  
+              <tr class='tr'>
+                <th>FECHA</th>
+                <th>INVERSION TOTAL</th>
+              </tr>
+            </thead>
+            <tbody>
+  ";
 
-      <div class='outerTable'>
+  if (isset($_GET['desde'])) {
+    $desde = "{$_GET['desde']} 00:00:00";
+    $hasta = "{$_GET['hasta']} 23:59:59";
 
+    $consulta = "
+      SELECT DATE(fecha) as fecha, SUM(precio) AS total 
+      FROM carac_entrada 
+      WHERE fecha BETWEEN '$desde' AND '$hasta' 
+      GROUP BY DATE(fecha)
+      ORDER BY fecha;
+    ";
+  } else {
+    $consulta = "
+      SELECT DATE(fecha) as fecha, SUM(precio) AS total 
+      FROM carac_entrada 
+      WHERE fecha BETWEEN '2023-08-09 23:22:07' AND NOW() 
+      GROUP BY DATE(fecha)
+      ORDER BY fecha;
+    ";
+  }
 
-  <div class='InventarioBox'>
-  <form id='form' action='productos.php' method='POST'>
-    <table id='myTable'  style='width:100%;'>
-      <thead>  
-        <tr class='tr'>
-            <th>FECHA</th>
-            <th>GANANCIA TOTAL</th>
-          </tr>
-      </thead>
-      <tbody>
-      ";
-    
+  $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta);
 
-      $consulta = "SELECT DATE(fecha) as fecha,SUM(precio) AS total FROM carac_entrada WHERE fecha BETWEEN '2023-08-09 23:22:07' AND NOW() GROUP BY DATE(fecha);";   /*Buscar Producto*/
-      
-      if (isset($_GET['desde'])){
-        $consulta = "SELECT DATE(fecha) as fecha,SUM(precio) AS total FROM carac_entrada WHERE fecha BETWEEN '{$_GET['desde']} 00:00' AND '{$_GET['hasta']}' GROUP BY DATE(fecha);";   /*Buscar Producto*/
-      }
+  // Arrays para almacenar datos del gráfico
+  $fechas = [];
+  $totales = [];
 
-      $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta );
-      
-      while($row = mysqli_fetch_array($resultado)){    /*Te muestra el resultado de busqueda*/
-      
-        echo "
-        <tr>
-          <td>".$row['fecha']."</td>
-          <td>".$row['total']."</td>
-       </tr>";
-      }
-      echo 
-    "</tbody>
-    </table>
-  </form>   
-</div>
-</div>";
-}
+  while ($row = mysqli_fetch_assoc($resultado)) {
+    $fecha = $row['fecha'];
+    $total = $row['total'];
 
-if (isset($_GET['GastoEntrada'])){
+    echo "
+    <tr>";
+    echo "<td>$fecha</td>";
+    echo "<td>" . number_format($total, 2) . "</td>
+    </tr>";
 
-   
-  $desde_1='';
-  $hasta_1='';
-
-  if (isset($_GET['desde'])){
-       
-    $desde_1= $_GET['desde'];
-    $hasta_1= $_GET['hasta'];
-
-  }  
+    // Añadir datos al gráfico
+    $fechas[] = $fecha;
+    $totales[] = $total;
+  }
 
   echo "
+            </tbody>
+          </table>
+        </form>   
+      </div>
+    </div>
+  </div>";
 
-      
-  <div class='flexbuttons'>   
+  // Datos para el gráfico
+  $fechas_json = json_encode($fechas);
+  $totales_json = json_encode($totales);
 
-      <div class='outerTable'>
-
-  <div class='InventarioBox'>
-  <form id='form' action='productos.php' method='POST'>
-    <table id='myTable'  style='width:100%;'>
-      <thead>  
-        <tr class='tr'>
-            <th>FECHA</th>
-            <th>INVERSION TOTAL</th>
-          </tr>
-      </thead>
-      <tbody>
-      ";
-    
-
-      $consulta = "  SELECT SUM(precio) AS total FROM carac_entrada WHERE fecha BETWEEN '2023-08-09 23:22:07' AND NOW();";   /*Buscar Producto*/
-      
-      if (isset($_GET['desde'])){
-        $consulta = "SELECT SUM(precio) AS total FROM carac_entrada WHERE fecha BETWEEN '{$_GET['desde']} 00:00' AND '{$_GET['hasta']}';";   /*Buscar Producto*/
-      }
-
-      $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta );
-      
-      while($row = mysqli_fetch_array($resultado)){    /*Te muestra el resultado de busqueda*/
-      
-        echo "
-        <tr>";
-        if (isset($_GET['desde'])){
-          echo "<td>{$_GET['desde']} Hasta {$_GET['hasta']}</td>";
-        }else{
-          echo "<td>Inicio-Ahora</td> ";
-        }echo"
-            <td>".$row['total']."</td>
-       </tr>";
-      }
-      echo 
-    "</tbody>
-    </table>
-  </form>   
-</div>
-</div>";
+  echo "
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var ctx = document.getElementById('gastoEntradaPorDiaChart').getContext('2d');
+      var gastoEntradaPorDiaChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+              labels: $fechas_json,
+              datasets: [{
+                  label: 'Inversión Total',
+                  data: $totales_json,
+                  backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                  borderColor: 'rgba(75, 192, 192, 1)',
+                  borderWidth: 1
+              }]
+          },
+          options: {
+              responsive: true,
+              scales: {
+                  y: {
+                      beginAtZero: true
+                  },
+                  x: {
+                      ticks: {
+                          maxRotation: 90,
+                          minRotation: 45
+                      }
+                  }
+              }
+          }
+      });
+    });
+  </script>
+  ";
 }
+
+
+
+
+if (isset($_GET['GastoEntrada'])) {
+  $desde_1 = '';
+  $hasta_1 = '';
+
+  if (isset($_GET['desde'])) {
+    $desde_1 = $_GET['desde'];
+    $hasta_1 = $_GET['hasta'];
+  }
+
+  echo "
+  <div class='flexbuttons'>   
+    <div class='outerTable'>
+      <div class='InventarioBox'>
+        <form id='form' action='productos.php' method='POST'>
+          <canvas id='gastoEntradaChart' width='400' height='200'></canvas>
+          <table id='myTable' style='width:100%; margin-top: 20px;'>
+            <thead>  
+              <tr class='tr'>
+                <th>FECHA</th>
+                <th>INVERSION TOTAL</th>
+              </tr>
+            </thead>
+            <tbody>
+  ";
+
+  if (isset($_GET['desde'])) {
+    $desde = "{$_GET['desde']} 00:00:00";
+    $hasta = "{$_GET['hasta']} 23:59:59";
+
+    $consulta = "
+      SELECT DATE(fecha) AS fecha, SUM(precio) AS total
+      FROM carac_entrada
+      WHERE fecha BETWEEN '$desde' AND '$hasta'
+      GROUP BY DATE(fecha)
+      ORDER BY fecha;
+    ";
+  } else {
+    $consulta = "
+      SELECT DATE(fecha) AS fecha, SUM(precio) AS total
+      FROM carac_entrada
+      WHERE fecha BETWEEN '2023-08-09 23:22:07' AND NOW()
+      GROUP BY DATE(fecha)
+      ORDER BY fecha;
+    ";
+  }
+
+  $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta);
+
+  // Arrays para almacenar datos del gráfico
+  $fechas = [];
+  $totales = [];
+
+  while ($row = mysqli_fetch_assoc($resultado)) {
+    $fecha = $row['fecha'];
+    $total = $row['total'];
+
+    echo "
+    <tr>";
+    if (isset($_GET['desde'])) {
+      echo "<td>{$_GET['desde']} Hasta {$_GET['hasta']}</td>";
+    } else {
+      echo "<td>Inicio-Ahora</td>";
+    }
+    echo "<td>" . number_format($total, 2) . "</td>
+    </tr>";
+
+    // Añadir datos al gráfico
+    $fechas[] = $fecha;
+    $totales[] = $total;
+  }
+
+  echo "
+            </tbody>
+          </table>
+        </form>   
+      </div>
+    </div>
+  </div>";
+
+  // Datos para el gráfico
+  $fechas_json = json_encode($fechas);
+  $totales_json = json_encode($totales);
+
+  echo "
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var ctx = document.getElementById('gastoEntradaChart').getContext('2d');
+      var gastoEntradaChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+              labels: $fechas_json,
+              datasets: [{
+                  label: 'Inversión Total',
+                  data: $totales_json,
+                  backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                  borderColor: 'rgba(75, 192, 192, 1)',
+                  borderWidth: 1
+              }]
+          },
+          options: {
+              responsive: true,
+              scales: {
+                  y: {
+                      beginAtZero: true
+                  },
+                  x: {
+                      ticks: {
+                          maxRotation: 90,
+                          minRotation: 45
+                      }
+                  }
+              }
+          }
+      });
+    });
+  </script>
+  ";
+}
+
 
 if (isset($_GET['productosPorDia'])){
 
@@ -887,23 +1048,22 @@ if (isset($_GET['GananciaNeta'])) {
 }
 
 
-
-if (isset($_GET['gananciaNetaPorDia'])){
-
+if (isset($_GET['gananciaNetaPorDia'])) {
   $desde_1 = '';
   $hasta_1 = '';
 
   if (isset($_GET['desde'])) {
     $desde_1 = $_GET['desde'];
     $hasta_1 = $_GET['hasta'];
-  }  
+  }
 
   echo "
-  <div class='flexbuttons'> 
+  <div class='flexbuttons'>
     <div class='outerTable'>
       <div class='InventarioBox'>
         <form id='form' action='productos.php' method='POST'>
-          <table id='myTable'  style='width:100%;'>
+          <canvas id='gananciaNetaPorDiaChart' width='400' height='200'></canvas>
+          <table id='myTable' style='width:100%; margin-top: 20px;'>
             <thead>  
               <tr class='tr'>
                 <th>FECHA</th>
@@ -917,32 +1077,36 @@ if (isset($_GET['gananciaNetaPorDia'])){
     $desde = "{$_GET['desde']} 00:00:00";
     $hasta = "{$_GET['hasta']} 23:59:59";
 
-    $consulta = "SELECT DATE(ip.fechapedido) AS fecha, 
-                        ROUND((SUM(ip.total) - (SELECT SUM(ce.precio) 
-                                               FROM carac_entrada ce 
-                                               WHERE ce.fecha BETWEEN '$desde' AND '$hasta' 
-                                               AND DATE(ce.fecha) = DATE(ip.fechapedido))), 2) AS ganancia_neta
-                 FROM pedido_usuario ip
-                 WHERE ip.estado IN ('PRODUCCION', 'PAGADO')
-                   AND ip.fechapedido BETWEEN '$desde' AND '$hasta'
-                 GROUP BY DATE(ip.fechapedido)
-                 ORDER BY fecha;
+    $consulta = "
+      SELECT DATE(ip.fechapedido) AS fecha, 
+             ROUND((SUM(ip.total) - 
+             (SELECT SUM(ce.precio) FROM carac_entrada ce 
+              WHERE ce.fecha BETWEEN '$desde' AND '$hasta' 
+              AND DATE(ce.fecha) = DATE(ip.fechapedido))), 2) AS ganancia_neta
+      FROM pedido_usuario ip
+      WHERE ip.estado IN ('PRODUCCION', 'PAGADO')
+      AND ip.fechapedido BETWEEN '$desde' AND '$hasta'
+      GROUP BY DATE(ip.fechapedido)
+      ORDER BY fecha;
     ";
   } else {
-    $consulta = "SELECT DATE(ip.fechapedido) AS fecha, 
-                        ROUND((SUM(ip.total) - (SELECT SUM(ce.precio) 
-                                               FROM carac_entrada ce 
-                                               WHERE ce.fecha BETWEEN '2023-08-09 23:22:07' AND NOW() 
-                                               AND DATE(ce.fecha) = DATE(ip.fechapedido))), 2) AS ganancia_neta
-                 FROM pedido_usuario ip
-                 WHERE ip.estado IN ('PRODUCCION', 'PAGADO')
-                   AND ip.fechapedido BETWEEN '2023-08-09 23:22:07' AND NOW()
-                 GROUP BY DATE(ip.fechapedido)
-                 ORDER BY fecha;
+    $consulta = "
+      SELECT DATE(ip.fechapedido) AS fecha, 
+             ROUND((SUM(ip.total) - 
+             (SELECT SUM(ce.precio) FROM carac_entrada ce 
+              WHERE DATE(ce.fecha) = DATE(ip.fechapedido))), 2) AS ganancia_neta
+      FROM pedido_usuario ip
+      WHERE ip.estado IN ('PRODUCCION', 'PAGADO')
+      GROUP BY DATE(ip.fechapedido)
+      ORDER BY fecha;
     ";
   }
 
   $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta);
+
+  // Arrays para almacenar datos del gráfico
+  $fechas = [];
+  $ganancias = [];
 
   while ($row = mysqli_fetch_assoc($resultado)) {
     $fecha = $row['fecha'];
@@ -953,6 +1117,10 @@ if (isset($_GET['gananciaNetaPorDia'])){
     echo "<td>$fecha</td>";
     echo "<td>" . number_format($ganancia_neta, 2) . "</td>
     </tr>";
+
+    // Añadir datos al gráfico
+    $fechas[] = $fecha;
+    $ganancias[] = $ganancia_neta;
   }
 
   echo "
@@ -962,6 +1130,45 @@ if (isset($_GET['gananciaNetaPorDia'])){
       </div>
     </div>
   </div>";
+
+  // Datos para el gráfico
+  $fechas_json = json_encode($fechas);
+  $ganancias_json = json_encode($ganancias);
+
+  echo "
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var ctx = document.getElementById('gananciaNetaPorDiaChart').getContext('2d');
+      var gananciaNetaPorDiaChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+              labels: $fechas_json,
+              datasets: [{
+                  label: 'Ganancia Neta',
+                  data: $ganancias_json,
+                  backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                  borderColor: 'rgba(75, 192, 192, 1)',
+                  borderWidth: 1
+              }]
+          },
+          options: {
+              responsive: true,
+              scales: {
+                  y: {
+                      beginAtZero: true
+                  },
+                  x: {
+                      ticks: {
+                          maxRotation: 90,
+                          minRotation: 45
+                      }
+                  }
+              }
+          }
+      });
+    });
+  </script>
+  ";
 }
 
 
@@ -975,11 +1182,12 @@ if (isset($_GET['gananciaNetaPorMes'])) {
   }  
 
   echo "
-  <div class='flexbuttons'> 
+  <div class='flexbuttons'>
     <div class='outerTable'>
       <div class='InventarioBox'>
         <form id='form' action='productos.php' method='POST'>
-          <table id='myTable'  style='width:100%;'>
+          <canvas id='gananciaNetaPorMesChart' width='400' height='200'></canvas>
+          <table id='myTable' style='width:100%; margin-top: 20px;'>
             <thead>  
               <tr class='tr'>
                 <th>MES</th>
@@ -1002,7 +1210,8 @@ if (isset($_GET['gananciaNetaPorMes'])) {
                  WHERE ip.estado IN ('PRODUCCION', 'PAGADO')
                    AND ip.fechapedido BETWEEN '$desde' AND '$hasta'
                  GROUP BY DATE_FORMAT(ip.fechapedido, '%Y-%m')
-                 ORDER BY mes;
+                 ORDER BY mes
+                 LIMIT 12;
     ";
   } else {
     $consulta = "SELECT DATE_FORMAT(ip.fechapedido, '%Y-%m') AS mes, 
@@ -1014,11 +1223,16 @@ if (isset($_GET['gananciaNetaPorMes'])) {
                  WHERE ip.estado IN ('PRODUCCION', 'PAGADO')
                    AND ip.fechapedido BETWEEN '2023-08-09 23:22:07' AND NOW()
                  GROUP BY DATE_FORMAT(ip.fechapedido, '%Y-%m')
-                 ORDER BY mes;
+                 ORDER BY mes
+                 LIMIT 12;
     ";
   }
 
   $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta);
+
+  // Arrays para almacenar datos del gráfico
+  $meses = [];
+  $ganancias = [];
 
   while ($row = mysqli_fetch_assoc($resultado)) {
     $mes = $row['mes'];
@@ -1029,6 +1243,10 @@ if (isset($_GET['gananciaNetaPorMes'])) {
     echo "<td>$mes</td>";
     echo "<td>" . number_format($ganancia_neta, 2) . "</td>
     </tr>";
+
+    // Añadir datos al gráfico
+    $meses[] = $mes;
+    $ganancias[] = $ganancia_neta;
   }
 
   echo "
@@ -1038,6 +1256,39 @@ if (isset($_GET['gananciaNetaPorMes'])) {
       </div>
     </div>
   </div>";
+
+  // Datos para el gráfico
+  $meses_json = json_encode($meses);
+  $ganancias_json = json_encode($ganancias);
+
+  echo "
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var ctx = document.getElementById('gananciaNetaPorMesChart').getContext('2d');
+      var gananciaNetaPorMesChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+              labels: $meses_json,
+              datasets: [{
+                  label: 'Ganancia Neta',
+                  data: $ganancias_json,
+                  backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                  borderColor: 'rgba(75, 192, 192, 1)',
+                  borderWidth: 1
+              }]
+          },
+          options: {
+              responsive: true,
+              scales: {
+                  y: {
+                      beginAtZero: true
+                  }
+              }
+          }
+      });
+    });
+  </script>
+  ";
 }
 
 
@@ -1075,13 +1326,15 @@ if (isset($_GET['usuariosPorMes'])) {
                  FROM usuario
                  WHERE fechacreacion BETWEEN '$desde' AND '$hasta'
                  GROUP BY DATE_FORMAT(fechacreacion, '%Y-%m')
-                 ORDER BY mes;";
+                 ORDER BY mes DESC
+                 LIMIT 12;";
   } else {
     $consulta = "SELECT DATE_FORMAT(fechacreacion, '%Y-%m') AS mes, COUNT(idusuario) AS cantidad_usuarios
                  FROM usuario
                  WHERE fechacreacion BETWEEN '2023-08-09 23:22:07' AND NOW()
                  GROUP BY DATE_FORMAT(fechacreacion, '%Y-%m')
-                 ORDER BY mes;";
+                 ORDER BY mes DESC
+                 LIMIT 12;";
   }
 
   $resultado = mysqli_query($tmodulo->mysqlconnect(), $consulta);
@@ -1112,6 +1365,10 @@ if (isset($_GET['usuariosPorMes'])) {
       </div>
     </div>
   </div>";
+
+  // Invertir los arrays para mostrar los meses en orden ascendente
+  $meses = array_reverse($meses);
+  $cantidades = array_reverse($cantidades);
 
   // Datos para el gráfico
   $meses_json = json_encode($meses);
@@ -1146,6 +1403,7 @@ if (isset($_GET['usuariosPorMes'])) {
   </script>
   ";
 }
+
 
 
 

@@ -24,6 +24,95 @@
 
         <!-- COUNTDOWN FUNCTION JAVASCRIPT BY SANJANA -->
         <script src = "./Javascript/countdown_sales.js"></script>
+
+        <style>
+
+            
+        @font-face {
+        font-family: button;
+        src: url(../css/button.ttf) format('truetype');
+        }
+
+        @font-face {
+        font-family: candy;
+        src: url(../css/candy.ttf) format('truetype');
+        }
+        
+
+        .slideshow-container{
+            height: 46rem !important;
+            background: linear-gradient(45deg, #FAD2DD, #EA93B3) !important;
+            display: block !important;
+        }
+
+        .slideshow-container-inside{
+            display: flex;
+            align-items: center;
+            padding: 6rem;
+            padding-top: 8rem;
+            gap: 8rem;
+        }
+
+        .font-container{
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .image-container{
+            width: 60%;
+        }
+
+        .image-container img{
+            width: 100%;
+        }
+
+        .submitBtn{
+            background: #D12B69;
+            color: white;
+            padding: 1rem 0;
+            margin: 0rem;
+            cursor: grabbing;
+            width: 60%;
+            border: rgb(252, 132, 132);
+            text-align: center;
+            font-size: 1rem;
+            border-radius: 1rem;
+            font-weight: bold;
+            }
+
+
+            .submitBtn:hover {
+            background-color: #ff68a0;
+            transform: scale(1.080);
+            transition: ease 0.4s;
+            }
+            
+            .play-button{
+                color: #D12B69;
+                padding: .2rem .4rem;
+                display: flex;
+                align-items: center;
+                border: 3px solid #D12B69;
+                border-radius: 2rem;
+                justify-content: center;
+                font-size: 1rem;
+            }
+
+            .about-us-title{
+                display: flex;
+                gap: 1rem;
+                align-items: center;
+                cursor:pointer;
+            }
+
+            .about-us-title:hover{
+                text-decoration:underline;
+            }
+
+
+        </style>
+
     </head>
 
     <body>
@@ -53,11 +142,21 @@
 <div class="slideshow-container">
 
     <!-- Imágenes de ancho completo con número y texto de subtítulo -->
-    <div class="mySlides fade">
-    <img src="../Assets/images/1.index/Cake_1.jpg" style="width:100%">
-    <div class="text">CADA LOTE DESDE CERO</div>
+    <div class='slideshow-container-inside'>
+
+    <div class='font-container'>
+        <a style='color: black;text-decoration: none;' href="<?php echo $GLOBALS['ROOT_PATH'] ?>/Vista/AcercaDeComponent/acercaDe.php"><h5 class='about-us-title'><span class='play-button'>▶</span>Conocenos Ahora</h5></a>
+        <h1 style="font-family:candy;font-size: 4rem;letter-spacing: -1px;">Tortas rellenas con Amor</h1>
+        <span style='color:#f56399;'>Has tus dias especiales, aun mas especiales! Con nuestras tortas rellenas</span>
+        <button class='submitBtn' style='margin-top:2rem;'>Ordena Ahora!</button>
     </div>
 
+    <div class='image-container'>
+        <img src="../Assets/images/1.index/Cake_1.png">
+    </div>
+
+
+   <!--
     <div class="mySlides fade">
     <img src="../Assets/images/1.index/Cake_2.jpg" style="width:100%">
     <div class="text">IMPLEMENTAMOS DULCES SUEÑOS</div>
@@ -67,9 +166,10 @@
     <img src="../Assets/images/1.index/Cake_3.jpg" style="width:100%">
     <div class="text">UN POCO DE FELICIDAD EN CADA BOCADO</div>
     </div>
-    
+-->
 </div>
 
+</div>
 <script src="./Javascript/SlideshowAuto.js"></script>
 <!--Finalizar Presentación de Diapositivas-->
 
@@ -83,20 +183,10 @@
 <!--Finalizar Imagen de Ola-->
 
 
-
-
-
-
-
-
-
-
-
-
-
 <!--Iniciar Qué Puedes Hacer-->
 <div style='width: 100%; background: white;z-index: 2;position: relative;top: -1rem;'>
    
+
 <!--Iniciar HacerComponent-->
 <?php include './hacerComponent/hacer.html';?>
 <!--FIN Barra de Navegación @media 1200px-->

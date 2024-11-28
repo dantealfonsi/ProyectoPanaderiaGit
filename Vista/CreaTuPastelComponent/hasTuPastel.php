@@ -38,6 +38,11 @@
 
 <style>
 
+@font-face {
+      font-family: button;
+      src: url(../../css/button.ttf) format('truetype');
+     }
+     
 .progress-container {
     width: 100%;
     background-color: #f1f1f1;
@@ -64,9 +69,9 @@
 }
 
 .disabled-conten-div {
-    background-color: #f1f1f1;
+    background: #c5c5c5;
+    border-radius: 3rem;
     opacity: 0.6;
-    /* Otros estilos según tus preferencias */
 }
 button:disabled{
     background:red !important;
@@ -74,12 +79,12 @@ button:disabled{
 
 
 #filtrosLista li{
-    background: #ff7380;
+    background: linear-gradient(45deg, #D22E6B, #ef8a94);
     text-decoration: none;
     color: white;
     font-weight: 600;
     padding: .8rem;
-    border: 1px solid black;
+    border: 1px solid #ff83b2;
 }
 </style>
 
@@ -115,6 +120,7 @@ button:disabled{
         $resultado_cat = mysqli_query($conn, $Q_obtener_categorias);
 
     ?>
+    <section class='select_section' style='display: flex;'>
     <div class="row category-title" style='display: flex;
     flex-direction: column;
     align-content: space-between;
@@ -214,17 +220,19 @@ button:disabled{
         </div>   
     </div>
 </div>
-<div id="filtrosAplicados" style="padding-left: 10rem; padding-right: 10rem; display: flex; align-items: center; flex-direction: column;">
+
+<div id="filtrosAplicados" style='padding-left: 0rem;padding-right: 6rem;display: flex;align-items: center;flex-direction: column;'>
     <ul id="filtrosLista" style="columns: 2; -webkit-columns: 2; -moz-columns: 2;">
       <!-- Las etiquetas se insertarán aquí -->
     </ul>
   </div>
+</section>
     <div>
         
     </div>
 
 
-    <div id="result" class="featured__container bd-grid mt-4">
+    <div id="result" class="featured__container bd-grid mt-4" style='display: flex;justify-content: center;'>
 
 </section>
 
