@@ -216,20 +216,6 @@
     </div>
 Finalizar Imagen de Ola-->
 
-            <div class="offer-bg" >
-                <div class="offer-data">
-                    <div class="subtitle">
-                        <h2>OFERTA ESPECIALES</h2>
-                    </div>
-                    <p class="offer-description">Queda tan solo: </p>
-                    <p class="offer-description" id="countdown" style="font-family: Old Standard TT; font-size: 2rem;">Hasta que termine</p>
-
-                    <div class="subscribe-button-container">
-                        <a href="productos.php"><button class="subscribe-button" name="subscribe">COMPRE AHORA</button></a>
-                    </div>
-                </div>
-            </div>
-
 
     <!--Iniciar Imagen de Ola
     <div class="wave-image-group">
@@ -384,16 +370,39 @@ Fin Imagen de Ola Invertida-->
         </div>
       End Our Baker-->
 
+      <div style="display: flex;flex-direction: column;align-items: center;margin-top:10rem;">
+                <h2 style="color: #D22E6B;margin-bottom: 0;top: 1.9rem;position: relative;font-size: 1.4rem;font-weight: 700;">Escucha</h2>
+                <h1 class="my-4" style="font-size: 4rem;font-family: 'candy';border-bottom: 3px dashed #D22E6B;text-align: center;">Los rugidos de tu estomago
+              </div>
+
+            
+        <section style='display: flex;justify-content: center;margin-bottom:10rem;'>
+            <div style='width: 70%;background: linear-gradient(45deg, #f9f9f9, #ffffff);border: 1px solid #dddddd;border-radius: 2rem;padding: 4rem;display: flex;flex-direction: column;box-shadow: 1px 5px 8px 2px #0000005c;'>
+                <div style='display: flex;flex-direction: column;align-items: center;'>
+                    <h4 style='font-weight: bolder;color: #D22E6B;margin-bottom: 0;'>Judith B. Jones</h4>             
+                    <h5 style='font-weight: 700;color: #80808087;'>Cocinera</h5>
+                </div>
+            
+                <div>
+  
+                    <p style='display: flex;align-items: center;flex-direction: row;font-weight: 800;gap: 1rem;'>                  
+                    <span style="font-size: 6rem;font-weight: bolder;font-family: 'candy';color: #ffb6ae;">
+                     "
+                    </span>
+                    Cocinar exige atención, paciencia y sobre todo respeto por los dones de la tierra. Es una forma de adoración, una forma de dar gracias.
+                    </p>
+                </div>
+                
+            </div>
+            
+        </section>
+
 
 
         <!-- GOOGLE MAPS DESABILITADO POR AHORA-->
-        <?php include './GoogleMapComponent/GoogleMap.php';?>
+        <?php //include './GoogleMapComponent/GoogleMap.php';?>
         <!-- GOOGLE MAPS-->
 
-
-        <!-- FORMULARIO DE CONTACTAME -->
-        <?php include './Includes/newsletter.php';?>
-        <!-- FIN DE L FORMULARIO DE CONTACTAME-->
         
 
 
