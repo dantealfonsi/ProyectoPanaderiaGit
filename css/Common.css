@@ -389,7 +389,7 @@ html, body{
 
 /* Start Footer */
 .footer{
-    background: linear-gradient(45deg, #FAD2DD, #fd609a);
+    background: linear-gradient(45deg, #FAD2DD, #ffabca);
     background-size: 100%;
     width: 100%;
     height: 580px;
@@ -397,7 +397,7 @@ html, body{
     margin-top: 0;
     padding: 20px;
     text-align: center;
-    color: white;
+    color: rgb(0, 0, 0);
 }
 
 .logo-name{
