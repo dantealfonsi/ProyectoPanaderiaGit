@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 08-11-2024 a las 02:10:25
+-- Tiempo de generación: 29-11-2024 a las 04:26:04
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -37,6 +37,14 @@ CREATE TABLE `carac_devolucion_entrada` (
   `precio` decimal(10,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `carac_devolucion_entrada`
+--
+
+INSERT INTO `carac_devolucion_entrada` (`id`, `fecha`, `codigo_producto`, `nombre_producto`, `cantidad`, `referencia`, `precio`) VALUES
+(0, '2024-11-24 12:44:49', '0001', '', 1, 329076, 10.00),
+(0, '2024-11-24 15:38:40', '0002', '', 1, 603992, 0.11);
+
 -- --------------------------------------------------------
 
 --
@@ -53,6 +61,13 @@ CREATE TABLE `carac_devolucion_salida` (
   `cedula_cliente` int(9) DEFAULT NULL,
   `precio` decimal(10,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `carac_devolucion_salida`
+--
+
+INSERT INTO `carac_devolucion_salida` (`id`, `fecha`, `codigo_producto`, `nombre_producto`, `cantidad`, `referencia`, `cedula_cliente`, `precio`) VALUES
+(4, '2024-11-24 12:45:10', '0001', '', 1, 416690, NULL, 10.00);
 
 -- --------------------------------------------------------
 
@@ -101,7 +116,10 @@ CREATE TABLE `carac_salida` (
 INSERT INTO `carac_salida` (`id`, `fecha`, `codigo_producto`, `nombre_producto`, `cantidad`, `num_salida`, `cedula_cliente`) VALUES
 (30, '2024-09-22 16:10:29', '0001', 'Huevos', 1, 416690, 5),
 (31, '2024-09-22 16:10:29', '0002', 'harina de trigo panadero', 1, 416690, 5),
-(32, '2024-09-22 16:10:30', '0003', 'margarina con sal', 1, 416690, 5);
+(32, '2024-09-22 16:10:30', '0003', 'margarina con sal', 1, 416690, 5),
+(33, '2024-11-24 15:37:15', '0001', 'Huevos', 8, 745140, 11),
+(34, '2024-11-24 15:37:15', '0002', 'harina de trigo panadero', 800, 745140, 11),
+(35, '2024-11-24 15:37:16', '0003', 'margarina con sal', 40, 745140, 11);
 
 -- --------------------------------------------------------
 
@@ -205,6 +223,28 @@ CREATE TABLE `de5` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `de11`
+--
+
+CREATE TABLE `de11` (
+  `id` int(11) NOT NULL,
+  `codigo_producto` varchar(15) DEFAULT NULL,
+  `nombre_producto` varchar(34) DEFAULT NULL,
+  `proveedor` varchar(34) DEFAULT NULL,
+  `cantidad` int(11) NOT NULL DEFAULT 0,
+  `precio` decimal(10,2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `de11`
+--
+
+INSERT INTO `de11` (`id`, `codigo_producto`, `nombre_producto`, `proveedor`, `cantidad`, `precio`) VALUES
+(1, '0002', 'harina de trigo panadero', 'Frikiplaza', 1, 0.11);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `devolucion_entrada`
 --
 
@@ -215,6 +255,14 @@ CREATE TABLE `devolucion_entrada` (
   `motivo` text DEFAULT NULL,
   `proveedor` varchar(34) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `devolucion_entrada`
+--
+
+INSERT INTO `devolucion_entrada` (`fecha`, `responsable`, `referencia`, `motivo`, `proveedor`) VALUES
+('2024-11-24 12:44:49', 11, 329076, 'Daño', 'Frikiplaza'),
+('2024-11-24 15:38:40', 11, 603992, 'Daño', 'Frikiplaza');
 
 -- --------------------------------------------------------
 
@@ -232,6 +280,13 @@ CREATE TABLE `devolucion_salida` (
   `iva` decimal(13,2) DEFAULT 0.00,
   `total` decimal(13,2) DEFAULT 0.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `devolucion_salida`
+--
+
+INSERT INTO `devolucion_salida` (`fecha`, `responsable`, `referencia`, `motivo`, `cedula_cliente`, `subtotal`, `iva`, `total`) VALUES
+('2024-11-24 12:45:10', 11, 416690, 'Daño', 5, 0.00, 0.00, 0.00);
 
 -- --------------------------------------------------------
 
@@ -282,8 +337,8 @@ CREATE TABLE `entrada` (
 --
 
 INSERT INTO `entrada` (`fecha`, `responsable`, `num_entrada`, `proveedor`, `devuelto`) VALUES
-('2024-11-07 23:38:19', 11, 329076, 'Frikiplaza', 0),
-('2024-11-07 23:04:54', 11, 603992, 'Frikiplaza', 0);
+('2024-11-07 23:38:19', 11, 329076, 'Frikiplaza', 1),
+('2024-11-07 23:04:54', 11, 603992, 'Frikiplaza', 1);
 
 -- --------------------------------------------------------
 
@@ -319,7 +374,11 @@ INSERT INTO `historial` (`id`, `fecha`, `nombre_usuario`, `cedula`, `ubicacion`)
 (70, '2024-11-08 00:12:26', 'juango', 11, 'EDITO UN Insumo'),
 (71, '2024-11-08 00:12:37', 'juango', 11, 'EDITO UN Insumo'),
 (72, '2024-11-08 01:00:14', 'juango', 11, 'EDITO UN Insumo'),
-(73, '2024-11-08 01:00:23', 'juango', 11, 'EDITO UN Insumo');
+(73, '2024-11-08 01:00:23', 'juango', 11, 'EDITO UN Insumo'),
+(74, '2024-11-24 12:44:50', 'juango', 11, 'AGREGO UNA DEVOLUCION DE INSUMOS'),
+(75, '2024-11-24 12:45:10', 'juango', 11, 'AGREGO UNA DEVOLUCION POR FABRICACION'),
+(76, '2024-11-24 15:37:16', 'juango', 11, 'AGREGO UNA SALIDA'),
+(77, '2024-11-24 15:38:40', 'juango', 11, 'AGREGO UNA DEVOLUCION DE INSUMOS');
 
 -- --------------------------------------------------------
 
@@ -345,9 +404,9 @@ CREATE TABLE `insumos` (
 --
 
 INSERT INTO `insumos` (`codigo`, `nombre`, `almacen`, `precio`, `existencia`, `categoria`, `c_min`, `c_max`, `deleted`, `uni`) VALUES
-('0001', 'Huevos', 0, 10.00, 10, 'huevos', -36, 200, 0, 'unidades'),
-('0002', 'harina de trigo panadero', 0, 0.11, 10, 'harinas', -1000, 10000, 0, 'gramos'),
-('0003', 'margarina con sal', 0, 0.25, 1, 'grasas', -500, 10000, 0, 'gramos');
+('0001', 'Huevos', 0, 10.00, -8, 'huevos', -36, 200, 0, 'unidades'),
+('0002', 'harina de trigo panadero', 0, 0.11, -1, 'harinas', -1000, 10000, 0, 'gramos'),
+('0003', 'margarina con sal', 0, 0.25, -39, 'grasas', -500, 10000, 0, 'gramos');
 
 -- --------------------------------------------------------
 
@@ -384,7 +443,8 @@ CREATE TABLE `itemcocina` (
 --
 
 INSERT INTO `itemcocina` (`num_salida`, `idreceta`, `idproducto`, `cantidad`) VALUES
-(416690, 'b9e5693c1e', 103, 1);
+(416690, 'b9e5693c1e', 103, 1),
+(745140, 'e3ed13e9aa', 103, 2);
 
 -- --------------------------------------------------------
 
@@ -409,7 +469,8 @@ CREATE TABLE `itempedido` (
 --
 
 INSERT INTO `itempedido` (`iditempedido`, `idproducto`, `idpedido`, `iscustom`, `precio`, `cantidad`, `motivo`, `estado`, `fechacreacion`) VALUES
-(45, 103, 30, 0, 15.6229, 3, 'null', 'SOLICITUD', '2024-11-07 21:17:35');
+(45, 103, 30, 0, 15.6229, 3, 'null', 'SOLICITUD', '2024-11-07 21:17:35'),
+(46, 103, 31, 0, 134.212, 1, 'null', 'SOLICITUD', '2024-11-24 16:25:14');
 
 -- --------------------------------------------------------
 
@@ -477,7 +538,8 @@ CREATE TABLE `pedido_usuario` (
 --
 
 INSERT INTO `pedido_usuario` (`idpedido`, `idusuario`, `total`, `direccion`, `telefono`, `municipio`, `localidad`, `estado`, `fechacreacion`, `fechapedido`) VALUES
-(30, 11, 46.8687, 'asasdasd', '', 'Bermúdez', 'Carupano', 'ABONADO', '2024-11-07 23:58:57', '2024-11-15');
+(30, 11, 46.8687, 'asasdasd', '', 'Bermúdez', 'Carupano', 'ABONADO', '2024-11-07 23:58:57', '2024-11-15'),
+(31, 11, 134.212, 'CALLE', '', 'Bermúdez', 'Carupano', 'PAGADO', '2024-11-24 16:31:24', '2024-11-11');
 
 -- --------------------------------------------------------
 
@@ -537,7 +599,8 @@ CREATE TABLE `productos` (
 --
 
 INSERT INTO `productos` (`idproducto`, `idreceta`, `nombre_producto`, `descripcion_producto`, `imagen_producto`, `precio_producto`, `categoria_producto`, `habilitado`, `existencia`, `iscustom`, `peso`, `pisos`, `modelos`, `bizcocho`, `relleno`, `cubierta`, `motivo`, `persona`, `idtipo`) VALUES
-(103, 'e3ed13e9aa', 'pastel de vainilla', 'torta de vainilla ideales para tu cumpleaños ', '/ProyectoPanaderiaGit/Assets/productoimagenes/901492e229.jpeg', 15.6229, 11, 1, 1, 0, 0, 1, '', 0, '', '', '', 'niño', 0);
+(103, 'e3ed13e9aa', 'pastel de vainilla', 'torta de vainilla ideales para tu cumpleaños ', '/ProyectoPanaderiaGit/Assets/productoimagenes/901492e229.jpeg', 134.212, 11, 1, 1, 0, 0, 1, '', 0, '', '', '', 'niño', 0),
+(104, 'e3ed13e9aa', 'Pastel de Auyama', 'Torta de Auyama', '/ProyectoPanaderiaGit/Assets/productoimagenes/f3d2502851.jpeg', 10, 10, 1, 100, 1, 1, 1, 'redonda', 1, 'vainilla', 'blanco', '', 'niño', 0);
 
 -- --------------------------------------------------------
 
@@ -619,7 +682,8 @@ CREATE TABLE `salida` (
 --
 
 INSERT INTO `salida` (`fecha`, `responsable`, `num_salida`, `motivo`, `cedula_cliente`, `subtotal`, `iva`, `total`, `devuelto`) VALUES
-('2024-09-22 16:10:29', 5, 416690, 'Elaboracion', 5, 0.00, 0.00, 0.00, 0);
+('2024-09-22 16:10:29', 5, 416690, 'Elaboracion', 5, 0.00, 0.00, 0.00, 1),
+('2024-11-24 15:37:15', 11, 745140, 'Elaboracion', 11, 178.00, 28.48, 206.48, 0);
 
 -- --------------------------------------------------------
 
@@ -668,7 +732,8 @@ INSERT INTO `transaccion` (`idtransaccion`, `idusuario`, `idpedido`, `metodopago
 (36, 6, 22, 'transferencia', 'EN PROCESO', '2024-09-18 02:39:53'),
 (37, 6, 23, 'transferencia', 'PAGADO', '2024-09-19 00:09:56'),
 (44, 6, 29, 'efectivo', 'SOLICITUD', '2024-09-18 20:12:58'),
-(45, 11, 30, 'pagomovil', 'ABONADO', '2024-11-07 23:58:57');
+(45, 11, 30, 'pagomovil', 'ABONADO', '2024-11-07 23:58:57'),
+(46, 11, 31, 'pagomovil', 'PAGADO', '2024-11-24 16:31:24');
 
 -- --------------------------------------------------------
 
@@ -725,13 +790,6 @@ CREATE TABLE `v11` (
 --
 
 --
--- Indices de la tabla `carac_devolucion_entrada`
---
-/*
-ALTER TABLE `carac_devolucion_entrada`
-  ADD PRIMARY KEY (`id`);
-*/
---
 -- Indices de la tabla `carac_devolucion_salida`
 --
 ALTER TABLE `carac_devolucion_salida`
@@ -778,6 +836,12 @@ ALTER TABLE `chat`
 -- Indices de la tabla `de5`
 --
 ALTER TABLE `de5`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `de11`
+--
+ALTER TABLE `de11`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -929,17 +993,10 @@ ALTER TABLE `v11`
 --
 
 --
--- AUTO_INCREMENT de la tabla `carac_devolucion_entrada`
---
-/*
-ALTER TABLE `carac_devolucion_entrada`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-*/
---
 -- AUTO_INCREMENT de la tabla `carac_devolucion_salida`
 --
 ALTER TABLE `carac_devolucion_salida`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `carac_entrada`
@@ -951,7 +1008,7 @@ ALTER TABLE `carac_entrada`
 -- AUTO_INCREMENT de la tabla `carac_salida`
 --
 ALTER TABLE `carac_salida`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT de la tabla `carrito`
@@ -984,6 +1041,12 @@ ALTER TABLE `de5`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT de la tabla `de11`
+--
+ALTER TABLE `de11`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT de la tabla `ds5`
 --
 ALTER TABLE `ds5`
@@ -993,25 +1056,25 @@ ALTER TABLE `ds5`
 -- AUTO_INCREMENT de la tabla `ds11`
 --
 ALTER TABLE `ds11`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `historial`
 --
 ALTER TABLE `historial`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
 
 --
 -- AUTO_INCREMENT de la tabla `itemcarrito`
 --
 ALTER TABLE `itemcarrito`
-  MODIFY `iditemcarrito` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `iditemcarrito` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT de la tabla `itempedido`
 --
 ALTER TABLE `itempedido`
-  MODIFY `iditempedido` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `iditempedido` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT de la tabla `itemrecetas`
@@ -1029,7 +1092,7 @@ ALTER TABLE `notificaciones`
 -- AUTO_INCREMENT de la tabla `pedido_usuario`
 --
 ALTER TABLE `pedido_usuario`
-  MODIFY `idpedido` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `idpedido` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT de la tabla `persona`
@@ -1041,13 +1104,13 @@ ALTER TABLE `persona`
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `idproducto` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
+  MODIFY `idproducto` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
 
 --
 -- AUTO_INCREMENT de la tabla `s11`
 --
 ALTER TABLE `s11`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `tipos`
@@ -1059,7 +1122,7 @@ ALTER TABLE `tipos`
 -- AUTO_INCREMENT de la tabla `transaccion`
 --
 ALTER TABLE `transaccion`
-  MODIFY `idtransaccion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `idtransaccion` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
