@@ -4,6 +4,21 @@ include_once "paths.php";
 
 ?>
 
+<style>
+        @font-face {
+        font-family: button;
+        src: url(../../css/button.ttf) format('truetype');
+        }
+
+        @font-face {
+        font-family: candy;
+        src: url(../../css/candy.ttf) format('truetype');
+        }
+        
+
+
+</style>
+
 
 
 <footer class="footer-group" style='text-align:initial;'>

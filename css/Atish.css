@@ -793,9 +793,14 @@
     }
 
     .all-helper-info{
-        margin: auto;
-        width: 1000px;
         display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+    }
+
+    .helper-pic{
+        border-radius: 2rem 2rem 0 0;
+        box-shadow: -2px -4px 17px 3px #000000a1;
     }
 
     .helper1 .helper-pic{
@@ -811,17 +816,16 @@
     }
 
     .helper-group{
-        width: 400px;
+        width: 160%;
         background-color: white;
         padding-bottom: 25px;
     }
 
-    .helper-individual{
-        padding:20px 50px;
-    }
 
     .helper-more-about{
-        padding-top: 15px;
+        background: linear-gradient(45deg, #e5e5e5, transparent);
+        box-shadow: 1px 1px 20px 0px #08020285;
+        border-radius: 0 0 2rem 2rem;
     }
 
     .helper-more-about .name{
@@ -835,7 +839,9 @@
 
     .helper-more-about .hierarchy{
         font-size: 20px;
-        color: #FF7380FF;
+        font-weight: bold;
+        color: #ffffff;
+        background: #c31f5c;
     }
 
     .helper-social-media .social-media a{

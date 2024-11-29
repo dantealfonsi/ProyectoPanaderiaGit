@@ -36,46 +36,25 @@
 
         <!--Inicio del Header-->
         <div class="about-us-header">
-            <div class="banner-group">
-                <div class="banner"></div>
-            </div>
+
             
-            <div class="about-us-subtitle">
-                <span>Acerca de Nosotros</span>
-            </div>
+        <div style="display: flex;flex-direction: column;align-items: center;margin-top:5rem;">
+                <h2 style="color: #D22E6B;margin-bottom: 0;top: 1.9rem;position: relative;font-size: 1.4rem;font-weight: 700;">Nuestra Historia</h2>
+                <h1 class="my-4" style="font-size: 4rem;font-family: 'candy';border-bottom: 3px dashed #D22E6B;text-align: center;">Acerca De Nosotros
         </div>
+
+
+  
         <!--Fin del Header-->
 
+        <!--Iniciar HacerComponent-->
+        <?php include '../hacerComponent/hacer-left.html';?>
+        <!--FIN Barra de Navegación @media 1200px-->
 
-        <!--Informacion de la gente de la panaderia-->
-        <div class="baker-info-group">
-            <div class="baker-info-container">
-                <div class="baker-info-text">
-                    <div class="baker-info-title">
-                        <span>Nuestro panadero</span>
-                    </div>
-        
-                    <div class="baker-name">
-                        <span>Señor Desconocido1</span>
-                    </div>
-        
-                    <div class="baker-description">
-                        <p>“ASDASDJASDJASJJASDJASDJJASD”</p>
-                    </div>
-        
-                    <div class="baker-signature">
-                        <div class="signature-photo"></div>
-                    </div>
-        
-                    <div class="baker-position">
-                        <span>DUEÑO - PANADERIA</span>
-                    </div>
-                </div>
-                
-                <div class="baker-photo-group">
-                    <div class="baker-photo"></div>
-                </div>
-            </div>
+
+
+
+
         </div>
         <!--FIN INFO DE LA GENTE DE LA PANADERIA-->
 
@@ -111,16 +90,13 @@
 
         <!--Informacion de los programadores-->
         <div class="team-section">
-            <div class="team-title">
-                <span>Programadores</span>
-            </div>
-
-            <div class="subtitle">
-                <h2>NUESTRO EQUIPO</h2>
-            </div>
+        <div style="display: flex;flex-direction: column;align-items: center;">
+                <h2 style="color: #D22E6B;margin-bottom: 0;top: 1.9rem;position: relative;font-size: 1.4rem;font-weight: 700;">Nuestro Equipo</h2>
+                <h1 class="my-4" style="font-size: 4rem;font-family: 'candy';border-bottom: 3px dashed #D22E6B;text-align: center;">Horneadores
+        </div>
 
             
-            <div class="all-helper-info">
+            <div class="all-helper-info" style='width: 90%;'>
                 <div class="helper-individual">
                     <div class="helper-group helper1">
                         <div class="helper-pic-group">
@@ -128,8 +104,8 @@
                         </div>
 
                         <div class = "helper-more-about">
-                            <p class="name"><b>JUAN</b></p>
-                            <p class="hierarchy">PROGRAMADOR</p>
+                            <p class="name"><b>ROBERTO</b></p>
+                            <p class="hierarchy">HORNEADOR</p>
                             <p class="description">.</p>
                         </div>
         
@@ -145,29 +121,65 @@
                 </div>
                 
                 <div class="helper-individual">
-                    <div class="helper-group helper2">
+                    <div class="helper-group helper1">
                         <div class="helper-pic-group">
                             <div class="helper-pic"></div>
                         </div>
 
                         <div class = "helper-more-about">
-                            <p class="name"><b>Carlos</b></p>
-                            <p class="hierarchy">Diseñador</p>
-                            <p class="description">asdasd</p>
+                            <p class="name"><b>CRISAIDA</b></p>
+                            <p class="hierarchy">HORNEADORA</p>
+                            <p class="description">.</p>
                         </div>
         
                         <div class="helper-social-media">
                             <div class="social-media">
+                             
                                 <span class="github">
                                     <a href=#><i class="/"></i></a>
                                 </span>
-    
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+
+                <div class="helper-individual">
+                    <div class="helper-group helper1">
+                        <div class="helper-pic-group">
+                            <div class="helper-pic"></div>
+                        </div>
+
+                        <div class = "helper-more-about">
+                            <p class="name"><b>ALBERTO</b></p>
+                            <p class="hierarchy">MASAJEADOR</p>
+                            <p class="description">.</p>
+                        </div>
+        
+                        <div class="helper-social-media">
+                            <div class="social-media">
+                             
+                                <span class="github">
+                                    <a href=#><i class="/"></i></a>
+                                </span>
                             </div>
                         </div> 
                     </div>
                 </div>
             </div>
+
         </div>
+
+                <!--Informacion de la gente de la panaderia-->
+        <div style="display: flex;flex-direction: column;align-items: center;margin-top:5rem;">
+            <h2 style="color: #D22E6B;margin-bottom: 0;top: 1.9rem;position: relative;font-size: 1.4rem;font-weight: 700;">Donde Encontrarnos</h2>
+            <h1 class="my-4" style="font-size: 4rem;font-family: 'candy';border-bottom: 3px dashed #D22E6B;text-align: center;">Ubicacion
+        </div>
+
+
+        <!-- GOOGLE MAPS DESABILITADO POR AHORA-->
+            <?php include '../GoogleMapComponent/GoogleMap.php';?>
+        <!-- GOOGLE MAPS-->
+
         <!--End Team Info-->
 
 
