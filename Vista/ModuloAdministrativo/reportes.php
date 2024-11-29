@@ -12,9 +12,8 @@
     <link rel="stylesheet" href="../../css/main.css">
     <link rel="stylesheet" type="text/css" href="../Javascript/DataTables/dataTables.min.css" />
     <link rel="stylesheet" type="text/css" href="../../css/SweetAlert/sweetalert2.min.css" />
-
+    <script src="../Javascript/chart.js"></script>
     <script src="../Javascript/DataTables/jQuery/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>insumos</title>
 
         <!--CSS File-->

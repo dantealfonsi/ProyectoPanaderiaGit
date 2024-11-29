@@ -117,7 +117,7 @@
 
 .sidebar.close .nav-list li .icon-link {
   display: block;
-  padding: 1rem;
+  padding: .3rem 1rem;
 }
 
 .sidebar .nav-list li i {
@@ -485,7 +485,7 @@
         <li>
         <div class="icon-link">
           <a onclick="reportes()">
-          <img src="../../Assets/images/inventory/personas.svg">
+          <img src="../../Assets/images/inventory/reporte.svg">
             <span class="link-name" id="link-name">Reportes</span>
           </a>
         </div>

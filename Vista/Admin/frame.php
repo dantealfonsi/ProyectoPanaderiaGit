@@ -320,7 +320,7 @@ table{
     <script src="../chartJs/chart.min.js"></script>
     <link rel="stylesheet" type="text/css" href="..\DataTables\dataTables.min.css" />
     <script src="..\DataTables\jQuery\jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../Javascript/chart.js"></script>
 
   </head>
   <body>
