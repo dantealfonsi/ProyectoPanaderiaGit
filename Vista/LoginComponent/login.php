@@ -158,7 +158,7 @@
                     <input type="password" name="contrasena" placeholder="Contraseña"/>
                     <span class="Password-Error"><?php if($errCriterio != ""){echo "$errCriterio <br><br>";}?></span>
                     
-                    <button>login</button>
+                    <button>Iniciar Sesión</button>
                     <p class="message">No te has registrado? <a href="../RegistroComponent/registro.php">Crear Cuenta</a></p>
                     <br><span class="forget-text"><a href="olvidarContrasena.php">Olvide Contraseña</a></span>
                     <!-- <p class="or-message"><b>OR</b></p> -->

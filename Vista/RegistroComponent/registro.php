@@ -219,8 +219,12 @@
         <?php include '../Includes/BarraNavegacionPC.php';?>
         <!--Finalizar Barra de Navegación @media 1200px-->
 
+        <div class="bg-image-container">
+            <div class="bg-image-join"></div>
+        </div>
+        
         <!--Inicio del Panel De logueo-->
-        <div class="login-page reg-page">
+        <div class="login-page reg-page" style='width: 100%;display: flex;justify-content: center;align-items: center;top: 30rem;'>
     <div class="form">
         <div class="login">
             <div class="login-header">
@@ -230,22 +234,36 @@
         </div>
 
         <form class="login-form" method="post" actions="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-            <span class="Error-NombreUsuario"><?php echo $criterioNombreUsuario;?></span>  
-            <input type="text" name="nombreUsuario" placeholder="Nombre de usuario" value="<?php echo $nombreUsuario;?>"/>
-            <span class="Error-Nombre"><?php echo $criterioNombre;?></span>
-            <input type="text" name="nombre" placeholder="Nombre" value="<?php echo $nombre;?>"/>
-            <span class="Error-Apellido"><?php echo $criterioApellido;?></span>
-            <input type="text" name="apellido" placeholder="Apellido" value="<?php echo $apellido;?>"/>
-            <span class="Error-Correo"><?php echo $criterioCorreo;?></span>
-            <input type="text" name="correo" placeholder="Correo" value="<?php echo $correo;?>"/>
-            <span class="Error-Contrasena"><?php echo $criterioContrasena;?></span>
-            <input type="password" name="contrasena" placeholder="Contraseña"/>
-            <span class="Error-Contrasena"><?php echo $criterioConfirmarContrasena;?></span>
-            <input type="password" name="confirmarContrasena" placeholder="Confirmar contraseña"/>
-            <span class=Error-recaptcha"><?php echo $criterioRecaptcha;?></span>
-            <div name="g-recaptcha-response" class="g-recaptcha" data-sitekey="6Ld1nA0aAAAAAA7F7eJOY7CMwg7aaQAfg3WZy6P0"></div>
+            <div style='display:flex;'> 
+                <span class="Error-NombreUsuario"><?php echo $criterioNombreUsuario;?></span>  
+                <input type="text" name="nombreUsuario" placeholder="Nombre de usuario" style='margin-right: 1rem;' value="<?php echo $nombreUsuario;?>"/>
+                <span class="Error-Nombre"><?php echo $criterioNombre;?></span>
+                <input type="text" name="nombre" placeholder="Nombre" value="<?php echo $nombre;?>"/>
+
+            </div>
+          
+
+            <div style='display:flex;'>
+                <span class="Error-Apellido"><?php echo $criterioApellido;?></span>
+                <input type="text" name="apellido" style='margin-right: 1rem;' placeholder="Apellido" value="<?php echo $apellido;?>"/>
+                <span class="Error-Correo"><?php echo $criterioCorreo;?></span>
+                <input type="text" name="correo" placeholder="Correo" value="<?php echo $correo;?>"/>
+            </div>
+            
+            <div style='display:flex;'>
+
+                <span class="Error-Contrasena"><?php echo $criterioContrasena;?></span>
+                <input type="password" name="contrasena" style='margin-right: 1rem;' placeholder="Contraseña"/>
+                <span class="Error-Contrasena"><?php echo $criterioConfirmarContrasena;?></span>
+                <input type="password" name="confirmarContrasena" placeholder="Confirmar contraseña"/>
+
+            </div>
+
+           
+            <span class="Error-recaptcha"><?php echo $criterioRecaptcha;?></span>
+            <div name="g-recaptcha-response" style='display: flex;align-items: center;justify-content: center;width: 110%;' class="g-recaptcha" data-sitekey="6Ld1nA0aAAAAAA7F7eJOY7CMwg7aaQAfg3WZy6P0"></div>
             <button>Unirse</button>
-            <p class="message">¿Ya tienes una cuenta? <a href="login.php">Inicia sesión</a></p>
+            <p class="message">¿Ya tienes una cuenta? <a href="../LoginComponent/login.php">Inicia sesión</a></p>
             <!-- <p class="or-message"><b>O</b></p> -->
         </form>
 

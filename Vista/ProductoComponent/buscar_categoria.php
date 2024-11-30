@@ -42,7 +42,7 @@
 
                             <div class="featured__data">';
                     $idProducto = $row_producto['idproducto'];
-                    echo '<a href="producto.php?id_producto='.$idProducto.' " class="product__name" id="product__name"style="text-decoration: none;">'. $row_producto['nombre_producto'].'</a></br>
+                    echo '<a href="producto.php?id_producto='.$idProducto.' " class="product__name" id="product__name"style="text-decoration: none;"><h4>'. $row_producto['nombre_producto'].'</h4></a>
                             <span class="featured__price">Bs '. $row_producto['precio_producto'].'</span>
                                 
                             </div>

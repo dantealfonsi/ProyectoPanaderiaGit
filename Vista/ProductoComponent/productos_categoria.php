@@ -35,6 +35,19 @@
     <!--========== BOXICONS ==========-->
     <link href='../../css/boxicons.min.css' rel='stylesheet'>
 
+    <style>
+
+            .product__name {
+                color: var(--dark-color-light);
+                font-weight: var(--font-semi);
+                /* margin-bottom: var(--mb-4); */
+                text-transform: uppercase;
+                font-size: var(--normal-font-size);
+                font-family: var(--font-alt);
+            }
+
+        </style>
+
     </head>
 
     <body>
@@ -94,8 +107,8 @@
     <div class="dropdown col-auto">
         <button class="dropbtn button" id="cat-but">Ordenar por &nbsp<i class='bx bxs-down-arrow drop-arrow'></i></button>
         <div class="dropdown-content">
-            <a href="productos_ordenarpor.php?ordenarpor=1">precio de menor a mayor</a>
-            <a href="productos_ordenarpor.php?ordenarpor=2">precio de mayor a menor</a>
+            <a href="productos_ordenarpor.php?ordenarpor=1">Precio De Menor a Mayor</a>
+            <a href="productos_ordenarpor.php?ordenarpor=2">Precio De Mayor a Menor</a>
              
         </div>
     </div>
@@ -103,7 +116,7 @@
     <!--========== BOTÓN CATEGORÍAS ==========-->
     <div class="dropdown col-auto">
         <button class="dropbtn button" id="cat-but">Categorías &nbsp<i class='bx bxs-down-arrow drop-arrow'></i></button>
-        <div class="dropdown-content">
+        <div class="dropdown-content" style='text-transform:capitalize;'>
             <?php
             while($row_categorias = mysqli_fetch_assoc($resultado_cat)){
                 $IDcategoria = $row_categorias['idcategoria'];
@@ -141,7 +154,7 @@
 
                                     <div class="featured__data">
                                         <?php $IDproducto = $row_producto['idproducto']; ?>
-                                        <a href="producto.php?id_producto=<?php echo $IDproducto; ?>" class="product__name" id="product__name"style="text-decoration: none;"><?php echo $row_producto['nombre_producto']; ?></a></br>
+                                        <a href="producto.php?id_producto=<?php echo $IDproducto; ?>" class="product__name" id="product__name"style="text-decoration: none;"><h4><?php echo $row_producto['nombre_producto']; ?></h4></a></br>
                                         <span class="featured__price">Bs <?php echo $row_product['precio_producto']; ?></span>
                                        
                                     </div>

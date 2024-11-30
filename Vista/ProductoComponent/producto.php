@@ -191,6 +191,36 @@ function pre_r($array){
     -moz-appearance: textfield;
     }
 
+    .h1, h1 {
+        font-size: 2.5rem;
+        text-transform: capitalize;
+        text-decoration:underline;
+    }
+
+    .h2,h2{
+    color: white;
+    display: flex;
+    background: #d22e6b;
+    font-weight: bold;
+    border-radius: 2rem;
+    width: fit-content;
+    padding: .8rem;
+    }
+
+    [type=button]:not(:disabled), [type=reset]:not(:disabled), [type=submit]:not(:disabled), button:not(:disabled) {
+    cursor: pointer;
+    background: #d22e6b !important;
+    border-radius: 2rem;
+}
+[type=button]:hover, [type=reset]:hover, [type=submit]:hover, button:hover {
+    background: #af164f !important;
+    transition:ease .6s;
+}
+
+input[type=number]:hover,input[type=number]:active  {
+    background: none !important;
+}
+
     </style>
 
     <body>
@@ -261,7 +291,7 @@ function pre_r($array){
 
 <div class="container mx-auto mt-0 pt-0 ">
     <div class="row continue-shop-div text-center">
-        <a href="productos.php" class="button continue" id="cat-but" style='display: flex;align-items: center;justify-content: center;' >Continuar</a>
+        <a href="productos.php" class="button continue" id="cat-but" style='display: flex;align-items: center;justify-content: center;' >↵ Atras</a>
     </div>
     <div class="row">
         <div class="col-md mt-4 mx-auto ">

@@ -127,8 +127,8 @@ button:disabled{
     align-items: flex-start;
     gap: 1rem;'>
         <div class="col">
-            <h2 class="category" id="small_title"></h2>
-            <h2 class="category-name " id="big_title"></h2>
+            <h2 class="category" id="small_title" ></h2>
+            <h2 class="category-name " id="big_title" ></h2>
         </div>
 
         <!--========== BOTÓN DE ORDENAR POR ==========-->

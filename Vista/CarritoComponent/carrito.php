@@ -117,8 +117,7 @@ if(filter_input(INPUT_GET, 'action') == 'borrar'){
                 <!-- Titulo -->
                 <div class="row-md  title-cart">
                   
-                    <h1 text-center>Carrito &nbsp</h1>
-                    <i class='bx bxs-cart-download bx-tada-hover'></i>
+                    <h1 text-center>Carrito ♨</h1>
                 </div>
                 <!-- Detalles de la orden -->
                 <div class="cart_title_bar mx-1 ">

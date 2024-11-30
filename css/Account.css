@@ -97,6 +97,8 @@ hr{
 
 .login-header h3{
     font-size: 30px;
+    font-family: 'Roboto';
+    border-bottom: 4px dashed #c31f5c;
 }
 
 .login-header p{
@@ -309,6 +311,8 @@ hr{
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
+        top: -5rem;
+        position: relative;
     }
     /*End Background Image For Registration Page*/
 
@@ -322,6 +326,9 @@ hr{
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
+        position: relative;
+        top: -6rem;
+    }
     }
     /*End Background Image For RPassword Reset Page*/
 
@@ -348,11 +355,11 @@ hr{
         position: relative;
         z-index: 1;
         background: #FFFFFF;
-        max-width: 360px;
         margin: 0 auto 100px;
         padding: 45px;
         text-align: center;
-        box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+        box-shadow: 0 0 20px 0 rgb(0 0 0), 0 5px 5px 3px rgba(0, 0, 0, 0.24);
+        border-radius: 2rem;
     }
 
     .form input {
@@ -371,8 +378,8 @@ hr{
         font-family: "Roboto", sans-serif;
         text-transform: uppercase;
         outline: 0;
-        background-color:#FFA5A5FF;
-        background-image: linear-gradient(45deg,rgb(252, 173, 173),rgb(255, 195, 195));
+        background-color: #c31f5c;
+        background-image: linear-gradient(45deg, #c31f5c, #c31f5c);
         width: 100%;
         border: 0;
         padding: 15px;
@@ -381,10 +388,12 @@ hr{
         -webkit-transition: all 0.3 ease;
         transition: all 0.3 ease;
         cursor: pointer;
+        border-radius: .6rem;
+        font-weight: bolder;
     }
 
     .form button:hover{
-        background:rgb(230, 87, 87) !important;
+        background:rgb(151, 52, 77) !important;
         transition: ease .4s;
     }
 
@@ -395,7 +404,7 @@ hr{
     }
 
     .form .message a {
-        color: #FFA5A5FF;
+        color: #c31f5c;
         text-decoration: none;
     }
 
@@ -408,7 +417,7 @@ hr{
     }
     
     .social-login .login-text{
-        color:  #FFA5A5FF;
+        color:  #c31f5c;
         font-size: 20px;
     }
     
@@ -418,7 +427,7 @@ hr{
     }
     
     .social-login i:hover{
-        color: #FFA5A5FF;
+        color: #c31f5c;
     }
 
     .login-form span{
@@ -432,7 +441,7 @@ hr{
     }
 
     .login-form .forget-text a:hover{
-        color:#FFA5A5FF;
+        color: #c31f5c;
         text-decoration: underline;
     }
 
@@ -453,7 +462,7 @@ hr{
     /* Start User Profile Subtitle*/
     .user-profile-container .input-error{
         font-weight: bold;
-        color: #FFA5A5FF;
+        color: #c31f5c;
     }
 
     .user-profile-container .message{

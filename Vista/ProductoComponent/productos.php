@@ -42,6 +42,7 @@
 
     .img_destacada{
         box-shadow: 1px 1px 20px 6px #8080808c !important;
+        border-radius: 2rem;
     }
 
     .bx{
@@ -128,6 +129,7 @@
         $resultado_cat = mysqli_query($conn, $Q_obtener_categorias);
 
     ?>
+    <div style='display: flex;justify-content: center;'>
     <div class="row category-title">
         <div class="col">
             <h2 class="category" id="small_title"></h2>
@@ -139,15 +141,15 @@
         <div class="dropdown col-auto">
             <button class="dropbtn button" id="cat-but">Ordenar por &nbsp<i class='bx--bxs-down-arrow'></i></button>
             <div class="dropdown-content">
-                <a href="#" onclick="ordenar_productos(1)">precio bajo a alto</a>
-                <a href="#" onclick="ordenar_productos(2)">precio alto a bajo</a>
+                <a href="#" onclick="ordenar_productos(1)">Precio Bajo a Alto</a>
+                <a href="#" onclick="ordenar_productos(2)">Precio Alto a Bajo</a>
             </div>
         </div>
 
         <!--========== BOTÓN DE CATEGORÍAS ==========-->
         <div class="dropdown col-auto">
             <button class="dropbtn button" id="cat-but">Categorías &nbsp<i class='bx--bxs-down-arrow'></i></button>
-            <div class="dropdown-content">
+            <div class="dropdown-content" style='text-transform:capitalize;'>
                 <?php
                 while($row_categorias = mysqli_fetch_assoc($resultado_cat)){
                     $IDcategoria = $row_categorias['idcategoria'];
@@ -163,6 +165,7 @@
             </div>
         </div>
     </div>
+            </div>
 </div>
     <div id="result" class="featured__container bd-grid mt-4">
         <!-- PRODUCTOS POR CATEGORÍA  -->
