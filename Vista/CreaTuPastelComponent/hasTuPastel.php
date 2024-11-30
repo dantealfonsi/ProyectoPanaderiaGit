@@ -43,6 +43,16 @@
       src: url(../../css/button.ttf) format('truetype');
      }
      
+     @font-face {
+      font-family: roboto;
+      src: url(../../css/roboto.ttf) format('truetype');
+    }
+
+    @font-face {
+      font-family: candy;
+      src: url(../../css/button.ttf) format('truetype');
+     }
+
 .progress-container {
     width: 100%;
     background-color: #f1f1f1;

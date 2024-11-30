@@ -159,13 +159,14 @@ img{
     margin-top: 3rem;
     margin-bottom: 3rem;
     padding-left: 1.9rem;
-    border-bottom: 2px solid var(--dark-color-light);
+    border-bottom: 6px dashed #c31f5c;
     display: flex;
-   
 }
+
 .title-cart h1{
-    font-size: 2.1rem !important;
+    font-size: 3rem !important;
     font-weight: 300 !important;
+    font-family: 'candy';
     
 }
 .title-cart i{
@@ -190,7 +191,7 @@ img{
     
 }
 .cart_title_bar{
-    border-bottom: 5px solid var(--first-color-alt);
+    border-bottom: 5px solid #c31f5c;
     display: grid;
     grid-template-columns: 1fr 1.5fr 1fr 1fr 1fr;
     grid-template-rows: 10px;
@@ -224,14 +225,14 @@ img{
 }
 
 .receipt-card{
-    background-color: linen;
-    border-left: 15px solid var(--first-color-alt);
+    background: linear-gradient(45deg, #ededed, transparent);
+    border-left: 15px solid #c31f5c;
     display: grid;
     grid-template-columns: 1fr 1.5fr 1fr 1fr 1fr;
     grid-template-rows: 20vh;
     justify-content: center !important;
     align-items: center !important;
-    
+    border-bottom: 1px solid #b7b7b7;   
 }
 
 .receipt-area{
@@ -246,7 +247,7 @@ img{
 }
 
 .summary-area{
-    border-bottom: 5px solid var(--first-color-alt);
+    border-bottom: 5px solid #c31f5c;    
     margin: 0 !important;
     padding-bottom: .35rem !important;
    
@@ -272,14 +273,14 @@ img{
 */
 .total-area{
     /* background-color: blue; */
-    border-top: 2px solid var(--first-color-alt) ;
+    border-top: 2px solid #c31f5c;
 } 
 .receipt-data{
     margin: .5rem !important;
     align-items: center !important;
     justify-content: center !important;
-    background-color: linen;
-
+    background: linear-gradient(45deg, #ededed, transparent);
+    border: dashed #c31f5c;
 }
 
 .title-checkout{
@@ -298,8 +299,10 @@ img{
 
 .product-name{
     grid-column: 2/3;
-    
+    font-weight: bolder;
+    text-transform: capitalize;
 }
+
 .product-name-det h6{
     text-align: left;
 }
@@ -333,7 +336,7 @@ img{
 /*========== BUTTONS ========== */
 .button{
     display: inline-block;
-    background-color: var(--first-color) !important;
+    background-color: #c31f5c !important;
     color: var(--white-color) !important;
     padding: 1rem ;
     font-size: var(--small-font-size);

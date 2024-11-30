@@ -100,18 +100,81 @@
 
     <!-- CSS -->
     <link href="<?php echo $GLOBALS['ROOT_PATH'] ?>/css/form-validation.css" rel="stylesheet">
+
+    <style>
+
+      /* Fuentes de Texto*/
+      @font-face {
+        font-family: roboto;
+        src: url(../../css/roboto.ttf) format('truetype');
+      }
+
+      @font-face {
+        font-family: candy;
+        src: url(../../css/candy.ttf) format('truetype');
+      }
+
+      @font-face {
+        font-family: logo;
+        src: url(../../css/logo.ttf) format('truetype');
+        }
+
+        @font-face {
+          font-family: spartan;
+          src: url(../../css/spartan.ttf) format('truetype');
+        }
+
+        .goBack{
+          padding: .8rem !important;
+          padding-top: .5rem !important;
+          padding-bottom: .5rem !important;
+          outline: none;
+          text-transform: uppercase;
+          font-weight: bold !important;
+          font-size: 1rem !important;
+          background-color: rgba(0, 0, 0, 0) !important;
+          color: var(--dark-color-light) !important;
+          border: 1px solid var(--dark-color-light) !important;
+          border-radius: 25px;
+          transition: .3s;
+          margin-top: .5rem !important;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: fit-content;
+          position: absolute;
+          right: 5rem;
+          top: 2rem;
+          text-decoration: none;
+          font-family: 'roboto';
+        }
+
+        .goBack:hover{
+          background:#c31f5c !important;
+          color:white !important;
+        }
+
+
+    </style>  
+
+    
   </head>
 
 <body>
       
   <div class="container">
+
+  <div class="row continue-shop-div text-center">
+        <a href="../CarritoComponent/carrito.php" class="goBack" id="cat-but" style='display: flex;align-items: center;justify-content: center;' >↵ Atras</a>
+    </div>
+
     
     <main>
 
       <!-- TÍTULO -->
-      <div class="py-5 text-center">
-        <h1 class="nombre-empresa">PANADERIA</h1>
-        <h2>Formulario de pago</h2>
+      <div class="py-5 text-center" style='display: flex;flex-direction: column;align-items: center;'>
+        <h1 class="nombre-empresa" style="font-size: 4rem;font-family: 'candy';color: #c31f5c;letter-spacing: 1px;">Dulce Amor</h1>
+        <h2 style='font-family: candy;border-bottom: 4px dashed #c31f5c;display: flex;width: fit-content;'>Formulario de pago</h2>
       </div>
 
         <!-- MI CARRITO -->
@@ -139,7 +202,7 @@
                   <!-- PRODUCTO 1  -->
               <li class="list-group-item d-flex justify-content-between lh-sm filas-lino">
                 <div>
-                  <h6 class="my-0"><?php echo $fila_producto['nombre_producto']; ?></h6>
+                  <h6 class="my-0" style='text-transform: capitalize;font-weight: bold;'><?php echo $fila_producto['nombre_producto']; ?></h6>
                   <small class="text-muted">x <?php echo $producto['cantidad']; ?> unidad(es)</small>
                 </div>
                 <span class="text-muted etiqueta-precio">Bs <?php echo number_format(($producto['cantidad']  * $fila_producto['precio_producto']),2); ?></span>
@@ -167,7 +230,7 @@
  <!-- DIRECCIÓN DE FACTURACIÓN  -->
 <div class="col-md-7 col-lg-8">
 
-<h4 class="mb-3 border-bottom-pink">Dirección de facturación</h4>
+<h4 class="mb-3 border-bottom-pink" >Dirección de facturación</h4>
 
 <form action=
     "
@@ -248,25 +311,25 @@
 <hr class="my-4 pinkLine">
 
 <!-- MÉTODO DE PAGO -->
-<h4 class="mb-3">Método de Pago</h4>
+<h4 class="mb-3" style='font-weight: 800;font-family: roboto;text-decoration: underline;'>Método de Pago</h4>
 
 <!-- TARJETA DE CRÉDITO -->
 <div class="my-3">
-  <div class="form-check">
+  <div class="form-check" style='display: flex;flex-direction: row;align-items: center;'>
     <input id="pagoMovil" name="metodoPago" type="radio" class="form-check-input" value="pagomovil" <?php if ($metodoPago == "pagomovil"){ echo "checked";} ?> >
-    <label class="form-check-label" for="pagoMovil">Pago Movil</label>
+    <label class="form-check-label" for="pagoMovil" style='font-size: 1.25rem;font-weight: bold;margin-left: 1rem;'>Pago Movil</label>
   </div>
 
   <!-- MCB JUICE -->
-  <div class="form-check">
+  <div class="form-check" style='display: flex;flex-direction: row;align-items: center;'>
     <input id="transferencia" name="metodoPago" type="radio" class="form-check-input" value="transferencia" <?php if ($metodoPago == "transferencia"){ echo "checked";} ?> >
-    <label class="form-check-label" for="transferencia">Transferencia</label>
+    <label class="form-check-label" for="transferencia" style='font-size: 1.25rem;font-weight: bold;margin-left: 1rem;'>Transferencia</label>
   </div>
 
   <!-- PAYPAL -->
-  <div class="form-check">
+  <div class="form-check" style='display: flex;flex-direction: row;align-items: center;'>
     <input id="efectivo" name="metodoPago" type="radio" class="form-check-input" value="efectivo" <?php if ($metodoPago == "efectivo"){ echo "checked";} ?> >
-    <label class="form-check-label" for="efectivo">Efectivo</label>
+    <label class="form-check-label" for="efectivo" style='font-size: 1.25rem;font-weight: bold;margin-left: 1rem;'>Efectivo</label>
   </div>
 
   <span class="error" style="color:red;"><?php echo $errormetodoPago;?></span>
@@ -286,12 +349,7 @@
 </main>
 
 <footer class="my-5 pt-5 text-muted text-center text-small">
-<p class="mb-1">&copy; 2024 PANADERIA</p>
-<ul class="list-inline">
-  <li class="list-inline-item"><a href="#">Privacidad</a></li>
-  <li class="list-inline-item"><a href="#">Términos</a></li>
-  <li class="list-inline-item"><a href="#">Soporte</a></li>
-</ul>
+<p class="mb-1">&copy; 2024 PANADERIA DULCE AMOR</p>
 </footer>
 </div>
       <script src="../Javascript/bootstrap.bundle.min.js"></script>
@@ -302,15 +360,11 @@
       let select1 = document.getElementById('select1');
       let select2 = document.getElementById('select2');
 
-      let municipios = ["Andres eloy blanco","Andrés Mata","Arismendi","Bermúdez","Bolívar","Marigüitar","Cajigal"
-      ,"Yaguaraparo","Cruz Salmerón Acosta","Libertador","Tunapuy","Mariño","Irapa"
-      ,"Mejía","Montes","Ribero","Sucre","Güiria"];
+      let municipios = ["Andrés Mata","Bermúdez"];
 
-      let bermudez = ["Carupano","Otra vaina"];
+      let bermudez = ["Carúpano","Guayacan","El Muco","Charallave","Macarapana","Playa Grande","El Pujo","Güiria","Guaca"];
 
-      let arismendi = ["Carupano","Otra vaina"];
-
-      let ribero = ["pilar","webo"];
+      let andresMata = ["San José","Casanay","Las Acacias"];
       
         municipios.forEach(function addMunicipio(item){
           
@@ -337,16 +391,12 @@
           select2.innerHTML="<option></option>";
 
           
-          if(select1.value == "Arismendi"){
-          addToSelect2(arismendi);
+          if(select1.value == "Andrés Mata"){
+          addToSelect2(andresMata);
          } else 
          
          if(select1.value == "Bermúdez"){
           addToSelect2(bermudez);
-         }else 
-         
-         if(select1.value == "Ribero"){
-          addToSelect2(ribero);
          }
       }
       </script>

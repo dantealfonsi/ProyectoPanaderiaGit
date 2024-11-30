@@ -89,28 +89,40 @@
         <link rel="stylesheet" type="text/css" href="<?php echo $GLOBALS['ROOT_PATH'] ?>/css/animate.min.css">
     </head>
 
+    <style>
+    
+        @font-face {
+            font-family: button;
+            src: url(../../css/button.ttf) format('truetype');
+            }
+            
+            @font-face {
+            font-family: roboto;
+            src: url(../../css/roboto.ttf) format('truetype');
+            }
+
+            @font-face {
+            font-family: candy;
+            src: url(../../css/candy.ttf) format('truetype');
+            }
+    </style>
+
     <body >
 
         <!-- TÍTULO -->
         <div class="py-5 text-center">
-            <h1 class="business-name">PANADERIA</h1>
+        <h1 class="nombre-empresa" style="font-size: 4rem;font-family: 'candy';color: #c31f5c;letter-spacing: 1px;">Dulce Amor</h1>
             
-            <img class="thankYouImageHead my-5" src="../../Assets/images/cart/circleHead.png" />
-            <img class="thankYouImage  my-5 rotate" src="../../Assets/images/cart/sun.png" />
+            <img class="thankYouImage  my-5 rotate" style="max-width: 17%;background: linear-gradient(45deg, #ff9ea7, transparent);border-radius: 50%;padding: 2rem;box-shadow: 1px 1px 20px 3px #979797;" src="../../Assets/images/cart/sun.png" />
          
-            <h1 style="font-size:3vw;">¡Gracias por comprar con nosotros!</h1>
-            <h2>Tu Pedido esta en espera de ser aceptado...</h2>
+            <h1 style="font-size: 3rem;font-weight: bold;">¡Gracias por comprar con nosotros!</h1>
+            <h2 style='margin-bottom: 2rem;'>Tu Pedido esta en espera de ser aceptado.</h2>
             <a href="../LoginComponent/historialUsuario.php" class=" btn btn-primary btn-lg button" style="font-size:1.5vw;">Ver Mi Compra</a>
         </div>
     
          <!-- PIE DE PÁGINA  -->
         <footer class="my-5 pt-5 text-muted text-center text-small">
-            <p class="mb-1">&copy; 2024 PANADERIA</p>
-            <ul class="list-inline">
-                <li class="list-inline-item"><a href="#">Privacidad</a></li>
-                <li class="list-inline-item"><a href="#">Términos</a></li>
-                <li class="list-inline-item"><a href="#">Soporte</a></li>
-            </ul>
+            <p class="mb-1">&copy; 2024 PANADERIA DULCE AMOR</p>
         </footer>
       
     </body>

@@ -82,6 +82,24 @@ if(filter_input(INPUT_GET, 'action') == 'borrar'){
     <!--========== BOXICONS ==========-->
     <link href='<?php echo $GLOBALS['ROOT_PATH'] ?>/css/boxicons.min.css' rel='stylesheet'>
     <link href='<?php echo $GLOBALS['ROOT_PATH'] ?>/css/icons.css' rel='stylesheet'>
+
+        <style>
+             @font-face {
+            font-family: button;
+            src: url(../../css/button.ttf) format('truetype');
+            }
+            
+            @font-face {
+            font-family: roboto;
+            src: url(../../css/roboto.ttf) format('truetype');
+            }
+
+            @font-face {
+            font-family: candy;
+            src: url(../../css/button.ttf) format('truetype');
+            }
+        </style>
+
     </head>
 
     <body>
@@ -119,6 +137,11 @@ if(filter_input(INPUT_GET, 'action') == 'borrar'){
                   
                     <h1 text-center>Carrito ♨</h1>
                 </div>
+                
+
+                <?php
+                if(!empty($_SESSION['carrito_compras'])){
+               ?>
                 <!-- Detalles de la orden -->
                 <div class="cart_title_bar mx-1 ">
                     <div class="cart-title-1">
@@ -128,17 +151,21 @@ if(filter_input(INPUT_GET, 'action') == 'borrar'){
                         <h4 class="section-all my-0 py-0 hide-wave"></h4>
                     </div>
                     <div class="cart-title-3">
-                        <h4 class="section-all my-0 py-0 hide-wave">Cantidad</h4>
+                        <h4 class="section-all my-0 py-0 hide-wave" style='font-size: 1.5rem;'>Cantidad</h4>
                     </div>
                    
                     <div class="cart-title-4">
-                        <h4 class="section-all my-0 py-0 hide-wave">Precio Total</h4>
+                        <h4 class="section-all my-0 py-0 hide-wave" style='font-size: 1.5rem;'>Precio Total</h4>
                     </div>
                     <div class="cart-title-5">
-                        <h4 class="section-all my-0 py-0 hide-wave">Borrar</h4>
+                        <h4 class="section-all my-0 py-0 hide-wave" style='font-size: 1.5rem;'>Borrar</h4>
                     </div>
                     
                 </div>
+
+                <?php
+                    }
+               ?>
                 <!-- Loopear a traves de las sesioens del carito -->
                 <?php
                 //Si el carrito de compras no esta vacio
@@ -196,7 +223,7 @@ if(filter_input(INPUT_GET, 'action') == 'borrar'){
                                 <?php
                                     }
                                 ?>
-                                <h6>Bs <?php echo number_format($producto['precio'], 2);?> / unidad</h6>
+                                <h6 style='font-weight: bold;'>Bs <?php echo number_format($producto['precio'], 2);?> / unidad</h6>
                             </div>
                         </div>
                     </div>
@@ -263,11 +290,11 @@ if(filter_input(INPUT_GET, 'action') == 'borrar'){
                     <!-- total -->
                     <div class="row container total-area my-1 pt-2">
                         <div class="col">
-                            <h4 class="subtitle title-checkout">TOTAL: </h4>
+                            <h4 class="subtitle title-checkout" style='font-weight: bold;'>TOTAL: </h4>
                         </div>
                         
                         <div class="col">
-                           <h4 class="subtitle">Bs <?php echo number_format($total, 2); ?></h4>
+                           <h4 class="subtitle" style='font-weight: bold;'>Bs <?php echo number_format($total, 2); ?></h4>
                         </div>
                     </div>
                     
@@ -305,14 +332,14 @@ if(filter_input(INPUT_GET, 'action') == 'borrar'){
                 if(isset($_SESSION['carrito_compras'])) {
                     if(count($_SESSION['carrito_compras']) == 0) {
                         
-                        echo('<h1 class="text-center my-3">Your carrito is empty!</h1>');
-                        echo('<div class="text-center py-3"><img src="../../Assets/images/cart/sad.png" class="img-fluid" style="max-width:17%;"></div>');
+                        echo('<h1 class="text-center my-3">¡Tu Carrito Esta Vacio!</h1>');
+                        echo('<div class="text-center py-3"><img style="max-width: 17%;background: linear-gradient(45deg, #ff9ea7, transparent);border-radius: 50%;padding: 2rem;box-shadow: 1px 1px 20px 3px #979797;" src="../../Assets/images/cart/sad.png" class="img-fluid" style="max-width:17%;"></div>');
                         echo('<div class="text-center py-3"><a href="../ProductoComponent/productos.php" class="button button__round">Compra Ahora</a></div>');
                      }// == 0
                  }//Fin del Isset
                  else { //Si el carrito de compra no esta setiado
                     echo('<h1 class="text-center my-3">Tu carrito no esta activo!</h1>');
-                    echo('<div class="text-center py-3"><img src="../../Assets/images/cart/sad.png" class="img-fluid" style="max-width:17%;"></div>');
+                    echo('<div class="text-center py-3"><img img style="max-width: 17%;background: linear-gradient(45deg, #ff9ea7, transparent);border-radius: 50%;padding: 2rem;box-shadow: 1px 1px 20px 3px #979797;"  src="../../Assets/images/cart/sad.png" class="img-fluid" style="max-width:17%;"></div>');
                     echo('<div class="text-center py-3"><a href="../ProductoComponent/productos.php" class="button button__round">Compra Ahora</a></div>');
                  }
                 
