@@ -10,7 +10,7 @@ class Persona{
   public $apellido;     /*VARIABLES DE PERSONA*/
   public $telefono;
   public $direccion;
-  public $cargo;
+  public $cargo; 
 
 
     /*FUNCION PARA CREAR UNA NUEVA PERSONA*/
@@ -63,7 +63,7 @@ class Persona{
 
       public function editarPersona($nombre,$apellido,$cedula,$telefono,$direccion,$cargo){
         $tmodulo=new Modulo;   
-        if($rif==@$this->readPersona($cedula)['cedula']){
+        if($cedula==@$this->readPersona($cedula)['cedula']){
       
           die("<script>alert('Esta persona ya existe')</script>");
   
@@ -77,7 +77,7 @@ class Persona{
 
     public function editarCliente($nombre,$apellido,$cedula,$telefono,$direccion){
       $tmodulo=new Modulo;   
-      if($rif==@$this->readPersona($cedula)['cedula']){
+      if($cedula==@$this->readPersona($cedula)['cedula']){
     
         die("<script>alert('Esta persona ya existe')</script>");
 

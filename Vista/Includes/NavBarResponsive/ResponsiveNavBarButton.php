@@ -439,6 +439,7 @@
           </ul>
         </li>
 
+        <!--
         <li>
           <div class="icon-link">
             <a href="#">
@@ -453,7 +454,7 @@
             <li><a onclick="devolucion_salida()">De Salida</a></li>
 
           </ul>
-        </li>
+        </li> -->
 
         <li>
         <div class="icon-link">

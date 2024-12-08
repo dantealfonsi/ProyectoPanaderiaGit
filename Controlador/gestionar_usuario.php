@@ -12,7 +12,7 @@ class Usuario {
   ////////////////////*  public $llave = '12358132134'; */////////// Llave de Enriptado (Importante)
   
 
-  /*FUNCION PARA ENCRIPTAR CLAVE*/
+  /*FUNCION PARA ENCRIPTAR CLAVE*/ 
 
   public function encrypt($string, $key) {
     $result = '';
@@ -91,16 +91,16 @@ class Usuario {
   }
 
 
-
+*/
     
     public function borrarUsuario($cedula){
       $tmodulo=new Modulo;
-      $consulta = "UPDATE USUARIOS SET DELETED=1 WHERE CEDULA='{$cedula}'";
+      $consulta = "UPDATE usuario SET deleted=1 WHERE idusuario={$cedula}";
       $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta ) or die ( "Algo ha ido mal en Borrar el usuario");
     }
 
 
-  
+  /*
 
 
     public function editarUsuario($id,$nombre,$password,$nivel,$cedula){

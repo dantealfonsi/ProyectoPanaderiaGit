@@ -2,6 +2,16 @@
     include_once "../Includes/paths.php";
     include "../../Modelo/iniciarSesion.php";
     include "../../Modelo/modulo_proyecto.php";
+
+    //este valor determina el Nivel en la  base de datos del sistema
+    $cargos = [
+      '0' => 'Eventual',
+      '1' => 'Gerente',
+      '2' => 'Vendedor',
+      '3' => 'Panadero',
+      '4' => 'Obrero'
+    ];
+
 ?>
 
 <!DOCTYPE html>
@@ -61,30 +71,17 @@ include '../../Controlador/gestionar_usuario.php';
 $usuario = new Usuario;   
 $tmodulo=new Modulo;
 
-if(isset($_POST['agregar'])){
-
-  $usuario->crearUsuario($_POST['nombre'],$_POST['password'],$_POST['nivel'],$_POST['cedula']); 
-  $tmodulo->historial($_COOKIE['nombre'],$_COOKIE['cedula'],'AGREGO UN USARIO');
-
-}
-
-if(isset($_POST['guardar'])){
-  $usuario->editarUsuario($_POST['id'],$_POST['nombre'],$_POST['password'],$_POST['nivel'],$_POST['cedula']); /*guardar*/ 
-  $tmodulo->historial($_COOKIE['nombre'],$_COOKIE['cedula'],"EDITO EL USUARIO {$_POST['nombre']}");
-  $header = header("Location:crearusuario.php");
-  
-}
 
 if(isset($_GET['borrar'])){                         /*borrar*/ 
   $usuario->borrarUsuario($_GET['id']);
-  $tmodulo->historial($_COOKIE['nombre'],$_COOKIE['cedula'],'BORRO UN USUARIO');
-  $header = header("Location:crearusuario.php");
+  $tmodulo->historial($_SESSION['nombreUsuario'],$_SESSION['esAdmin'],'BORRO UN USUARIO');
+  $header = header("Location:usuario.php");
 }
     
 /*Empieza la caja grafica*/ 
 echo "
 
-<h1 class='titulo_caja'> CLIENTES </h1>
+<h1 class='titulo_caja'> USUARIOS </h1>
 
 <div class='flexbuttons'>      
 
@@ -94,143 +91,6 @@ echo "
 </div>
 
 <form id='form' action='crearusuario.php' method='POST'>";
-
-
-if (isset($_GET['agregar_usuario'])){
-  echo "
-  <div class='EditBox'>
-  
-  <fieldset>
-
-  <section style='display: flex; justify-content: space-between;'>
-
-    <h1 class='Fieldset-title'> AGREGAR NUEVO CLIENTE</h1>
-    
-      <a href='usuario.php' class='close-btn close-btnTitleOnly'> ⌦ </a> 
-    
-  </section>
-
-
-  <section class='form-section'>
-
-  <div class='first-line'>
-    <div class='flex-inside'>
-      Cédula: <br>
-      <input onfocusout=\"valCedula()\" autocomplete=off title='Seleccione la cedula'  list='listPersona' type='text' name='cedula' id='cedulaUsuario'>
-        <datalist id='listPersona'>
-        ";
-          $usuario->listPersona();
-    
-    echo "</datalist> 
-    </div>
-  </div>
-
-    <div class='first-line'>
-      <div class='flex-inside'>
-        Nombre de Usuario: <br>
-        <input onfocusout=\"valNombreUsuario()\" type='text' name='nombre' id='nombreUsuario' required title='Ingrese Nombre de Usuario'>
-      </div>
-    </div>
-
-    
-    <div class='second-line'>
-      <div class='flex-inside'>
-        Contraseña: <br> 
-        <input pattern='.{8}' onfocusout=\"valPassword()\" type='password' name='password' id='passwordUsuario' required title='Ingrese Contraseña(De 8 caracteres)'>
-      </div>
-    </div>
-    
-
-    <div class='third-line'>
-    <div class='flex-inside'>
-    Nivel: <br>
-    <input type='number' onfocusout=\"valNivel()\" name='nivel' id='nivelUsuario' min=0 max=1 value='1' title='Ingrese el nivel de usuario deseado'>
-    </div>
-  </div>
-</section>
-
-<button type='button' class='submitBtn' style='margin-left: 2.5rem;margin-top: 2.5rem;' onclick=\"agregarNuevo()\" name='agregarUsuario' id='agregarUsuario' >Agregar</button>
-  </fieldset>
-  </div>
-  ";
-}
-
-
-if (isset($_GET['edit'])){
-  $titulo=$_GET['nombre'];  
-  echo "
-<div class='EditBox'>
-
- 
-<fieldset>
-
-<section style='display: flex; justify-content: space-between;'>
-
-    <div>
-    <h1 class='titulo-Subtitulo'>Editar</h1>
-    <h1 class='subtitle_container'><span></span>$titulo</h1>
-    </div>
-  
-<a href='usuario.php' class='close-btn close-btnTitleOnly'> ⌦ </a> 
-  
-</section>
-
-
-<section class='form-section'>
-
-<input type='hidden' name='id' value='".$_GET['id']."'>
-<div class='first-line'>
-  <div class='flex-inside'>
-    Cédula: <br>
-    <input readonly title='Seleccione la cedula'  list='listPersona' type='text' name='cedula' id='cedulaUsuario' value='{$_GET['cedula']}'>
-      <datalist id='listPersona'>
-      ";
-        $usuario->listPersona();
-  
-  echo "</datalist> 
-  </div>
-</div>
-
-  <div class='first-line'>
-    <div class='flex-inside'>
-      Nombre de Usuario: <br>
-      <input pattern='(\w|\s)*' type='text' name='nombre'  id='nombreUsuario' onfocusout=\"valNombreUsuario()\" required title='Ingrese Nombre de Usuario' value='".$_GET['nombre']."'>
-    </div>
-  </div>
-
-  
-  <div class='second-line'>
-    <div class='flex-inside'>
-      Contraseña: <br> 
-      <input pattern='.{8}' type='password' name='password' onfocusout=\"valPassword()\"  id='passwordUsuario' required title='Ingrese Contraseña(De 8 caracteres)'  value='".$usuario->decrypt($_GET['password'],$tmodulo->llave)."' >
-    </div>
-  </div>
-  
-
-  <div class='third-line'>
-  <div class='flex-inside'>
-  Nivel: <br>"; 
-  if($_GET['nivel']==0){
-    echo "
-    <input readonly type='number' name='nivel' onfocusout=\"valNivel()\"  min=0 max=1  id='nivelUsuario' title='Ingrese el nivel de usuario deseado' value='".$_GET['nivel']."'>
-    ";
-  }else{
-    echo "
-    <input type='number' name='nivel' onfocusout=\"valNivel()\"  min=0 max=1 id='nivelUsuario' title='Ingrese el nivel de usuario deseado' value='".$_GET['nivel']."'>
-    ";
-  }
- 
-  echo"
-  </div>
-</div>
-</section>
-
-<button type='button' class='submitBtn' style='margin-left: 2.5rem;margin-top: 2.5rem;' name='guardar' onclick=\"guardarNuevo('{$_GET['id']}')\">Guardar</button> 
-</fieldset>
-</div>
-  ";
-}
-
 
 if (isset($_GET['detalle'])){
   
@@ -308,6 +168,7 @@ if (isset($_GET['detalle'])){
             <tr class='tr'>
               <th>NOMBRE</th>
               <th>CORREO</th>
+              <th>CARGO</th>
               <th>ACCIONES</th>
             </tr>
             </thead><tbody>";
@@ -318,6 +179,7 @@ if (isset($_GET['detalle'])){
       $cadena= $cadena . "<tr>
                             <td>".$row['nombre']."</td>
                             <td>".$row['correo']."</td>
+                            <td>".$cargos[$row['esadmin']]."</td>
                             <td>
                            <!-- <a  title='Ver detalle del Usuario'  href='?detalle=&detalleuser=0&cedula={$row['idusuario']}'><img id='icon-bt' src='../fonts/eye.svg'></a>
                             <a href='?user=&edit=0&id=". /*Query*/ 
@@ -337,7 +199,9 @@ if (isset($_GET['detalle'])){
                                 if($row['nombreusuario']==$_SESSION['nombreUsuario'] && $row['idusuario']==$_SESSION['IDusuario']  ){ // No eliminar tu propio Usuario//
                                   //$cadena=$cadena."<a onclick=\"alert('No puedes Eliminar a este Usuario')\"><img id='icon-bt' src='../fonts/erase1.png'></a>";
                               } else {
-                                $cadena=$cadena."<a title='Borrar'> <img id='icon-bt' src='../../Assets/images/inventory/erase.png' title='Borrar Usuario'> </a>";
+                                $cadena=$cadena."
+                                <a href='editarUsuario.php?id={$row['idusuario']}'><img id='icon-bt' src='../../Assets/images/inventory/edit.png'></a>
+                                <a onclick=\"borrar('{$row['idusuario']}')\" title='Borrar'> <img id='icon-bt' src='../../Assets/images/inventory/erase.png' title='Borrar Usuario'> </a>";
                               }
                             }
                             
@@ -387,7 +251,14 @@ $(document).ready(function() {
         },
         
         buttons:[
-
+          {
+                      text:      '<img id="table_icon" src="../../Assets/images/inventory/plus.png"></a>',
+                      className: 'square square-green',
+                      titleAttr: 'Agregar Nuevo Usuario',
+                      action: function ( e, dt, button, config ) {
+                      window.location = 'insertUsuario.php';
+                      }        
+                  },
             {
                 extend:    'collection',
                 text:      '<img id="table_icon_export" src="../../Assets/images/inventory/download.png"></i>',
@@ -736,7 +607,7 @@ if (result.isConfirmed) {
     'El Empleado ha sido borrado.',
     'success'
   ).then(function(){ 
-    window.location.href="crearusuario.php?user=&borrar=0&id="+ cedula;
+    window.location.href="usuario.php?user=&borrar=0&id="+ cedula;
  }
   );
 }

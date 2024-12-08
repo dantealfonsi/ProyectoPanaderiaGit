@@ -1,0 +1,29 @@
+
+-Cambiar icono y nombre al imprimir las tablas (ya que se muestra la version vieja, si puede cambiar el color de la tabla al imprimirse a q solo sea blanco y negro los colores en el pdf estaria bien)
+
+-Se puede dispensar de los datos de ID de el cliente o productos (es decir al mostrarlos en las tablas), se podría colocar el nombre del cliente en vez de eso en la tablas en la parte de cliente y la de modulo de transacciones
+
+[✓] -En Categorías cambiar nombre productos en venta a categoría de productos 
+
+
+[✓] -Colocar la sesión en el header el nombre del usuario q esta en la sesión, para dar a entender si esta iniciado un cliente o un admin
+
+-Ver estado de la compra, abonado y cuanto lleva abonado
+
+-Notificaciones de los pedidos Y De fechas de entrega (que notifique si ya paso la fecha de entrega)
+
+-Fecha de pedido y fecha de entrega
+
+-Mostrar las Existencias del producto (osea cuantos estan disponibles)
+
+-Whatsapp como medio  comunicación osea como opción secundaria  (pq lo del chat ese dia no agarro no se pq xd)
+
+[✓] -Quitar lo de devoluciones pq al parecer no se usara 
+
+-Exportar pdf, en algunos módulos no imprime
+
+[✓] -Gestión de usuarios (si es que no la tiene, pq solo salia lo de editar perfil, pero no gestion de usuarios como tal de todos los usuarios)
+
+-En la parte de "haz tu receta" que al elegir cada dato para q se haga la selección, estos queden guardados, si me voy a otra pestaña, eso quede guardado por donde de quedo, y quizás para eso podrías usar sesiones para eso lo q recomendó el profe, ya q se usa php.
+
+[✓]

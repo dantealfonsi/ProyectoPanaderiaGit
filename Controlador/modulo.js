@@ -394,7 +394,7 @@ function entrada(){
 
 function salida(){
   /*
-  producto=0;
+  producto=0; 
   cat=0;
   ent=1;
   sal=0;

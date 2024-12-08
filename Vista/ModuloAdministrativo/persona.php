@@ -339,7 +339,7 @@ echo "
                 "sInfoEmpty": "No hay entradas que mostrar"
               },
               
-              buttons:[
+              buttons:[ 
                 {
                       text:      '<img id="table_icon" src="../fonts/adds.svg"></a>',
                       className: 'square square-green',

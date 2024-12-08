@@ -421,7 +421,7 @@
 
           <ul class="sub-menu blank">
             <li><a onclick="categoriaInsumo()" id="link-name">De Insumos</a></li>
-            <li><a onclick="categoriaProducto()"  id="link-name">Productos en la Venta</a></li>
+            <li><a onclick="categoriaProducto()"  id="link-name">Categoria de Productos</a></li>
           </ul>
         </li>
 
@@ -441,6 +441,7 @@
           </ul>
         </li>
 
+        <!--
         <li>
           <div class="icon-link">
             <a href="#">
@@ -455,7 +456,7 @@
             <li><a onclick="devolucion_salida()">Devolver Fabricacion</a></li>
 
           </ul>
-        </li>
+        </li>-->
 
         <li>
         <div class="icon-link">
@@ -467,9 +468,9 @@
           
           <ul class="sub-menu blank">
             <li><a onclick="proveedores()">Proveedores</a></li> 
-            <!-- <li><a onclick="persona()">Usuarios</a></li>-->
+            <!--<li><a onclick="persona()">Usuarios</a></li>-->
             <!--<li><a >Empleados</a></li>-->
-            <li><a onclick="usuario()">Clientes</a></li>
+            <li><a onclick="usuario()">Usuarios</a></li>
           </ul>
         </li>
 

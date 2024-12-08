@@ -367,7 +367,7 @@ table{
 <div class="parent">
   <div class="card">
       <div class="content-box">
-          <span class="card-title"><?php echo $tmodulo->row_sqlconector("SELECT DATE(fecha) AS fecha, SUM(precio) AS total FROM carac_entrada WHERE fecha >= DATE_SUB(NOW(), INTERVAL 1 MONTH) GROUP BY DATE(fecha) ORDER BY fecha;")['total'] ?>BS</span>
+          <span class="card-title"><?php if(isset($tmodulo->row_sqlconector("SELECT DATE(fecha) AS fecha, SUM(precio) AS total FROM carac_entrada WHERE fecha >= DATE_SUB(NOW(), INTERVAL 1 MONTH) GROUP BY DATE(fecha) ORDER BY fecha;")['total'])) echo $tmodulo->row_sqlconector("SELECT DATE(fecha) AS fecha, SUM(precio) AS total FROM carac_entrada WHERE fecha >= DATE_SUB(NOW(), INTERVAL 1 MONTH) GROUP BY DATE(fecha) ORDER BY fecha;")['total'] ?>BS</span>
           <p class="card-content">
              Gasto en Entradas
           </p>

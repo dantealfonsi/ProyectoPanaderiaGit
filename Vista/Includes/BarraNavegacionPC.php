@@ -8,14 +8,19 @@
     }
     
     $page="index";
+    $usuario = "";
+    $admin = "";
     
     if(isset($_SESSION['nombreUsuario'])){
+        $usuario = $_SESSION['nombreUsuario'];
         if($_SESSION['esAdmin'] == 1)
         {
+            $admin = "Admin: ";
             $href= $GLOBALS['ROOT_PATH'].'/Vista/Admin/panelAdmin.php';
         }
         else
         {
+            $admin = "Usuario: ";
             $href= $GLOBALS['ROOT_PATH'].'/Vista/LoginComponent/cuentaUsuario.php';
         }
             $icono = 'bx--user-circle ';
@@ -123,7 +128,7 @@
             
             <li>
                 
-                <a href="<?php echo $href;?>" class="<?php if($page == 'login' || $page == 'verificarCuenta'){echo 'active';}?> user-button"><i class="<?php echo $icono;?>"></i></a>
+                <a href="<?php echo $href;?>" class="<?php if($page == 'login' || $page == 'verificarCuenta'){echo 'active';}?> user-button"><i class="<?php echo $icono;?>"></i><?php echo $admin . $usuario; ?></a>
         
             </li>
             
