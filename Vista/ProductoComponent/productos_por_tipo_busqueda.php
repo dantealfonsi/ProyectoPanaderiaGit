@@ -60,7 +60,8 @@
                            $product_id = $row['idproducto'];
                           
                         echo'<a href="producto.php?id_producto='.$producto_id.'" style="text-decoration: none;">
-                           <h4 class="product__name" id="product__name">'.$row['nombre_producto'].'</h4>
+                        <h5>Disponible '.$row['existencia'].'</h5>   
+                        <h4 class="product__name" id="product__name">'.$row['nombre_producto'].'</h4>
                            </a> ';
                            
                         echo '<span class="featured__price">BS '.$row['precio_producto'].'</span>

@@ -138,7 +138,8 @@ button:disabled{
     gap: 1rem;'>
         <div class="col">
             <h2 class="category" id="small_title" ></h2>
-            <h2 class="category-name " id="big_title" ></h2>
+            <h2 class="category-name " id="big_title" ></h2><br>
+            <button class="dropbtn button" onclick="reset()">Resetear Filtros</button>
         </div>
 
         <!--========== BOTÓN DE ORDENAR POR ==========-->
@@ -270,6 +271,22 @@ let filtros = [];
 document.getElementById('small_title').innerHTML = 'Personalizable';
 document.getElementById('big_title').innerHTML = '¡Busca tu torta a tu Gusto ya!';
 
+function loadFilters() {
+  const savedFilters = localStorage.getItem('filtros');
+  if (savedFilters) {
+    return JSON.parse(savedFilters);
+  }
+  return [];
+}
+
+filtros = loadFilters();
+realoadFilters();
+actualizarEtiqueta();
+
+function saveFilters(filters) {
+  localStorage.setItem('filtros', JSON.stringify(filters));
+}
+
 function stringPeso(valor){
     peso = valor;
     updateProgressBar(10);
@@ -277,7 +294,18 @@ function stringPeso(valor){
     document.getElementById('divpisos').classList.remove('disabled-div');
 
     document.getElementById('conten-pisos').classList.remove('disabled-conten-div');
-    agregarFiltro('Peso: '+valor+' kg');
+
+    if (filtros && !contieneSubcadena(filtros, 'Peso')){
+        filtros.push('Peso: '+valor+' kg');
+        saveFilters(filtros);
+    }
+
+    if(!filtros && !contieneSubcadena(filtros, 'Peso')){
+        filtros.push('Peso: '+valor+' kg');
+        saveFilters(filtros);        
+    }
+
+    actualizarEtiqueta();
 }
 
 function stringPisos(valor){
@@ -287,7 +315,18 @@ function stringPisos(valor){
     document.getElementById('divmodelo').classList.remove('disabled-div');    
 
     document.getElementById('conten-modelo').classList.remove('disabled-conten-div');
-    agregarFiltro('Piso(s): '+valor+'');
+
+    if (filtros && !contieneSubcadena(filtros, 'Piso(s)')){
+        filtros.push('Piso(s): '+valor+'');
+        saveFilters(filtros);
+    }
+
+    if(!filtros && !contieneSubcadena(filtros, 'Piso(s)')){
+        filtros.push('Piso(s): '+valor+'');
+        saveFilters(filtros);        
+    }
+
+    actualizarEtiqueta();
 }
 
 function stringModelo(valor){
@@ -297,21 +336,45 @@ function stringModelo(valor){
     document.getElementById('divbizcocho').classList.remove('disabled-div');
 
     document.getElementById('conten-bizcocho').classList.remove('disabled-conten-div');
-    agregarFiltro('Modelo: '+valor+'');
+
+    if (filtros && !contieneSubcadena(filtros, 'Modelo:')){
+        filtros.push('Modelo: '+valor+'');
+        saveFilters(filtros);
+    }
+
+    if(!filtros && !contieneSubcadena(filtros, 'Modelo:')){
+        filtros.push('Modelo: '+valor+'');
+        saveFilters(filtros);        
+    }
+
+    actualizarEtiqueta();    
 }
 
 function stringBizcocho(valor){
     bizcocho = valor;
+    let textValor = "";
     updateProgressBar(50);
     document.getElementById('divbizcocho').classList.add('disabled-div');
     document.getElementById('divrelleno').classList.remove('disabled-div');    
 
     document.getElementById('conten-relleno').classList.remove('disabled-conten-div');
     if(valor*1===1){
-        agregarFiltro('Bizcocho');    
+        textValor = 'Bizcocho';    
     }else {
-        agregarFiltro('');    
+        textValor = 'No Bizcocho';    
     }    
+
+    if (filtros && !contieneSubcadena(filtros, 'Bizcocho')){
+        filtros.push(textValor);
+        saveFilters(filtros);
+    }
+
+    if(!filtros && !contieneSubcadena(filtros, 'Bizcocho')){
+        filtros.push(textValor);
+        saveFilters(filtros);        
+    }
+
+    actualizarEtiqueta();       
 }
 
 function stringRelleno(valor){
@@ -321,7 +384,18 @@ function stringRelleno(valor){
     document.getElementById('divcubierta').classList.remove('disabled-div');
 
     document.getElementById('conten-cubierta').classList.remove('disabled-conten-div');
-    agregarFiltro('Relleno de: '+valor+'');
+
+    if (filtros && !contieneSubcadena(filtros, 'Relleno')){
+        filtros.push('Relleno de: '+valor+'');
+        saveFilters(filtros);
+    }
+
+    if(!filtros && !contieneSubcadena(filtros, 'Relleno')){
+        filtros.push('Relleno de: '+valor+'');
+        saveFilters(filtros);        
+    }
+
+    actualizarEtiqueta();   
 }
 
 function stringCubierta(valor){
@@ -331,18 +405,40 @@ function stringCubierta(valor){
     document.getElementById('divpersona').classList.remove('disabled-div');
 
     document.getElementById('conten-persona').classList.remove('disabled-conten-div');
-    agregarFiltro('Cubierta Color: '+valor+'');
+
+    if (filtros && !contieneSubcadena(filtros, 'Cubierta')){
+        filtros.push('Cubierta Color: '+valor+'');
+        saveFilters(filtros);
+    }
+
+    if(!filtros && !contieneSubcadena(filtros, 'Cubierta')){
+        filtros.push('Cubierta Color: '+valor+'');
+        saveFilters(filtros);        
+    }
+
+    actualizarEtiqueta();  
 }
 
 function stringPersona(valor){
     persona = valor;
     updateProgressBar(100);
     document.getElementById('divpersona').classList.add('disabled-div');
-    agregarFiltro('Para: '+valor+'');
+
+    if (filtros && !contieneSubcadena(filtros, 'Para')){
+        filtros.push('Para: '+valor+'');
+        saveFilters(filtros);
+    }
+
+    if(!filtros && !contieneSubcadena(filtros, 'Para')){
+        filtros.push('Para: '+valor+'');
+        saveFilters(filtros);        
+    }
+
+    actualizarEtiqueta();     
 }
 
     //FUNCIÓN DE TIPO DE PRODUCTOS - MUESTRA SIN CARGA
-    function mostrar_productos_por_tipo(tipo_p, consulta) {
+function mostrar_productos_por_tipo(tipo_p, consulta) {
     var xhttp;
 
     // AJAX
@@ -415,18 +511,12 @@ function updateProgressBar(progress) {
 
     if (progress === 100) {
         buscarDatos(); // Llama a la función de búsqueda
-        reset();
+        //reset();
     }
-    // Habilita o deshabilita el botón de búsqueda según el progreso
-    /*const searchButton = document.getElementById('searchButton');
-    searchButton.disabled = progress < 100;*/
 }
 
-
-
-function agregarFiltro(filtro) {
-    filtros.push(filtro);
-    actualizarEtiqueta();
+function contieneSubcadena(array, subcadena) {
+  return array.some(elemento => elemento.includes(subcadena));
 }
 
 function actualizarEtiqueta() {
@@ -451,7 +541,6 @@ function actualizarEtiqueta() {
     }
 }
 
-
 function reset(){
     peso = "";
     pisos = "";
@@ -460,7 +549,7 @@ function reset(){
     relleno="";
     cubierta="";
     persona="";
-    filtros = ''; 
+    filtros = []; 
     updateProgressBar(0);
     document.getElementById('divpeso').classList.remove('disabled-div');
     document.getElementById('conten-pisos').classList.add('disabled-conten-div');
@@ -469,6 +558,33 @@ function reset(){
     document.getElementById('conten-relleno').classList.add('disabled-conten-div');
     document.getElementById('conten-cubierta').classList.add('disabled-conten-div');
     document.getElementById('conten-persona').classList.add('disabled-conten-div');
+    saveFilters();
+    actualizarEtiqueta();
+}
+
+function realoadFilters(){
+    
+    if (filtros && contieneSubcadena(filtros, 'Peso')){
+        document.getElementById('divpeso').classList.add('disabled-div');
+    }
+    if (filtros && contieneSubcadena(filtros, 'Piso(s)')){
+        document.getElementById('divpisos').classList.add('disabled-div');
+    }
+    if (filtros && contieneSubcadena(filtros, 'Modelo:')){
+        document.getElementById('divmodelo').classList.add('disabled-div');
+    }
+    if (filtros && contieneSubcadena(filtros, 'Bizcocho')){
+        document.getElementById('divbizcocho').classList.add('disabled-div');
+    }    
+    if (filtros && contieneSubcadena(filtros, 'Relleno')){
+        document.getElementById('divrelleno').classList.add('disabled-div');
+    }
+    if (filtros && contieneSubcadena(filtros, 'Cubierta')){
+        document.getElementById('divcubierta').classList.add('disabled-div');
+    }    
+    if (filtros && contieneSubcadena(filtros, 'Para')){
+        document.getElementById('divpersona').classList.add('disabled-div');
+    }
 }
     </script>
 </body>

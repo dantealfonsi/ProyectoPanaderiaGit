@@ -43,7 +43,7 @@
 
                    <div class="featured__data">
                     
-                       <a href="producto.php?id_producto='.$id_producto.'" class="product__name" id="product__name" style="text-decoration: none;"><h4>'.$row_product['nombre_producto'].'</h4></a>
+                       <a href="producto.php?id_producto='.$id_producto.'" class="product__name" id="product__name" style="text-decoration: none;"><h5>Disponible '.$row_product['existencia'].'</h5><h4>'.$row_product['nombre_producto'].'</h4></a>
                        <span class="featured__price">Bs '.$row_product['precio_producto'].'</span>
                       
                    </div>

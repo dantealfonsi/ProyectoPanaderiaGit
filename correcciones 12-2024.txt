@@ -3,27 +3,36 @@
 
 -Se puede dispensar de los datos de ID de el cliente o productos (es decir al mostrarlos en las tablas), se podría colocar el nombre del cliente en vez de eso en la tablas en la parte de cliente y la de modulo de transacciones
 
-[✓] -En Categorías cambiar nombre productos en venta a categoría de productos 
+-Exportar pdf, en algunos módulos no imprime
 
+-Whatsapp como medio  comunicación osea como opción secundaria  (pq lo del chat ese dia no agarro no se pq xd)
+
+[✓] -En Categorías cambiar nombre productos en venta a categoría de productos 
 
 [✓] -Colocar la sesión en el header el nombre del usuario q esta en la sesión, para dar a entender si esta iniciado un cliente o un admin
 
 [✓] -Ver estado de la compra, abonado y cuanto lleva abonado
+    [Notas: al administrador cambiar el estado a abonado un inputbox pedira la cantidad abonada, esta se guardara en la base de datos y se reflejara en factura en pantalla]
 
 [✓] -Notificaciones de los pedidos Y De fechas de entrega (que notifique si ya paso la fecha de entrega)
+     [Notas: al administrador revisar sus ventas si tiene pedidos que expiran en la fecha manda una notificacion automatica al cliente incusi comienza a mandar notificaciones un dia antes de vencer]
 
 [✓] -Fecha de pedido y fecha de entrega
+    [Notas: esta se coloca al crear el pedido antes de enviar el pago y se marca la fecha de entrega en dias en el historial tanto del cliente como del administrador]
 
--Mostrar las Existencias del producto (osea cuantos estan disponibles)
-
--Whatsapp como medio  comunicación osea como opción secundaria  (pq lo del chat ese dia no agarro no se pq xd)
+[✓] -Mostrar las Existencias del producto (osea cuantos estan disponibles)
+    [Notas: Se muestra la existencia Disponible como etiqueta en los productos antes y durante la compra]
 
 [✓] -Quitar lo de devoluciones pq al parecer no se usara 
+    [Notas: se elimina del menu del adminitrador la opcion]
 
--Exportar pdf, en algunos módulos no imprime
 
 [✓] -Gestión de usuarios (si es que no la tiene, pq solo salia lo de editar perfil, pero no gestion de usuarios como tal de todos los usuarios)
+    [Notas: se cambia el area del cliente a Usuarios y se le da la opcion completa de gestion tanto de incluir como de editarlo.]
 
--En la parte de "haz tu receta" que al elegir cada dato para q se haga la selección, estos queden guardados, si me voy a otra pestaña, eso quede guardado por donde de quedo, y quizás para eso podrías usar sesiones para eso lo q recomendó el profe, ya q se usa php.
+[✓] -En la parte de "haz tu receta" que al elegir cada dato para q se haga la selección, estos queden guardados, si me voy a otra pestaña, eso quede guardado por donde de quedo, y quizás para eso podrías usar sesiones para eso lo q recomendó el profe, ya q se usa php.
+    [notas: se agrega un boton de resetear los filtros para llevar a cero la busqueda que queda guardada en el localstorage]
 
 [✓]
+
+

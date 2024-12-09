@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 08-12-2024 a las 16:07:11
+-- Tiempo de generación: 09-12-2024 a las 04:16:35
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -426,6 +426,13 @@ CREATE TABLE `itemcarrito` (
   `iscustom` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `itemcarrito`
+--
+
+INSERT INTO `itemcarrito` (`iditemcarrito`, `idproducto`, `idcarrito`, `precio`, `cantidad`, `fechacreacion`, `motivo`, `iscustom`) VALUES
+(67, 103, 21, 134.212, 1, '2024-12-09 02:08:03', 'null', 0);
+
 -- --------------------------------------------------------
 
 --
@@ -531,7 +538,7 @@ CREATE TABLE `pedido_usuario` (
   `municipio` varchar(200) NOT NULL,
   `localidad` varchar(200) NOT NULL,
   `estado` varchar(200) NOT NULL DEFAULT 'SOLICITUD',
-  `fechacreacion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `fechacreacion` date NOT NULL DEFAULT current_timestamp(),
   `fechapedido` date DEFAULT curdate()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -540,8 +547,8 @@ CREATE TABLE `pedido_usuario` (
 --
 
 INSERT INTO `pedido_usuario` (`idpedido`, `idusuario`, `total`, `abono`, `direccion`, `telefono`, `municipio`, `localidad`, `estado`, `fechacreacion`, `fechapedido`) VALUES
-(30, 11, 46.8687, 0, 'asasdasd', '', 'Bermúdez', 'Carupano', 'ABONADO', '2024-11-07 23:58:57', '2024-11-15'),
-(31, 11, 134.212, 0, 'CALLE', '', 'Bermúdez', 'Carupano', 'PAGADO', '2024-11-24 16:31:24', '2024-11-11');
+(30, 11, 46.8687, 46.8687, 'asasdasd', '', 'Bermúdez', 'Carupano', 'PAGADO', '2024-12-08', '2024-12-19'),
+(31, 11, 134.212, 0, 'CALLE', '', 'Bermúdez', 'Carupano', 'PAGADO', '2024-11-24', '2024-11-25');
 
 -- --------------------------------------------------------
 
@@ -601,7 +608,7 @@ CREATE TABLE `productos` (
 --
 
 INSERT INTO `productos` (`idproducto`, `idreceta`, `nombre_producto`, `descripcion_producto`, `imagen_producto`, `precio_producto`, `categoria_producto`, `habilitado`, `existencia`, `iscustom`, `peso`, `pisos`, `modelos`, `bizcocho`, `relleno`, `cubierta`, `motivo`, `persona`, `idtipo`) VALUES
-(103, 'e3ed13e9aa', 'pastel de vainilla', 'torta de vainilla ideales para tu cumpleaños ', '/ProyectoPanaderiaGit/Assets/productoimagenes/901492e229.jpeg', 134.212, 11, 1, 1, 0, 0, 1, '', 0, '', '', '', 'niño', 0),
+(103, 'e3ed13e9aa', 'pastel de vainilla', 'torta de vainilla ideales para tu cumpleaños ', '/ProyectoPanaderiaGit/Assets/productoimagenes/901492e229.jpeg', 134.212, 11, 1, 2, 0, 0, 1, '', 0, '', '', '', 'niño', 0),
 (104, 'e3ed13e9aa', 'Pastel de Auyama', 'Torta de Auyama', '/ProyectoPanaderiaGit/Assets/productoimagenes/f3d2502851.jpeg', 10, 10, 1, 100, 1, 1, 1, 'redonda', 1, 'vainilla', 'blanco', '', 'niño', 0);
 
 -- --------------------------------------------------------
@@ -734,7 +741,7 @@ INSERT INTO `transaccion` (`idtransaccion`, `idusuario`, `idpedido`, `metodopago
 (36, 6, 22, 'transferencia', 'EN PROCESO', '2024-09-18 02:39:53'),
 (37, 6, 23, 'transferencia', 'PAGADO', '2024-09-19 00:09:56'),
 (44, 6, 29, 'efectivo', 'SOLICITUD', '2024-09-18 20:12:58'),
-(45, 11, 30, 'pagomovil', 'ABONADO', '2024-11-07 23:58:57'),
+(45, 11, 30, 'pagomovil', 'PAGADO', '2024-12-08 20:55:05'),
 (46, 11, 31, 'pagomovil', 'PAGADO', '2024-11-24 16:31:24');
 
 -- --------------------------------------------------------
@@ -1072,7 +1079,7 @@ ALTER TABLE `historial`
 -- AUTO_INCREMENT de la tabla `itemcarrito`
 --
 ALTER TABLE `itemcarrito`
-  MODIFY `iditemcarrito` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
+  MODIFY `iditemcarrito` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- AUTO_INCREMENT de la tabla `itempedido`
@@ -1090,7 +1097,7 @@ ALTER TABLE `itemrecetas`
 -- AUTO_INCREMENT de la tabla `notificaciones`
 --
 ALTER TABLE `notificaciones`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT de la tabla `pedido_usuario`

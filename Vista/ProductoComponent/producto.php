@@ -303,8 +303,8 @@ input[type=number]:hover,input[type=number]:active  {
             <!-- INPUT CANTIDAD -->
             <form id="form-pd" method="POST" action="producto.php?action=add&id_producto=<?php echo $id_producto; ?>">
                 <div class="box my-4">
-                    <label class="subtitle" style="margin-left: 2.7rem; 
-                    margin-bottom: .8rem; font-weight: 700; color: black; ">Cantidad</label><br>
+                    <label class="subtitle" style="margin-left: 1rem; 
+                    margin-bottom: .5rem; font-weight: 700; color: black; ">Cantidad Disponible <?php echo $existencia?> </label><br>
                     <input type="number" style='color:black; display:inline;width: 5rem !important;' value="1" min="1" max="<?php echo $existencia; ?>" name= "cantidad_entrada" id= "input-quantity" class="input-quantity mx-2 p-3 px-4">
                     <input type="hidden" name="nombre" value="<?php echo $nombre_producto;?>" />
                     <input type="hidden" class="show_id" name="id_producto" value="<?php echo $id_producto;?>" />
