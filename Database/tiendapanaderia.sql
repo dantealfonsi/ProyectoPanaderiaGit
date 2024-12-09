@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 29-11-2024 a las 04:26:04
+-- Tiempo de generación: 08-12-2024 a las 16:07:11
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -378,7 +378,8 @@ INSERT INTO `historial` (`id`, `fecha`, `nombre_usuario`, `cedula`, `ubicacion`)
 (74, '2024-11-24 12:44:50', 'juango', 11, 'AGREGO UNA DEVOLUCION DE INSUMOS'),
 (75, '2024-11-24 12:45:10', 'juango', 11, 'AGREGO UNA DEVOLUCION POR FABRICACION'),
 (76, '2024-11-24 15:37:16', 'juango', 11, 'AGREGO UNA SALIDA'),
-(77, '2024-11-24 15:38:40', 'juango', 11, 'AGREGO UNA DEVOLUCION DE INSUMOS');
+(77, '2024-11-24 15:38:40', 'juango', 11, 'AGREGO UNA DEVOLUCION DE INSUMOS'),
+(78, '2024-12-08 02:46:37', 'pepes', 1, 'BORRO UN USUARIO');
 
 -- --------------------------------------------------------
 
@@ -523,7 +524,8 @@ CREATE TABLE `notificaciones` (
 CREATE TABLE `pedido_usuario` (
   `idpedido` bigint(20) NOT NULL,
   `idusuario` bigint(20) NOT NULL,
-  `total` float NOT NULL,
+  `total` float NOT NULL DEFAULT 0,
+  `abono` float NOT NULL DEFAULT 0,
   `direccion` varchar(100) NOT NULL,
   `telefono` varchar(8) NOT NULL,
   `municipio` varchar(200) NOT NULL,
@@ -537,9 +539,9 @@ CREATE TABLE `pedido_usuario` (
 -- Volcado de datos para la tabla `pedido_usuario`
 --
 
-INSERT INTO `pedido_usuario` (`idpedido`, `idusuario`, `total`, `direccion`, `telefono`, `municipio`, `localidad`, `estado`, `fechacreacion`, `fechapedido`) VALUES
-(30, 11, 46.8687, 'asasdasd', '', 'Bermúdez', 'Carupano', 'ABONADO', '2024-11-07 23:58:57', '2024-11-15'),
-(31, 11, 134.212, 'CALLE', '', 'Bermúdez', 'Carupano', 'PAGADO', '2024-11-24 16:31:24', '2024-11-11');
+INSERT INTO `pedido_usuario` (`idpedido`, `idusuario`, `total`, `abono`, `direccion`, `telefono`, `municipio`, `localidad`, `estado`, `fechacreacion`, `fechapedido`) VALUES
+(30, 11, 46.8687, 0, 'asasdasd', '', 'Bermúdez', 'Carupano', 'ABONADO', '2024-11-07 23:58:57', '2024-11-15'),
+(31, 11, 134.212, 0, 'CALLE', '', 'Bermúdez', 'Carupano', 'PAGADO', '2024-11-24 16:31:24', '2024-11-11');
 
 -- --------------------------------------------------------
 
@@ -768,7 +770,9 @@ INSERT INTO `usuario` (`idusuario`, `idpersona`, `nombreusuario`, `contrasena`, 
 (5, '', 'pepes', '$2y$10$wkoJJFdBY1IyahK2PXwu/.AnGrWdh5KpijABJ32CdfHF/TzOqShTC', 'pepes admin', 'verazxx', 'pepe@gmail.com', 'xx xxxx', 'xxx', 'xxx', 'f424ffb8411b6cefe3bd4f3461371575', 1, 0, 1, '2024-05-25 02:36:57', 0),
 (6, '', 'pedro', '$2y$10$KXCKoqgWEmhVkS4W006XD.80YuhlK72umUALwFJBTp9l9mJ025NHO', 'Pedro', 'Parker josefo', 'pedroparker@gmail.com', '1235 s aaaaaaaa', '04264804', '', 'd2612ee7435844101f35be825b58ef36', 1, 0, 0, '2024-05-25 02:56:43', 0),
 (9, '0e993ab333', 'juan', '$2y$10$YhXWDAf8yWkTPza1v6IIuuKMfEz47unzvhHv393UIVvYMoVQ9o8wK', 'Juan', 'Perez', 'juanperez@gmail.com', 'calle 174', '04264804', '', 'e0e5fb8cb10a54db30616165ed611f03', 1, 0, 2, '2024-06-05 17:52:16', 0),
-(11, '37ce1eceaa', 'juango', '$2y$10$36ChivyzPFhjQp9FkamiSusjO7YPYayjIUft4sBEpzAfwQI/1A0xC', 'Juan', 'Hernandez', 'juan@gmail.com', '', '', '', 'ba87eacf39122dc2fc9da1749319ebee', 1, 0, 1, '2024-11-07 22:25:17', 0);
+(11, '37ce1eceaa', 'juango', '$2y$10$36ChivyzPFhjQp9FkamiSusjO7YPYayjIUft4sBEpzAfwQI/1A0xC', 'Juan cacao', 'Hernandez', 'juan@gmail.com', '', '', '', 'ba87eacf39122dc2fc9da1749319ebee', 1, 0, 0, '2024-12-08 12:43:53', 0),
+(12, 'e5b6b02d0b', 'Daniel', '$2y$10$UM2ltk5SfM3uMUZc.72EZOMUz.L5cGM6sd2qeRs1kYlhXnQ/llGVC', 'Daniel', 'Alfonsi', 'alfonsi.acosta@gmail.com', '', '', '', '0ea96ea7360ce22f0bea82ed5fb91da6', 1, 0, 1, '2024-12-08 02:42:12', 1),
+(13, '0ea8b738ad', 'Danielca', '$2y$10$NU5sEX9Zu6Wee3H1bhobH.LuqqdcoDjlKkqjjepyAbb/Dm4WIl2Jm', 'Daniel', 'Alfonsi', 'alfonsi@gmail.com', '', '', '', '105aac05112161bb3aae5fec138f079f', 1, 0, 0, '2024-12-08 02:46:37', 1);
 
 -- --------------------------------------------------------
 
@@ -1062,7 +1066,7 @@ ALTER TABLE `ds11`
 -- AUTO_INCREMENT de la tabla `historial`
 --
 ALTER TABLE `historial`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 
 --
 -- AUTO_INCREMENT de la tabla `itemcarrito`
@@ -1128,7 +1132,7 @@ ALTER TABLE `transaccion`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `idusuario` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `idusuario` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `v11`

@@ -8,7 +8,7 @@
     include "conexion.php"; 
     
 ?>
-
+ 
 <?php
 
 if(isset($_GET['consultaexistencias'])){
@@ -138,6 +138,10 @@ if(isset($_GET['consultaexistencias'])){
         return date_format($date,"d/m/Y");
     }
 
+    function formatPrice($monto,$moneda){
+        return number_format($monto,2,".","") . $moneda;
+    }
+
     /*
         SELECT productos.IDproducto, productos.nombre_producto, itempedido.cantidad, productos.precio_producto FROM itempedido INNER JOIN productos on itempedido.IDproducto = productos.IDproducto where itempedido.IDpedido = 10;
         SELECT pedido_usuario.fechaCreacion, pedido_usuario.telefono,pedido_usuario.direccion,transaccion.metodoPago, transaccion.estado FROM transaccion INNER JOIN pedido_usuario on pedido_usuario.IDpedido = transaccion.IDpedido where transaccion.IDpedido = 10;
@@ -145,7 +149,7 @@ if(isset($_GET['consultaexistencias'])){
     */
     $idPedido= $_GET['idpedido'];
     $Q_selecciona_tiket = "SELECT productos.idproducto, productos.nombre_producto, itempedido.iscustom,itempedido.motivo, itempedido.cantidad, productos.precio_producto FROM itempedido INNER JOIN productos on itempedido.idproducto = productos.idproducto where itempedido.idpedido =".$idPedido;
-    $Q_selecciona_info_pedido =  "SELECT pedido_usuario.idusuario, pedido_usuario.fechacreacion,pedido_usuario.fechapedido, pedido_usuario.telefono,pedido_usuario.direccion,pedido_usuario.total,transaccion.metodopago, transaccion.estado FROM transaccion INNER JOIN pedido_usuario on pedido_usuario.idpedido = transaccion.idpedido where transaccion.idpedido =".$idPedido;    
+    $Q_selecciona_info_pedido =  "SELECT pedido_usuario.idusuario, pedido_usuario.fechacreacion,pedido_usuario.fechapedido, pedido_usuario.telefono,pedido_usuario.direccion,pedido_usuario.total, pedido_usuario.abono, transaccion.metodopago, transaccion.estado FROM transaccion INNER JOIN pedido_usuario on pedido_usuario.idpedido = transaccion.idpedido where transaccion.idpedido =".$idPedido;    
     
     $resultado= mysqli_query($conn, $Q_selecciona_info_pedido);
 
@@ -158,6 +162,8 @@ if(isset($_GET['consultaexistencias'])){
     $telefono = $infoPedido['telefono'];
     $direccion = $infoPedido['direccion'];
     $total = $infoPedido['total'];
+    $abono = $infoPedido['abono'];
+    $resta = $total - $abono;
     $metodoPago = $infoPedido['metodopago'];
     $estado = $infoPedido['estado'];
 
@@ -191,11 +197,18 @@ if(isset($_GET['consultaexistencias'])){
         }
         $tiket = $tiket . "<tr><td style='text-transform:capitalize;'>".$fila['nombre_producto']. $motivo."</td><td>".$fila['cantidad']."</td><td>".$fila['precio_producto']."</td></tr>";
     endwhile;
-        $tiket = $tiket . "</tbody></table><br><span style='font-size: 2rem;font-weight: 700;text-decoration: underline;font-family: 'roboto';'>Total a Pagar:
-        </span><span style='font-size: 2rem;color: white;background: linear-gradient(45deg, #D12B69, #ffa5a5);padding: 0.5rem;margin-left: 1rem;font-weight: 700;border-radius: 1rem;'>".$total."</span>";
+        $tiket = $tiket . "</tbody></table><br>
+        <table>
+        <tr><td><span style='font-size: 2rem;font-weight: 700;text-decoration: underline;font-family: 'roboto';'>Total a Pagar:</span></td>
+        <td><span style='font-size: 2rem;color: white;background: linear-gradient(45deg, #D12B69, #ffa5a5);padding: 0.5rem;margin-left: 1rem;font-weight: 700;border-radius: 1rem;'>" . formatPrice($total,"Bs") . "</span></td></tr>
+        <tr><td><span style='font-size: 2rem;font-weight: 700;text-decoration: underline;font-family: 'roboto';'>Abono:</span></td>
+        <td><span style='font-size: 2rem;color: white;background: linear-gradient(45deg, #D12B69, #ffa5a5);padding: 0.5rem;margin-left: 1rem;font-weight: 700;border-radius: 1rem;'>" . formatPrice($abono,"Bs") . "</span></td></tr>
+        <tr><td><span style='font-size: 2rem;font-weight: 700;text-decoration: underline;font-family: 'roboto';'>Resta a Pagar:</span></td>
+        <td><span style='font-size: 2rem;color: white;background: linear-gradient(45deg, #D12B69, #ffa5a5);padding: 0.5rem;margin-left: 1rem;font-weight: 700;border-radius: 1rem;'>" . formatPrice($resta,"Bs") . "</span></td></tr>
+        </table>";
   
     $obj = array('fechaEntrega' => $fechaEntrega, 'fechaPedido' => $fechaPedido,'telefono' => $telefono, 'direccion' => $direccion,
-    'total' => $total, 'metodoPago' => $metodoPago, 'estado' => $estado, 'tiket' => $tiket, 'numPedido' => $idPedido,
+    'total' => $total, 'abono'=> $abono, 'resta' => $resta, 'metodoPago' => $metodoPago, 'estado' => $estado, 'tiket' => $tiket, 'numPedido' => $idPedido,
     'nombre' => $nombre,'apellido' => $apellido,'usuario' => $usuario,'IDusuario' => $IDusuario);
   
     echo json_encode($obj);  

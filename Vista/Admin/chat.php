@@ -29,12 +29,12 @@
         <link rel="stylesheet" type="text/css" href="<?php echo $GLOBALS['ROOT_PATH'] ?>/css/icons.css">
         <!-- Animate CSS -->
         <link rel="stylesheet" type="text/css" href="<?php echo $GLOBALS['ROOT_PATH'] ?>/css/animate.min.css">
- 
+        <script src="../Javascript/SweetAlert/sweetalert2.all.min.js"></script>
   <script>
   function inicio(){
     readTicket();
   	myVar = setInterval(myTimer, 2000);
-  }
+  } 
 
   function readTicket(){
     let id = document.getElementById('ticked').value;
@@ -45,7 +45,8 @@
                         document.getElementById('recibe').value=datos.IDusuario;
                         $("#fecha").html(datos.fechaEntrega);
                         $("#metodoPago").html(datos.metodoPago);
-                        $("#totalPagar").html(datos.total);
+                        $("#totalPagar").html(Math.round(datos.resta * 100) / 100);
+                        document.getElementById('sumaTotal').value=datos.total;
                         $("#estado").html(datos.estado);
                     });
     if(document.getElementById('notif').value != "0"){
@@ -91,15 +92,66 @@
   }
 
   function cambiarEstado() {
-    $.post("<?php echo $GLOBALS['ROOT_PATH'] ?>/Modelo/serverChat.php",
-  	  {
-  	    cambiarEstado: "Donald",
-        estado : document.getElementById("cambioEstado").value,      
-  	    tickedchat: document.getElementById('ticked').value
-  	  },
-  	  function(data){
-  		  $("#estado").html(data);  		  
-  	  });    
+    let estado = document.getElementById("cambioEstado").value;
+    let abono = '0';
+    if(estado === "ABONADO"){
+      Swal.fire({
+                    title: 'Abono a Pedido',
+                    input: 'number',
+                    inputLabel: 'Cantidad Abonada:  ',
+                    inputPlaceholder: '',
+                    showCancelButton: true,
+                    confirmButtonText: 'Aceptar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                      abono = String(result.value);
+                      $.post("<?php echo $GLOBALS['ROOT_PATH'] ?>/Modelo/serverChat.php",
+                      {
+                        cambiarEstado: "Donald",
+                        estado : document.getElementById("cambioEstado").value,      
+                        tickedchat: document.getElementById('ticked').value,
+                        abono: abono,
+                        recibe: document.getElementById('recibe').value,
+                        sumatotal: document.getElementById("sumaTotal").value
+                      },
+                      function(data){
+                        $("#estado").html(data);
+                        readTicket();
+                        verDetalles(<?php echo $_GET['idpedido']; ?>);		  
+                      });                          
+                    }
+                });
+    }
+    else{
+      Swal.fire({
+        title: 'Cambiar Estado del Pedido',
+        text: "¿Estás seguro? Cambiaras el estado del pedido.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, Cambiar',
+        cancelButtonText: 'No, mantener'
+    }).then((result) => {
+        if (result.isConfirmed) {
+          $.post("<?php echo $GLOBALS['ROOT_PATH'] ?>/Modelo/serverChat.php",
+          {
+            cambiarEstado: "Donald",
+            estado : document.getElementById("cambioEstado").value,      
+            tickedchat: document.getElementById('ticked').value,
+            abono: abono,
+            recibe: document.getElementById('recibe').value,
+            sumatotal: document.getElementById("sumaTotal").value
+          },
+          function(data){
+            $("#estado").html(data);
+            readTicket();
+            verDetalles(<?php echo $_GET['idpedido']; ?>);
+          });        
+        }
+      });
+    }
   }
 
   function verDetalles(id) {
@@ -332,6 +384,7 @@ if(isset($_SESSION['esAdmin']) && $_SESSION['esAdmin']==0){
   <input type='hidden' id='ticked' value='".$_GET['idpedido']."'>
   <input type='hidden' id='envia' value='".$_SESSION['IDusuario']."'>
   <input type='hidden' id='recibe' value=''>
+  <input type='hidden' id='sumaTotal' value='0'>
   <input type='hidden' id='notif' value='{$notificaciones}'>";
    ?>
 <!-- partial:index.partial.html -->

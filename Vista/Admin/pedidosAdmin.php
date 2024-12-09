@@ -88,7 +88,7 @@ function checkColor($estado){
        }
         </style>
 </head>
-<body>
+<body> 
 <?php $page = 'historialCompras';?>
 
   
@@ -104,6 +104,7 @@ function checkColor($estado){
                 <tr class='tr'>
                     <th>IDpedido</th>
                     <th>Fecha Entrega</th>
+                    <th>Dias</th>
                     <th>Estado</th>
                     <th>Direccion</th>
                     <th>Total Bs</th>
@@ -111,10 +112,25 @@ function checkColor($estado){
                 </tr>
             </thead>
             <tbody>
-                <?php while($fila = mysqli_fetch_assoc($resultado)): ?> 
+                <?php while($fila = mysqli_fetch_assoc($resultado)): 
+                    $dias = calcularDiasEntreFechas(date('Y-m-d'), $fila['fechapedido']);
+                    $colorExpira ="transparent";
+                    $msgExpira="";
+                    if($dias < 2){
+                        $colorExpira ="coral";
+                        $msgExpira="expirado";
+                        $chat_path = $GLOBALS['ROOT_PATH']."/Vista/Admin/panelAdmin.php";
+                        if(isset($_SESSION['esAdmin']) && $_SESSION['esAdmin'] == 1){
+                            $chat_path = $GLOBALS['ROOT_PATH']."/Vista/Admin/chat.php";
+                        }                        
+                        $Q_consulta = "INSERT INTO notificaciones (idusuario,noticia,ubicacion) VALUES(".$fila['idusuario'].",'Su  pedido #".$fila['idpedido']." Esta por expirar Favor pase retirando', '". $chat_path ."?chat=&idpedido=".$fila['idpedido']."')";
+                        mysqli_query($GLOBALS['conn'], $Q_consulta); 
+                    }
+                    ?> 
                 <tr>
                     <td><?php echo $fila['idpedido']; ?></td>
                     <td><?php echo historifecha($fila['fechapedido']); ?></td>
+                    <td style="background: <?php echo $colorExpira;?>;"><?php echo $dias ." ". $msgExpira; ?></td>
                     <td style="background-color:<?php echo checkColor($fila['estado'])?>;font-weight:800;"><?php echo $fila['estado']; ?></td>
                     <td><?php echo $fila['direccion']; ?></td>
                     <td><?php echo $fila['total']; ?> <b>BS<b></td>

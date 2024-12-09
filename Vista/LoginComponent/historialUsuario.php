@@ -91,6 +91,7 @@ function checkColor($estado){
                     <th>IDpedido</th>
                     <th>Telefono</th>
                     <th>Fecha Entrega</th>
+                    <th>Dias</th>
                     <th>Estado</th>
                     <th>Direccion</th>
                     <th>Total(Bs)</th>
@@ -98,11 +99,20 @@ function checkColor($estado){
                 </tr>
             </thead>
             <tbody>
-                <?php while($fila = mysqli_fetch_assoc($resultado)): ?>
+                <?php while($fila = mysqli_fetch_assoc($resultado)): 
+                    $dias = calcularDiasEntreFechas(date('Y-m-d'), $fila['fechapedido']);
+                    $colorExpira ="transparent";
+                    $msgExpira="";
+                    if($dias < 2){
+                        $colorExpira ="coral";
+                        $msgExpira="expirado";
+                    }                    
+                ?>
                 <tr>
                     <td ><?php echo $fila['idpedido']; ?></td>
                     <td><?php echo $fila['telefono']; ?></td>
                     <td><?php echo historifecha($fila['fechapedido']); ?></td>
+                    <td style="background: <?php echo $colorExpira;?>;"><?php echo $dias ." ". $msgExpira; ?></td>
                     <td style="background-color:<?php echo checkColor($fila['estado'])?>"><?php echo $fila['estado']; ?></td>
                     <td><?php echo $fila['direccion']; ?></td>
                     <td><?php echo $fila['total']; ?></td>
@@ -121,7 +131,7 @@ function checkColor($estado){
         <form method="post" class="modal-content">
             <!-- Contenido del diálogo -->
             <div class="modal-header">
-                <h5 class="modal-title" style='style="display: flex;align-items: center;gap: 1rem;'><b>Detalles Pedido<b> <input style='color: black;width: 40%;text-align: center;background: #ffd0d0;font-weight: 800;border: none;' type=text id=numPedido readonly ></h1></h5>
+                <h5 class="modal-title" style='display: flex;align-items: center;gap: 1rem;'><b>Detalles Pedido<b> <input style='color: black;width: 40%;text-align: center;background: #ffd0d0;font-weight: 800;border: none;' type=text id=numPedido readonly ></h1></h5>
                 <button type="button" class="close" onclick="cerrarDialogo()">&times;</button>
             </div>
             <div class="modal-body">
@@ -179,7 +189,6 @@ function checkColor($estado){
         }
 
         function irChat(id){ 
-            alert("aqui");
            window.location.href="../Admin/chat.php?idpedido="+id;
         }
     </script>

@@ -8,7 +8,7 @@
     include "conexion.php"; 
 ?>
 
-<?php
+<?php 
   //*******************************************************************************************************************
   //CHAT
 $conexion = $conn;
@@ -26,13 +26,26 @@ $conexion = $conn;
 
 	if(isset($_POST['cambiarEstado'])){
 		if(strlen($_POST['estado']) !="null"){
+
 			$consulta = "UPDATE transaccion SET estado='{$_POST['estado']}' WHERE idpedido=".$_POST['tickedchat']."";
-			$consulta2 = "UPDATE pedido_usuario SET estado='{$_POST['estado']}' WHERE idpedido=".$_POST['tickedchat']."";
+			$consulta2 = "UPDATE pedido_usuario SET estado='{$_POST['estado']}', abono={$_POST['abono']} WHERE idpedido=".$_POST['tickedchat']."";
 			$row = mysqli_query( $GLOBALS['conexion'], $consulta );
 			$row2 = mysqli_query( $GLOBALS['conexion'], $consulta2 );
 
+			$chat_path = $GLOBALS['ROOT_PATH']."/Vista/Admin/panelAdmin.php";
+			if(isset($_SESSION['esAdmin']) && $_SESSION['esAdmin'] == 1){
+				$chat_path = $GLOBALS['ROOT_PATH']."/Vista/Admin/chat.php";
+			}
+
+			insertNotif($_POST['recibe'],"Su Pedido #".$_POST['tickedchat']." A cambiado de Estatus a {$_POST['estado']}",$chat_path."?chat=&idpedido=".$_POST['tickedchat']);
+
 			if($_POST['estado'] == "PAGADO"){
 				$idpedido = $_POST['tickedchat'];
+				$sumaTotal = $_POST['sumatotal'];
+				
+				$consul = "UPDATE pedido_usuario SET estado='{$_POST['estado']}', abono={$sumaTotal} WHERE idpedido=".$_POST['tickedchat']."";
+				mysqli_query( $GLOBALS['conexion'], $consul );
+				
 				$Q_selecciona_productos =  "SELECT * FROM itempedido where idpedido=".$idpedido;    
     
 				$resultado= mysqli_query($conn, $Q_selecciona_productos);

@@ -8,11 +8,11 @@
 
 [✓] -Colocar la sesión en el header el nombre del usuario q esta en la sesión, para dar a entender si esta iniciado un cliente o un admin
 
--Ver estado de la compra, abonado y cuanto lleva abonado
+[✓] -Ver estado de la compra, abonado y cuanto lleva abonado
 
--Notificaciones de los pedidos Y De fechas de entrega (que notifique si ya paso la fecha de entrega)
+[✓] -Notificaciones de los pedidos Y De fechas de entrega (que notifique si ya paso la fecha de entrega)
 
--Fecha de pedido y fecha de entrega
+[✓] -Fecha de pedido y fecha de entrega
 
 -Mostrar las Existencias del producto (osea cuantos estan disponibles)
 
