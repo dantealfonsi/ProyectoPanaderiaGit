@@ -1,6 +1,0 @@
--Ponerle sombras a las imagenes.
--Estilo de categorias igual a los demas modulos.
--Todos los inputs y estilos iguales
-- navbar para laptops
--Reportes
--Estadisticas

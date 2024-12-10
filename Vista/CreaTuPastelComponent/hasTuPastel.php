@@ -96,6 +96,14 @@ button:disabled{
     padding: .8rem;
     border: 1px solid #ff83b2;
 }
+
+.custom-title-outer-container{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+}
+
 </style>
 
 <body>
@@ -136,11 +144,15 @@ button:disabled{
     align-content: space-between;
     align-items: flex-start;
     gap: 1rem;'>
+
+    <div class='custom-title-outer-container'>
         <div class="col">
             <h2 class="category" id="small_title" ></h2>
             <h2 class="category-name " id="big_title" ></h2><br>
-            <button class="dropbtn button" onclick="reset()">Resetear Filtros</button>
         </div>
+        <button class="dropbtn button" onclick="reset()">Resetear Filtros</button>
+    </div>
+
 
         <!--========== BOTÓN DE ORDENAR POR ==========-->
         <div style='display: flex;align-items: center;justify-content: center;flex-wrap: wrap;gap:.4rem;'>

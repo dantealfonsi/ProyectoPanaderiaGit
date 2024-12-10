@@ -88,4 +88,13 @@ class categoriaProductos{
         return $row;  
       }
 
+      public function readNombreCategoriaId($idCategoria){
+        $tmodulo=new Modulo;
+        $consulta = "SELECT nombre_categoria FROM categorias WHERE idcategoria='".$idCategoria."'";
+        $resultado = mysqli_query( $tmodulo->mysqlconnect(), $consulta );
+        
+        if($row = mysqli_fetch_array($resultado))
+        return $row;  
+      }
+
 }

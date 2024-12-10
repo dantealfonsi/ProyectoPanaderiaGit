@@ -390,7 +390,7 @@ img{
 /*========== DROP DOWN BUTTONS ========== */
 
 .dropbtn {
-    background-color: var(--first-color) !important;
+    background-color: #c31f5c !important;
     color: white;
     padding: 16px;
     font-size: 16px;

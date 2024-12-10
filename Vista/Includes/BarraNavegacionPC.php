@@ -128,7 +128,7 @@
             
             <li>
                 
-                <a href="<?php echo $href;?>" class="<?php if($page == 'login' || $page == 'verificarCuenta'){echo 'active';}?> user-button"><i class="<?php echo $icono;?>"></i><?php echo $admin . $usuario; ?></a>
+                <a href="<?php echo $href;?>" class="<?php if($page == 'login' || $page == 'verificarCuenta'){echo 'active';}?> user-button" style='font-size: 1.24rem;display: flex;align-items: center;'><i class="<?php echo $icono;?>"></i><span><?php echo $admin . $usuario; ?></span></a>
         
             </li>
             
