@@ -262,6 +262,8 @@ html,body{
   box-shadow: 0px 2px 5px 0px #c3c3c3;
   padding: .7rem;
   font-size: 1.4rem;
+  display: flex;
+  justify-content: space-between;
 }
 
 .chatContainer{
@@ -444,6 +446,7 @@ if(isset($_SESSION['esAdmin']) && $_SESSION['esAdmin']==0){
     <section class='chatSec'>
       <div class='chatData'>
         <h3 ><?php if($_SESSION['esAdmin']==1) echo "Cliente: "; else echo "Usuario: ";?> <span id=usuario></span></h3>
+        <a title='Ir a Whatsapp' style='cursor:pointer;' href="https://wa.me/584262521746" target="_blank"><img style='width:2rem;' src="<?php echo $GLOBALS['ROOT_PATH'] ?>/Assets/images/1.index/whatsapp.png"></a>
       </div>
 
       <div class='chatBox'>

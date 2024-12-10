@@ -1,9 +1,9 @@
 
--Cambiar icono y nombre al imprimir las tablas (ya que se muestra la version vieja, si puede cambiar el color de la tabla al imprimirse a q solo sea blanco y negro los colores en el pdf estaria bien)
+[✓]-Cambiar icono y nombre al imprimir las tablas (ya que se muestra la version vieja, si puede cambiar el color de la tabla al imprimirse a q solo sea blanco y negro los colores en el pdf estaria bien)
 
--Se puede dispensar de los datos de ID de el cliente o productos (es decir al mostrarlos en las tablas), se podría colocar el nombre del cliente en vez de eso en la tablas en la parte de cliente y la de modulo de transacciones
+[✓]-Se puede dispensar de los datos de ID de el cliente o productos (es decir al mostrarlos en las tablas), se podría colocar el nombre del cliente en vez de eso en la tablas en la parte de cliente y la de modulo de transacciones
 
--Exportar pdf, en algunos módulos no imprime
+[✓]-Exportar pdf, en algunos módulos no imprime
 
 -Whatsapp como medio  comunicación osea como opción secundaria  (pq lo del chat ese dia no agarro no se pq xd)
 
