@@ -51,6 +51,7 @@
             padding: 6rem;
             padding-top: 8rem;
             gap: 8rem;
+            justify-content: center;
         }
 
         .font-container{
@@ -60,7 +61,7 @@
         }
 
         .image-container{
-            width: 60%;
+            width: 30rem;
         }
 
         .image-container img{
@@ -110,6 +111,64 @@
                 text-decoration:underline;
             }
 
+            .red-span{
+                color:#f56399;
+            }
+
+            .red-h1{
+                font-family:candy;
+                font-size: 4rem;
+                letter-spacing: -1px;
+            }
+
+
+            @media screen and (max-width: 1200px){
+
+            .wave-image-group{
+                display:none;
+            }
+
+            }
+
+            @media screen and (max-width: 950px){
+            .slideshow-container-inside {
+            display: flex;
+            padding: .5rem;
+            padding-top: 2rem;
+            gap: 2rem;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .font-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        }
+
+    }
+
+    
+    @media screen and (max-width: 550px){
+
+        .image-container{
+            width: 20rem;
+        }
+
+        .red-span{
+            text-align:center;
+        }
+
+        .red-h1{
+            text-align:center;
+        }
+
+
+    }
+
+
+        
+
 
         </style>
 
@@ -146,8 +205,8 @@
 
     <div class='font-container'>
         <a style='color: black;text-decoration: none;' href="<?php echo $GLOBALS['ROOT_PATH'] ?>/Vista/AcercaDeComponent/acercaDe.php"><h5 class='about-us-title'><span class='play-button'>▶</span>Conocenos Ahora</h5></a>
-        <h1 style="font-family:candy;font-size: 4rem;letter-spacing: -1px;">Tortas rellenas con Amor</h1>
-        <span style='color:#f56399;'>Has tus dias especiales, aun mas especiales! Con nuestras tortas rellenas</span>
+        <h1 class='red-h1'>Tortas rellenas con Amor</h1>
+        <span class='red-span'>Has tus dias especiales, aun mas especiales! Con nuestras tortas rellenas</span>
         <button class='submitBtn' style='margin-top:2rem;'>Ordena Ahora!</button>
     </div>
 

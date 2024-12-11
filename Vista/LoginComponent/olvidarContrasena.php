@@ -32,13 +32,13 @@
 
                 if($claveRespuesta['success'])
                 {
-                    $sql = "SELECT * FROM user WHERE email='$correo'";
+                    $sql = "SELECT * FROM usuario WHERE correo='$correo'";
                     $resultado= mysqli_query($conn, $sql);
 
                     if(mysqli_num_rows($resultado) === 1){
                         $fila = mysqli_fetch_assoc($resultado);
 
-                        $nombreUsuario = $fila['nombreUsuario'];
+                        $nombreUsuario = $fila['nombreusuario'];
 
                         $alfabeto = range('A', 'Z');
                         $numeros = range(0,26);
@@ -56,7 +56,7 @@
                             $nuevaContrasena .= $a . $n . $s;
                         }
 
-                        $para = $fila['email'];
+                        $para = $fila['correo'];
                         $asunto = "Restablecer contraseña";
                         $mensaje = "Nombre de usuario: <b>$nombreUsuario</b><br>Contraseña: <b>$nuevaContrasena</b><br><br><b>Por favor, restablezca su contraseña después de iniciar sesión.</b>";
                         $header = "From: juango@gmail.com \r\n";
@@ -67,10 +67,10 @@
 
                         $hashtearContrasena = password_hash($nuevaContrasena, PASSWORD_BCRYPT);
 
-                        $sql = "UPDATE user SET pass='$hashtearContrasena' WHERE nombreUsuario='$nombreUsuario'";
+                        $sql = "UPDATE usuario SET contrasena='$hashtearContrasena' WHERE nombreusuario='$nombreUsuario'";
 
                         if(mysqli_query($conn, $sql)){
-                            setcookie("resetear Contraseña","Resetear el email enviado");
+                            setcookie("resetpassword",$para);
                             header('location: resetear_contrasena.php');
                         }
                     } else {
