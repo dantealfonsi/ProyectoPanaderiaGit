@@ -104,6 +104,46 @@ button:disabled{
     justify-content: space-between;
 }
 
+.applied-filters{
+    padding-left: 0rem;
+    padding-right: 6rem;
+    display: flex;align-items: center;
+    flex-direction: column;
+}
+
+    .category-title{
+    flex-direction: column;
+    align-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    display:flex;
+}
+
+@media screen and (max-width: 950px){
+
+    .applied-filters{
+        padding-left: 0rem;
+        padding-right: 0rem;
+    }
+
+    .select_section{
+        flex-direction:column;
+        align-items: center;
+    }
+
+    .category-title{
+        width: 90% !important;
+        flex-direction: column;
+    }
+
+    .custom-title-outer-container {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+
+
 </style>
 
 <body>
@@ -139,11 +179,7 @@ button:disabled{
 
     ?>
     <section class='select_section' style='display: flex;'>
-    <div class="row category-title" style='display: flex;
-    flex-direction: column;
-    align-content: space-between;
-    align-items: flex-start;
-    gap: 1rem;'>
+    <div class="row category-title">
 
     <div class='custom-title-outer-container'>
         <div class="col">
@@ -244,7 +280,7 @@ button:disabled{
     </div>
 </div>
 
-<div id="filtrosAplicados" style='padding-left: 0rem;padding-right: 6rem;display: flex;align-items: center;flex-direction: column;'>
+<div id="filtrosAplicados" class='applied-filters' >
     <ul id="filtrosLista" style="columns: 2; -webkit-columns: 2; -moz-columns: 2;">
       <!-- Las etiquetas se insertarán aquí -->
     </ul>

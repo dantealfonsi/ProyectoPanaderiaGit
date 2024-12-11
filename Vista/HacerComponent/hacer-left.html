@@ -5,26 +5,110 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <title>Document</title>
+    <style>
+
+
+      .col-md-4{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 45.333333% !important;
+        gap: 2rem;
+        margin-bottom: 6rem;
+      }
+  
+      .col-md-8{
+        width: 52.66666% !important;
+      }
+  
+  
+  
+      @media screen and (max-width: 950px){
+  
+        .row{
+          width: 90% !important;
+          display: flex !important;
+          flex-direction: column !important;
+          padding: 0 !important;
+          text-align: center;
+          align-items: center;
+        } 
+  
+        .col-md-4, .col-md-8{
+          width: 100% !important;
+        }
+  
+      }
+  
+      @media screen and (max-width: 950px){
+  
+      .row{
+          width: 90% !important;
+          display: flex !important ;
+          flex-direction: column !important;
+      } 
+  
+      .col-md-4,.col-md-8{
+          width: 100% !important;
+        }
+  
+        .my-3{
+          text-align: center !important;
+        }
+
+        .container{
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .team-section{
+          display: flex;;
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .helper-individual{
+          box-shadow: 1px 1px 11px 0px black;
+          border-radius: 3rem;
+        }
+
+        .helper-group .helper1{
+          border-radius: 3rem;
+        }
+        
+        .img-fluid{
+          display: none;
+        }
+        
+        .team-section .team-subtitle{
+          box-shadow: 1px 1px 20px 3px #9f9f9f !important;
+        }
+
+  }
+  
+  
+    </style>
 </head>
 <body>
     <!-- Page Content -->
     
-<div class="container" style="position:relative;background:#fff;z-index: 3;">
+<div class="container" style="position:relative;background:#fff;z-index: 3;box-shadow: 0px 10px 8px 0px #a1a1a1;">
 
       <!-- Portfolio Item Row -->
     <div class="row" style="display: flex;padding-left: 6rem;margin-bottom: 5rem;">
 
   
-      <div class="col-md-4"  style="display: flex;flex-direction: column;justify-content: center;width: 45.333333% !important;">
-        <h3 class="my-3" style="font-family: 'candy';font-size: 3rem;">Nuestra Historia</h3>
+      <div class="col-md-4">
+        <h3 class="my-3" style="font-family: 'candy';font-size: 3rem;margin: 0;">Nuestra Historia</h3>
         <p>En un rincón acogedor de San José, Estado Sucre, en la calle Avenida Bolívar N°36, se erige la encantadora panadería "Dulce Encanto". Esta panadería, famosa por sus exquisitas tortas, fue fundada por Doña Paola Flores</p>
-        <h3 class="my-3" style="font-family: 'candy';font-size: 3rem;">Lo que Logramos</h3>
+        <h3 class="my-3" style="font-family: 'candy';font-size: 3rem;margin: 0;">Lo que Logramos</h3>
         <p>La panadería no solo se convirtió en un lugar para comprar tortas, sino también en un punto de encuentro donde las personas compartían historias, risas y momentos especiales. Don Simón, con su carácter afable y su habilidad para escuchar, se convirtió en una figura querida y respetada por todos.</p>
         <br>
       
       </div>
 
-      <div class="col-md-8" style="width: 52.66666% !important;">
+      <div class="col-md-8" style="width: 52.66666%">
         <img class="img-fluid" src="../../Assets/images/4.aboutus/Helper2.png" style="height: 25rem; width: 100%;">
       </div>
   

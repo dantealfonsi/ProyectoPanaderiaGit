@@ -121,6 +121,16 @@
                 letter-spacing: -1px;
             }
 
+            .quote-box{
+                width: 70%;
+                background: linear-gradient(45deg, #f9f9f9, #ffffff);
+                border: 1px solid #dddddd;
+                border-radius: 2rem;
+                padding: 4rem;
+                display: flex;
+                flex-direction: column;
+                box-shadow: 1px 5px 8px 2px #0000005c;
+            }
 
             @media screen and (max-width: 1200px){
 
@@ -146,6 +156,10 @@
         align-items: center;
         }
 
+        .quote-box{
+            width: 90% !important;
+        }
+
     }
 
     
@@ -162,7 +176,6 @@
         .red-h1{
             text-align:center;
         }
-
 
     }
 
@@ -436,7 +449,7 @@ Fin Imagen de Ola Invertida-->
 
             
         <section style='display: flex;justify-content: center;margin-bottom:10rem;'>
-            <div style='width: 70%;background: linear-gradient(45deg, #f9f9f9, #ffffff);border: 1px solid #dddddd;border-radius: 2rem;padding: 4rem;display: flex;flex-direction: column;box-shadow: 1px 5px 8px 2px #0000005c;'>
+            <div class='quote-box'>
                 <div style='display: flex;flex-direction: column;align-items: center;'>
                     <h4 style='font-weight: bolder;color: #D22E6B;margin-bottom: 0;'>Judith B. Jones</h4>             
                     <h5 style='font-weight: 700;color: #80808087;'>Cocinera</h5>

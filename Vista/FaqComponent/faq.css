@@ -59,3 +59,13 @@
 .faqB.active {
   border: none;
 }
+
+
+@media screen and (max-width: 550px){
+
+  .faqWrapper {
+    max-width: 90%;
+    margin: auto;
+  }
+  }
+

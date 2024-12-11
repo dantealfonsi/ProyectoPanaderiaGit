@@ -48,6 +48,30 @@
     .bx{
         display: none;
     }
+
+    
+
+     @media screen and (max-width: 950px){
+
+        .category-title{
+        width: 90%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .col{
+        text-align: center;
+    }
+
+    .select-button-container{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    }
      </style>
 
 </head>
@@ -137,7 +161,7 @@
         </div>
 
         <!--========== BOTÓN DE ORDENAR POR ==========-->
-        <div>
+        <div class='select-button-container'>
         <div class="dropdown col-auto">
             <button class="dropbtn button" id="cat-but">Ordenar por &nbsp<i class='bx--bxs-down-arrow'></i></button>
             <div class="dropdown-content">

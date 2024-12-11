@@ -19,6 +19,20 @@
         <link href='<?php echo $GLOBALS['ROOT_PATH'] ?>/css/boxicons.min.css' rel='stylesheet'>
         <!-- Animate CSS -->
         <link rel="stylesheet"href="<?php echo $GLOBALS['ROOT_PATH'] ?>/css/animate.min.css"/>
+
+        <style>
+
+            @media screen and (max-width: 950px){
+            
+                .google-map{
+                width: 90% !important;
+                }
+
+            }
+
+           
+        </style>
+
     </head>
 
     <body>
@@ -170,7 +184,7 @@
         </div>
 
                 <!--Informacion de la gente de la panaderia-->
-        <div style="display: flex;flex-direction: column;align-items: center;margin-top:5rem;">
+        <div style="display: flex;flex-direction: column;align-items: center;">
             <h2 style="color: #D22E6B;margin-bottom: 0;top: 1.9rem;position: relative;font-size: 1.4rem;font-weight: 700;">Donde Encontrarnos</h2>
             <h1 class="my-4" style="font-size: 4rem;font-family: 'candy';border-bottom: 3px dashed #D22E6B;text-align: center;">Ubicacion
         </div>

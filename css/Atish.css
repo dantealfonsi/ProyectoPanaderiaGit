@@ -537,6 +537,7 @@
     text-align: center;
     padding-top: 50px;
     padding-bottom: 60px;
+    box-shadow: 1px 1px 19px 0px #595959;
 }
 
 .team-section .subtitle h2{
@@ -574,7 +575,7 @@
 
 .helper-group{
     background-color: white;
-    padding-bottom: 25px;
+    border-radius: 3rem;
 }
 
 .helper-individual{
@@ -776,6 +777,9 @@
         text-align: center;
         padding-top: 50px;
         padding-bottom: 60px;
+        position: relative;
+        top: -5rem;
+        box-shadow: 1px 1px 20px 3px #9f9f9f !important;
     }
 
     .team-section .team-subtitle{
