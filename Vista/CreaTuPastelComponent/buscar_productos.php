@@ -21,7 +21,8 @@
                 while($row = mysqli_fetch_assoc($resultado)){
                     $producto_id = $row['idproducto'];
      
-                 echo' <div class="featured__products" id="product__card">
+                 echo' 
+                        <div class="featured__products" id="product__card">
                             <div class="featured__box">
                                 <div class="featured__new">Nuevo</div>
                                 <a href="productoPerson.php?id_producto='.$producto_id.'">
@@ -52,7 +53,13 @@
             }
             else {
                 // No hay resultados
-                echo "<h3>No se encontraron productos Disponibles.</h3>";
+                echo "
+                
+
+                <div style='display: flex;flex-direction: column;align-items: center;'>
+                <div class='text-center py-3' style='position: relative;top: 1rem;text-align: center;'><img style='max-width: 50%;background: linear-gradient(45deg, #ff9ea7, transparent);border-radius: 50%;padding: 2rem;box-shadow: 1px 1px 20px 3px #979797;' src='../../Assets/images/cart/sad.png' class='img-fluid'></div>
+                <h3 style='text-align: center;'>No se encontraron productos Disponibles.</h3>
+                </div>";
             }
 
 ?>

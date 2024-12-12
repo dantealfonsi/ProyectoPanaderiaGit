@@ -218,6 +218,7 @@
 
             .input-container{
                 display:flex;
+                flex-direction:column;
             }
 
             @media screen and (max-width: 950px){

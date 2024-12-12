@@ -140,10 +140,6 @@ button:disabled{
         flex-direction: column;
         text-align: center;
     }
-
-    .applied-filters{
-        display:none;
-    }
     
 }
 
@@ -163,63 +159,6 @@ button:disabled{
 .carousel-item.active {
   display: block; /* Mostramos solo el slide activo */
 }
-
-button:disabled {
-    background-color: #ada7a9 !important;
-    color: white;
-    padding: 16px;
-    font-size: 16px;
-    border: white;
-    cursor: pointer;
-    border-radius: 25px 25px;
-}
-
-button{
-    background-color: #c31f5c !important;
-    color: white;
-    padding: 16px;
-    font-size: 16px;
-    border: white;
-    cursor: pointer;
-    border-radius: 25px 25px;
-}
-
-#next-button:hover{
-    background-color: #91204a !important;
-    transition: ease .4s;
-}
-
-.restoreButton{
-    background: white !important;
-    color: black;
-    color: #c31f5c !important;
-    border: 2px solid #c31f5c !important;
-    border-radius: 25px 25px;
-    padding:16px;
-    font-size: 16px;
-}
-
-
-.restoreButton:hover{
-    background: #c31f5c !important;
-    color: white !important;
-    border: 2px solid #c31f5c !important;
-    cursor: pointer;
-    transition: ease .4s;
-
-}
-
-@media screen and (max-width: 750px){
-
-.featured{
-    position: relative !important;
-    top: -7rem !important;
-}
-
-}
-
-
-
 
 
 
@@ -266,7 +205,7 @@ button{
               <h2 class="category" id="small_title"></h2>
               <h2 class="category-name" id="big_title"></h2><br>
             </div>
-            <button class="restoreButton" onclick="reset()">Resetear Filtros</button>
+            <button class="dropbtn button" onclick="reset()">Resetear Filtros</button>
           </div>
 
           <!--========== BOTÓN DE ORDENAR POR ==========-->
@@ -357,16 +296,15 @@ button{
           <ul id="filtrosLista" style="columns: 2; -webkit-columns: 2; -moz-columns: 2;">
             <!-- Las etiquetas se insertarán aquí -->
           </ul>
-
-          <button id="next-button" onclick="nextSlide()" style='width: 14rem;position: relative;top: 2rem;left: 2rem;' disabled>Buscar Torta ▶</button>
-
         </div>
+        <button id="next-button" onclick="nextSlide()" disabled>Siguiente</button>
       </section>
     </div>
 
     <div class="carousel-item" id="slide-2">
-        <button class='restoreButton' onclick="previousSlide()" style='position: relative;left: 2rem;'>Ir Atras</button>
       <div id="result" class="featured__container bd-grid mt-4" style='display: flex;justify-content: center;'>
+        <p>Contenido del segundo slide</p>
+        <button onclick="previousSlide()">Anterior</button>
       </div>
     </div>
   </div>
@@ -690,7 +628,7 @@ function actualizarEtiqueta() {
     lista.innerHTML = ''; // Limpiar el contenido previo
 
     const tituloItem = document.createElement('li');
-    tituloItem.textContent = 'Tu Torta Contendra:';
+    tituloItem.textContent = 'Torta';
     lista.appendChild(tituloItem);
 
     filtros.forEach(filtro => {
