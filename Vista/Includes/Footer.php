@@ -15,7 +15,19 @@ include_once "paths.php";
         src: url(../../css/candy.ttf) format('truetype');
         }
         
+        .legal-links{
+            font-size: .9rem;display: flex;justify-content: center;align-items: center;width: 15rem;text-align: center;
+        }
+        
 
+    @media screen and (max-width: 950px){
+        
+        .legal-links{
+            margin-top: 2rem;
+        }
+
+  
+      }
 
 </style>
 
@@ -41,7 +53,7 @@ include_once "paths.php";
             <span class="privacy-policy"><b><a href="<?php echo $GLOBALS['ROOT_PATH'] ?>/Vista/AcercaDeComponent/acercaDe.php" style='color: black;text-decoration: none;font-size: 1rem;'>Acerca de nosotros</a></b></span>
         </div>
 
-        <div class="legal-links"  style='font-size: .9rem;display: flex;justify-content: center;align-items: center;width: 15rem;'>
+        <div class="legal-links">
         <div class="address">
             <span style="font-size: 2rem;font-weight: bold;border-bottom: dashed #D22E6B;padding-bottom: .5rem;letter-spacing: 0px;">Direccion:</span>
             <span style='font-weight: bold;font-size: 1rem;'>Avenida Bolívar N#36, San José.Estado Sucre</span></div>

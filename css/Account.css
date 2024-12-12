@@ -336,7 +336,7 @@ hr{
     /*Start Login Panel*/
     .login-page {
         position: absolute;
-        top: 50%;
+        top: 45%;
         left: 50%;
         transform: translate(-50%, -30%);
         width: 360px;
@@ -560,7 +560,37 @@ hr{
     }
 
     /* End User Profile Subtitle*/
-}
+
+    @media screen and (max-width: 950px){
+  
+        .form {
+            box-shadow: none;
+        }
+        
+  
+      }
+
+      
+    @media screen and (max-height: 450px){
+  
+        .form {
+            margin-top: 6rem;
+        }
+        
+  
+      }
+
+
+            
+    @media screen and (max-height: 320px){
+  
+        .form {
+            margin-top: 8rem;
+        }
+        
+  
+      }
+
 /*---------------------------------------------------------------------------------------------*/
 /*END MEDIA QUERY FOR LOGIN.PHP, REGISTRATION.PHP, USERACCOUNT.PHP, ADMINPANEL.PHP*/
 /*---------------------------------------------------------------------------------------------*/

@@ -205,6 +205,38 @@
         <link rel="stylesheet" href="<?php echo $GLOBALS['ROOT_PATH'] ?>/css/animate.min.css"/>
         <!--reCAPTCHA-->
         <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+        <style>
+            
+            .reg-page{
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                top: 30rem;
+            }
+
+            .input-container{
+                display:flex;
+            }
+
+            @media screen and (max-width: 950px){
+  
+                .reg-page{
+                top: 17rem;
+            }
+
+            .input-container{
+                display:flex;
+                flex-direction:column;
+            }
+
+
+            }
+
+
+        </style>
+
     </head>
 
     <body>
@@ -224,7 +256,7 @@
         </div>
         
         <!--Inicio del Panel De logueo-->
-        <div class="login-page reg-page" style='width: 100%;display: flex;justify-content: center;align-items: center;top: 30rem;'>
+        <div class="login-page reg-page">
     <div class="form">
         <div class="login">
             <div class="login-header">
@@ -234,7 +266,7 @@
         </div>
 
         <form class="login-form" method="post" actions="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-            <div style='display:flex;'> 
+            <div class='input-container'> 
                 <span class="Error-NombreUsuario"><?php echo $criterioNombreUsuario;?></span>  
                 <input type="text" name="nombreUsuario" placeholder="Nombre de usuario" style='margin-right: 1rem;' value="<?php echo $nombreUsuario;?>"/>
                 <span class="Error-Nombre"><?php echo $criterioNombre;?></span>
@@ -243,14 +275,14 @@
             </div>
           
 
-            <div style='display:flex;'>
+            <div class='input-container'>
                 <span class="Error-Apellido"><?php echo $criterioApellido;?></span>
                 <input type="text" name="apellido" style='margin-right: 1rem;' placeholder="Apellido" value="<?php echo $apellido;?>"/>
                 <span class="Error-Correo"><?php echo $criterioCorreo;?></span>
                 <input type="text" name="correo" placeholder="Correo" value="<?php echo $correo;?>"/>
             </div>
             
-            <div style='display:flex;'>
+            <div class='input-container'>
 
                 <span class="Error-Contrasena"><?php echo $criterioContrasena;?></span>
                 <input type="password" name="contrasena" style='margin-right: 1rem;' placeholder="Contraseña"/>
