@@ -27,15 +27,15 @@ $resultado = mysqli_query($conn, $query);
 function checkColor($estado){
     switch ($estado) {
         case 'ACEPTADO':
-            return "green";
+            return "#a5dfa5";
         case 'ABONADO':
-            return "yellow";            
+            return "#f9dd89";            
         case 'PAGADO':
-            return "orange";            
+            return "#ffb8ad";            
         case 'RECHAZADO':
-            return "red";        
+            return "#d75e8a";        
         default:
-            # code...
+            return '#99f1ff';
             break;
     }
 }
@@ -62,18 +62,35 @@ function checkColor($estado){
         <link rel="stylesheet"href="<?php echo $GLOBALS['ROOT_PATH'] ?>/css/animate.min.css"/>  
      
      
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css">
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/rowreorder/1.5.0/css/rowReorder.dataTables.css">
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/3.0.3/css/responsive.dataTables.css">
+        <link rel="stylesheet" type="text/css" href='<?php echo $GLOBALS['ROOT_PATH'] ?>/Vista/Javascript/responsiveDatatables/dataTables.dataTables.css'>
+        <link rel="stylesheet" type="text/css" href='<?php echo $GLOBALS['ROOT_PATH'] ?>/Vista/Javascript/responsiveDatatables/responsive.dataTables.css'>
+        <link rel="stylesheet" type="text/css" href='<?php echo $GLOBALS['ROOT_PATH'] ?>/Vista/Javascript/responsiveDatatables/rowReorder.dataTables.css'>
 
 
-        <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.7.1.js"></script>
-        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
-        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/rowreorder/1.5.0/js/dataTables.rowReorder.js"></script>
-        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/rowreorder/1.5.0/js/rowReorder.dataTables.js"></script>
-        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/responsive/3.0.3/js/dataTables.responsive.js"></script>
-        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/responsive/3.0.3/js/responsive.dataTables.js"></script>
+        <script type="text/javascript" charset="utf8" src="<?php echo $GLOBALS['ROOT_PATH'] ?>/Vista/Javascript/responsiveDatatables/jquery-3.7.1.js"></script>
+        <script type="text/javascript" charset="utf8" src="<?php echo $GLOBALS['ROOT_PATH'] ?>/Vista/Javascript/responsiveDatatables/dataTables.js"></script>
+        <script type="text/javascript" charset="utf8" src="<?php echo $GLOBALS['ROOT_PATH'] ?>/Vista/Javascript/responsiveDatatables/dataTables.responsive.js"></script>
+        <script type="text/javascript" charset="utf8" src="<?php echo $GLOBALS['ROOT_PATH'] ?>/Vista/Javascript/responsiveDatatables/dataTables.rowReorder.js"></script>
+        <script type="text/javascript" charset="utf8" src="<?php echo $GLOBALS['ROOT_PATH'] ?>/Vista/Javascript/responsiveDatatables/responsive.dataTables.js"></script>
+        <script type="text/javascript" charset="utf8" src="<?php echo $GLOBALS['ROOT_PATH'] ?>/Vista/Javascript/responsiveDatatables/rowReorder.dataTables.js"></script>
 
+        <style>
+
+
+
+    @media screen and (max-width: 950px){
+
+        .modal-dialog {
+        position: fixed;
+        width: auto;
+        margin: auto;
+        pointer-events: none;
+        height: 100vh;
+        }
+
+    }
+
+        </style>
 
   
 </head>
@@ -102,10 +119,9 @@ function checkColor($estado){
       </div>
       <div class="container mt-5" style='margin-bottom: 20vh;'>
     <table id="example" class="table table-bordered">
-        <thead class="thead-dark">
+        <thead style='background:#ffabca;'>
             <tr>
-                <th>IDpedido</th>
-                <th>Telefono</th>
+
                 <th>Fecha Entrega</th>
                 <th>Dias</th>
                 <th>Estado</th>
@@ -118,18 +134,17 @@ function checkColor($estado){
             <?php while($fila = mysqli_fetch_assoc($resultado)): 
                 $dias = calcularDiasEntreFechas(date('Y-m-d'), $fila['fechapedido']);
                 $colorExpira ="transparent";
-                $msgExpira="";
+                $msgExpira="Por Expirar";
                 if($dias < 2){
-                    $colorExpira ="coral";
-                    $msgExpira="expirado";
+                    $colorExpira ="#d75e8a";
+                    $msgExpira="Dias (Expirado)";
                 }                    
             ?>
             <tr>
-                <td ><?php echo $fila['idpedido']; ?></td>
-                <td><?php echo $fila['telefono']; ?></td>
+
                 <td><?php echo historifecha($fila['fechapedido']); ?></td>
-                <td style="background: <?php echo $colorExpira;?>;"><?php echo $dias ." ". $msgExpira; ?></td>
-                <td style="background-color:<?php echo checkColor($fila['estado'])?>"><?php echo $fila['estado']; ?></td>
+                <td style="background: <?php echo $colorExpira;?>;text-align: center;color: white;font-weight: bolder;"><?php echo $dias ." ". $msgExpira; ?></td>
+                <td style="background-color:<?php echo checkColor($fila['estado'])?>;text-align: center;color: white;font-weight: bolder;"><?php echo $fila['estado']; ?></td>
                 <td><?php echo $fila['direccion']; ?></td>
                 <td><?php echo $fila['total']; ?></td>
                 <td>
@@ -211,13 +226,31 @@ function checkColor($estado){
     </script>
 
 <script>
-new DataTable('#example', {
-    responsive: true,
-    rowReorder: {
-        selector: 'td:nth-child(2)'
-    }
-});
+    new DataTable('#example', {
+        responsive: true,
+        rowReorder: {
+            selector: 'td:nth-child(2)'
+        },
+        language: {
+            lengthMenu: "Mostrar _MENU_ registros por página",
+            zeroRecords: "No se encontraron resultados",
+            info: "Mostrando página _PAGE_ de _PAGES_",
+            infoEmpty: "No hay registros disponibles",
+            infoFiltered: "(filtrado de _MAX_ registros totales)",
+            search: "Buscar:",
+            paginate: {
+                first: "<<",
+                last: ">>",
+                next: ">",
+                previous: "<"
+            }
+        }
+    });
 </script>
+
+
+
+
 
 
 
