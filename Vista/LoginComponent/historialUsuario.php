@@ -59,7 +59,23 @@ function checkColor($estado){
         <!--BOXICONS-->
         <link href='<?php echo $GLOBALS['ROOT_PATH'] ?>/css/boxicons.min.css' rel='stylesheet'>
         <!-- Animate CSS -->
-        <link rel="stylesheet"href="<?php echo $GLOBALS['ROOT_PATH'] ?>/css/animate.min.css"/>    
+        <link rel="stylesheet"href="<?php echo $GLOBALS['ROOT_PATH'] ?>/css/animate.min.css"/>  
+     
+     
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/rowreorder/1.5.0/css/rowReorder.dataTables.css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/3.0.3/css/responsive.dataTables.css">
+
+
+        <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.7.1.js"></script>
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/rowreorder/1.5.0/js/dataTables.rowReorder.js"></script>
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/rowreorder/1.5.0/js/rowReorder.dataTables.js"></script>
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/responsive/3.0.3/js/dataTables.responsive.js"></script>
+        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/responsive/3.0.3/js/responsive.dataTables.js"></script>
+
+
+  
 </head>
 <body>
 <?php $page = 'historialCompras';?>
@@ -84,47 +100,48 @@ function checkColor($estado){
               <h3 style='text-decoration:underline;'>Historial de Compras</h3>
           </div>
       </div>
-    <div class="container mt-5" style='margin-bottom: 20vh;'>
-        <table class="table table-bordered">
-            <thead class="thead-dark">
-                <tr>
-                    <th>IDpedido</th>
-                    <th>Telefono</th>
-                    <th>Fecha Entrega</th>
-                    <th>Dias</th>
-                    <th>Estado</th>
-                    <th>Direccion</th>
-                    <th>Total(Bs)</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php while($fila = mysqli_fetch_assoc($resultado)): 
-                    $dias = calcularDiasEntreFechas(date('Y-m-d'), $fila['fechapedido']);
-                    $colorExpira ="transparent";
-                    $msgExpira="";
-                    if($dias < 2){
-                        $colorExpira ="coral";
-                        $msgExpira="expirado";
-                    }                    
-                ?>
-                <tr>
-                    <td ><?php echo $fila['idpedido']; ?></td>
-                    <td><?php echo $fila['telefono']; ?></td>
-                    <td><?php echo historifecha($fila['fechapedido']); ?></td>
-                    <td style="background: <?php echo $colorExpira;?>;"><?php echo $dias ." ". $msgExpira; ?></td>
-                    <td style="background-color:<?php echo checkColor($fila['estado'])?>"><?php echo $fila['estado']; ?></td>
-                    <td><?php echo $fila['direccion']; ?></td>
-                    <td><?php echo $fila['total']; ?></td>
-                    <td>
-                        <input type="hidden" id="estado<?php echo $fila['idpedido']?>" value="<?php echo $fila['estado']?>">
-                        <button class="btn btn-primary btn-sm" onclick="verDetalles(<?php echo $fila['idpedido']; ?>)">Detalles</button>
-                    </td>
-                </tr>
-                <?php endwhile; ?>
-            </tbody>
-        </table>
-    </div>
+      <div class="container mt-5" style='margin-bottom: 20vh;'>
+    <table id="example" class="table table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>IDpedido</th>
+                <th>Telefono</th>
+                <th>Fecha Entrega</th>
+                <th>Dias</th>
+                <th>Estado</th>
+                <th>Direccion</th>
+                <th>Total(Bs)</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php while($fila = mysqli_fetch_assoc($resultado)): 
+                $dias = calcularDiasEntreFechas(date('Y-m-d'), $fila['fechapedido']);
+                $colorExpira ="transparent";
+                $msgExpira="";
+                if($dias < 2){
+                    $colorExpira ="coral";
+                    $msgExpira="expirado";
+                }                    
+            ?>
+            <tr>
+                <td ><?php echo $fila['idpedido']; ?></td>
+                <td><?php echo $fila['telefono']; ?></td>
+                <td><?php echo historifecha($fila['fechapedido']); ?></td>
+                <td style="background: <?php echo $colorExpira;?>;"><?php echo $dias ." ". $msgExpira; ?></td>
+                <td style="background-color:<?php echo checkColor($fila['estado'])?>"><?php echo $fila['estado']; ?></td>
+                <td><?php echo $fila['direccion']; ?></td>
+                <td><?php echo $fila['total']; ?></td>
+                <td>
+                    <input type="hidden" id="estado<?php echo $fila['idpedido']?>" value="<?php echo $fila['estado']?>">
+                    <button class="btn btn-primary btn-sm" onclick="verDetalles(<?php echo $fila['idpedido']; ?>)">Detalles</button>
+                </td>
+            </tr>
+            <?php endwhile; ?>
+        </tbody>
+    </table>
+</div>
+
  
     <!-- Dialogo para editar -->
     <dialog id="dialogoEditar" class="modal-dialog" style='box-shadow: 11px 8px 20px 2px #595353;border: none;'>
@@ -192,5 +209,17 @@ function checkColor($estado){
            window.location.href="../Admin/chat.php?idpedido="+id;
         }
     </script>
+
+<script>
+new DataTable('#example', {
+    responsive: true,
+    rowReorder: {
+        selector: 'td:nth-child(2)'
+    }
+});
+</script>
+
+
+
 </body>
 </html>

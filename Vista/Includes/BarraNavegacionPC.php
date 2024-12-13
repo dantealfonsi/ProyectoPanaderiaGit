@@ -78,6 +78,11 @@
             align-items: center;
         }
 
+        .notifications li{
+            border-bottom: 1px solid #0000004a;
+        }
+
+
 
 </style>
 

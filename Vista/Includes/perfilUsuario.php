@@ -1,4 +1,87 @@
-<!--Start User Profile-->
+<!--Start User Profile-->        
+
+<style>
+
+    input{
+        font-size: 1.4rem;
+        padding: 0.6rem;
+        font-family: 'roboto';
+        border-radius: .3rem;
+        border-bottom: 2px solid #ffd1d1;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        color: #555555;
+        width: 18rem;
+        background: #e5e5e5;
+        text-transform: capitalize;
+    }
+
+    .input-group-addon{
+        background: linear-gradient(45deg, #fb74a0, #ff2881);
+    }
+
+
+    textarea{
+        color: #313131;
+        background: #f3f3f3;
+        border: dotted pink;
+        width: -webkit-fill-available;
+        height: 6rem;
+        font-size: 1.4rem;
+        font-family: 'Roboto';
+    }
+
+        .button-rounded-1{
+    background: #D12B69;
+    color: white;
+    padding: 0.5rem 2.5rem;
+    border-radius: 3rem;
+    font-family: 'button';
+    border: none;
+    font-size: 1rem;
+    }
+
+
+    .button-rounded-1:hover{
+    background: #ff68a0;
+    transition: ease .4s;
+    cursor: pointer;
+    }
+
+    .button-rounded-2{
+    background: none;
+    color: #D12B69;
+    padding: 0.5rem 2.5rem;
+    border-radius: 3rem;
+    font-family: 'button';
+    border: 1px solid #D12B69;
+    font-size: 1rem;
+    
+    }
+
+    .button-rounded-2:hover{
+    background: #D12B69;
+    color: white;
+    padding: 0.5rem 2.5rem;
+    border-radius: 3rem;
+    font-family: 'button';
+    border: none;
+    font-size: 1rem;
+    transition: ease .4s;
+    cursor: pointer;
+    }
+
+
+    
+    @font-face {
+      font-family: button;
+      src: url(../../css/button.ttf) format('truetype');
+     }
+        
+</style>
+
+
 <div class="container user-profile-container">
     <div class="row">
         <div id="screenRes" class="col-md-15">
@@ -163,10 +246,10 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="col-md-4 control-label" ></label>  
+                        <label class="col-md-4 control-label" style='display: flex;align-items: center;'></label>  
                         <div class="col-md-4" style='display: flex;'>
-                            <button name="updatePassword" class="button-rounded-1"><span class="glyphicon glyphicon-thumbs-up"></span> Actualizar</button>
-                            <button name="clearPassword" class="button-rounded-2"><span class="glyphicon glyphicon-remove-sign"></span> Limpiar</button>
+                            <button name="updatePassword" class="button-rounded-1" style='display: flex;align-items: center;gap:.5rem;'><span class="glyphicon glyphicon-thumbs-up"></span> Actualizar</button>
+                            <button name="clearPassword" class="button-rounded-2" style='display: flex;align-items: center;gap:.5rem;'><span class="glyphicon glyphicon-remove-sign"></span> Limpiar</button>
                             <span class=message"><?php echo "&nbsp&nbsp <b>$passwordMessage</b>";?></span>
                         </div>
                     </div>

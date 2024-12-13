@@ -117,7 +117,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         height: 6rem;
         font-size: 1.4rem;
         font-family: 'Roboto';
-    }
+        }
 
     
     @font-face {

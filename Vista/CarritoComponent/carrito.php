@@ -98,6 +98,23 @@ if(filter_input(INPUT_GET, 'action') == 'borrar'){
             font-family: candy;
             src: url(../../css/button.ttf) format('truetype');
             }
+
+
+            @media screen and (max-width: 1200px){
+
+            .bx--x{
+
+                position: relative;
+                left: -.6rem;
+            }
+
+            .btn-primary{
+                width: 100%;
+            }
+
+
+            }
+
         </style>
 
     </head>

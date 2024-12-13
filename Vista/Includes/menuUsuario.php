@@ -25,7 +25,7 @@
 </head>
 <body>
 
-<a href='./historialUsuario.php'>Historial Compras</a>
+<a href='./historialUsuario.php' style='color:#4d4d4d !important; font-size:1.2rem;'>▶ Ver Compras</a>
 <!--
 
 <div class="container user-profile-container">

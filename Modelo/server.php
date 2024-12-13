@@ -199,12 +199,12 @@ if(isset($_GET['consultaexistencias'])){
     endwhile;
         $tiket = $tiket . "</tbody></table><br>
         <table>
-        <tr><td><span style='font-size: 2rem;font-weight: 700;text-decoration: underline;font-family: 'roboto';'>Total a Pagar:</span></td>
-        <td><span style='font-size: 2rem;color: white;background: linear-gradient(45deg, #D12B69, #ffa5a5);padding: 0.5rem;margin-left: 1rem;font-weight: 700;border-radius: 1rem;'>" . formatPrice($total,"Bs") . "</span></td></tr>
-        <tr><td><span style='font-size: 2rem;font-weight: 700;text-decoration: underline;font-family: 'roboto';'>Abono:</span></td>
-        <td><span style='font-size: 2rem;color: white;background: linear-gradient(45deg, #D12B69, #ffa5a5);padding: 0.5rem;margin-left: 1rem;font-weight: 700;border-radius: 1rem;'>" . formatPrice($abono,"Bs") . "</span></td></tr>
+        <tr><td><span style='font-size: 1.2rem;font-weight: 700;text-decoration: underline;font-family: 'roboto';'>Total a Pagar:</span></td>
+        <td><span style='font-size: 1.2rem;color: black;padding: 0.5rem;margin-left: 1rem;font-weight: 700;border-radius: 1rem;'>" . formatPrice($total,"Bs") . "</span></td></tr>
+        <tr><td><span style='font-size: 1.2rem;font-weight: 700;text-decoration: underline;font-family: 'roboto';'>Abono:</span></td>
+        <td><span style='font-size: 1.2rem;color: black;padding: 0.5rem;margin-left: 1rem;font-weight: 700;border-radius: 1rem;'>" . formatPrice($abono,"Bs") . "</span></td></tr>
         <tr><td><span style='font-size: 2rem;font-weight: 700;text-decoration: underline;font-family: 'roboto';'>Resta a Pagar:</span></td>
-        <td><span style='font-size: 2rem;color: white;background: linear-gradient(45deg, #D12B69, #ffa5a5);padding: 0.5rem;margin-left: 1rem;font-weight: 700;border-radius: 1rem;'>" . formatPrice($resta,"Bs") . "</span></td></tr>
+        <td><span style='font-size: 1.2rem;color: white;background: linear-gradient(45deg, #D12B69, #ffa5a5);padding: 0.5rem;margin-left: 1rem;font-weight: 700;border-radius: 1rem;'>" . formatPrice($resta,"Bs") . "</span></td></tr>
         </table>";
   
     $obj = array('fechaEntrega' => $fechaEntrega, 'fechaPedido' => $fechaPedido,'telefono' => $telefono, 'direccion' => $direccion,

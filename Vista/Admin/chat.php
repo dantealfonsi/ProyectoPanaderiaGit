@@ -176,6 +176,7 @@
 
 html,body{
   margin-top:1rem;
+  padding:15px;
 }
 
 .progress-container {
@@ -344,9 +345,42 @@ html,body{
     margin-top: 1rem;
     padding-top: 1rem;
 }
+
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529;
+    max-height: 10rem;
+    overflow-y: auto;
+}
+
+
+    
+@media screen and (max-width: 950px){
+
+  .chatOuterContainer {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: space-between;
+}
+
+.chatSec{
+  width:100%;
+}
+
+html,body{
+  margin-top:1rem;
+  padding:0px;
+}
+
+
+
+}
+
+
   </style>
 </head>
-<body style="padding:15px;" onload="inicio()">
+<body  onload="inicio()">
 
 <?php $page = 'Asistencia';
 if(isset($_SESSION['esAdmin']) && $_SESSION['esAdmin']==0){
@@ -399,7 +433,8 @@ if(isset($_SESSION['esAdmin']) && $_SESSION['esAdmin']==0){
     <div class="progress-bar" id="my-progress"></div>
 </div>
 
-<div class='chatOuterContainer'> 
+<div class='chatOuterContainer'>
+
 <section class='dataSec'>
 <div class='data'>
   <h3 >SOPORTE PANADERIA</h3>

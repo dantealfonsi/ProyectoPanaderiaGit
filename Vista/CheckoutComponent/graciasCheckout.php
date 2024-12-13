@@ -105,6 +105,26 @@
             font-family: candy;
             src: url(../../css/candy.ttf) format('truetype');
             }
+
+            .thankYouImage{
+                max-width: 17%;
+                background: linear-gradient(45deg, #ff9ea7, transparent);
+                border-radius: 50%;
+                padding: 2rem;
+                box-shadow: 1px 1px 20px 3px #979797;
+            }
+
+            @media screen and (max-width: 950px){
+    
+                .thankYouImage{
+                    max-width: 30% !important;
+                    padding: .5rem !important;
+                }
+            
+  
+            }
+
+
     </style>
 
     <body >
@@ -113,11 +133,11 @@
         <div class="py-5 text-center">
         <h1 class="nombre-empresa" style="font-size: 4rem;font-family: 'candy';color: #c31f5c;letter-spacing: 1px;">Dulce Amor</h1>
             
-            <img class="thankYouImage  my-5 rotate" style="max-width: 17%;background: linear-gradient(45deg, #ff9ea7, transparent);border-radius: 50%;padding: 2rem;box-shadow: 1px 1px 20px 3px #979797;" src="../../Assets/images/cart/sun.png" />
+            <img class="thankYouImage  my-5 rotate" src="../../Assets/images/cart/sun.png" />
          
             <h1 style="font-size: 3rem;font-weight: bold;">¡Gracias por comprar con nosotros!</h1>
             <h2 style='margin-bottom: 2rem;'>Tu Pedido esta en espera de ser aceptado.</h2>
-            <a href="../LoginComponent/historialUsuario.php" class=" btn btn-primary btn-lg button" style="font-size:1.5vw;">Ver Mi Compra</a>
+            <a href="../LoginComponent/historialUsuario.php" class=" btn btn-primary btn-lg button" style="font-size:1.5rem;">Ver Mi Compra</a>
         </div>
     
          <!-- PIE DE PÁGINA  -->

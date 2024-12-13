@@ -141,7 +141,7 @@ button:disabled{
         text-align: center;
     }
 
-    .applied-filters{
+    #filtrosLista{
         display:none;
     }
     
@@ -174,6 +174,8 @@ button:disabled {
     border-radius: 25px 25px;
 }
 
+
+
 button{
     background-color: #c31f5c !important;
     color: white;
@@ -182,6 +184,12 @@ button{
     border: white;
     cursor: pointer;
     border-radius: 25px 25px;
+}
+
+.next-button{
+    position: relative !important;
+    top: 2rem !important;
+    left: 2rem !important;
 }
 
 #next-button:hover{
@@ -214,6 +222,10 @@ button{
 .featured{
     position: relative !important;
     top: -7rem !important;
+}
+
+.next-button{
+    width: 14rem !important;position: relative;top: 0rem;left: 0rem;
 }
 
 }
@@ -358,7 +370,7 @@ button{
             <!-- Las etiquetas se insertarán aquí -->
           </ul>
 
-          <button id="next-button" onclick="nextSlide()" style='width: 14rem;position: relative;top: 2rem;left: 2rem;' disabled>Buscar Torta ▶</button>
+          <button id="next-button" onclick="nextSlide()" disabled>Buscar Torta ▶</button>
 
         </div>
       </section>

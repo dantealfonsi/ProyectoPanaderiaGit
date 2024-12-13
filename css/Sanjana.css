@@ -857,18 +857,18 @@ img{
         padding: .3rem;
     }
     .cart_title_bar{
-        border-bottom: 2px solid var(--first-color-alt);
+        border-bottom: 2px solid #c31f5c;
     }
     .receipt-card{
-        border-left: 5px solid var(--first-color-alt);
+        border-left: 5px solid #c31f5c;
     }
 
     /* CART STUFFS */
 
         
     .receipt-card{
-        background-color: linen;
-        border-left: 15px solid var(--first-color-alt);
+        background-color: #ffffff;
+        border-left: 15px solid #c31f5c;
         display: grid;
         grid-template-columns: 1fr 1.7fr 1fr 1fr 1fr;
         grid-template-rows: 8vh;
@@ -889,7 +889,7 @@ img{
     }
 
     .summary-area{
-        border-bottom: 5px solid var(--first-color-alt);
+        border-bottom: 5px solid #c31f5c;
         margin: 0 !important;
         padding-top: .35rem !important;
     
@@ -919,13 +919,13 @@ img{
     */
     .total-area{
         /* background-color: blue; */
-        border-top: 2px solid var(--first-color-alt) ;
+        border-top: 2px solid #c31f5c ;
     } 
     .receipt-data{
         margin: .5rem !important;
         align-items: center !important;
         justify-content: center !important;
-        background-color: linen;
+        background-color: #ffffff;
 
     }
 

@@ -51,6 +51,17 @@
         <link href='<?php echo $GLOBALS['ROOT_PATH'] ?>/css/boxicons.min.css' rel='stylesheet'>
         <!-- Animate CSS -->
         <link rel="stylesheet"href="<?php echo $GLOBALS['ROOT_PATH'] ?>/css/animate.min.css"/>
+
+        <style>
+
+            .btn-danger {
+                color: #ffffff;
+                background-color: #c31f5c;
+                border-color: #d43f3a;
+                border-radius: 2rem;
+                font-weight: bolder;
+            }
+        </style>    
     </head>
 
     <body>
@@ -84,7 +95,7 @@
 
   <!-- Inicio de la pestaña -->
   <div class="container">
-            <ul class="nav nav-tabs">
+            <ul class="nav nav-tabs" style='display: flex;justify-content: space-between;'>
                 <li class="active"><a data-toggle="pill" href="#home">Editar mi perfil</a></li>
                 <li><a data-toggle="pill" href="#menu">Mis Compras</a></li>
             </ul>
@@ -92,7 +103,7 @@
             <div class="tab-content">
                 <div id="home" class="tab-pane fade in active">
                     <div class="tab-title">
-                        <h3>Editar mi perfil</h3>
+                        <h3 style="text-align: center;font-family: 'button';">Editar mi perfil</h3>
                     </div>
                     <!--Inicio del Perfil -->
                     <?php include '../Includes/perfilUsuario.php'; ?>
@@ -101,7 +112,7 @@
                 
                 <div id="menu" class="tab-pane fade in active">
                     <div class="tab-title">
-                        <h3>Otros</h3>
+                        <h3 style="text-align: center;font-family: 'button';">MIS COMPRAS</h3>
                     </div>
                     <!--Inicio del Perfil -->
                     <?php include '../Includes/menuUsuario.php'; ?>
