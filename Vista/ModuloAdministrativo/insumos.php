@@ -567,7 +567,7 @@ $('#myTable').DataTable({
       className: 'square square-green',
       titleAttr: 'Agregar nueva entrada',
       action: function(e, dt, button, config) {
-        window.location = './insertarProducto.php';
+        window.location = '?inv=&agregar_inv=0&id=';
       }
     },
     {

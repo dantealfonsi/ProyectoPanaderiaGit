@@ -291,7 +291,15 @@ $('#myTable').DataTable({
     "sInfoEmpty": "No hay entradas que mostrar"
   },
 
-  buttons: [
+    buttons:[
+          {
+                text:      '<img id="table_icon" src="../../Assets/images/inventory/plus.png">',
+                className: 'square square-green',
+                titleAttr: 'Agregar nueva entrada',
+                action: function ( e, dt, button, config ) {
+                window.location = '?add';
+                }        
+            },
 
     {
       extend: 'collection',

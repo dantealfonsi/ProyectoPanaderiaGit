@@ -296,6 +296,15 @@ $('#myTable').DataTable({
 
   buttons: [
 
+              {
+                text:      '<img id="table_icon" src="../../Assets/images/inventory/plus.png">',
+                className: 'square square-green',
+                titleAttr: 'Agregar nueva entrada',
+                action: function ( e, dt, button, config ) {
+                window.location = '?add';
+                }        
+            },
+
     {
       extend: 'collection',
       text: '<img id="table_icon_export" src="../../Assets/images/inventory/download.png">',

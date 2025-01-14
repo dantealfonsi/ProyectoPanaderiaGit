@@ -584,9 +584,9 @@ $('#myTable').DataTable({
     {
       text: '<img id="table_icon" src="../../Assets/images/inventory/plus.png">',
       className: 'square square-green',
-      titleAttr: 'Agregar nueva entrada',
+      titleAttr: 'Agregar nueva fabricación',
       action: function(e, dt, button, config) {
-        window.location = './insertarProducto.php';
+        window.location = '?inv=&agg_salida=0&id=';
       }
     },
     {
