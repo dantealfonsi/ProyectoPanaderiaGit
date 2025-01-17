@@ -132,8 +132,8 @@
         }
 
         $captcha = $_POST["g-recaptcha-response"];
-        $claveSecreta = "6Ld1nA0aAAAAAJps4LCRTs7jfshN9GNjZAghnt0f";
-        $url = 'https://www.google.com/recaptcha/api/siteverify?secret='.urldecode($claveSecreta).'&response='.urldecode($captcha).'';
+        $claveSecreta = "6LcbLboqAAAAALt3FjVfRELQyEhaEQw1Wmre-2Dz";
+        $url = 'https://www.google.com/recaptcha/api/siteverify?secret=' . $claveSecreta . '&response=' . $captcha;
         $respuesta = file_get_contents($url);
         $respuestaClave = json_decode($respuesta, TRUE);
 
@@ -294,7 +294,7 @@
 
            
             <span class="Error-recaptcha"><?php echo $criterioRecaptcha;?></span>
-            <div name="g-recaptcha-response" style='display: flex;align-items: center;justify-content: center;width: 110%;' class="g-recaptcha" data-sitekey="6Ld1nA0aAAAAAA7F7eJOY7CMwg7aaQAfg3WZy6P0"></div>
+            <div name="g-recaptcha-response" style='display: flex;align-items: center;justify-content: center;width: 110%;' class="g-recaptcha" data-sitekey="6LcbLboqAAAAACsHufrkJ0g-QszalBwH7PTG0tCF"></div>
             <button>Unirse</button>
             <p class="message">¿Ya tienes una cuenta? <a href="../LoginComponent/login.php">Inicia sesión</a></p>
             <!-- <p class="or-message"><b>O</b></p> -->
